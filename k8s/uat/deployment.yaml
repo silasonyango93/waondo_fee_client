@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: uat
+  name: kopa-react-client
+  labels:
+    name: kopa-react-client
+    app: kopa-react-client
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kopa-react-client
+  template:
+    metadata:
+      name: kopa-react-client
+      labels:
+        name: kopa-react-client
+        app: kopa-react-client
+    spec:
+      containers:
+        - name: kopa-react-client
+          imagePullPolicy: Always
+          image: silasonyango93/kopa-react-client:latest
+          ports:
+            - containerPort: 80

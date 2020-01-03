@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: uat
+  name: kopa-react-client
+  annotations:
+    kubernetes.io/ingress.class: nginx
+#    certmanager.k8s.io/cluster-issuer: "letsencrypt-staging"
+spec:
+  rules:
+    - host: client.kopa.kopa.xyz
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: kopa-react-client
+              servicePort: 80
