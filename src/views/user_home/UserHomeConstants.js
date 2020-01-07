@@ -1,1 +1,0 @@
-export const DATA_ENTRY_FORM = "DATA_ENTRY_FORM";
