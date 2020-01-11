@@ -1,3 +1,3 @@
-const ip = "http://104.197.5.158:80";
+const ip = "http://backend.waondo.agweria.com";
 
 export default ip;

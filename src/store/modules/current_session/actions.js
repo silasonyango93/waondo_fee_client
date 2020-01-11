@@ -92,7 +92,7 @@ export function authenticateSystemAdmin(payload) {
     dispatch({
       type: BEGIN_USER_AUTHENTIFICATION
     });
-    const apiRoute = "/system_admin_login";
+    const apiRoute = "/user_login";
     const returnedPromise = apiPost(payload, apiRoute);
     returnedPromise.then(
       function(result) {
