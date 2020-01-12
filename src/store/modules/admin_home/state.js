@@ -3,5 +3,7 @@ export const initialState = {
   dialogHeight: "380",
   dialogWidth: "500",
   isAcademicClassLevelFormDisplayed: false,
-  modalTitle: ""
+  modalTitle: "",
+  allAcademicClassLevels: [],
+  isCurrentClassLevelCreated: false
 };

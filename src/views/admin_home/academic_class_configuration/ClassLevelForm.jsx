@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Columns } from "react-bulma-components/dist";
 import {
   createAcademicClassLevel,
+  fetchAlllAcademicClassLevels,
+  resetCurrentAcademicClassLevelCreated,
   toggleAdminModalDisplay
 } from "../../../store/modules/admin_home/actions";
 import { connect } from "react-redux";
@@ -16,6 +18,18 @@ class ClassLevelForm extends Component {
     hierarchyCodeHasError: false,
     hierarchyCodeErrorMessage: ""
   };
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (
+      this.props.isCurrentClassLevelCreated !==
+      prevProps.isCurrentClassLevelCreated
+    ) {
+      if (this.props.isCurrentClassLevelCreated) {
+        this.props.fetchAlllAcademicClassLevels();
+        this.props.resetCurrentAcademicClassLevelCreated();
+      }
+    }
+  }
 
   handleChange = event => {
     let newState = this.state;
@@ -91,9 +105,9 @@ class ClassLevelForm extends Component {
                             ? "form-control personal__text-area-error"
                             : "form-control"
                         }
-                        placeholder="Occupation"
+                        placeholder="Hierarchy Code"
                         value={this.state.hierarchyCode}
-                        type="numnber"
+                        type="number"
                         onChange={this.handleChange}
                         autoFocus
                         required={true}
@@ -128,17 +142,27 @@ class ClassLevelForm extends Component {
 
 ClassLevelForm.propTypes = {
   createAcademicClassLevel: PropTypes.func.isRequired,
-  toggleAdminModalDisplay: PropTypes.func.isRequired
+  toggleAdminModalDisplay: PropTypes.func.isRequired,
+  fetchAlllAcademicClassLevels: PropTypes.func.isRequired,
+  isCurrentClassLevelCreated: PropTypes.bool.isRequired,
+  resetCurrentAcademicClassLevelCreated: PropTypes.func.isRequired
 };
+
+const mapStateToProps = state => ({
+  isCurrentClassLevelCreated: state.admin_home.isCurrentClassLevelCreated
+});
 
 const mapDispatchToProps = dispatch => ({
   createAcademicClassLevel: payload =>
     dispatch(createAcademicClassLevel(payload)),
   toggleAdminModalDisplay: isAdminModalDisplayed =>
-    dispatch(toggleAdminModalDisplay(isAdminModalDisplayed))
+    dispatch(toggleAdminModalDisplay(isAdminModalDisplayed)),
+  fetchAlllAcademicClassLevels: () => dispatch(fetchAlllAcademicClassLevels()),
+  resetCurrentAcademicClassLevelCreated: () =>
+    dispatch(resetCurrentAcademicClassLevelCreated())
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(ClassLevelForm);

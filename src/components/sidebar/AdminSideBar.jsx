@@ -4,7 +4,9 @@ import PropTypes from "prop-types";
 import { Route, withRouter } from "react-router-dom";
 import { FaCogs, FaCog, FaSearch, FaList } from "react-icons/fa";
 import {
-  COMPANIES_OWNERS_RSHIP_FORM, REGISTER_ACADEMIC_CLASS_LEVELS,
+  COMPANIES_OWNERS_RSHIP_FORM,
+  REGISTER_ACADEMIC_CLASS_LEVELS,
+  REGISTER_CLASS_STREAMS,
   REGISTER_COMPANIES_FORM,
   REGISTER_COMPANIES_OWNERS_FORM
 } from "../../views/admin_home/AdminHomeConstants";
@@ -20,7 +22,6 @@ class AdminSideBar extends Component {
       brandDropdownCollapsed: true,
       samplePagesCollapsed: true
     };
-
   }
 
   render() {
@@ -49,104 +50,161 @@ class AdminSideBar extends Component {
               </div>
             </li>
 
-            <li className={classNames({ active: !this.state.multiLevelDropdownCollapsed })}>
+            <li
+              className={classNames({
+                active: !this.state.multiLevelDropdownCollapsed
+              })}
+            >
               <a
-                  href=""
-                  onClick={(e) => {
-                    e.preventDefault();
-                    this.setState({
-                      multiLevelDropdownCollapsed: !this.state.multiLevelDropdownCollapsed,
-                    });
-                    return false;
-                  }}
+                href=""
+                onClick={e => {
+                  e.preventDefault();
+                  this.setState({
+                    multiLevelDropdownCollapsed: !this.state
+                      .multiLevelDropdownCollapsed
+                  });
+                  return false;
+                }}
               >
                 <FaCogs />
                 &nbsp;Class Configurations
                 <span className="fa arrow" />
               </a>
               <ul
-                  className={
-                    classNames({
-                      'nav nav-second-level': true, collapse: this.state.multiLevelDropdownCollapsed,
-                    })}
+                className={classNames({
+                  "nav nav-second-level": true,
+                  collapse: this.state.multiLevelDropdownCollapsed
+                })}
               >
-
                 <li className="second-level">
-                  <a href="" onClick={(e) => { e.preventDefault(); this.props.handleSideBarClicked(REGISTER_ACADEMIC_CLASS_LEVELS);}}>Class Levels</a>
+                  <a
+                    href=""
+                    onClick={e => {
+                      e.preventDefault();
+                      this.props.handleSideBarClicked(
+                        REGISTER_ACADEMIC_CLASS_LEVELS
+                      );
+                    }}
+                  >
+                    Class Levels
+                  </a>
                 </li>
 
-                <li className={classNames({ active: !this.state.thirdLevelDropdownCollapsed })+" "+"second-level"}>
+                <li className="second-level">
                   <a
-                      href=""
-                      onClick={(e) => {
-                        e.preventDefault();
-                        this.setState({
-                          thirdLevelDropdownCollapsed: !this.state.thirdLevelDropdownCollapsed,
-                        });
-
-                        return false;
-                      }}
+                    href=""
+                    onClick={e => {
+                      e.preventDefault();
+                      this.props.handleSideBarClicked(REGISTER_CLASS_STREAMS);
+                    }}
                   >
-                    Library Partitions<span className="fa arrow" />
+                    Class Streams
+                  </a>
+                </li>
+
+                <li
+                  className={
+                    classNames({
+                      active: !this.state.thirdLevelDropdownCollapsed
+                    }) +
+                    " " +
+                    "second-level"
+                  }
+                >
+                  <a
+                    href=""
+                    onClick={e => {
+                      e.preventDefault();
+                      this.setState({
+                        thirdLevelDropdownCollapsed: !this.state
+                          .thirdLevelDropdownCollapsed
+                      });
+
+                      return false;
+                    }}
+                  >
+                    Library Partitions
+                    <span className="fa arrow" />
                   </a>
                   <ul
-                      className={
-                        classNames({
-                          'nav nav-second-level': true,
-                          collapse: this.state.thirdLevelDropdownCollapsed,
-                        })}
+                    className={classNames({
+                      "nav nav-second-level": true,
+                      collapse: this.state.thirdLevelDropdownCollapsed
+                    })}
                   >
                     <li className="third-level">
-                      <a href="" onClick={(e) => { e.preventDefault();
+                      <a
+                        href=""
+                        onClick={e => {
+                          e.preventDefault();
 
-                        // this.mainPartionsConfigClicked();
-                      }}>Main Partitions</a>
+                          // this.mainPartionsConfigClicked();
+                        }}
+                      >
+                        Main Partitions
+                      </a>
                     </li>
                     <li className="third-level">
-                      <a href="" onClick={(e) => { e.preventDefault();
+                      <a
+                        href=""
+                        onClick={e => {
+                          e.preventDefault();
 
-                        // this.subPartionsConfigClicked();
-                      }
-                      }>Sub-Partitions</a>
+                          // this.subPartionsConfigClicked();
+                        }}
+                      >
+                        Sub-Partitions
+                      </a>
                     </li>
                   </ul>
                 </li>
 
-
-
-                <li className={classNames({ active: !this.state.thirdLevelDropdownCollapsed })+" "+"second-level"}>
+                <li
+                  className={
+                    classNames({
+                      active: !this.state.thirdLevelDropdownCollapsed
+                    }) +
+                    " " +
+                    "second-level"
+                  }
+                >
                   <a
-                      href=""
-                      onClick={(e) => {
-                        e.preventDefault();
-                        this.setState({
-                          brandDropdownCollapsed: !this.state.brandDropdownCollapsed,
-                        });
+                    href=""
+                    onClick={e => {
+                      e.preventDefault();
+                      this.setState({
+                        brandDropdownCollapsed: !this.state
+                          .brandDropdownCollapsed
+                      });
 
-                        return false;
-                      }}
+                      return false;
+                    }}
                   >
-                    Brand Configurations<span className="fa arrow" />
+                    Brand Configurations
+                    <span className="fa arrow" />
                   </a>
                   <ul
-                      className={
-                        classNames({
-                          'nav nav-second-level': true,
-                          collapse: this.state.brandDropdownCollapsed,
-                        })}
+                    className={classNames({
+                      "nav nav-second-level": true,
+                      collapse: this.state.brandDropdownCollapsed
+                    })}
                   >
                     <li className="third-level">
-                      <a href="" onClick={(e) => { e.preventDefault();
+                      <a
+                        href=""
+                        onClick={e => {
+                          e.preventDefault();
 
-                        // this.brandRegistration();
-                      }}>Brand Registration</a>
+                          // this.brandRegistration();
+                        }}
+                      >
+                        Brand Registration
+                      </a>
                     </li>
-
                   </ul>
                 </li>
               </ul>
             </li>
-
           </ul>
         </div>
       </div>
