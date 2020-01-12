@@ -1,9 +1,18 @@
-import {TOGGLE_MODAL_DISPLAY} from "./actionTypes";
-
+import { SETUP_CLASS_LEVEL_FORM, TOGGLE_MODAL_DISPLAY } from "./actionTypes";
 
 export const ACTION_HANDLERS = {
-    [TOGGLE_MODAL_DISPLAY]: (state, action) =>
-        Object.assign({}, state, {
-            isAdminModalDisplayed: action.payload.isAdminModalDisplayed
-        })
+  [TOGGLE_MODAL_DISPLAY]: (state, action) =>
+    Object.assign({}, state, {
+      isAdminModalDisplayed: action.payload.isAdminModalDisplayed
+    }),
+
+  [SETUP_CLASS_LEVEL_FORM]: (state, action) =>
+    Object.assign({}, state, {
+      isAdminModalDisplayed: action.payload.isAdminModalDisplayed,
+      dialogHeight: action.payload.dialogHeight,
+      dialogWidth: action.payload.dialogWidth,
+      modalTitle: action.payload.modalTitle,
+      isAcademicClassLevelFormDisplayed:
+        action.payload.isAcademicClassLevelFormDisplayed
+    })
 };

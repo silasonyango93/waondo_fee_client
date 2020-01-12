@@ -1,5 +1,7 @@
 export const initialState = {
-    isAdminModalDisplayed: false,
-    dialogHeight: "600",
-    dialogWidth: "630"
+  isAdminModalDisplayed: false,
+  dialogHeight: "380",
+  dialogWidth: "500",
+  isAcademicClassLevelFormDisplayed: false,
+  modalTitle: ""
 };
