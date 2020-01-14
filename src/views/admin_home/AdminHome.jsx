@@ -6,18 +6,20 @@ import { connect } from "react-redux";
 import AdminSideBar from "../../components/sidebar/AdminSideBar";
 import "./AdminHome.scss";
 import {
-     REGISTER_ACADEMIC_CLASS_LEVELS
+    REGISTER_ACADEMIC_CLASS_LEVELS, REGISTER_CLASS_STREAMS
 } from "./AdminHomeConstants";
 import { DEBOUNCE, IDLE_TIMEOUT } from "../../config/constants/Constants";
 import { terminateCurrentSession } from "../../store/modules/current_session/actions";
 import TopBar from "../../components/topbar/TopBar";
 import AcademicClassLevels from "./academic_class_configuration/class_levels/AcademicClassLevels";
+import ClassStreams from "./academic_class_configuration/class_streams/ClassStreams";
 
 class AdminHome extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            displayAcademicClassLevels: true
+            displayAcademicClassLevels: true,
+            displayClassStreams: false
         };
         this.idleTimer = null;
     }
@@ -41,7 +43,13 @@ class AdminHome extends Component {
     handleSideBarClicked = formToDisplay => {
         if (formToDisplay === REGISTER_ACADEMIC_CLASS_LEVELS) {
             this.setState({
-                displayAcademicClassLevels: true
+                displayAcademicClassLevels: true,
+                displayClassStreams: false
+            });
+        } else if(formToDisplay === REGISTER_CLASS_STREAMS) {
+            this.setState({
+                displayAcademicClassLevels: false,
+                displayClassStreams: true
             });
         }
     };
@@ -76,6 +84,14 @@ class AdminHome extends Component {
                             }
                         >
                             <AcademicClassLevels />
+                        </div>
+
+                        <div
+                            className={
+                                this.state.displayClassStreams ? "show" : "hide"
+                            }
+                        >
+                            <ClassStreams />
                         </div>
 
                     </Container>

@@ -5,5 +5,11 @@ export const initialState = {
   isAcademicClassLevelFormDisplayed: false,
   modalTitle: "",
   allAcademicClassLevels: [],
-  isCurrentClassLevelCreated: false
+  isCurrentClassLevelCreated: false,
+
+  classStreams: {
+    isCurrentClassStreamCreated: false,
+    allClassStreams: [],
+    isClassStreamFormDisplayed: false
+  }
 };
