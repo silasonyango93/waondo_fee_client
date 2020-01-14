@@ -27,7 +27,7 @@ class AcademicClassLevels extends Component {
     if (
       this.props.allAcademicClassLevels !== prevProps.allAcademicClassLevels
     ) {
-      if (this.props.allAcademicClassLevels.length) {
+      if (this.props.allAcademicClassLevels && this.props.allAcademicClassLevels.length) {
         let allAcademicClassLevels = this.props.allAcademicClassLevels.map(
           (item, index) => {
             return {
