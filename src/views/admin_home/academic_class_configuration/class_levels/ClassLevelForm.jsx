@@ -6,7 +6,7 @@ import {
   fetchAlllAcademicClassLevels,
   resetCurrentAcademicClassLevelCreated,
   toggleAdminModalDisplay
-} from "../../../store/modules/admin_home/actions";
+} from "../../../../store/modules/admin_home/actions";
 import { connect } from "react-redux";
 
 class ClassLevelForm extends Component {

@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Table from "../../../components/table/table_body/Table";
+import Table from "../../../../components/table/table_body/Table";
 import "./AcademicClassLevels.scss";
 import {
   fetchAlllAcademicClassLevels,
   setupClassLevelForm
-} from "../../../store/modules/admin_home/actions";
-import AdminDialog from "../admin_dialog/AdminDialog";
+} from "../../../../store/modules/admin_home/actions";
+import AdminDialog from "../../admin_dialog/AdminDialog";
 
 class AcademicClassLevels extends Component {
   state = {

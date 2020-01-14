@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import "./AdminDialog.scss";
 import { toggleAdminModalDisplay } from "../../../store/modules/admin_home/actions";
-import ClassLevelForm from "../academic_class_configuration/ClassLevelForm";
+import ClassLevelForm from "../academic_class_configuration/class_levels/ClassLevelForm";
 
 class AdminDialog extends Component {
   render() {

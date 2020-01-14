@@ -11,7 +11,7 @@ import {
 import { DEBOUNCE, IDLE_TIMEOUT } from "../../config/constants/Constants";
 import { terminateCurrentSession } from "../../store/modules/current_session/actions";
 import TopBar from "../../components/topbar/TopBar";
-import AcademicClassLevels from "./academic_class_configuration/AcademicClassLevels";
+import AcademicClassLevels from "./academic_class_configuration/class_levels/AcademicClassLevels";
 
 class AdminHome extends Component {
     constructor(props) {
