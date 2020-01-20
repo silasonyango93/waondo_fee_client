@@ -7,6 +7,7 @@ import "./AdminDialog.scss";
 import { toggleAdminModalDisplay } from "../../../store/modules/admin_home/actions";
 import ClassLevelForm from "../academic_class_configuration/class_levels/ClassLevelForm";
 import ClassStreamsForm from "../academic_class_configuration/class_streams/ClassStreamForm";
+import TermIterationForm from "../calendar/term_iteration/TermIterationForm";
 
 class AdminDialog extends Component {
   render() {
@@ -38,6 +39,14 @@ class AdminDialog extends Component {
           >
             <ClassStreamsForm />
           </div>
+
+          <div
+            className={
+              this.props.isTermIterationsFormDisplayed ? "show" : "hide"
+            }
+          >
+            <TermIterationForm />
+          </div>
         </Modal>
       </div>
     );
@@ -51,7 +60,8 @@ AdminDialog.propTypes = {
   toggleAdminModalDisplay: PropTypes.func.isRequired,
   modalTitle: PropTypes.string.isRequired,
   isAcademicClassLevelFormDisplayed: PropTypes.bool.isRequired,
-  isClassStreamFormDisplayed: PropTypes.bool.isRequired
+  isClassStreamFormDisplayed: PropTypes.bool.isRequired,
+  isTermIterationsFormDisplayed: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -62,7 +72,9 @@ const mapStateToProps = state => ({
   isAcademicClassLevelFormDisplayed:
     state.admin_home.isAcademicClassLevelFormDisplayed,
   isClassStreamFormDisplayed:
-    state.admin_home.classStreams.isClassStreamFormDisplayed
+    state.admin_home.classStreams.isClassStreamFormDisplayed,
+  isTermIterationsFormDisplayed:
+    state.admin_home.termIterations.isTermIterationsFormDisplayed
 });
 
 const mapDispatchToProps = dispatch => ({

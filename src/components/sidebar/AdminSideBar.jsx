@@ -8,7 +8,8 @@ import {
   REGISTER_ACADEMIC_CLASS_LEVELS,
   REGISTER_CLASS_STREAMS,
   REGISTER_COMPANIES_FORM,
-  REGISTER_COMPANIES_OWNERS_FORM
+  REGISTER_COMPANIES_OWNERS_FORM,
+  REGISTER_TERM_ITERATIONS
 } from "../../views/admin_home/AdminHomeConstants";
 
 class AdminSideBar extends Component {
@@ -20,7 +21,8 @@ class AdminSideBar extends Component {
       multiLevelDropdownCollapsed: true,
       thirdLevelDropdownCollapsed: true,
       brandDropdownCollapsed: true,
-      samplePagesCollapsed: true
+      samplePagesCollapsed: true,
+      calenderMultiLevelDropdownCollapsed: true
     };
   }
 
@@ -202,6 +204,46 @@ class AdminSideBar extends Component {
                       </a>
                     </li>
                   </ul>
+                </li>
+              </ul>
+            </li>
+
+            <li
+              className={classNames({
+                active: !this.state.calenderMultiLevelDropdownCollapsed
+              })}
+            >
+              <a
+                href=""
+                onClick={e => {
+                  e.preventDefault();
+                  this.setState({
+                    calenderMultiLevelDropdownCollapsed: !this.state
+                      .calenderMultiLevelDropdownCollapsed
+                  });
+                  return false;
+                }}
+              >
+                <FaCogs />
+                &nbsp;Calender
+                <span className="fa arrow" />
+              </a>
+              <ul
+                className={classNames({
+                  "nav nav-second-level": true,
+                  collapse: this.state.calenderMultiLevelDropdownCollapsed
+                })}
+              >
+                <li className="second-level">
+                  <a
+                    href=""
+                    onClick={e => {
+                      e.preventDefault();
+                      this.props.handleSideBarClicked(REGISTER_TERM_ITERATIONS);
+                    }}
+                  >
+                    Term Iterations
+                  </a>
                 </li>
               </ul>
             </li>

@@ -11,5 +11,11 @@ export const initialState = {
     isCurrentClassStreamCreated: false,
     allClassStreams: [],
     isClassStreamFormDisplayed: false
+  },
+
+  termIterations: {
+    allTermIterations: [],
+    isTermIterationsFormDisplayed: false,
+    isCurrentTermIterationCreated: false
   }
 };

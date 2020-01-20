@@ -3,10 +3,14 @@ import {
   CLASS_STREAM_CREATED_SUCCESSFULLY,
   FETCHING_CLASS_LEVELS_SUCCESSFUL,
   FETCHING_CLASS_STREAMS_SUCCESSFUL,
+  FETCHING_TERM_ITERATIONS_SUCCESSFUL,
   RESET_CURRENT_ACADEMIC_CLASS_LEVEL_CREATED,
   RESET_CURRENT_CLASS_STREAM_CREATED,
+  RESET_CURRENT_TERM_ITERATION_CREATED,
   SETUP_CLASS_LEVEL_FORM,
   SETUP_CLASS_STREAM_FORM,
+  SETUP_TERM_ITERATIONS_FORM,
+  TERM_ITERATION_CREATED_SUCCESSFULLY,
   TOGGLE_MODAL_DISPLAY
 } from "./actionTypes";
 
@@ -28,6 +32,10 @@ export const ACTION_HANDLERS = {
         action.payload.isAcademicClassLevelFormDisplayed,
       classStreams: {
         isClassStreamFormDisplayed: action.payload.isClassStreamFormDisplayed
+      },
+      termIterations: {
+        isTermIterationsFormDisplayed:
+          action.payload.isTermIterationsFormDisplayed
       }
     }),
   [FETCHING_CLASS_LEVELS_SUCCESSFUL]: (state, action) =>
@@ -57,6 +65,10 @@ export const ACTION_HANDLERS = {
         action.payload.isAcademicClassLevelFormDisplayed,
       classStreams: {
         isClassStreamFormDisplayed: action.payload.isClassStreamFormDisplayed
+      },
+      termIterations: {
+        isTermIterationsFormDisplayed:
+          action.payload.isTermIterationsFormDisplayed
       }
     }),
 
@@ -71,6 +83,36 @@ export const ACTION_HANDLERS = {
   [RESET_CURRENT_CLASS_STREAM_CREATED]: (state, action) =>
     Object.assign({}, state, {
       classStreams: { isCurrentClassStreamCreated: false }
-    })
+    }),
   /* END - CLASS STREAMS ***************************************************************************************/
+
+  /* START - TERM ITERATIONS ***************************************************************************************/
+  [FETCHING_TERM_ITERATIONS_SUCCESSFUL]: (state, action) =>
+    Object.assign({}, state, {
+      termIterations: { allTermIterations: action.payload.allTermIterations }
+    }),
+  [SETUP_TERM_ITERATIONS_FORM]: (state, action) =>
+    Object.assign({}, state, {
+      isAdminModalDisplayed: action.payload.isAdminModalDisplayed,
+      dialogHeight: action.payload.dialogHeight,
+      dialogWidth: action.payload.dialogWidth,
+      modalTitle: action.payload.modalTitle,
+      isAcademicClassLevelFormDisplayed:
+        action.payload.isAcademicClassLevelFormDisplayed,
+      classStreams: {
+        isClassStreamFormDisplayed: action.payload.isClassStreamFormDisplayed
+      },
+      termIterations: {
+        isTermIterationsFormDisplayed:
+          action.payload.isTermIterationsFormDisplayed
+      }
+    }),
+  [RESET_CURRENT_TERM_ITERATION_CREATED]: (state, action) =>
+    Object.assign({}, state, {
+      termIterations: { isCurrentTermIterationCreated: false }
+    }),
+  [TERM_ITERATION_CREATED_SUCCESSFULLY]: (state, action) =>
+    Object.assign({}, state, {
+      termIterations: { isCurrentTermIterationCreated: true }
+    })
 };
