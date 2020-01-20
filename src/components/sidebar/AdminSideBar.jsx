@@ -9,7 +9,8 @@ import {
   REGISTER_CLASS_STREAMS,
   REGISTER_COMPANIES_FORM,
   REGISTER_COMPANIES_OWNERS_FORM,
-  REGISTER_TERM_ITERATIONS
+  REGISTER_TERM_ITERATIONS,
+  REGISTER_WEEK_ITERATIONS
 } from "../../views/admin_home/AdminHomeConstants";
 
 class AdminSideBar extends Component {
@@ -243,6 +244,18 @@ class AdminSideBar extends Component {
                     }}
                   >
                     Term Iterations
+                  </a>
+                </li>
+
+                <li className="second-level">
+                  <a
+                    href=""
+                    onClick={e => {
+                      e.preventDefault();
+                      this.props.handleSideBarClicked(REGISTER_WEEK_ITERATIONS);
+                    }}
+                  >
+                    Week Iterations
                   </a>
                 </li>
               </ul>

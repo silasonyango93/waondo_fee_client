@@ -17,5 +17,11 @@ export const initialState = {
     allTermIterations: [],
     isTermIterationsFormDisplayed: false,
     isCurrentTermIterationCreated: false
+  },
+
+  weekIterations: {
+    allWeekIterations: [],
+    isWeekIterationsFormDisplayed: false,
+    isCurrentWeekIterationCreated: false
   }
 };

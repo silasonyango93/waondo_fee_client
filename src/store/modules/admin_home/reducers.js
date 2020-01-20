@@ -1,17 +1,19 @@
 import {
-  CLASS_LEVEL_CREATED_SUCCESSFULLY,
-  CLASS_STREAM_CREATED_SUCCESSFULLY,
-  FETCHING_CLASS_LEVELS_SUCCESSFUL,
-  FETCHING_CLASS_STREAMS_SUCCESSFUL,
-  FETCHING_TERM_ITERATIONS_SUCCESSFUL,
-  RESET_CURRENT_ACADEMIC_CLASS_LEVEL_CREATED,
-  RESET_CURRENT_CLASS_STREAM_CREATED,
-  RESET_CURRENT_TERM_ITERATION_CREATED,
-  SETUP_CLASS_LEVEL_FORM,
-  SETUP_CLASS_STREAM_FORM,
-  SETUP_TERM_ITERATIONS_FORM,
-  TERM_ITERATION_CREATED_SUCCESSFULLY,
-  TOGGLE_MODAL_DISPLAY
+    CLASS_LEVEL_CREATED_SUCCESSFULLY,
+    CLASS_STREAM_CREATED_SUCCESSFULLY,
+    FETCHING_CLASS_LEVELS_SUCCESSFUL,
+    FETCHING_CLASS_STREAMS_SUCCESSFUL,
+    FETCHING_TERM_ITERATIONS_SUCCESSFUL,
+    FETCHING_WEEK_ITERATIONS_SUCCESSFUL,
+    RESET_CURRENT_ACADEMIC_CLASS_LEVEL_CREATED,
+    RESET_CURRENT_CLASS_STREAM_CREATED,
+    RESET_CURRENT_TERM_ITERATION_CREATED,
+    RESET_CURRENT_WEEK_ITERATION_CREATED,
+    SETUP_CLASS_LEVEL_FORM,
+    SETUP_CLASS_STREAM_FORM,
+    SETUP_TERM_ITERATIONS_FORM, SETUP_WEEK_ITERATIONS_FORM,
+    TERM_ITERATION_CREATED_SUCCESSFULLY,
+    TOGGLE_MODAL_DISPLAY, WEEK_ITERATION_CREATED_SUCCESSFULLY
 } from "./actionTypes";
 
 export const ACTION_HANDLERS = {
@@ -36,7 +38,11 @@ export const ACTION_HANDLERS = {
       termIterations: {
         isTermIterationsFormDisplayed:
           action.payload.isTermIterationsFormDisplayed
-      }
+      },
+        weekIterations: {
+            isWeekIterationsFormDisplayed:
+            action.payload.isWeekIterationsFormDisplayed
+        }
     }),
   [FETCHING_CLASS_LEVELS_SUCCESSFUL]: (state, action) =>
     Object.assign({}, state, {
@@ -69,7 +75,11 @@ export const ACTION_HANDLERS = {
       termIterations: {
         isTermIterationsFormDisplayed:
           action.payload.isTermIterationsFormDisplayed
-      }
+      },
+        weekIterations: {
+            isWeekIterationsFormDisplayed:
+            action.payload.isWeekIterationsFormDisplayed
+        }
     }),
 
   [CLASS_STREAM_CREATED_SUCCESSFULLY]: (state, action) =>
@@ -105,7 +115,11 @@ export const ACTION_HANDLERS = {
       termIterations: {
         isTermIterationsFormDisplayed:
           action.payload.isTermIterationsFormDisplayed
-      }
+      },
+        weekIterations: {
+            isWeekIterationsFormDisplayed:
+            action.payload.isWeekIterationsFormDisplayed
+        }
     }),
   [RESET_CURRENT_TERM_ITERATION_CREATED]: (state, action) =>
     Object.assign({}, state, {
@@ -114,5 +128,42 @@ export const ACTION_HANDLERS = {
   [TERM_ITERATION_CREATED_SUCCESSFULLY]: (state, action) =>
     Object.assign({}, state, {
       termIterations: { isCurrentTermIterationCreated: true }
-    })
+    }),
+
+  /* END - TERM ITERATIONS ***************************************************************************************/
+
+  /* START - WEEK ITERATIONS ***************************************************************************************/
+
+  [FETCHING_WEEK_ITERATIONS_SUCCESSFUL]: (state, action) =>
+    Object.assign({}, state, {
+      weekIterations: { allWeekIterations: action.payload.allWeekIterations }
+    }),
+  [RESET_CURRENT_WEEK_ITERATION_CREATED]: (state, action) =>
+    Object.assign({}, state, {
+      weekIterations: { isCurrentWeekIterationCreated: false }
+    }),
+    [SETUP_WEEK_ITERATIONS_FORM]: (state, action) =>
+        Object.assign({}, state, {
+            isAdminModalDisplayed: action.payload.isAdminModalDisplayed,
+            dialogHeight: action.payload.dialogHeight,
+            dialogWidth: action.payload.dialogWidth,
+            modalTitle: action.payload.modalTitle,
+            isAcademicClassLevelFormDisplayed:
+            action.payload.isAcademicClassLevelFormDisplayed,
+            classStreams: {
+                isClassStreamFormDisplayed: action.payload.isClassStreamFormDisplayed
+            },
+            termIterations: {
+                isTermIterationsFormDisplayed:
+                action.payload.isTermIterationsFormDisplayed
+            },
+            weekIterations: {
+                isWeekIterationsFormDisplayed:
+                action.payload.isWeekIterationsFormDisplayed
+            }
+        }),
+    [WEEK_ITERATION_CREATED_SUCCESSFULLY]: (state, action) =>
+        Object.assign({}, state, {
+            weekIterations: { isCurrentWeekIterationCreated: true }
+        }),
 };

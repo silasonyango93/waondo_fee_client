@@ -8,7 +8,7 @@ import "./AdminHome.scss";
 import {
   REGISTER_ACADEMIC_CLASS_LEVELS,
   REGISTER_CLASS_STREAMS,
-  REGISTER_TERM_ITERATIONS
+  REGISTER_TERM_ITERATIONS, REGISTER_WEEK_ITERATIONS
 } from "./AdminHomeConstants";
 import { DEBOUNCE, IDLE_TIMEOUT } from "../../config/constants/Constants";
 import { terminateCurrentSession } from "../../store/modules/current_session/actions";
@@ -16,6 +16,7 @@ import TopBar from "../../components/topbar/TopBar";
 import AcademicClassLevels from "./academic_class_configuration/class_levels/AcademicClassLevels";
 import ClassStreams from "./academic_class_configuration/class_streams/ClassStreams";
 import TermIteration from "./calendar/term_iteration/TermIteration";
+import WeekIteration from "./calendar/week_iteration/WeekIteration";
 
 class AdminHome extends Component {
   constructor(props) {
@@ -23,7 +24,8 @@ class AdminHome extends Component {
     this.state = {
       displayAcademicClassLevels: true,
       displayClassStreams: false,
-      displayTermIterations: false
+      displayTermIterations: false,
+      displayWeekIterations: false
     };
     this.idleTimer = null;
   }
@@ -49,19 +51,29 @@ class AdminHome extends Component {
       this.setState({
         displayAcademicClassLevels: true,
         displayClassStreams: false,
-        displayTermIterations: false
+        displayTermIterations: false,
+        displayWeekIterations: false
       });
     } else if (formToDisplay === REGISTER_CLASS_STREAMS) {
       this.setState({
         displayAcademicClassLevels: false,
         displayClassStreams: true,
-        displayTermIterations: false
+        displayTermIterations: false,
+        displayWeekIterations: false
       });
     } else if (formToDisplay === REGISTER_TERM_ITERATIONS) {
       this.setState({
         displayAcademicClassLevels: false,
         displayClassStreams: false,
-        displayTermIterations: true
+        displayTermIterations: true,
+        displayWeekIterations: false
+      });
+    } else if (formToDisplay === REGISTER_WEEK_ITERATIONS) {
+      this.setState({
+        displayAcademicClassLevels: false,
+        displayClassStreams: false,
+        displayTermIterations: false,
+        displayWeekIterations: true
       });
     }
   };
@@ -104,6 +116,10 @@ class AdminHome extends Component {
 
             <div className={this.state.displayTermIterations ? "show" : "hide"}>
               <TermIteration />
+            </div>
+
+            <div className={this.state.displayWeekIterations ? "show" : "hide"}>
+              <WeekIteration />
             </div>
           </Container>
         </Columns>
