@@ -1,6 +1,8 @@
-import { apiPost } from "../../../services/api_connector/ApiConnector";
+import {apiGetAll, apiPost} from "../../../services/api_connector/ApiConnector";
 
 import {
+  ACTUAL_TERM_CREATED_SUCCESSFULLY, ACTUAL_TERM_CREATION_FAILED,
+  BEGIN_ACTUAL_TERM_CREATION,
   BEGIN_CLASS_LEVEL_CREATION,
   BEGIN_CLASS_STREAM_CREATION,
   BEGIN_TERM_ITERATION_CREATION,
@@ -9,14 +11,17 @@ import {
   CLASS_LEVEL_CREATION_FAILED,
   CLASS_STREAM_CREATED_SUCCESSFULLY,
   CLASS_STREAM_CREATION_FAILED,
+  ERROR_OCCURED_WHILE_FETCHING_ACTUAL_TERMS,
   ERROR_OCCURED_WHILE_FETCHING_CLASS_LEVELS,
   ERROR_OCCURED_WHILE_FETCHING_CLASS_STREAMS,
   ERROR_OCCURED_WHILE_FETCHING_TERM_ITERATIONS,
-  ERROR_OCCURED_WHILE_FETCHING_WEEK_ITERATIONS,
+  ERROR_OCCURED_WHILE_FETCHING_WEEK_ITERATIONS, ERROR_OCCURRED_ON_CREATING_ACTUAL_TERM,
   ERROR_OCCURRED_ON_CREATING_CLASS_LEVEL,
   ERROR_OCCURRED_ON_CREATING_CLASS_STREAM,
   ERROR_OCCURRED_ON_CREATING_TERM_ITERATION,
   ERROR_OCCURRED_ON_CREATING_WEEK_ITERATION,
+  FETCHING_ACTUAL_TERMS_EMPTY_RESULT_SET,
+  FETCHING_ACTUAL_TERMS_SUCCESSFUL,
   FETCHING_CLASS_LEVELS_EMPTY_RESULT_SET,
   FETCHING_CLASS_LEVELS_SUCCESSFUL,
   FETCHING_CLASS_STREAMS_EMPTY_RESULT_SET,
@@ -25,13 +30,15 @@ import {
   FETCHING_TERM_ITERATIONS_SUCCESSFUL,
   FETCHING_WEEK_ITERATIONS_EMPTY_RESULT_SET,
   FETCHING_WEEK_ITERATIONS_SUCCESSFUL,
-  RESET_CURRENT_ACADEMIC_CLASS_LEVEL_CREATED,
+  RESET_CURRENT_ACADEMIC_CLASS_LEVEL_CREATED, RESET_CURRENT_ACTUAL_TERM_CREATED,
   RESET_CURRENT_CLASS_STREAM_CREATED,
   RESET_CURRENT_TERM_ITERATION_CREATED,
   RESET_CURRENT_WEEK_ITERATION_CREATED,
+  SETUP_ACTUAL_TERMS_FORM,
   SETUP_CLASS_LEVEL_FORM,
   SETUP_CLASS_STREAM_FORM,
   SETUP_TERM_ITERATIONS_FORM,
+  START_FETCHING_ACTUAL_TERMS,
   START_FETCHING_CLASS_LEVELS,
   START_FETCHING_CLASS_STREAMS,
   START_FETCHING_TERM_ITERATIONS,
@@ -97,7 +104,8 @@ export function setupClassLevelForm() {
         modalTitle: "Class Configurations",
         isClassStreamFormDisplayed: false,
         isTermIterationsFormDisplayed: false,
-        isWeekIterationsFormDisplayed: false
+        isWeekIterationsFormDisplayed: false,
+        isActualTermsFormDisplayed: false
       }
     });
   };
@@ -227,7 +235,8 @@ export function setupClassStreamForm() {
         isClassStreamFormDisplayed: true,
         modalTitle: "Class Configurations",
         isTermIterationsFormDisplayed: false,
-        isWeekIterationsFormDisplayed: false
+        isWeekIterationsFormDisplayed: false,
+        isActualTermsFormDisplayed: false
       }
     });
   };
@@ -236,13 +245,13 @@ export function setupClassStreamForm() {
 
 /* START - TERM ITERATIONS ***************************************************************************************/
 
-export function fetchAllTermIterations(payload) {
+export function fetchAllTermIterations() {
   return async dispatch => {
     dispatch({
       type: START_FETCHING_TERM_ITERATIONS
     });
     const apiRoute = "/get_all_term_iterations";
-    const returnedPromise = apiPost(payload, apiRoute);
+    const returnedPromise = apiGetAll(apiRoute);
     returnedPromise.then(
       function(result) {
         if (result.data.results && result.data.results.length > 0) {
@@ -280,7 +289,8 @@ export function setupTermIterationsForm() {
         isClassStreamFormDisplayed: false,
         modalTitle: "Calender",
         isTermIterationsFormDisplayed: true,
-        isWeekIterationsFormDisplayed: false
+        isWeekIterationsFormDisplayed: false,
+        isActualTermsFormDisplayed: false
       }
     });
   };
@@ -327,13 +337,13 @@ export function createTermIterations(payload) {
 
 /* START - WEEK ITERATIONS ***************************************************************************************/
 
-export function fetchAllWeekIterations(payload) {
+export function fetchAllWeekIterations() {
   return async dispatch => {
     dispatch({
       type: START_FETCHING_WEEK_ITERATIONS
     });
     const apiRoute = "/get_all_week_iterations";
-    const returnedPromise = apiPost(payload, apiRoute);
+    const returnedPromise = apiGetAll(apiRoute);
     returnedPromise.then(
       function(result) {
         if (result.data.results && result.data.results.length > 0) {
@@ -371,7 +381,8 @@ export function setupWeekIterationsForm() {
         isClassStreamFormDisplayed: false,
         modalTitle: "Calender",
         isTermIterationsFormDisplayed: false,
-        isWeekIterationsFormDisplayed: true
+        isWeekIterationsFormDisplayed: true,
+        isActualTermsFormDisplayed: false
       }
     });
   };
@@ -410,6 +421,98 @@ export function createWeekIterations(payload) {
         });
         console.log(err);
       }
+    );
+  };
+}
+
+/* END - WEEK ITERATIONS *****************************************************************************************/
+
+export function fetchAllActualTerms(payload) {
+  return async dispatch => {
+    dispatch({
+      type: START_FETCHING_ACTUAL_TERMS
+    });
+    const apiRoute = "/get_all_current_year_terms";
+    const returnedPromise = apiPost(payload, apiRoute);
+    returnedPromise.then(
+      function(result) {
+        if (result.data.results && result.data.results.length > 0) {
+          dispatch({
+            type: FETCHING_ACTUAL_TERMS_SUCCESSFUL,
+            payload: {
+              allActualTerms: result.data.results
+            }
+          });
+        } else if (result.data.results && result.data.results.length === 0) {
+          dispatch({
+            type: FETCHING_ACTUAL_TERMS_EMPTY_RESULT_SET
+          });
+        }
+      },
+      function(err) {
+        dispatch({
+          type: ERROR_OCCURED_WHILE_FETCHING_ACTUAL_TERMS
+        });
+        console.log(err);
+      }
+    );
+  };
+}
+
+export function setupActualTermsForm() {
+  return async dispatch => {
+    dispatch({
+      type: SETUP_ACTUAL_TERMS_FORM,
+      payload: {
+        isAdminModalDisplayed: true,
+        dialogHeight: "380",
+        dialogWidth: "500",
+        isAcademicClassLevelFormDisplayed: false,
+        isClassStreamFormDisplayed: false,
+        modalTitle: "Calender",
+        isTermIterationsFormDisplayed: false,
+        isWeekIterationsFormDisplayed: false,
+        isActualTermsFormDisplayed: true
+      }
+    });
+  };
+}
+
+
+export function resetCurrentActualTermCreated() {
+  return async dispatch => {
+    dispatch({
+      type: RESET_CURRENT_ACTUAL_TERM_CREATED
+    });
+  };
+}
+
+
+export function createActualTerm(payload) {
+  return async dispatch => {
+    dispatch({
+      type: BEGIN_ACTUAL_TERM_CREATION
+    });
+    const apiRoute = "/add_term";
+    const returnedPromise = apiPost(payload, apiRoute);
+    returnedPromise.then(
+        function(result) {
+          if (result.data.results.success) {
+            dispatch({
+              type: ACTUAL_TERM_CREATED_SUCCESSFULLY
+            });
+          } else {
+            dispatch({
+              type: ACTUAL_TERM_CREATION_FAILED
+            });
+          }
+        },
+        function(err) {
+          dispatch({
+            type: ERROR_OCCURRED_ON_CREATING_ACTUAL_TERM
+          });
+          console.log(err);
+        }
     );
   };
 }

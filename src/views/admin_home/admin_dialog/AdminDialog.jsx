@@ -9,6 +9,7 @@ import ClassLevelForm from "../academic_class_configuration/class_levels/ClassLe
 import ClassStreamsForm from "../academic_class_configuration/class_streams/ClassStreamForm";
 import TermIterationForm from "../calendar/term_iteration/TermIterationForm";
 import WeekIterationForm from "../calendar/week_iteration/WeekIterationForm";
+import ActualTermsForm from "../calendar/actual_terms/ActualTermsForm";
 
 class AdminDialog extends Component {
   render() {
@@ -56,6 +57,14 @@ class AdminDialog extends Component {
           >
             <WeekIterationForm />
           </div>
+
+          <div
+              className={
+                this.props.isActualTermsFormDisplayed ? "show" : "hide"
+              }
+          >
+            <ActualTermsForm />
+          </div>
         </Modal>
       </div>
     );
@@ -71,7 +80,8 @@ AdminDialog.propTypes = {
   isAcademicClassLevelFormDisplayed: PropTypes.bool.isRequired,
   isClassStreamFormDisplayed: PropTypes.bool.isRequired,
   isTermIterationsFormDisplayed: PropTypes.bool.isRequired,
-  isWeekIterationsFormDisplayed: PropTypes.bool.isRequired
+  isWeekIterationsFormDisplayed: PropTypes.bool.isRequired,
+  isActualTermsFormDisplayed: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -86,7 +96,9 @@ const mapStateToProps = state => ({
   isTermIterationsFormDisplayed:
     state.admin_home.termIterations.isTermIterationsFormDisplayed,
   isWeekIterationsFormDisplayed:
-  state.admin_home.weekIterations.isWeekIterationsFormDisplayed
+  state.admin_home.weekIterations.isWeekIterationsFormDisplayed,
+  isActualTermsFormDisplayed:
+  state.admin_home.actualTerms.isActualTermsFormDisplayed
 });
 
 const mapDispatchToProps = dispatch => ({
