@@ -4,13 +4,15 @@ import PropTypes from "prop-types";
 import { Route, withRouter } from "react-router-dom";
 import { FaCogs, FaCog, FaSearch, FaList } from "react-icons/fa";
 import {
-    COMPANIES_OWNERS_RSHIP_FORM,
-    REGISTER_ACADEMIC_CLASS_LEVELS, REGISTER_ACTUAL_TERMS,
-    REGISTER_CLASS_STREAMS,
-    REGISTER_COMPANIES_FORM,
-    REGISTER_COMPANIES_OWNERS_FORM,
-    REGISTER_TERM_ITERATIONS,
-    REGISTER_WEEK_ITERATIONS
+  COMPANIES_OWNERS_RSHIP_FORM,
+  REGISTER_ACADEMIC_CLASS_LEVELS,
+  REGISTER_ACTUAL_TERMS,
+  REGISTER_ACTUAL_WEEKS,
+  REGISTER_CLASS_STREAMS,
+  REGISTER_COMPANIES_FORM,
+  REGISTER_COMPANIES_OWNERS_FORM,
+  REGISTER_TERM_ITERATIONS,
+  REGISTER_WEEK_ITERATIONS
 } from "../../views/admin_home/AdminHomeConstants";
 
 class AdminSideBar extends Component {
@@ -259,17 +261,29 @@ class AdminSideBar extends Component {
                   </a>
                 </li>
 
-                  <li className="second-level">
-                      <a
-                          href=""
-                          onClick={e => {
-                              e.preventDefault();
-                              this.props.handleSideBarClicked(REGISTER_ACTUAL_TERMS);
-                          }}
-                      >
-                          Actual Terms
-                      </a>
-                  </li>
+                <li className="second-level">
+                  <a
+                    href=""
+                    onClick={e => {
+                      e.preventDefault();
+                      this.props.handleSideBarClicked(REGISTER_ACTUAL_TERMS);
+                    }}
+                  >
+                    Actual Terms
+                  </a>
+                </li>
+
+                <li className="second-level">
+                  <a
+                    href=""
+                    onClick={e => {
+                      e.preventDefault();
+                      this.props.handleSideBarClicked(REGISTER_ACTUAL_WEEKS);
+                    }}
+                  >
+                    Actual Weeks
+                  </a>
+                </li>
               </ul>
             </li>
           </ul>

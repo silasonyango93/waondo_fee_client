@@ -1,8 +1,15 @@
-import {apiGetAll, apiPost} from "../../../services/api_connector/ApiConnector";
+import {
+  apiGetAll,
+  apiPost
+} from "../../../services/api_connector/ApiConnector";
 
 import {
-  ACTUAL_TERM_CREATED_SUCCESSFULLY, ACTUAL_TERM_CREATION_FAILED,
+  ACTUAL_TERM_CREATED_SUCCESSFULLY,
+  ACTUAL_TERM_CREATION_FAILED,
+  ACTUAL_WEEK_CREATED_SUCCESSFULLY,
+  ACTUAL_WEEK_CREATION_FAILED,
   BEGIN_ACTUAL_TERM_CREATION,
+  BEGIN_ACTUAL_WEEK_CREATION,
   BEGIN_CLASS_LEVEL_CREATION,
   BEGIN_CLASS_STREAM_CREATION,
   BEGIN_TERM_ITERATION_CREATION,
@@ -15,7 +22,10 @@ import {
   ERROR_OCCURED_WHILE_FETCHING_CLASS_LEVELS,
   ERROR_OCCURED_WHILE_FETCHING_CLASS_STREAMS,
   ERROR_OCCURED_WHILE_FETCHING_TERM_ITERATIONS,
-  ERROR_OCCURED_WHILE_FETCHING_WEEK_ITERATIONS, ERROR_OCCURRED_ON_CREATING_ACTUAL_TERM,
+  ERROR_OCCURED_WHILE_FETCHING_WEEK_ITERATIONS,
+  ERROR_OCCURED_WHILE_FETCHING_YEARS_WEEKS,
+  ERROR_OCCURRED_ON_CREATING_ACTUAL_TERM,
+  ERROR_OCCURRED_ON_CREATING_ACTUAL_WEEK,
   ERROR_OCCURRED_ON_CREATING_CLASS_LEVEL,
   ERROR_OCCURRED_ON_CREATING_CLASS_STREAM,
   ERROR_OCCURRED_ON_CREATING_TERM_ITERATION,
@@ -30,11 +40,16 @@ import {
   FETCHING_TERM_ITERATIONS_SUCCESSFUL,
   FETCHING_WEEK_ITERATIONS_EMPTY_RESULT_SET,
   FETCHING_WEEK_ITERATIONS_SUCCESSFUL,
-  RESET_CURRENT_ACADEMIC_CLASS_LEVEL_CREATED, RESET_CURRENT_ACTUAL_TERM_CREATED,
+  FETCHING_YEARS_WEEKS_EMPTY_RESULT_SET,
+  FETCHING_YEARS_WEEKS_SUCCESSFUL,
+  RESET_CURRENT_ACADEMIC_CLASS_LEVEL_CREATED,
+  RESET_CURRENT_ACTUAL_TERM_CREATED,
+  RESET_CURRENT_ACTUAL_WEEK_CREATED,
   RESET_CURRENT_CLASS_STREAM_CREATED,
   RESET_CURRENT_TERM_ITERATION_CREATED,
   RESET_CURRENT_WEEK_ITERATION_CREATED,
   SETUP_ACTUAL_TERMS_FORM,
+  SETUP_ACTUAL_WEEKS_FORM,
   SETUP_CLASS_LEVEL_FORM,
   SETUP_CLASS_STREAM_FORM,
   SETUP_TERM_ITERATIONS_FORM,
@@ -43,6 +58,7 @@ import {
   START_FETCHING_CLASS_STREAMS,
   START_FETCHING_TERM_ITERATIONS,
   START_FETCHING_WEEK_ITERATIONS,
+  START_FETCHING_YEARS_WEEKS,
   TERM_ITERATION_CREATED_SUCCESSFULLY,
   TERM_ITERATION_CREATION_FAILED,
   TOGGLE_MODAL_DISPLAY,
@@ -105,7 +121,8 @@ export function setupClassLevelForm() {
         isClassStreamFormDisplayed: false,
         isTermIterationsFormDisplayed: false,
         isWeekIterationsFormDisplayed: false,
-        isActualTermsFormDisplayed: false
+        isActualTermsFormDisplayed: false,
+        isActualWeeksFormDisplayed: false
       }
     });
   };
@@ -236,7 +253,8 @@ export function setupClassStreamForm() {
         modalTitle: "Class Configurations",
         isTermIterationsFormDisplayed: false,
         isWeekIterationsFormDisplayed: false,
-        isActualTermsFormDisplayed: false
+        isActualTermsFormDisplayed: false,
+        isActualWeeksFormDisplayed: false
       }
     });
   };
@@ -290,7 +308,8 @@ export function setupTermIterationsForm() {
         modalTitle: "Calender",
         isTermIterationsFormDisplayed: true,
         isWeekIterationsFormDisplayed: false,
-        isActualTermsFormDisplayed: false
+        isActualTermsFormDisplayed: false,
+        isActualWeeksFormDisplayed: false
       }
     });
   };
@@ -382,7 +401,8 @@ export function setupWeekIterationsForm() {
         modalTitle: "Calender",
         isTermIterationsFormDisplayed: false,
         isWeekIterationsFormDisplayed: true,
-        isActualTermsFormDisplayed: false
+        isActualTermsFormDisplayed: false,
+        isActualWeeksFormDisplayed: false
       }
     });
   };
@@ -426,6 +446,8 @@ export function createWeekIterations(payload) {
 }
 
 /* END - WEEK ITERATIONS *****************************************************************************************/
+
+/* START - ACTUAL TERMS ***************************************************************************************/
 
 export function fetchAllActualTerms(payload) {
   return async dispatch => {
@@ -472,12 +494,12 @@ export function setupActualTermsForm() {
         modalTitle: "Calender",
         isTermIterationsFormDisplayed: false,
         isWeekIterationsFormDisplayed: false,
-        isActualTermsFormDisplayed: true
+        isActualTermsFormDisplayed: true,
+        isActualWeeksFormDisplayed: false
       }
     });
   };
 }
-
 
 export function resetCurrentActualTermCreated() {
   return async dispatch => {
@@ -487,7 +509,6 @@ export function resetCurrentActualTermCreated() {
   };
 }
 
-
 export function createActualTerm(payload) {
   return async dispatch => {
     dispatch({
@@ -496,23 +517,116 @@ export function createActualTerm(payload) {
     const apiRoute = "/add_term";
     const returnedPromise = apiPost(payload, apiRoute);
     returnedPromise.then(
-        function(result) {
-          if (result.data.results.success) {
-            dispatch({
-              type: ACTUAL_TERM_CREATED_SUCCESSFULLY
-            });
-          } else {
-            dispatch({
-              type: ACTUAL_TERM_CREATION_FAILED
-            });
-          }
-        },
-        function(err) {
+      function(result) {
+        if (result.data.results.success) {
           dispatch({
-            type: ERROR_OCCURRED_ON_CREATING_ACTUAL_TERM
+            type: ACTUAL_TERM_CREATED_SUCCESSFULLY
           });
-          console.log(err);
+        } else {
+          dispatch({
+            type: ACTUAL_TERM_CREATION_FAILED
+          });
         }
+      },
+      function(err) {
+        dispatch({
+          type: ERROR_OCCURRED_ON_CREATING_ACTUAL_TERM
+        });
+        console.log(err);
+      }
+    );
+  };
+}
+
+/* END - ACTUAL TERMS *****************************************************************************************/
+
+/* START - ACTUAL WEEKS *****************************************************************************************/
+
+export function fetchAyearsActualWeeks(payload) {
+  return async dispatch => {
+    dispatch({
+      type: START_FETCHING_YEARS_WEEKS
+    });
+    const apiRoute = "/get_a_years_weeks";
+    const returnedPromise = apiPost(payload, apiRoute);
+    returnedPromise.then(
+      function(result) {
+        if (result.data.results && result.data.results.length > 0) {
+          dispatch({
+            type: FETCHING_YEARS_WEEKS_SUCCESSFUL,
+            payload: {
+              allYearsWeeks: result.data.results
+            }
+          });
+        } else if (result.data.results && result.data.results.length === 0) {
+          dispatch({
+            type: FETCHING_YEARS_WEEKS_EMPTY_RESULT_SET
+          });
+        }
+      },
+      function(err) {
+        dispatch({
+          type: ERROR_OCCURED_WHILE_FETCHING_YEARS_WEEKS
+        });
+        console.log(err);
+      }
+    );
+  };
+}
+
+export function setupActualWeeksForm() {
+  return async dispatch => {
+    dispatch({
+      type: SETUP_ACTUAL_WEEKS_FORM,
+      payload: {
+        isAdminModalDisplayed: true,
+        dialogHeight: "380",
+        dialogWidth: "500",
+        isAcademicClassLevelFormDisplayed: false,
+        isClassStreamFormDisplayed: false,
+        modalTitle: "Calender",
+        isTermIterationsFormDisplayed: false,
+        isWeekIterationsFormDisplayed: false,
+        isActualTermsFormDisplayed: false,
+        isActualWeeksFormDisplayed: true
+      }
+    });
+  };
+}
+
+export function resetCurrentActualWeekCreated() {
+  return async dispatch => {
+    dispatch({
+      type: RESET_CURRENT_ACTUAL_WEEK_CREATED
+    });
+  };
+}
+
+export function createActualWeek(payload) {
+  return async dispatch => {
+    dispatch({
+      type: BEGIN_ACTUAL_WEEK_CREATION
+    });
+    const apiRoute = "/add_actual_weeks";
+    const returnedPromise = apiPost(payload, apiRoute);
+    returnedPromise.then(
+      function(result) {
+        if (result.data.results.success) {
+          dispatch({
+            type: ACTUAL_WEEK_CREATED_SUCCESSFULLY
+          });
+        } else {
+          dispatch({
+            type: ACTUAL_WEEK_CREATION_FAILED
+          });
+        }
+      },
+      function(err) {
+        dispatch({
+          type: ERROR_OCCURRED_ON_CREATING_ACTUAL_WEEK
+        });
+        console.log(err);
+      }
     );
   };
 }

@@ -1,24 +1,29 @@
 import {
-    ACTUAL_TERM_CREATED_SUCCESSFULLY,
-    CLASS_LEVEL_CREATED_SUCCESSFULLY,
-    CLASS_STREAM_CREATED_SUCCESSFULLY,
-    FETCHING_ACTUAL_TERMS_SUCCESSFUL,
-    FETCHING_CLASS_LEVELS_SUCCESSFUL,
-    FETCHING_CLASS_STREAMS_SUCCESSFUL,
-    FETCHING_TERM_ITERATIONS_SUCCESSFUL,
-    FETCHING_WEEK_ITERATIONS_SUCCESSFUL,
-    RESET_CURRENT_ACADEMIC_CLASS_LEVEL_CREATED, RESET_CURRENT_ACTUAL_TERM_CREATED,
-    RESET_CURRENT_CLASS_STREAM_CREATED,
-    RESET_CURRENT_TERM_ITERATION_CREATED,
-    RESET_CURRENT_WEEK_ITERATION_CREATED,
-    SETUP_ACTUAL_TERMS_FORM,
-    SETUP_CLASS_LEVEL_FORM,
-    SETUP_CLASS_STREAM_FORM,
-    SETUP_TERM_ITERATIONS_FORM,
-    SETUP_WEEK_ITERATIONS_FORM,
-    TERM_ITERATION_CREATED_SUCCESSFULLY,
-    TOGGLE_MODAL_DISPLAY,
-    WEEK_ITERATION_CREATED_SUCCESSFULLY
+  ACTUAL_TERM_CREATED_SUCCESSFULLY,
+  ACTUAL_WEEK_CREATED_SUCCESSFULLY,
+  CLASS_LEVEL_CREATED_SUCCESSFULLY,
+  CLASS_STREAM_CREATED_SUCCESSFULLY,
+  FETCHING_ACTUAL_TERMS_SUCCESSFUL,
+  FETCHING_CLASS_LEVELS_SUCCESSFUL,
+  FETCHING_CLASS_STREAMS_SUCCESSFUL,
+  FETCHING_TERM_ITERATIONS_SUCCESSFUL,
+  FETCHING_WEEK_ITERATIONS_SUCCESSFUL,
+  FETCHING_YEARS_WEEKS_SUCCESSFUL,
+  RESET_CURRENT_ACADEMIC_CLASS_LEVEL_CREATED,
+  RESET_CURRENT_ACTUAL_TERM_CREATED,
+  RESET_CURRENT_ACTUAL_WEEK_CREATED,
+  RESET_CURRENT_CLASS_STREAM_CREATED,
+  RESET_CURRENT_TERM_ITERATION_CREATED,
+  RESET_CURRENT_WEEK_ITERATION_CREATED,
+  SETUP_ACTUAL_TERMS_FORM,
+  SETUP_ACTUAL_WEEKS_FORM,
+  SETUP_CLASS_LEVEL_FORM,
+  SETUP_CLASS_STREAM_FORM,
+  SETUP_TERM_ITERATIONS_FORM,
+  SETUP_WEEK_ITERATIONS_FORM,
+  TERM_ITERATION_CREATED_SUCCESSFULLY,
+  TOGGLE_MODAL_DISPLAY,
+  WEEK_ITERATION_CREATED_SUCCESSFULLY
 } from "./actionTypes";
 
 export const ACTION_HANDLERS = {
@@ -50,6 +55,9 @@ export const ACTION_HANDLERS = {
       },
       actualTerms: {
         isActualTermsFormDisplayed: action.payload.isActualTermsFormDisplayed
+      },
+      actualWeeks: {
+        isActualWeeksFormDisplayed: action.payload.isActualWeeksFormDisplayed
       }
     }),
   [FETCHING_CLASS_LEVELS_SUCCESSFUL]: (state, action) =>
@@ -90,6 +98,9 @@ export const ACTION_HANDLERS = {
       },
       actualTerms: {
         isActualTermsFormDisplayed: action.payload.isActualTermsFormDisplayed
+      },
+      actualWeeks: {
+        isActualWeeksFormDisplayed: action.payload.isActualWeeksFormDisplayed
       }
     }),
 
@@ -133,6 +144,9 @@ export const ACTION_HANDLERS = {
       },
       actualTerms: {
         isActualTermsFormDisplayed: action.payload.isActualTermsFormDisplayed
+      },
+      actualWeeks: {
+        isActualWeeksFormDisplayed: action.payload.isActualWeeksFormDisplayed
       }
     }),
   [RESET_CURRENT_TERM_ITERATION_CREATED]: (state, action) =>
@@ -177,6 +191,9 @@ export const ACTION_HANDLERS = {
       },
       actualTerms: {
         isActualTermsFormDisplayed: action.payload.isActualTermsFormDisplayed
+      },
+      actualWeeks: {
+        isActualWeeksFormDisplayed: action.payload.isActualWeeksFormDisplayed
       }
     }),
   [WEEK_ITERATION_CREATED_SUCCESSFULLY]: (state, action) =>
@@ -213,14 +230,61 @@ export const ACTION_HANDLERS = {
       },
       actualTerms: {
         isActualTermsFormDisplayed: action.payload.isActualTermsFormDisplayed
+      },
+      actualWeeks: {
+        isActualWeeksFormDisplayed: action.payload.isActualWeeksFormDisplayed
       }
     }),
-    [RESET_CURRENT_ACTUAL_TERM_CREATED]: (state, action) =>
-        Object.assign({}, state, {
-            actualTerms: { isCurrentActualTermCreated: false }
-        }),
-    [ACTUAL_TERM_CREATED_SUCCESSFULLY]: (state, action) =>
-        Object.assign({}, state, {
-            actualTerms: { isCurrentActualTermCreated: true }
-        }),
+  [RESET_CURRENT_ACTUAL_TERM_CREATED]: (state, action) =>
+    Object.assign({}, state, {
+      actualTerms: { isCurrentActualTermCreated: false }
+    }),
+  [ACTUAL_TERM_CREATED_SUCCESSFULLY]: (state, action) =>
+    Object.assign({}, state, {
+      actualTerms: { isCurrentActualTermCreated: true }
+    }),
+
+  /* END - ACTUAL TERMS ***************************************************************************************/
+
+  /* START - ACTUAL WEEKS ***************************************************************************************/
+
+  [FETCHING_YEARS_WEEKS_SUCCESSFUL]: (state, action) =>
+    Object.assign({}, state, {
+      actualWeeks: { allYearsWeeks: action.payload.allYearsWeeks }
+    }),
+
+  [SETUP_ACTUAL_WEEKS_FORM]: (state, action) =>
+    Object.assign({}, state, {
+      isAdminModalDisplayed: action.payload.isAdminModalDisplayed,
+      dialogHeight: action.payload.dialogHeight,
+      dialogWidth: action.payload.dialogWidth,
+      modalTitle: action.payload.modalTitle,
+      isAcademicClassLevelFormDisplayed:
+        action.payload.isAcademicClassLevelFormDisplayed,
+      classStreams: {
+        isClassStreamFormDisplayed: action.payload.isClassStreamFormDisplayed
+      },
+      termIterations: {
+        isTermIterationsFormDisplayed:
+          action.payload.isTermIterationsFormDisplayed
+      },
+      weekIterations: {
+        isWeekIterationsFormDisplayed:
+          action.payload.isWeekIterationsFormDisplayed
+      },
+      actualTerms: {
+        isActualTermsFormDisplayed: action.payload.isActualTermsFormDisplayed
+      },
+      actualWeeks: {
+        isActualWeeksFormDisplayed: action.payload.isActualWeeksFormDisplayed
+      }
+    }),
+  [RESET_CURRENT_ACTUAL_WEEK_CREATED]: (state, action) =>
+    Object.assign({}, state, {
+      actualWeeks: { isCurrentActualWeekCreated: false }
+    }),
+  [ACTUAL_WEEK_CREATED_SUCCESSFULLY]: (state, action) =>
+    Object.assign({}, state, {
+      actualWeeks: { isCurrentActualWeekCreated: true }
+    })
 };

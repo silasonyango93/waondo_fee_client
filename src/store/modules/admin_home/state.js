@@ -29,5 +29,11 @@ export const initialState = {
     allActualTerms: [],
     isActualTermsFormDisplayed: false,
     isCurrentActualTermCreated: false
+  },
+
+  actualWeeks: {
+    allYearsWeeks: [],
+    isActualWeeksFormDisplayed: false,
+    isCurrentActualWeekCreated: false
   }
 };

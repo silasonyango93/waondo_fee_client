@@ -10,6 +10,7 @@ import ClassStreamsForm from "../academic_class_configuration/class_streams/Clas
 import TermIterationForm from "../calendar/term_iteration/TermIterationForm";
 import WeekIterationForm from "../calendar/week_iteration/WeekIterationForm";
 import ActualTermsForm from "../calendar/actual_terms/ActualTermsForm";
+import ActualWeeksForm from "../calendar/actual_weeks/ActualWeeksForm";
 
 class AdminDialog extends Component {
   render() {
@@ -51,19 +52,23 @@ class AdminDialog extends Component {
           </div>
 
           <div
-              className={
-                this.props.isWeekIterationsFormDisplayed ? "show" : "hide"
-              }
+            className={
+              this.props.isWeekIterationsFormDisplayed ? "show" : "hide"
+            }
           >
             <WeekIterationForm />
           </div>
 
           <div
-              className={
-                this.props.isActualTermsFormDisplayed ? "show" : "hide"
-              }
+            className={this.props.isActualTermsFormDisplayed ? "show" : "hide"}
           >
             <ActualTermsForm />
+          </div>
+
+          <div
+            className={this.props.isActualWeeksFormDisplayed ? "show" : "hide"}
+          >
+            <ActualWeeksForm />
           </div>
         </Modal>
       </div>
@@ -81,7 +86,8 @@ AdminDialog.propTypes = {
   isClassStreamFormDisplayed: PropTypes.bool.isRequired,
   isTermIterationsFormDisplayed: PropTypes.bool.isRequired,
   isWeekIterationsFormDisplayed: PropTypes.bool.isRequired,
-  isActualTermsFormDisplayed: PropTypes.bool.isRequired
+  isActualTermsFormDisplayed: PropTypes.bool.isRequired,
+  isActualWeeksFormDisplayed: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -96,9 +102,11 @@ const mapStateToProps = state => ({
   isTermIterationsFormDisplayed:
     state.admin_home.termIterations.isTermIterationsFormDisplayed,
   isWeekIterationsFormDisplayed:
-  state.admin_home.weekIterations.isWeekIterationsFormDisplayed,
+    state.admin_home.weekIterations.isWeekIterationsFormDisplayed,
   isActualTermsFormDisplayed:
-  state.admin_home.actualTerms.isActualTermsFormDisplayed
+    state.admin_home.actualTerms.isActualTermsFormDisplayed,
+  isActualWeeksFormDisplayed:
+    state.admin_home.actualWeeks.isActualWeeksFormDisplayed
 });
 
 const mapDispatchToProps = dispatch => ({

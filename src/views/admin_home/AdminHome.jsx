@@ -6,9 +6,12 @@ import { connect } from "react-redux";
 import AdminSideBar from "../../components/sidebar/AdminSideBar";
 import "./AdminHome.scss";
 import {
-  REGISTER_ACADEMIC_CLASS_LEVELS, REGISTER_ACTUAL_TERMS,
+  REGISTER_ACADEMIC_CLASS_LEVELS,
+  REGISTER_ACTUAL_TERMS,
+  REGISTER_ACTUAL_WEEKS,
   REGISTER_CLASS_STREAMS,
-  REGISTER_TERM_ITERATIONS, REGISTER_WEEK_ITERATIONS
+  REGISTER_TERM_ITERATIONS,
+  REGISTER_WEEK_ITERATIONS
 } from "./AdminHomeConstants";
 import { DEBOUNCE, IDLE_TIMEOUT } from "../../config/constants/Constants";
 import { terminateCurrentSession } from "../../store/modules/current_session/actions";
@@ -18,6 +21,7 @@ import ClassStreams from "./academic_class_configuration/class_streams/ClassStre
 import TermIteration from "./calendar/term_iteration/TermIteration";
 import WeekIteration from "./calendar/week_iteration/WeekIteration";
 import ActualTerms from "./calendar/actual_terms/ActualTerms";
+import ActualWeeks from "./calendar/actual_weeks/ActualWeeks";
 
 class AdminHome extends Component {
   constructor(props) {
@@ -27,7 +31,8 @@ class AdminHome extends Component {
       displayClassStreams: false,
       displayTermIterations: false,
       displayWeekIterations: false,
-      displayActualTerms: false
+      displayActualTerms: false,
+      displayActualWeeks: false
     };
     this.idleTimer = null;
   }
@@ -55,7 +60,8 @@ class AdminHome extends Component {
         displayClassStreams: false,
         displayTermIterations: false,
         displayWeekIterations: false,
-        displayActualTerms: false
+        displayActualTerms: false,
+        displayActualWeeks: false
       });
     } else if (formToDisplay === REGISTER_CLASS_STREAMS) {
       this.setState({
@@ -63,7 +69,8 @@ class AdminHome extends Component {
         displayClassStreams: true,
         displayTermIterations: false,
         displayWeekIterations: false,
-        displayActualTerms: false
+        displayActualTerms: false,
+        displayActualWeeks: false
       });
     } else if (formToDisplay === REGISTER_TERM_ITERATIONS) {
       this.setState({
@@ -71,7 +78,8 @@ class AdminHome extends Component {
         displayClassStreams: false,
         displayTermIterations: true,
         displayWeekIterations: false,
-        displayActualTerms: false
+        displayActualTerms: false,
+        displayActualWeeks: false
       });
     } else if (formToDisplay === REGISTER_WEEK_ITERATIONS) {
       this.setState({
@@ -79,7 +87,8 @@ class AdminHome extends Component {
         displayClassStreams: false,
         displayTermIterations: false,
         displayWeekIterations: true,
-        displayActualTerms: false
+        displayActualTerms: false,
+        displayActualWeeks: false
       });
     } else if (formToDisplay === REGISTER_ACTUAL_TERMS) {
       this.setState({
@@ -87,7 +96,17 @@ class AdminHome extends Component {
         displayClassStreams: false,
         displayTermIterations: false,
         displayWeekIterations: false,
-        displayActualTerms: true
+        displayActualTerms: true,
+        displayActualWeeks: false
+      });
+    } else if (formToDisplay === REGISTER_ACTUAL_WEEKS) {
+      this.setState({
+        displayAcademicClassLevels: false,
+        displayClassStreams: false,
+        displayTermIterations: false,
+        displayWeekIterations: false,
+        displayActualTerms: false,
+        displayActualWeeks: true
       });
     }
   };
@@ -138,6 +157,10 @@ class AdminHome extends Component {
 
             <div className={this.state.displayActualTerms ? "show" : "hide"}>
               <ActualTerms />
+            </div>
+
+            <div className={this.state.displayActualWeeks ? "show" : "hide"}>
+              <ActualWeeks />
             </div>
           </Container>
         </Columns>
