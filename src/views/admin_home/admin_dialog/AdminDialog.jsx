@@ -11,15 +11,35 @@ import TermIterationForm from "../calendar/term_iteration/TermIterationForm";
 import WeekIterationForm from "../calendar/week_iteration/WeekIterationForm";
 import ActualTermsForm from "../calendar/actual_terms/ActualTermsForm";
 import ActualWeeksForm from "../calendar/actual_weeks/ActualWeeksForm";
+import LotDescriptionForm from "../academic_class_configuration/lot_description/LotDescriptionForm";
 
 class AdminDialog extends Component {
+
+  state = {
+    dialogWidth: '',
+    dialogHeight: '',
+    isAdminModalDisplayed: ''
+  };
+
+  componentDidMount() {
+    this.setState({dialogWidth: this.props.dialogWidth,dialogHeight: this.props.dialogHeight,isAdminModalDisplayed: this.props.isAdminModalDisplayed});
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+
+    if(this.props.dialogWidth !== prevProps.dialogWidth || this.props.dialogHeight !== prevProps.dialogHeight || this.props.isAdminModalDisplayed !== prevProps.isAdminModalDisplayed) {
+      this.setState({dialogWidth: this.props.dialogWidth, dialogHeight: this.props.dialogHeight , isAdminModalDisplayed: this.props.isAdminModalDisplayed});
+    }
+  }
+
   render() {
+
     return (
       <div>
         <Modal
-          visible={this.props.isAdminModalDisplayed}
-          width={this.props.dialogWidth}
-          height={this.props.dialogHeight}
+          visible={this.state.isAdminModalDisplayed}
+          width={this.state.dialogWidth}
+          height={this.state.dialogHeight}
           effect="fadeInUp"
           onClickAway={() => {
             this.props.toggleAdminModalDisplay(false);
@@ -70,6 +90,12 @@ class AdminDialog extends Component {
           >
             <ActualWeeksForm />
           </div>
+
+          <div
+              className={this.props.isLotDescriptionsFormDisplayed ? "show" : "hide"}
+          >
+            <LotDescriptionForm />
+          </div>
         </Modal>
       </div>
     );
@@ -87,7 +113,8 @@ AdminDialog.propTypes = {
   isTermIterationsFormDisplayed: PropTypes.bool.isRequired,
   isWeekIterationsFormDisplayed: PropTypes.bool.isRequired,
   isActualTermsFormDisplayed: PropTypes.bool.isRequired,
-  isActualWeeksFormDisplayed: PropTypes.bool.isRequired
+  isActualWeeksFormDisplayed: PropTypes.bool.isRequired,
+  isLotDescriptionsFormDisplayed: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -106,7 +133,9 @@ const mapStateToProps = state => ({
   isActualTermsFormDisplayed:
     state.admin_home.actualTerms.isActualTermsFormDisplayed,
   isActualWeeksFormDisplayed:
-    state.admin_home.actualWeeks.isActualWeeksFormDisplayed
+    state.admin_home.actualWeeks.isActualWeeksFormDisplayed,
+  isLotDescriptionsFormDisplayed:
+  state.admin_home.lotDescriptions.isLotDescriptionsFormDisplayed
 });
 
 const mapDispatchToProps = dispatch => ({

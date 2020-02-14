@@ -7,7 +7,6 @@ import {
   fetchAllWeekIterations,
   setupWeekIterationsForm
 } from "../../../../store/modules/admin_home/actions";
-import AdminDialog from "../../admin_dialog/AdminDialog";
 
 class WeekIteration extends Component {
   state = {
@@ -42,7 +41,6 @@ class WeekIteration extends Component {
   render() {
     return (
       <div>
-        <AdminDialog />
         <div className="level__table-div">
           <Table
             addIconClicked={() => {

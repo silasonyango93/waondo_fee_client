@@ -9,7 +9,7 @@ import {
   REGISTER_ACADEMIC_CLASS_LEVELS,
   REGISTER_ACTUAL_TERMS,
   REGISTER_ACTUAL_WEEKS,
-  REGISTER_CLASS_STREAMS,
+  REGISTER_CLASS_STREAMS, REGISTER_LOT_DESCRIPTION,
   REGISTER_TERM_ITERATIONS,
   REGISTER_WEEK_ITERATIONS
 } from "./AdminHomeConstants";
@@ -22,6 +22,8 @@ import TermIteration from "./calendar/term_iteration/TermIteration";
 import WeekIteration from "./calendar/week_iteration/WeekIteration";
 import ActualTerms from "./calendar/actual_terms/ActualTerms";
 import ActualWeeks from "./calendar/actual_weeks/ActualWeeks";
+import LotDescription from "./academic_class_configuration/lot_description/LotDescription";
+import AdminDialog from "./admin_dialog/AdminDialog";
 
 class AdminHome extends Component {
   constructor(props) {
@@ -32,7 +34,8 @@ class AdminHome extends Component {
       displayTermIterations: false,
       displayWeekIterations: false,
       displayActualTerms: false,
-      displayActualWeeks: false
+      displayActualWeeks: false,
+      displayLotDescriptions: false
     };
     this.idleTimer = null;
   }
@@ -61,7 +64,8 @@ class AdminHome extends Component {
         displayTermIterations: false,
         displayWeekIterations: false,
         displayActualTerms: false,
-        displayActualWeeks: false
+        displayActualWeeks: false,
+        displayLotDescriptions: false
       });
     } else if (formToDisplay === REGISTER_CLASS_STREAMS) {
       this.setState({
@@ -70,7 +74,8 @@ class AdminHome extends Component {
         displayTermIterations: false,
         displayWeekIterations: false,
         displayActualTerms: false,
-        displayActualWeeks: false
+        displayActualWeeks: false,
+        displayLotDescriptions: false
       });
     } else if (formToDisplay === REGISTER_TERM_ITERATIONS) {
       this.setState({
@@ -79,7 +84,8 @@ class AdminHome extends Component {
         displayTermIterations: true,
         displayWeekIterations: false,
         displayActualTerms: false,
-        displayActualWeeks: false
+        displayActualWeeks: false,
+        displayLotDescriptions: false
       });
     } else if (formToDisplay === REGISTER_WEEK_ITERATIONS) {
       this.setState({
@@ -88,7 +94,8 @@ class AdminHome extends Component {
         displayTermIterations: false,
         displayWeekIterations: true,
         displayActualTerms: false,
-        displayActualWeeks: false
+        displayActualWeeks: false,
+        displayLotDescriptions: false
       });
     } else if (formToDisplay === REGISTER_ACTUAL_TERMS) {
       this.setState({
@@ -97,7 +104,8 @@ class AdminHome extends Component {
         displayTermIterations: false,
         displayWeekIterations: false,
         displayActualTerms: true,
-        displayActualWeeks: false
+        displayActualWeeks: false,
+        displayLotDescriptions: false
       });
     } else if (formToDisplay === REGISTER_ACTUAL_WEEKS) {
       this.setState({
@@ -106,7 +114,18 @@ class AdminHome extends Component {
         displayTermIterations: false,
         displayWeekIterations: false,
         displayActualTerms: false,
-        displayActualWeeks: true
+        displayActualWeeks: true,
+        displayLotDescriptions: false
+      });
+    } else if (formToDisplay === REGISTER_LOT_DESCRIPTION) {
+      this.setState({
+        displayAcademicClassLevels: false,
+        displayClassStreams: false,
+        displayTermIterations: false,
+        displayWeekIterations: false,
+        displayActualTerms: false,
+        displayActualWeeks: false,
+        displayLotDescriptions: true
       });
     }
   };
@@ -119,6 +138,7 @@ class AdminHome extends Component {
   render() {
     return (
       <div>
+        <AdminDialog />
         <IdleTimer
           ref={ref => {
             this.idleTimer = ref;
@@ -162,6 +182,11 @@ class AdminHome extends Component {
             <div className={this.state.displayActualWeeks ? "show" : "hide"}>
               <ActualWeeks />
             </div>
+
+            <div className={this.state.displayLotDescriptions ? "show" : "hide"}>
+              <LotDescription />
+            </div>
+
           </Container>
         </Columns>
       </div>

@@ -46,7 +46,6 @@ class AcademicClassLevels extends Component {
   render() {
     return (
       <div>
-        <AdminDialog />
         <div className="level__table-div">
           <Table
             addIconClicked={() => {

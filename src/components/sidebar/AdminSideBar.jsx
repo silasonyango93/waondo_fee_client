@@ -1,18 +1,16 @@
 import React, { Component } from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { Route, withRouter } from "react-router-dom";
-import { FaCogs, FaCog, FaSearch, FaList } from "react-icons/fa";
+import {  withRouter } from "react-router-dom";
+import { FaCogs, FaSearch } from "react-icons/fa";
 import {
-  COMPANIES_OWNERS_RSHIP_FORM,
-  REGISTER_ACADEMIC_CLASS_LEVELS,
-  REGISTER_ACTUAL_TERMS,
-  REGISTER_ACTUAL_WEEKS,
-  REGISTER_CLASS_STREAMS,
-  REGISTER_COMPANIES_FORM,
-  REGISTER_COMPANIES_OWNERS_FORM,
-  REGISTER_TERM_ITERATIONS,
-  REGISTER_WEEK_ITERATIONS
+    REGISTER_ACADEMIC_CLASS_LEVELS,
+    REGISTER_ACTUAL_TERMS,
+    REGISTER_ACTUAL_WEEKS,
+    REGISTER_CLASS_STREAMS,
+    REGISTER_LOT_DESCRIPTION,
+    REGISTER_TERM_ITERATIONS,
+    REGISTER_WEEK_ITERATIONS
 } from "../../views/admin_home/AdminHomeConstants";
 
 class AdminSideBar extends Component {
@@ -107,107 +105,119 @@ class AdminSideBar extends Component {
                   </a>
                 </li>
 
-                <li
-                  className={
-                    classNames({
-                      active: !this.state.thirdLevelDropdownCollapsed
-                    }) +
-                    " " +
-                    "second-level"
-                  }
-                >
-                  <a
-                    href=""
-                    onClick={e => {
-                      e.preventDefault();
-                      this.setState({
-                        thirdLevelDropdownCollapsed: !this.state
-                          .thirdLevelDropdownCollapsed
-                      });
-
-                      return false;
-                    }}
-                  >
-                    Library Partitions
-                    <span className="fa arrow" />
-                  </a>
-                  <ul
-                    className={classNames({
-                      "nav nav-second-level": true,
-                      collapse: this.state.thirdLevelDropdownCollapsed
-                    })}
-                  >
-                    <li className="third-level">
+                  <li className="second-level">
                       <a
-                        href=""
-                        onClick={e => {
-                          e.preventDefault();
-
-                          // this.mainPartionsConfigClicked();
-                        }}
+                          href=""
+                          onClick={e => {
+                              e.preventDefault();
+                              this.props.handleSideBarClicked(REGISTER_LOT_DESCRIPTION);
+                          }}
                       >
-                        Main Partitions
+                          Lot Description
                       </a>
-                    </li>
-                    <li className="third-level">
-                      <a
-                        href=""
-                        onClick={e => {
-                          e.preventDefault();
+                  </li>
 
-                          // this.subPartionsConfigClicked();
-                        }}
-                      >
-                        Sub-Partitions
-                      </a>
-                    </li>
-                  </ul>
-                </li>
+                {/*<li*/}
+                {/*  className={*/}
+                {/*    classNames({*/}
+                {/*      active: !this.state.thirdLevelDropdownCollapsed*/}
+                {/*    }) +*/}
+                {/*    " " +*/}
+                {/*    "second-level"*/}
+                {/*  }*/}
+                {/*>*/}
+                {/*  <a*/}
+                {/*    href=""*/}
+                {/*    onClick={e => {*/}
+                {/*      e.preventDefault();*/}
+                {/*      this.setState({*/}
+                {/*        thirdLevelDropdownCollapsed: !this.state*/}
+                {/*          .thirdLevelDropdownCollapsed*/}
+                {/*      });*/}
 
-                <li
-                  className={
-                    classNames({
-                      active: !this.state.thirdLevelDropdownCollapsed
-                    }) +
-                    " " +
-                    "second-level"
-                  }
-                >
-                  <a
-                    href=""
-                    onClick={e => {
-                      e.preventDefault();
-                      this.setState({
-                        brandDropdownCollapsed: !this.state
-                          .brandDropdownCollapsed
-                      });
+                {/*      return false;*/}
+                {/*    }}*/}
+                {/*  >*/}
+                {/*    Library Partitions*/}
+                {/*    <span className="fa arrow" />*/}
+                {/*  </a>*/}
+                {/*  <ul*/}
+                {/*    className={classNames({*/}
+                {/*      "nav nav-second-level": true,*/}
+                {/*      collapse: this.state.thirdLevelDropdownCollapsed*/}
+                {/*    })}*/}
+                {/*  >*/}
+                {/*    <li className="third-level">*/}
+                {/*      <a*/}
+                {/*        href=""*/}
+                {/*        onClick={e => {*/}
+                {/*          e.preventDefault();*/}
 
-                      return false;
-                    }}
-                  >
-                    Brand Configurations
-                    <span className="fa arrow" />
-                  </a>
-                  <ul
-                    className={classNames({
-                      "nav nav-second-level": true,
-                      collapse: this.state.brandDropdownCollapsed
-                    })}
-                  >
-                    <li className="third-level">
-                      <a
-                        href=""
-                        onClick={e => {
-                          e.preventDefault();
+                {/*          // this.mainPartionsConfigClicked();*/}
+                {/*        }}*/}
+                {/*      >*/}
+                {/*        Main Partitions*/}
+                {/*      </a>*/}
+                {/*    </li>*/}
+                {/*    <li className="third-level">*/}
+                {/*      <a*/}
+                {/*        href=""*/}
+                {/*        onClick={e => {*/}
+                {/*          e.preventDefault();*/}
 
-                          // this.brandRegistration();
-                        }}
-                      >
-                        Brand Registration
-                      </a>
-                    </li>
-                  </ul>
-                </li>
+                {/*          // this.subPartionsConfigClicked();*/}
+                {/*        }}*/}
+                {/*      >*/}
+                {/*        Sub-Partitions*/}
+                {/*      </a>*/}
+                {/*    </li>*/}
+                {/*  </ul>*/}
+                {/*</li>*/}
+
+                {/*<li*/}
+                {/*  className={*/}
+                {/*    classNames({*/}
+                {/*      active: !this.state.thirdLevelDropdownCollapsed*/}
+                {/*    }) +*/}
+                {/*    " " +*/}
+                {/*    "second-level"*/}
+                {/*  }*/}
+                {/*>*/}
+                {/*  <a*/}
+                {/*    href=""*/}
+                {/*    onClick={e => {*/}
+                {/*      e.preventDefault();*/}
+                {/*      this.setState({*/}
+                {/*        brandDropdownCollapsed: !this.state*/}
+                {/*          .brandDropdownCollapsed*/}
+                {/*      });*/}
+
+                {/*      return false;*/}
+                {/*    }}*/}
+                {/*  >*/}
+                {/*    Brand Configurations*/}
+                {/*    <span className="fa arrow" />*/}
+                {/*  </a>*/}
+                {/*  <ul*/}
+                {/*    className={classNames({*/}
+                {/*      "nav nav-second-level": true,*/}
+                {/*      collapse: this.state.brandDropdownCollapsed*/}
+                {/*    })}*/}
+                {/*  >*/}
+                {/*    <li className="third-level">*/}
+                {/*      <a*/}
+                {/*        href=""*/}
+                {/*        onClick={e => {*/}
+                {/*          e.preventDefault();*/}
+
+                {/*          // this.brandRegistration();*/}
+                {/*        }}*/}
+                {/*      >*/}
+                {/*        Brand Registration*/}
+                {/*      </a>*/}
+                {/*    </li>*/}
+                {/*  </ul>*/}
+                {/*</li>*/}
               </ul>
             </li>
 

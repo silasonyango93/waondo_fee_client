@@ -11,14 +11,14 @@ import {
   BEGIN_ACTUAL_TERM_CREATION,
   BEGIN_ACTUAL_WEEK_CREATION,
   BEGIN_CLASS_LEVEL_CREATION,
-  BEGIN_CLASS_STREAM_CREATION,
+  BEGIN_CLASS_STREAM_CREATION, BEGIN_LOT_DESCRIPTION_CREATION,
   BEGIN_TERM_ITERATION_CREATION,
   BEGIN_WEEK_ITERATION_CREATION,
   CLASS_LEVEL_CREATED_SUCCESSFULLY,
   CLASS_LEVEL_CREATION_FAILED,
   CLASS_STREAM_CREATED_SUCCESSFULLY,
   CLASS_STREAM_CREATION_FAILED,
-  ERROR_OCCURED_WHILE_FETCHING_ACTUAL_TERMS,
+  ERROR_OCCURED_WHILE_FETCHING_ACTUAL_TERMS, ERROR_OCCURED_WHILE_FETCHING_ALL_LOT_DESCRIPTIONS,
   ERROR_OCCURED_WHILE_FETCHING_CLASS_LEVELS,
   ERROR_OCCURED_WHILE_FETCHING_CLASS_STREAMS,
   ERROR_OCCURED_WHILE_FETCHING_TERM_ITERATIONS,
@@ -32,6 +32,8 @@ import {
   ERROR_OCCURRED_ON_CREATING_WEEK_ITERATION,
   FETCHING_ACTUAL_TERMS_EMPTY_RESULT_SET,
   FETCHING_ACTUAL_TERMS_SUCCESSFUL,
+  FETCHING_ALL_LOT_DESCRIPTIONS_EMPTY_RESULT_SET,
+  FETCHING_ALL_LOT_DESCRIPTIONS_SUCCESSFUL,
   FETCHING_CLASS_LEVELS_EMPTY_RESULT_SET,
   FETCHING_CLASS_LEVELS_SUCCESSFUL,
   FETCHING_CLASS_STREAMS_EMPTY_RESULT_SET,
@@ -45,15 +47,16 @@ import {
   RESET_CURRENT_ACADEMIC_CLASS_LEVEL_CREATED,
   RESET_CURRENT_ACTUAL_TERM_CREATED,
   RESET_CURRENT_ACTUAL_WEEK_CREATED,
-  RESET_CURRENT_CLASS_STREAM_CREATED,
+  RESET_CURRENT_CLASS_STREAM_CREATED, RESET_CURRENT_LOT_DESCRIPTION_CREATED,
   RESET_CURRENT_TERM_ITERATION_CREATED,
   RESET_CURRENT_WEEK_ITERATION_CREATED,
   SETUP_ACTUAL_TERMS_FORM,
   SETUP_ACTUAL_WEEKS_FORM,
   SETUP_CLASS_LEVEL_FORM,
-  SETUP_CLASS_STREAM_FORM,
+  SETUP_CLASS_STREAM_FORM, SETUP_LOT_DESCRIPTIONS_FORM,
   SETUP_TERM_ITERATIONS_FORM,
   START_FETCHING_ACTUAL_TERMS,
+  START_FETCHING_ALL_LOT_DESCRIPTIONS,
   START_FETCHING_CLASS_LEVELS,
   START_FETCHING_CLASS_STREAMS,
   START_FETCHING_TERM_ITERATIONS,
@@ -122,7 +125,8 @@ export function setupClassLevelForm() {
         isTermIterationsFormDisplayed: false,
         isWeekIterationsFormDisplayed: false,
         isActualTermsFormDisplayed: false,
-        isActualWeeksFormDisplayed: false
+        isActualWeeksFormDisplayed: false,
+        isLotDescriptionsFormDisplayed: false
       }
     });
   };
@@ -254,7 +258,8 @@ export function setupClassStreamForm() {
         isTermIterationsFormDisplayed: false,
         isWeekIterationsFormDisplayed: false,
         isActualTermsFormDisplayed: false,
-        isActualWeeksFormDisplayed: false
+        isActualWeeksFormDisplayed: false,
+        isLotDescriptionsFormDisplayed: false
       }
     });
   };
@@ -309,7 +314,8 @@ export function setupTermIterationsForm() {
         isTermIterationsFormDisplayed: true,
         isWeekIterationsFormDisplayed: false,
         isActualTermsFormDisplayed: false,
-        isActualWeeksFormDisplayed: false
+        isActualWeeksFormDisplayed: false,
+        isLotDescriptionsFormDisplayed: false
       }
     });
   };
@@ -402,7 +408,8 @@ export function setupWeekIterationsForm() {
         isTermIterationsFormDisplayed: false,
         isWeekIterationsFormDisplayed: true,
         isActualTermsFormDisplayed: false,
-        isActualWeeksFormDisplayed: false
+        isActualWeeksFormDisplayed: false,
+        isLotDescriptionsFormDisplayed: false
       }
     });
   };
@@ -495,7 +502,8 @@ export function setupActualTermsForm() {
         isTermIterationsFormDisplayed: false,
         isWeekIterationsFormDisplayed: false,
         isActualTermsFormDisplayed: true,
-        isActualWeeksFormDisplayed: false
+        isActualWeeksFormDisplayed: false,
+        isLotDescriptionsFormDisplayed: false
       }
     });
   };
@@ -588,7 +596,8 @@ export function setupActualWeeksForm() {
         isTermIterationsFormDisplayed: false,
         isWeekIterationsFormDisplayed: false,
         isActualTermsFormDisplayed: false,
-        isActualWeeksFormDisplayed: true
+        isActualWeeksFormDisplayed: true,
+        isLotDescriptionsFormDisplayed: false
       }
     });
   };
@@ -627,6 +636,103 @@ export function createActualWeek(payload) {
         });
         console.log(err);
       }
+    );
+  };
+}
+
+
+/* END - ACTUAL WEEKS *****************************************************************************************/
+
+/* START - LOT DESCRIPTIONS *****************************************************************************************/
+
+export function fetchAllLotDescriptions() {
+  return async dispatch => {
+    dispatch({
+      type: START_FETCHING_ALL_LOT_DESCRIPTIONS
+    });
+    const apiRoute = "/get_all_lot_descriptions";
+    const returnedPromise = apiPost(apiRoute);
+    returnedPromise.then(
+        function(result) {
+          if (result.data.results && result.data.results.length > 0) {
+            dispatch({
+              type: FETCHING_ALL_LOT_DESCRIPTIONS_SUCCESSFUL,
+              payload: {
+                allLotDescriptions: result.data.results
+              }
+            });
+          } else if (result.data.results && result.data.results.length === 0) {
+            dispatch({
+              type: FETCHING_ALL_LOT_DESCRIPTIONS_EMPTY_RESULT_SET
+            });
+          }
+        },
+        function(err) {
+          dispatch({
+            type: ERROR_OCCURED_WHILE_FETCHING_ALL_LOT_DESCRIPTIONS
+          });
+          console.log(err);
+        }
+    );
+  };
+}
+
+
+export function setupLotDescriptionsForm() {
+  return async dispatch => {
+    dispatch({
+      type: SETUP_LOT_DESCRIPTIONS_FORM,
+      payload: {
+        isAdminModalDisplayed: true,
+        dialogHeight: "380",
+        dialogWidth: "500",
+        isAcademicClassLevelFormDisplayed: false,
+        isClassStreamFormDisplayed: false,
+        modalTitle: "Class Configuration",
+        isTermIterationsFormDisplayed: false,
+        isWeekIterationsFormDisplayed: false,
+        isActualTermsFormDisplayed: false,
+        isActualWeeksFormDisplayed: false,
+        isLotDescriptionsFormDisplayed: true
+      }
+    });
+  };
+}
+
+export function resetCurrentLotDescriptionCreated() {
+  return async dispatch => {
+    dispatch({
+      type: RESET_CURRENT_LOT_DESCRIPTION_CREATED
+    });
+  };
+}
+
+
+export function createActualWeek(payload) {
+  return async dispatch => {
+    dispatch({
+      type: BEGIN_LOT_DESCRIPTION_CREATION
+    });
+    const apiRoute = "/add_lot_descriptions";
+    const returnedPromise = apiPost(payload, apiRoute);
+    returnedPromise.then(
+        function(result) {
+          if (result.data.results.success) {
+            dispatch({
+              type: ACTUAL_WEEK_CREATED_SUCCESSFULLY
+            });
+          } else {
+            dispatch({
+              type: ACTUAL_WEEK_CREATION_FAILED
+            });
+          }
+        },
+        function(err) {
+          dispatch({
+            type: ERROR_OCCURRED_ON_CREATING_ACTUAL_WEEK
+          });
+          console.log(err);
+        }
     );
   };
 }

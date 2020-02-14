@@ -35,5 +35,11 @@ export const initialState = {
     allYearsWeeks: [],
     isActualWeeksFormDisplayed: false,
     isCurrentActualWeekCreated: false
+  },
+
+  lotDescriptions: {
+    allLotDescriptions: [],
+    isLotDescriptionsFormDisplayed: false,
+    isCurrentLotDescriptionCreated: false
   }
 };
