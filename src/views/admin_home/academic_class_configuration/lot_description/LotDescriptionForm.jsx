@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Columns } from "react-bulma-components/dist";
 import {
-    createClassStreams,
-     fetchAllLotDescriptions,
-     resetCurrentLotDescriptionCreated,
+    createClassStreams, createLotDescription,
+    fetchAllLotDescriptions,
+    resetCurrentLotDescriptionCreated,
     toggleAdminModalDisplay
 } from "../../../../store/modules/admin_home/actions";
 import { connect } from "react-redux";
@@ -42,7 +42,7 @@ class LotDescriptionForm extends Component {
             LotDescription: this.state.lotDescription
         };
 
-        this.props.createClassStreams(payload);
+        this.props.createLotDescription(payload);
         this.props.toggleAdminModalDisplay(false);
     };
 
@@ -107,7 +107,7 @@ class LotDescriptionForm extends Component {
 }
 
 LotDescriptionForm.propTypes = {
-    createClassStreams: PropTypes.func.isRequired,
+    createLotDescription: PropTypes.func.isRequired,
     toggleAdminModalDisplay: PropTypes.func.isRequired,
     fetchAllLotDescriptions: PropTypes.func.isRequired,
     isCurrentLotDescriptionCreated: PropTypes.bool.isRequired,
@@ -120,7 +120,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    createClassStreams: payload => dispatch(createClassStreams(payload)),
+    createLotDescription: payload => dispatch(createLotDescription(payload)),
     toggleAdminModalDisplay: isAdminModalDisplayed =>
         dispatch(toggleAdminModalDisplay(isAdminModalDisplayed)),
     fetchAllLotDescriptions: () => dispatch(fetchAllLotDescriptions()),

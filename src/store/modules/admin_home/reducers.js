@@ -8,7 +8,7 @@ import {
     FETCHING_CLASS_STREAMS_SUCCESSFUL,
     FETCHING_TERM_ITERATIONS_SUCCESSFUL,
     FETCHING_WEEK_ITERATIONS_SUCCESSFUL,
-    FETCHING_YEARS_WEEKS_SUCCESSFUL,
+    FETCHING_YEARS_WEEKS_SUCCESSFUL, LOT_DESCRIPTION_CREATED_SUCCESSFULLY,
     RESET_CURRENT_ACADEMIC_CLASS_LEVEL_CREATED,
     RESET_CURRENT_ACTUAL_TERM_CREATED,
     RESET_CURRENT_ACTUAL_WEEK_CREATED,
@@ -348,5 +348,9 @@ export const ACTION_HANDLERS = {
     [RESET_CURRENT_LOT_DESCRIPTION_CREATED]: (state, action) =>
         Object.assign({}, state, {
             lotDescriptions: { isCurrentLotDescriptionCreated: false }
+        }),
+    [LOT_DESCRIPTION_CREATED_SUCCESSFULLY]: (state, action) =>
+        Object.assign({}, state, {
+            lotDescriptions: { isCurrentLotDescriptionCreated: true }
         })
 };

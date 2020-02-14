@@ -27,7 +27,7 @@ import {
   ERROR_OCCURRED_ON_CREATING_ACTUAL_TERM,
   ERROR_OCCURRED_ON_CREATING_ACTUAL_WEEK,
   ERROR_OCCURRED_ON_CREATING_CLASS_LEVEL,
-  ERROR_OCCURRED_ON_CREATING_CLASS_STREAM,
+  ERROR_OCCURRED_ON_CREATING_CLASS_STREAM, ERROR_OCCURRED_ON_CREATING_LOT_DESCRIPTION,
   ERROR_OCCURRED_ON_CREATING_TERM_ITERATION,
   ERROR_OCCURRED_ON_CREATING_WEEK_ITERATION,
   FETCHING_ACTUAL_TERMS_EMPTY_RESULT_SET,
@@ -43,7 +43,7 @@ import {
   FETCHING_WEEK_ITERATIONS_EMPTY_RESULT_SET,
   FETCHING_WEEK_ITERATIONS_SUCCESSFUL,
   FETCHING_YEARS_WEEKS_EMPTY_RESULT_SET,
-  FETCHING_YEARS_WEEKS_SUCCESSFUL,
+  FETCHING_YEARS_WEEKS_SUCCESSFUL, LOT_DESCRIPTION_CREATED_SUCCESSFULLY, LOT_DESCRIPTION_CREATION_FAILED,
   RESET_CURRENT_ACADEMIC_CLASS_LEVEL_CREATED,
   RESET_CURRENT_ACTUAL_TERM_CREATED,
   RESET_CURRENT_ACTUAL_WEEK_CREATED,
@@ -651,7 +651,7 @@ export function fetchAllLotDescriptions() {
       type: START_FETCHING_ALL_LOT_DESCRIPTIONS
     });
     const apiRoute = "/get_all_lot_descriptions";
-    const returnedPromise = apiPost(apiRoute);
+    const returnedPromise = apiGetAll(apiRoute);
     returnedPromise.then(
         function(result) {
           if (result.data.results && result.data.results.length > 0) {
@@ -708,7 +708,7 @@ export function resetCurrentLotDescriptionCreated() {
 }
 
 
-export function createActualWeek(payload) {
+export function createLotDescription(payload) {
   return async dispatch => {
     dispatch({
       type: BEGIN_LOT_DESCRIPTION_CREATION
@@ -719,17 +719,17 @@ export function createActualWeek(payload) {
         function(result) {
           if (result.data.results.success) {
             dispatch({
-              type: ACTUAL_WEEK_CREATED_SUCCESSFULLY
+              type: LOT_DESCRIPTION_CREATED_SUCCESSFULLY
             });
           } else {
             dispatch({
-              type: ACTUAL_WEEK_CREATION_FAILED
+              type: LOT_DESCRIPTION_CREATION_FAILED
             });
           }
         },
         function(err) {
           dispatch({
-            type: ERROR_OCCURRED_ON_CREATING_ACTUAL_WEEK
+            type: ERROR_OCCURRED_ON_CREATING_LOT_DESCRIPTION
           });
           console.log(err);
         }
