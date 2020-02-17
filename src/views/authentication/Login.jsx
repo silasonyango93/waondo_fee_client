@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import './Login.scss';
+import "./Login.scss";
 import {
   authenticateSystemAdmin,
-  authenticateSystemUser,
+  authenticateSystemUser, resetWrongCredentials
 } from "../../store/modules/current_session/actions";
 import { FormGroup, Label, Input } from "reactstrap";
 class Login extends Component {
@@ -15,33 +15,39 @@ class Login extends Component {
     isAdmin: false,
     isStaff: true,
     loginHasError: false,
-    loginErrorMessage: ''
+    loginErrorMessage: ""
   };
 
-
   componentDidUpdate(prevProps) {
-
-
     /* ---------------------------------------------------------------------------------------------------------------------- */
 
     /*PAGE NAVIGATION LOGIC*/
     if (this.props.isSessionActive !== prevProps.isSessionActive) {
       if (this.props.isSessionActive && this.state.isAdmin) {
         this.props.history.push("/admin_home");
-      }else if(this.props.isSessionActive && this.state.isStaff) {
+      } else if (this.props.isSessionActive && this.state.isStaff) {
         this.props.history.push("/user_home");
       }
     }
 
     /* ---------------------------------------------------------------------------------------------------------------------- */
 
-    if(this.props.hasWrongLoginCredentials !== prevProps.hasWrongLoginCredentials) {
-      if(this.props.hasWrongLoginCredentials) {
-        this.setState({loginHasError: true,loginErrorMessage: 'Wrong username or password'});
+    if (
+      this.props.hasWrongLoginCredentials !== prevProps.hasWrongLoginCredentials
+    ) {
+      if (this.props.hasWrongLoginCredentials) {
+        this.setState({
+          loginHasError: true,
+          loginErrorMessage: "Wrong username or password"
+        });
       }
     }
-
   }
+
+  handleAnyTextFieldTouched = () => {
+    this.props.resetWrongCredentials();
+    this.setState({ loginHasError: false, loginErrorMessage: "" });
+  };
 
   handleSubmit = event => {
     event.preventDefault();
@@ -72,7 +78,6 @@ class Login extends Component {
     this.setState({ isAdmin: true });
   };
 
-
   handleStaffRadioClicked = () => {
     if (this.state.isAdmin) {
       this.setState({ isAdmin: false });
@@ -100,8 +105,15 @@ class Login extends Component {
                     <fieldset>
                       <div className="form-group">
                         <input
+                          onClick={() => {
+                            this.handleAnyTextFieldTouched();
+                          }}
                           name="attemptedEmail"
-                          className="form-control"
+                          className={
+                            this.state.loginHasError
+                              ? "form-control login__text-area-error"
+                              : "form-control"
+                          }
                           placeholder="Email"
                           value={this.state.attemptedEmail}
                           type="text"
@@ -113,8 +125,15 @@ class Login extends Component {
 
                       <div className="form-group">
                         <input
+                          onClick={() => {
+                            this.handleAnyTextFieldTouched();
+                          }}
                           name="attemptedPassword"
-                          className="form-control"
+                          className={
+                            this.state.loginHasError
+                              ? "form-control login__text-area-error"
+                              : "form-control"
+                          }
                           placeholder="Password"
                           value={this.state.attemptedPassword}
                           type="password"
@@ -130,11 +149,11 @@ class Login extends Component {
                         Sign In
                       </button>
                       <p
-                          className={
-                            this.state.loginHasError
-                                ? "login__error-text"
-                                : "login__hide"
-                          }
+                        className={
+                          this.state.loginHasError
+                            ? "login__error-text"
+                            : "login__hide"
+                        }
                       >
                         {this.state.loginErrorMessage}
                       </p>
@@ -174,9 +193,10 @@ class Login extends Component {
 
 Login.propTypes = {
   authenticateSystemUser: PropTypes.func.isRequired,
+  resetWrongCredentials: PropTypes.func.isRequired,
   authenticateSystemAdmin: PropTypes.func.isRequired,
   isSessionActive: PropTypes.bool.isRequired,
-  hasWrongLoginCredentials: PropTypes.bool.isRequired,
+  hasWrongLoginCredentials: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -186,8 +206,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   authenticateSystemUser: payload => dispatch(authenticateSystemUser(payload)),
-  authenticateSystemAdmin: payload =>
-    dispatch(authenticateSystemAdmin(payload)),
+  authenticateSystemAdmin: payload => dispatch(authenticateSystemAdmin(payload)),
+  resetWrongCredentials: () => dispatch(resetWrongCredentials())
 });
 
 export default connect(

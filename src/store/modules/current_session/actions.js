@@ -31,7 +31,7 @@ import {
   INITIAL_GENDER_CONFIGURATION_FAILED,
   ERROR_OCCURED_DURING_GENDER_CONFIGURATION,
   MALE_GENDER_CONFIGURATION_SUCCESSFUL,
-  FEMALE_GENDER_CONFIGURATION_SUCCESSFUL
+  FEMALE_GENDER_CONFIGURATION_SUCCESSFUL, RESET_WRONG_CREDENTIALS
 } from "./actionTypes";
 import {
   apiGetAll,
@@ -46,6 +46,14 @@ export function terminateCurrentSession() {
   return async dispatch => {
     dispatch({
       type: TERMINATE_CURRENT_SESSION
+    });
+  };
+}
+
+export function resetWrongCredentials() {
+  return async dispatch => {
+    dispatch({
+      type: RESET_WRONG_CREDENTIALS
     });
   };
 }

@@ -2,7 +2,7 @@ import {
     TERMINATE_CURRENT_SESSION,
     STORE_USER,
     SYSTEM_NOT_CONFIGURED,
-    INITIAL_SYSTEM_CONFIGURATION_SUCCESSFUL, WRONG_LOGIN_CREDENTIALS
+    INITIAL_SYSTEM_CONFIGURATION_SUCCESSFUL, WRONG_LOGIN_CREDENTIALS, RESET_WRONG_CREDENTIALS
 } from "./actionTypes";
 
 export const ACTION_HANDLERS = {
@@ -21,6 +21,10 @@ export const ACTION_HANDLERS = {
     [WRONG_LOGIN_CREDENTIALS]: state =>
         Object.assign({}, state, {
             hasWrongLoginCredentials: true
+        }),
+    [RESET_WRONG_CREDENTIALS]: state =>
+        Object.assign({}, state, {
+            hasWrongLoginCredentials: false
         }),
   [SYSTEM_NOT_CONFIGURED]: (state, action) =>
     Object.assign({}, state, {
