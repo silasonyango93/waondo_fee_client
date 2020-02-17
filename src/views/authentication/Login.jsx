@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+
+import './Login.scss';
 import {
   authenticateSystemAdmin,
   authenticateSystemUser,
@@ -11,7 +13,9 @@ class Login extends Component {
     attemptedEmail: "",
     attemptedPassword: "",
     isAdmin: false,
-    isStaff: true
+    isStaff: true,
+    loginHasError: false,
+    loginErrorMessage: ''
   };
 
 
@@ -31,7 +35,11 @@ class Login extends Component {
 
     /* ---------------------------------------------------------------------------------------------------------------------- */
 
-
+    if(this.props.hasWrongLoginCredentials !== prevProps.hasWrongLoginCredentials) {
+      if(this.props.hasWrongLoginCredentials) {
+        this.setState({loginHasError: true,loginErrorMessage: 'Wrong username or password'});
+      }
+    }
 
   }
 
@@ -121,6 +129,15 @@ class Login extends Component {
                       >
                         Sign In
                       </button>
+                      <p
+                          className={
+                            this.state.loginHasError
+                                ? "login__error-text"
+                                : "login__hide"
+                          }
+                      >
+                        {this.state.loginErrorMessage}
+                      </p>
                     </fieldset>
                   </form>
                 </div>
@@ -159,10 +176,12 @@ Login.propTypes = {
   authenticateSystemUser: PropTypes.func.isRequired,
   authenticateSystemAdmin: PropTypes.func.isRequired,
   isSessionActive: PropTypes.bool.isRequired,
+  hasWrongLoginCredentials: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isSessionActive: state.current_session.isSessionActive
+  isSessionActive: state.current_session.isSessionActive,
+  hasWrongLoginCredentials: state.current_session.hasWrongLoginCredentials
 });
 
 const mapDispatchToProps = dispatch => ({

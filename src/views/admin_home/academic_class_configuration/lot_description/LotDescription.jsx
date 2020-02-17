@@ -7,7 +7,6 @@ import {
      fetchAllLotDescriptions,
      setupLotDescriptionsForm
 } from "../../../../store/modules/admin_home/actions";
-import AdminDialog from "../../admin_dialog/AdminDialog";
 
 class LotDescription extends Component {
     state = {

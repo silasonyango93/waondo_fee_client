@@ -2,7 +2,7 @@ import {
     TERMINATE_CURRENT_SESSION,
     STORE_USER,
     SYSTEM_NOT_CONFIGURED,
-    INITIAL_SYSTEM_CONFIGURATION_SUCCESSFUL
+    INITIAL_SYSTEM_CONFIGURATION_SUCCESSFUL, WRONG_LOGIN_CREDENTIALS
 } from "./actionTypes";
 
 export const ACTION_HANDLERS = {
@@ -18,6 +18,10 @@ export const ACTION_HANDLERS = {
       isSessionActive: false,
       isLoginSuccessful: false
     }),
+    [WRONG_LOGIN_CREDENTIALS]: state =>
+        Object.assign({}, state, {
+            hasWrongLoginCredentials: true
+        }),
   [SYSTEM_NOT_CONFIGURED]: (state, action) =>
     Object.assign({}, state, {
       isCompanyAlreadyConfigured: action.payload.isCompanyAlreadyConfigured,
