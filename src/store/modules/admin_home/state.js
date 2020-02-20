@@ -41,5 +41,11 @@ export const initialState = {
     allLotDescriptions: [],
     isLotDescriptionsFormDisplayed: false,
     isCurrentLotDescriptionCreated: false
+  },
+
+  actualLots: {
+    allActualLots: [],
+    isActualLotsFormDisplayed: false,
+    isCurrentActualLotCreated: false
   }
 };

@@ -12,28 +12,38 @@ import WeekIterationForm from "../calendar/week_iteration/WeekIterationForm";
 import ActualTermsForm from "../calendar/actual_terms/ActualTermsForm";
 import ActualWeeksForm from "../calendar/actual_weeks/ActualWeeksForm";
 import LotDescriptionForm from "../academic_class_configuration/lot_description/LotDescriptionForm";
+import ActualLotsForm from "../academic_class_configuration/actual_lots/ActualLotsForm";
 
 class AdminDialog extends Component {
-
   state = {
-    dialogWidth: '',
-    dialogHeight: '',
-    isAdminModalDisplayed: ''
+    dialogWidth: "",
+    dialogHeight: "",
+    isAdminModalDisplayed: ""
   };
 
   componentDidMount() {
-    this.setState({dialogWidth: this.props.dialogWidth,dialogHeight: this.props.dialogHeight,isAdminModalDisplayed: this.props.isAdminModalDisplayed});
+    this.setState({
+      dialogWidth: this.props.dialogWidth,
+      dialogHeight: this.props.dialogHeight,
+      isAdminModalDisplayed: this.props.isAdminModalDisplayed
+    });
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-
-    if(this.props.dialogWidth !== prevProps.dialogWidth || this.props.dialogHeight !== prevProps.dialogHeight || this.props.isAdminModalDisplayed !== prevProps.isAdminModalDisplayed) {
-      this.setState({dialogWidth: this.props.dialogWidth, dialogHeight: this.props.dialogHeight , isAdminModalDisplayed: this.props.isAdminModalDisplayed});
+    if (
+      this.props.dialogWidth !== prevProps.dialogWidth ||
+      this.props.dialogHeight !== prevProps.dialogHeight ||
+      this.props.isAdminModalDisplayed !== prevProps.isAdminModalDisplayed
+    ) {
+      this.setState({
+        dialogWidth: this.props.dialogWidth,
+        dialogHeight: this.props.dialogHeight,
+        isAdminModalDisplayed: this.props.isAdminModalDisplayed
+      });
     }
   }
 
   render() {
-
     return (
       <div>
         <Modal
@@ -92,9 +102,17 @@ class AdminDialog extends Component {
           </div>
 
           <div
-              className={this.props.isLotDescriptionsFormDisplayed ? "show" : "hide"}
+            className={
+              this.props.isLotDescriptionsFormDisplayed ? "show" : "hide"
+            }
           >
             <LotDescriptionForm />
+          </div>
+
+          <div
+            className={this.props.isActualLotsFormDisplayed ? "show" : "hide"}
+          >
+            <ActualLotsForm />
           </div>
         </Modal>
       </div>
@@ -114,7 +132,8 @@ AdminDialog.propTypes = {
   isWeekIterationsFormDisplayed: PropTypes.bool.isRequired,
   isActualTermsFormDisplayed: PropTypes.bool.isRequired,
   isActualWeeksFormDisplayed: PropTypes.bool.isRequired,
-  isLotDescriptionsFormDisplayed: PropTypes.bool.isRequired
+  isLotDescriptionsFormDisplayed: PropTypes.bool.isRequired,
+  isActualLotsFormDisplayed: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -135,7 +154,9 @@ const mapStateToProps = state => ({
   isActualWeeksFormDisplayed:
     state.admin_home.actualWeeks.isActualWeeksFormDisplayed,
   isLotDescriptionsFormDisplayed:
-  state.admin_home.lotDescriptions.isLotDescriptionsFormDisplayed
+    state.admin_home.lotDescriptions.isLotDescriptionsFormDisplayed,
+  isActualLotsFormDisplayed:
+    state.admin_home.actualLots.isActualLotsFormDisplayed
 });
 
 const mapDispatchToProps = dispatch => ({

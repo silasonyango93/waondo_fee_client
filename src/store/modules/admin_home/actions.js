@@ -4,34 +4,44 @@ import {
 } from "../../../services/api_connector/ApiConnector";
 
 import {
+  ACTUAL_LOT_CREATED_SUCCESSFULLY,
+  ACTUAL_LOT_CREATION_FAILED,
   ACTUAL_TERM_CREATED_SUCCESSFULLY,
   ACTUAL_TERM_CREATION_FAILED,
   ACTUAL_WEEK_CREATED_SUCCESSFULLY,
   ACTUAL_WEEK_CREATION_FAILED,
+  BEGIN_ACTUAL_LOT_CREATION,
   BEGIN_ACTUAL_TERM_CREATION,
   BEGIN_ACTUAL_WEEK_CREATION,
   BEGIN_CLASS_LEVEL_CREATION,
-  BEGIN_CLASS_STREAM_CREATION, BEGIN_LOT_DESCRIPTION_CREATION,
+  BEGIN_CLASS_STREAM_CREATION,
+  BEGIN_LOT_DESCRIPTION_CREATION,
   BEGIN_TERM_ITERATION_CREATION,
   BEGIN_WEEK_ITERATION_CREATION,
   CLASS_LEVEL_CREATED_SUCCESSFULLY,
   CLASS_LEVEL_CREATION_FAILED,
   CLASS_STREAM_CREATED_SUCCESSFULLY,
   CLASS_STREAM_CREATION_FAILED,
-  ERROR_OCCURED_WHILE_FETCHING_ACTUAL_TERMS, ERROR_OCCURED_WHILE_FETCHING_ALL_LOT_DESCRIPTIONS,
+  ERROR_OCCURED_WHILE_FETCHING_ACTUAL_TERMS,
+  ERROR_OCCURED_WHILE_FETCHING_ALL_ACTUAL_LOTS,
+  ERROR_OCCURED_WHILE_FETCHING_ALL_LOT_DESCRIPTIONS,
   ERROR_OCCURED_WHILE_FETCHING_CLASS_LEVELS,
   ERROR_OCCURED_WHILE_FETCHING_CLASS_STREAMS,
   ERROR_OCCURED_WHILE_FETCHING_TERM_ITERATIONS,
   ERROR_OCCURED_WHILE_FETCHING_WEEK_ITERATIONS,
   ERROR_OCCURED_WHILE_FETCHING_YEARS_WEEKS,
+  ERROR_OCCURRED_ON_CREATING_ACTUAL_LOT,
   ERROR_OCCURRED_ON_CREATING_ACTUAL_TERM,
   ERROR_OCCURRED_ON_CREATING_ACTUAL_WEEK,
   ERROR_OCCURRED_ON_CREATING_CLASS_LEVEL,
-  ERROR_OCCURRED_ON_CREATING_CLASS_STREAM, ERROR_OCCURRED_ON_CREATING_LOT_DESCRIPTION,
+  ERROR_OCCURRED_ON_CREATING_CLASS_STREAM,
+  ERROR_OCCURRED_ON_CREATING_LOT_DESCRIPTION,
   ERROR_OCCURRED_ON_CREATING_TERM_ITERATION,
   ERROR_OCCURRED_ON_CREATING_WEEK_ITERATION,
   FETCHING_ACTUAL_TERMS_EMPTY_RESULT_SET,
   FETCHING_ACTUAL_TERMS_SUCCESSFUL,
+  FETCHING_ALL_ACTUAL_LOTS_EMPTY_RESULT_SET,
+  FETCHING_ALL_ACTUAL_LOTS_SUCCESSFUL,
   FETCHING_ALL_LOT_DESCRIPTIONS_EMPTY_RESULT_SET,
   FETCHING_ALL_LOT_DESCRIPTIONS_SUCCESSFUL,
   FETCHING_CLASS_LEVELS_EMPTY_RESULT_SET,
@@ -43,19 +53,26 @@ import {
   FETCHING_WEEK_ITERATIONS_EMPTY_RESULT_SET,
   FETCHING_WEEK_ITERATIONS_SUCCESSFUL,
   FETCHING_YEARS_WEEKS_EMPTY_RESULT_SET,
-  FETCHING_YEARS_WEEKS_SUCCESSFUL, LOT_DESCRIPTION_CREATED_SUCCESSFULLY, LOT_DESCRIPTION_CREATION_FAILED,
+  FETCHING_YEARS_WEEKS_SUCCESSFUL,
+  LOT_DESCRIPTION_CREATED_SUCCESSFULLY,
+  LOT_DESCRIPTION_CREATION_FAILED,
   RESET_CURRENT_ACADEMIC_CLASS_LEVEL_CREATED,
+  RESET_CURRENT_ACTUAL_LOT_CREATED,
   RESET_CURRENT_ACTUAL_TERM_CREATED,
   RESET_CURRENT_ACTUAL_WEEK_CREATED,
-  RESET_CURRENT_CLASS_STREAM_CREATED, RESET_CURRENT_LOT_DESCRIPTION_CREATED,
+  RESET_CURRENT_CLASS_STREAM_CREATED,
+  RESET_CURRENT_LOT_DESCRIPTION_CREATED,
   RESET_CURRENT_TERM_ITERATION_CREATED,
   RESET_CURRENT_WEEK_ITERATION_CREATED,
+  SETUP_ACTUAL_LOTS_FORM,
   SETUP_ACTUAL_TERMS_FORM,
   SETUP_ACTUAL_WEEKS_FORM,
   SETUP_CLASS_LEVEL_FORM,
-  SETUP_CLASS_STREAM_FORM, SETUP_LOT_DESCRIPTIONS_FORM,
+  SETUP_CLASS_STREAM_FORM,
+  SETUP_LOT_DESCRIPTIONS_FORM,
   SETUP_TERM_ITERATIONS_FORM,
   START_FETCHING_ACTUAL_TERMS,
+  START_FETCHING_ALL_ACTUAL_LOTS,
   START_FETCHING_ALL_LOT_DESCRIPTIONS,
   START_FETCHING_CLASS_LEVELS,
   START_FETCHING_CLASS_STREAMS,
@@ -126,7 +143,8 @@ export function setupClassLevelForm() {
         isWeekIterationsFormDisplayed: false,
         isActualTermsFormDisplayed: false,
         isActualWeeksFormDisplayed: false,
-        isLotDescriptionsFormDisplayed: false
+        isLotDescriptionsFormDisplayed: false,
+        isActualLotsFormDisplayed: false
       }
     });
   };
@@ -259,7 +277,8 @@ export function setupClassStreamForm() {
         isWeekIterationsFormDisplayed: false,
         isActualTermsFormDisplayed: false,
         isActualWeeksFormDisplayed: false,
-        isLotDescriptionsFormDisplayed: false
+        isLotDescriptionsFormDisplayed: false,
+        isActualLotsFormDisplayed: false
       }
     });
   };
@@ -315,7 +334,8 @@ export function setupTermIterationsForm() {
         isWeekIterationsFormDisplayed: false,
         isActualTermsFormDisplayed: false,
         isActualWeeksFormDisplayed: false,
-        isLotDescriptionsFormDisplayed: false
+        isLotDescriptionsFormDisplayed: false,
+        isActualLotsFormDisplayed: false
       }
     });
   };
@@ -409,7 +429,8 @@ export function setupWeekIterationsForm() {
         isWeekIterationsFormDisplayed: true,
         isActualTermsFormDisplayed: false,
         isActualWeeksFormDisplayed: false,
-        isLotDescriptionsFormDisplayed: false
+        isLotDescriptionsFormDisplayed: false,
+        isActualLotsFormDisplayed: false
       }
     });
   };
@@ -503,7 +524,8 @@ export function setupActualTermsForm() {
         isWeekIterationsFormDisplayed: false,
         isActualTermsFormDisplayed: true,
         isActualWeeksFormDisplayed: false,
-        isLotDescriptionsFormDisplayed: false
+        isLotDescriptionsFormDisplayed: false,
+        isActualLotsFormDisplayed: false
       }
     });
   };
@@ -597,7 +619,8 @@ export function setupActualWeeksForm() {
         isWeekIterationsFormDisplayed: false,
         isActualTermsFormDisplayed: false,
         isActualWeeksFormDisplayed: true,
-        isLotDescriptionsFormDisplayed: false
+        isLotDescriptionsFormDisplayed: false,
+        isActualLotsFormDisplayed: false
       }
     });
   };
@@ -640,7 +663,6 @@ export function createActualWeek(payload) {
   };
 }
 
-
 /* END - ACTUAL WEEKS *****************************************************************************************/
 
 /* START - LOT DESCRIPTIONS *****************************************************************************************/
@@ -653,30 +675,29 @@ export function fetchAllLotDescriptions() {
     const apiRoute = "/get_all_lot_descriptions";
     const returnedPromise = apiGetAll(apiRoute);
     returnedPromise.then(
-        function(result) {
-          if (result.data.results && result.data.results.length > 0) {
-            dispatch({
-              type: FETCHING_ALL_LOT_DESCRIPTIONS_SUCCESSFUL,
-              payload: {
-                allLotDescriptions: result.data.results
-              }
-            });
-          } else if (result.data.results && result.data.results.length === 0) {
-            dispatch({
-              type: FETCHING_ALL_LOT_DESCRIPTIONS_EMPTY_RESULT_SET
-            });
-          }
-        },
-        function(err) {
+      function(result) {
+        if (result.data.results && result.data.results.length > 0) {
           dispatch({
-            type: ERROR_OCCURED_WHILE_FETCHING_ALL_LOT_DESCRIPTIONS
+            type: FETCHING_ALL_LOT_DESCRIPTIONS_SUCCESSFUL,
+            payload: {
+              allLotDescriptions: result.data.results
+            }
           });
-          console.log(err);
+        } else if (result.data.results && result.data.results.length === 0) {
+          dispatch({
+            type: FETCHING_ALL_LOT_DESCRIPTIONS_EMPTY_RESULT_SET
+          });
         }
+      },
+      function(err) {
+        dispatch({
+          type: ERROR_OCCURED_WHILE_FETCHING_ALL_LOT_DESCRIPTIONS
+        });
+        console.log(err);
+      }
     );
   };
 }
-
 
 export function setupLotDescriptionsForm() {
   return async dispatch => {
@@ -693,7 +714,8 @@ export function setupLotDescriptionsForm() {
         isWeekIterationsFormDisplayed: false,
         isActualTermsFormDisplayed: false,
         isActualWeeksFormDisplayed: false,
-        isLotDescriptionsFormDisplayed: true
+        isLotDescriptionsFormDisplayed: true,
+        isActualLotsFormDisplayed: false
       }
     });
   };
@@ -707,7 +729,6 @@ export function resetCurrentLotDescriptionCreated() {
   };
 }
 
-
 export function createLotDescription(payload) {
   return async dispatch => {
     dispatch({
@@ -716,23 +737,118 @@ export function createLotDescription(payload) {
     const apiRoute = "/add_lot_descriptions";
     const returnedPromise = apiPost(payload, apiRoute);
     returnedPromise.then(
-        function(result) {
-          if (result.data.results.success) {
-            dispatch({
-              type: LOT_DESCRIPTION_CREATED_SUCCESSFULLY
-            });
-          } else {
-            dispatch({
-              type: LOT_DESCRIPTION_CREATION_FAILED
-            });
-          }
-        },
-        function(err) {
+      function(result) {
+        if (result.data.results.success) {
           dispatch({
-            type: ERROR_OCCURRED_ON_CREATING_LOT_DESCRIPTION
+            type: LOT_DESCRIPTION_CREATED_SUCCESSFULLY
           });
-          console.log(err);
+        } else {
+          dispatch({
+            type: LOT_DESCRIPTION_CREATION_FAILED
+          });
         }
+      },
+      function(err) {
+        dispatch({
+          type: ERROR_OCCURRED_ON_CREATING_LOT_DESCRIPTION
+        });
+        console.log(err);
+      }
+    );
+  };
+}
+
+/* END - LOT DESCRIPTIONS *****************************************************************************************/
+
+/* START - ACTUAL LOTS *****************************************************************************************/
+
+export function fetchAllActualLots() {
+  return async dispatch => {
+    dispatch({
+      type: START_FETCHING_ALL_ACTUAL_LOTS
+    });
+    const apiRoute = "/get_all_lots_by_full_description";
+    const returnedPromise = apiGetAll(apiRoute);
+    returnedPromise.then(
+      function(result) {
+        if (result.data.results && result.data.results.length > 0) {
+          dispatch({
+            type: FETCHING_ALL_ACTUAL_LOTS_SUCCESSFUL,
+            payload: {
+              allActualLots: result.data.results
+            }
+          });
+        } else if (result.data.results && result.data.results.length === 0) {
+          dispatch({
+            type: FETCHING_ALL_ACTUAL_LOTS_EMPTY_RESULT_SET
+          });
+        }
+      },
+      function(err) {
+        dispatch({
+          type: ERROR_OCCURED_WHILE_FETCHING_ALL_ACTUAL_LOTS
+        });
+        console.log(err);
+      }
+    );
+  };
+}
+
+export function setupActualLotsForm() {
+  return async dispatch => {
+    dispatch({
+      type: SETUP_ACTUAL_LOTS_FORM,
+      payload: {
+        isAdminModalDisplayed: true,
+        dialogHeight: "380",
+        dialogWidth: "500",
+        isAcademicClassLevelFormDisplayed: false,
+        isClassStreamFormDisplayed: false,
+        modalTitle: "Class Configuration",
+        isTermIterationsFormDisplayed: false,
+        isWeekIterationsFormDisplayed: false,
+        isActualTermsFormDisplayed: false,
+        isActualWeeksFormDisplayed: false,
+        isLotDescriptionsFormDisplayed: false,
+        isActualLotsFormDisplayed: true
+      }
+    });
+  };
+}
+
+export function resetCurrentActualLotCreated() {
+  return async dispatch => {
+    dispatch({
+      type: RESET_CURRENT_ACTUAL_LOT_CREATED
+    });
+  };
+}
+
+export function createActualLot(payload) {
+  return async dispatch => {
+    dispatch({
+      type: BEGIN_ACTUAL_LOT_CREATION
+    });
+    const apiRoute = "/add_lots";
+    const returnedPromise = apiPost(payload, apiRoute);
+    returnedPromise.then(
+      function(result) {
+        if (result.data.results.success) {
+          dispatch({
+            type: ACTUAL_LOT_CREATED_SUCCESSFULLY
+          });
+        } else {
+          dispatch({
+            type: ACTUAL_LOT_CREATION_FAILED
+          });
+        }
+      },
+      function(err) {
+        dispatch({
+          type: ERROR_OCCURRED_ON_CREATING_ACTUAL_LOT
+        });
+        console.log(err);
+      }
     );
   };
 }
