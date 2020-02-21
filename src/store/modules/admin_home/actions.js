@@ -4,12 +4,13 @@ import {
 } from "../../../services/api_connector/ApiConnector";
 
 import {
+  ACTUAL_CLASS_CREATED_SUCCESSFULLY, ACTUAL_CLASS_CREATION_FAILED,
   ACTUAL_LOT_CREATED_SUCCESSFULLY,
   ACTUAL_LOT_CREATION_FAILED,
   ACTUAL_TERM_CREATED_SUCCESSFULLY,
   ACTUAL_TERM_CREATION_FAILED,
   ACTUAL_WEEK_CREATED_SUCCESSFULLY,
-  ACTUAL_WEEK_CREATION_FAILED,
+  ACTUAL_WEEK_CREATION_FAILED, BEGIN_ACTUAL_CLASS_CREATION,
   BEGIN_ACTUAL_LOT_CREATION,
   BEGIN_ACTUAL_TERM_CREATION,
   BEGIN_ACTUAL_WEEK_CREATION,
@@ -29,7 +30,7 @@ import {
   ERROR_OCCURED_WHILE_FETCHING_CLASS_STREAMS,
   ERROR_OCCURED_WHILE_FETCHING_TERM_ITERATIONS,
   ERROR_OCCURED_WHILE_FETCHING_WEEK_ITERATIONS,
-  ERROR_OCCURED_WHILE_FETCHING_YEARS_WEEKS,
+  ERROR_OCCURED_WHILE_FETCHING_YEARS_WEEKS, ERROR_OCCURRED_ON_CREATING_ACTUAL_CLASS,
   ERROR_OCCURRED_ON_CREATING_ACTUAL_LOT,
   ERROR_OCCURRED_ON_CREATING_ACTUAL_TERM,
   ERROR_OCCURRED_ON_CREATING_ACTUAL_WEEK,
@@ -58,7 +59,7 @@ import {
   FETCHING_YEARS_WEEKS_SUCCESSFUL,
   LOT_DESCRIPTION_CREATED_SUCCESSFULLY,
   LOT_DESCRIPTION_CREATION_FAILED,
-  RESET_CURRENT_ACADEMIC_CLASS_LEVEL_CREATED,
+  RESET_CURRENT_ACADEMIC_CLASS_LEVEL_CREATED, RESET_CURRENT_ACTUAL_CLASS_CREATED,
   RESET_CURRENT_ACTUAL_LOT_CREATED,
   RESET_CURRENT_ACTUAL_TERM_CREATED,
   RESET_CURRENT_ACTUAL_WEEK_CREATED,
@@ -922,5 +923,44 @@ export function setupActualClassesForm() {
         isActualClassesFormDisplayed: true
       }
     });
+  };
+}
+
+
+export function resetCurrentActualClassCreated() {
+  return async dispatch => {
+    dispatch({
+      type: RESET_CURRENT_ACTUAL_CLASS_CREATED
+    });
+  };
+}
+
+
+export function createActualClass(payload) {
+  return async dispatch => {
+    dispatch({
+      type: BEGIN_ACTUAL_CLASS_CREATION
+    });
+    const apiRoute = "/add_class";
+    const returnedPromise = apiPost(payload, apiRoute);
+    returnedPromise.then(
+        function(result) {
+          if (result.data.results.success) {
+            dispatch({
+              type: ACTUAL_CLASS_CREATED_SUCCESSFULLY
+            });
+          } else {
+            dispatch({
+              type: ACTUAL_CLASS_CREATION_FAILED
+            });
+          }
+        },
+        function(err) {
+          dispatch({
+            type: ERROR_OCCURRED_ON_CREATING_ACTUAL_CLASS
+          });
+          console.log(err);
+        }
+    );
   };
 }

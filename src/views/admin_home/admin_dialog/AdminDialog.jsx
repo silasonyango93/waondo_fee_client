@@ -13,6 +13,7 @@ import ActualTermsForm from "../calendar/actual_terms/ActualTermsForm";
 import ActualWeeksForm from "../calendar/actual_weeks/ActualWeeksForm";
 import LotDescriptionForm from "../academic_class_configuration/lot_description/LotDescriptionForm";
 import ActualLotsForm from "../academic_class_configuration/actual_lots/ActualLotsForm";
+import ActualClassesForm from "../academic_class_configuration/actual_classes/ActualClassesForm";
 
 class AdminDialog extends Component {
   state = {
@@ -114,6 +115,12 @@ class AdminDialog extends Component {
           >
             <ActualLotsForm />
           </div>
+
+          <div
+              className={this.props.isActualClassesFormDisplayed ? "show" : "hide"}
+          >
+            <ActualClassesForm />
+          </div>
         </Modal>
       </div>
     );
@@ -133,7 +140,8 @@ AdminDialog.propTypes = {
   isActualTermsFormDisplayed: PropTypes.bool.isRequired,
   isActualWeeksFormDisplayed: PropTypes.bool.isRequired,
   isLotDescriptionsFormDisplayed: PropTypes.bool.isRequired,
-  isActualLotsFormDisplayed: PropTypes.bool.isRequired
+  isActualLotsFormDisplayed: PropTypes.bool.isRequired,
+  isActualClassesFormDisplayed: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -157,8 +165,8 @@ const mapStateToProps = state => ({
     state.admin_home.lotDescriptions.isLotDescriptionsFormDisplayed,
   isActualLotsFormDisplayed:
     state.admin_home.actualLots.isActualLotsFormDisplayed,
-  isActualLotsFormDisplayed:
-  state.admin_home.actualClasses.isActualLotsFormDisplayed
+  isActualClassesFormDisplayed:
+  state.admin_home.actualClasses.isActualClassesFormDisplayed
 });
 
 const mapDispatchToProps = dispatch => ({

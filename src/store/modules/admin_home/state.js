@@ -51,6 +51,7 @@ export const initialState = {
 
   actualClasses: {
     allActualClasses: [],
-    isActualClassesFormDisplayed: false
+    isActualClassesFormDisplayed: false,
+    isCurrentActualClassCreated: false
   }
 };

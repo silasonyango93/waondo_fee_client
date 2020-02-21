@@ -99,15 +99,15 @@ class ActualLotsForm extends Component {
         selectedClassLevelErrorMessage: "This field is required"
       });
     } else {
+      const payload = {
+        LotDescriptionId:selectedLotDescriptionObject.value,
+        AcademicClassLevelId:selectedClassLevelObject.value
+      };
+
+      this.props.createActualLot(payload);
+      this.props.toggleAdminModalDisplay(false);
     }
 
-    const payload = {
-      LotDescriptionId:selectedLotDescriptionObject.value,
-      AcademicClassLevelId:selectedClassLevelObject.value
-    };
-
-    this.props.createActualLot(payload);
-    this.props.toggleAdminModalDisplay(false);
   };
 
   render() {

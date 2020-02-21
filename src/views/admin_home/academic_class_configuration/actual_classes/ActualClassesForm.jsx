@@ -7,60 +7,59 @@ import { connect } from "react-redux";
 
 import "./ActualClasses.scss";
 import {
-    createActualLot,
-    fetchAllActualLots,
-    fetchAllTermIterations,
-    resetCurrentActualLotCreated,
+    createActualClass,
+    createActualLot, fetchAllActualClasses,
+    fetchAllTermIterations, resetCurrentActualClassCreated,
     toggleAdminModalDisplay
 } from "../../../../store/modules/admin_home/actions";
 
 class ActualClassesForm extends Component {
     state = {
-        selectedLotDescriptionObject: "",
-        lotDescriptions: [],
-        selectedLotDescriptionHasError: false,
-        selectedLotDescriptionErrorMessage: "",
-        selectedClassLevelObject: "",
-        classLevels: [],
-        selectedClassLevelHasError: false,
-        selectedClassLevelErrorMessage: ""
+        selectedLotObject: "",
+        lots: [],
+        selectedLotHasError: false,
+        selectedLotErrorMessage: "",
+        selectedClassStreamObject: "",
+        classStreams: [],
+        selectedClassStreamHasError: false,
+        selectedClassStreamErrorMessage: "",
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (
-            this.props.isCurrentActualLotCreated !==
-            prevProps.isCurrentActualLotCreated
+            this.props.isCurrentActualClassCreated !==
+            prevProps.isCurrentActualClassCreated
         ) {
-            if (this.props.isCurrentActualLotCreated) {
-                this.props.fetchAllActualLots();
-                this.props.resetCurrentActualLotCreated();
+            if (this.props.isCurrentActualClassCreated) {
+                this.props.fetchAllActualClasses();
+                this.props.resetCurrentActualClassCreated();
             }
         }
 
-        if (this.props.allLotDescriptions !== prevProps.allLotDescriptions) {
+        if (this.props.allActualLots !== prevProps.allActualLots) {
             if (
-                this.props.allLotDescriptions &&
-                this.props.allLotDescriptions.length
+                this.props.allActualLots &&
+                this.props.allActualLots.length
             ) {
-                let allLotDescriptions = this.props.allLotDescriptions.map(item => {
+                let allActualLots = this.props.allActualLots.map(item => {
                     return {
                         label: item.LotDescription,
-                        value: item.LotDescriptionId
+                        value: item.LotId
                     };
                 });
-                this.setState({ lotDescriptions: allLotDescriptions });
+                this.setState({ lots: allActualLots });
             }
         }
 
-        if (this.props.allAcademicClassLevels !== prevProps.allAcademicClassLevels) {
-            if (this.props.allAcademicClassLevels) {
-                let allAcademicClassLevels = this.props.allAcademicClassLevels.map(item => {
+        if (this.props.allClassStreams !== prevProps.allClassStreams) {
+            if (this.props.allClassStreams && this.props.allClassStreams.length) {
+                let allClassStreams = this.props.allClassStreams.map(item => {
                     return {
-                        label: item.AcademicClassLevelName,
-                        value: item.AcademicClassLevelId
+                        label: item.ClassStreamName,
+                        value: item.ClassStreamId
                     };
                 });
-                this.setState({ classLevels: allAcademicClassLevels });
+                this.setState({ classStreams: allClassStreams });
             }
         }
     }
@@ -77,29 +76,30 @@ class ActualClassesForm extends Component {
         e.preventDefault();
 
         const {
-            selectedLotDescriptionObject,
-            selectedClassLevelObject
+            selectedLotObject,
+            selectedClassStreamObject
         } = this.state;
-        if (!selectedLotDescriptionObject) {
+        if (!selectedLotObject) {
             this.setState({
-                selectedLotDescriptionHasError: true,
-                selectedLotDescriptionErrorMessage: "This field is required"
+                selectedLotHasError: true,
+                selectedLotErrorMessage: "This field is required"
             });
-        } else if (!selectedClassLevelObject) {
+        } else if (!selectedClassStreamObject) {
             this.setState({
-                selectedClassLevelHasError: true,
-                selectedClassLevelErrorMessage: "This field is required"
+                selectedClassStreamHasError: true,
+                selectedClassStreamErrorMessage: "This field is required"
             });
         } else {
+            const payload = {
+                LotId: selectedLotObject.value,
+                ClassStreamId: selectedClassStreamObject.value,
+            };
+
+            this.props.createActualClass(payload);
+            this.props.toggleAdminModalDisplay(false);
         }
 
-        const payload = {
-            LotDescriptionId:selectedLotDescriptionObject.value,
-            AcademicClassLevelId:selectedClassLevelObject.value
-        };
 
-        this.props.createActualLot(payload);
-        this.props.toggleAdminModalDisplay(false);
     };
 
     render() {
@@ -107,7 +107,7 @@ class ActualClassesForm extends Component {
             <div>
                 <div className="login-panel panel panel-default dialog__main-body">
                     <div className="panel-heading">
-                        <h3 className="panel-title">Actual Lots Registration</h3>
+                        <h3 className="panel-title">Actual Classes Registration</h3>
                     </div>
                     <div className="panel-body">
                         <form
@@ -122,33 +122,33 @@ class ActualClassesForm extends Component {
                                         <div className="form-group">
                                             <Select
                                                 className={
-                                                    this.state.selectedLotDescriptionHasError
+                                                    this.state.selectedLotHasError
                                                         ? "react-select personal__text-area-error"
                                                         : "react-select"
                                                 }
                                                 classNamePrefix="react-select"
-                                                placeholder="Description"
-                                                name="selectedTermObject"
+                                                placeholder="Lot"
+                                                name="selectedLotObject"
                                                 closeMenuOnSelect={true}
-                                                value={this.state.selectedLotDescriptionObject}
+                                                value={this.state.selectedLotObject}
                                                 onChange={value =>
                                                     this.setState({
                                                         ...this.state,
-                                                        selectedLotDescriptionObject: value,
-                                                        selectedLotDescriptionHasError: false,
+                                                        selectedLotObject: value,
+                                                        selectedLotHasError: false,
                                                         selectedLotDescriptionErrorMessage: ""
                                                     })
                                                 }
-                                                options={this.state.lotDescriptions}
+                                                options={this.state.lots}
                                             />
                                             <p
                                                 className={
-                                                    this.state.selectedLotDescriptionHasError
+                                                    this.state.selectedLotHasError
                                                         ? "personal__submision-error"
                                                         : "personal__hide"
                                                 }
                                             >
-                                                {this.state.selectedLotDescriptionErrorMessage}
+                                                {this.state.selectedLotErrorMessage}
                                             </p>
                                         </div>
                                     </Columns.Column>
@@ -157,71 +157,38 @@ class ActualClassesForm extends Component {
                                         <div className="form-group">
                                             <Select
                                                 className={
-                                                    this.state.selectedClassLevelHasError
+                                                    this.state.selectedClassStreamHasError
                                                         ? "react-select personal__text-area-error"
                                                         : "react-select"
                                                 }
                                                 classNamePrefix="react-select"
-                                                placeholder="Class Level"
-                                                name="selectedTermIterationObject"
+                                                placeholder="Class Stream"
+                                                name="selectedClassStreamObject"
                                                 closeMenuOnSelect={true}
-                                                value={this.state.selectedClassLevelObject}
+                                                value={this.state.selectedClassStreamObject}
                                                 onChange={value =>
                                                     this.setState({
                                                         ...this.state,
-                                                        selectedClassLevelObject: value,
-                                                        selectedClassLevelHasError: false,
-                                                        selectedClassLevelErrorMessage: ""
+                                                        selectedClassStreamObject: value,
+                                                        selectedClassStreamHasError: false,
+                                                        selectedClassStreamErrorMessage: ""
                                                     })
                                                 }
-                                                options={this.state.classLevels}
+                                                options={this.state.classStreams}
                                             />
                                             <p
                                                 className={
-                                                    this.state.selectedClassLevelHasError
+                                                    this.state.selectedClassStreamHasError
                                                         ? "personal__submision-error"
                                                         : "personal__hide"
                                                 }
                                             >
-                                                {this.state.selectedClassLevelErrorMessage}
+                                                {this.state.selectedClassStreamErrorMessage}
                                             </p>
                                         </div>
                                     </Columns.Column>
                                 </Columns>
 
-
-                                <Columns>
-                                    <Columns.Column size="one-half">
-                                        <div className="form-group">
-                                            <input
-                                                name="classStreamName"
-                                                className={
-                                                    this.state.classStreamNameHassError
-                                                        ? "form-control personal__text-area-error"
-                                                        : "form-control"
-                                                }
-                                                placeholder="Class Stream Name"
-                                                value={this.state.classStreamName}
-                                                type="text"
-                                                onChange={this.handleChange}
-                                                autoFocus
-                                                required={true}
-                                            />
-                                            <p
-                                                className={
-                                                    this.state.classStreamNameHassError
-                                                        ? "personal__submision-error"
-                                                        : "personal__hide"
-                                                }
-                                            >
-                                                {this.state.classStreamNameErrorMessage}
-                                            </p>
-                                        </div>
-                                    </Columns.Column>
-
-                                    <Columns.Column size="one-half">
-                                    </Columns.Column>
-                                </Columns>
 
                                 <button
                                     type="submit"
@@ -239,29 +206,29 @@ class ActualClassesForm extends Component {
 }
 
 ActualClassesForm.propTypes = {
-    createActualLot: PropTypes.func.isRequired,
+    createActualClass: PropTypes.func.isRequired,
     toggleAdminModalDisplay: PropTypes.func.isRequired,
-    fetchAllActualLots: PropTypes.func.isRequired,
-    isCurrentActualLotCreated: PropTypes.bool.isRequired,
-    resetCurrentActualLotCreated: PropTypes.func.isRequired,
-    allLotDescriptions: PropTypes.arrayOf(PropTypes.object).isRequired,
-    allAcademicClassLevels: PropTypes.arrayOf(PropTypes.object).isRequired,
+    fetchAllActualClasses: PropTypes.func.isRequired,
+    isCurrentActualClassCreated: PropTypes.bool.isRequired,
+    resetCurrentActualClassCreated: PropTypes.func.isRequired,
+    allActualLots: PropTypes.arrayOf(PropTypes.object).isRequired,
+    allClassStreams: PropTypes.arrayOf(PropTypes.object).isRequired,
     fetchAllTermIterations: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-    isCurrentActualLotCreated:
-    state.admin_home.actualLots.isCurrentActualLotCreated,
-    allLotDescriptions: state.admin_home.lotDescriptions.allLotDescriptions,
-    allAcademicClassLevels: state.admin_home.allAcademicClassLevels
+    isCurrentActualClassCreated:
+    state.admin_home.actualClasses.isCurrentActualClassCreated,
+    allActualLots: state.admin_home.actualLots.allActualLots,
+    allClassStreams: state.admin_home.classStreams.allClassStreams
 });
 
 const mapDispatchToProps = dispatch => ({
-    createActualLot: payload => dispatch(createActualLot(payload)),
+    createActualClass: payload => dispatch(createActualClass(payload)),
     toggleAdminModalDisplay: isAdminModalDisplayed =>
         dispatch(toggleAdminModalDisplay(isAdminModalDisplayed)),
-    fetchAllActualLots: () => dispatch(fetchAllActualLots()),
-    resetCurrentActualLotCreated: () => dispatch(resetCurrentActualLotCreated()),
+    fetchAllActualClasses: () => dispatch(fetchAllActualClasses()),
+    resetCurrentActualClassCreated: () => dispatch(resetCurrentActualClassCreated()),
     fetchAllTermIterations: () => dispatch(fetchAllTermIterations())
 });
 
