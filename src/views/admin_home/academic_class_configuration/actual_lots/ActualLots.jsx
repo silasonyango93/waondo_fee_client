@@ -5,11 +5,8 @@ import Table from "../../../../components/table/table_body/Table";
 import "./ActualLots.scss";
 import {
   fetchAllActualLots,
-  fetchAllActualTerms,
   setupActualLotsForm,
-  setupActualTermsForm
 } from "../../../../store/modules/admin_home/actions";
-import AdminDialog from "../../admin_dialog/AdminDialog";
 
 class ActualLots extends Component {
   state = {

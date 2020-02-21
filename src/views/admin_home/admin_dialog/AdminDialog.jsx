@@ -156,7 +156,9 @@ const mapStateToProps = state => ({
   isLotDescriptionsFormDisplayed:
     state.admin_home.lotDescriptions.isLotDescriptionsFormDisplayed,
   isActualLotsFormDisplayed:
-    state.admin_home.actualLots.isActualLotsFormDisplayed
+    state.admin_home.actualLots.isActualLotsFormDisplayed,
+  isActualLotsFormDisplayed:
+  state.admin_home.actualClasses.isActualLotsFormDisplayed
 });
 
 const mapDispatchToProps = dispatch => ({

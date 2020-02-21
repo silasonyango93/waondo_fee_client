@@ -22,7 +22,7 @@ import {
   CLASS_LEVEL_CREATION_FAILED,
   CLASS_STREAM_CREATED_SUCCESSFULLY,
   CLASS_STREAM_CREATION_FAILED,
-  ERROR_OCCURED_WHILE_FETCHING_ACTUAL_TERMS,
+  ERROR_OCCURED_WHILE_FETCHING_ACTUAL_TERMS, ERROR_OCCURED_WHILE_FETCHING_ALL_ACTUAL_CLASSES,
   ERROR_OCCURED_WHILE_FETCHING_ALL_ACTUAL_LOTS,
   ERROR_OCCURED_WHILE_FETCHING_ALL_LOT_DESCRIPTIONS,
   ERROR_OCCURED_WHILE_FETCHING_CLASS_LEVELS,
@@ -40,6 +40,8 @@ import {
   ERROR_OCCURRED_ON_CREATING_WEEK_ITERATION,
   FETCHING_ACTUAL_TERMS_EMPTY_RESULT_SET,
   FETCHING_ACTUAL_TERMS_SUCCESSFUL,
+  FETCHING_ALL_ACTUAL_CLASSES_EMPTY_RESULT_SET,
+  FETCHING_ALL_ACTUAL_CLASSES_SUCCESSFUL,
   FETCHING_ALL_ACTUAL_LOTS_EMPTY_RESULT_SET,
   FETCHING_ALL_ACTUAL_LOTS_SUCCESSFUL,
   FETCHING_ALL_LOT_DESCRIPTIONS_EMPTY_RESULT_SET,
@@ -63,7 +65,7 @@ import {
   RESET_CURRENT_CLASS_STREAM_CREATED,
   RESET_CURRENT_LOT_DESCRIPTION_CREATED,
   RESET_CURRENT_TERM_ITERATION_CREATED,
-  RESET_CURRENT_WEEK_ITERATION_CREATED,
+  RESET_CURRENT_WEEK_ITERATION_CREATED, SETUP_ACTUAL_CLASSES_FORM,
   SETUP_ACTUAL_LOTS_FORM,
   SETUP_ACTUAL_TERMS_FORM,
   SETUP_ACTUAL_WEEKS_FORM,
@@ -72,6 +74,7 @@ import {
   SETUP_LOT_DESCRIPTIONS_FORM,
   SETUP_TERM_ITERATIONS_FORM,
   START_FETCHING_ACTUAL_TERMS,
+  START_FETCHING_ALL_ACTUAL_CLASSES,
   START_FETCHING_ALL_ACTUAL_LOTS,
   START_FETCHING_ALL_LOT_DESCRIPTIONS,
   START_FETCHING_CLASS_LEVELS,
@@ -144,7 +147,8 @@ export function setupClassLevelForm() {
         isActualTermsFormDisplayed: false,
         isActualWeeksFormDisplayed: false,
         isLotDescriptionsFormDisplayed: false,
-        isActualLotsFormDisplayed: false
+        isActualLotsFormDisplayed: false,
+        isActualClassesFormDisplayed: false
       }
     });
   };
@@ -278,7 +282,8 @@ export function setupClassStreamForm() {
         isActualTermsFormDisplayed: false,
         isActualWeeksFormDisplayed: false,
         isLotDescriptionsFormDisplayed: false,
-        isActualLotsFormDisplayed: false
+        isActualLotsFormDisplayed: false,
+        isActualClassesFormDisplayed: false
       }
     });
   };
@@ -335,7 +340,8 @@ export function setupTermIterationsForm() {
         isActualTermsFormDisplayed: false,
         isActualWeeksFormDisplayed: false,
         isLotDescriptionsFormDisplayed: false,
-        isActualLotsFormDisplayed: false
+        isActualLotsFormDisplayed: false,
+        isActualClassesFormDisplayed: false
       }
     });
   };
@@ -430,7 +436,8 @@ export function setupWeekIterationsForm() {
         isActualTermsFormDisplayed: false,
         isActualWeeksFormDisplayed: false,
         isLotDescriptionsFormDisplayed: false,
-        isActualLotsFormDisplayed: false
+        isActualLotsFormDisplayed: false,
+        isActualClassesFormDisplayed: false
       }
     });
   };
@@ -525,7 +532,8 @@ export function setupActualTermsForm() {
         isActualTermsFormDisplayed: true,
         isActualWeeksFormDisplayed: false,
         isLotDescriptionsFormDisplayed: false,
-        isActualLotsFormDisplayed: false
+        isActualLotsFormDisplayed: false,
+        isActualClassesFormDisplayed: false
       }
     });
   };
@@ -620,7 +628,8 @@ export function setupActualWeeksForm() {
         isActualTermsFormDisplayed: false,
         isActualWeeksFormDisplayed: true,
         isLotDescriptionsFormDisplayed: false,
-        isActualLotsFormDisplayed: false
+        isActualLotsFormDisplayed: false,
+        isActualClassesFormDisplayed: false
       }
     });
   };
@@ -715,7 +724,8 @@ export function setupLotDescriptionsForm() {
         isActualTermsFormDisplayed: false,
         isActualWeeksFormDisplayed: false,
         isLotDescriptionsFormDisplayed: true,
-        isActualLotsFormDisplayed: false
+        isActualLotsFormDisplayed: false,
+        isActualClassesFormDisplayed: false
       }
     });
   };
@@ -810,7 +820,8 @@ export function setupActualLotsForm() {
         isActualTermsFormDisplayed: false,
         isActualWeeksFormDisplayed: false,
         isLotDescriptionsFormDisplayed: false,
-        isActualLotsFormDisplayed: true
+        isActualLotsFormDisplayed: true,
+        isActualClassesFormDisplayed: false
       }
     });
   };
@@ -850,5 +861,66 @@ export function createActualLot(payload) {
         console.log(err);
       }
     );
+  };
+}
+
+/* END - ACTUAL LOTS *****************************************************************************************/
+
+/* START - ACTUAL CLASSES *****************************************************************************************/
+
+export function fetchAllActualClasses() {
+  return async dispatch => {
+    dispatch({
+      type: START_FETCHING_ALL_ACTUAL_CLASSES
+    });
+    const apiRoute = "/get_all_actual_classes_by_full_description";
+    const returnedPromise = apiGetAll(apiRoute);
+    returnedPromise.then(
+        function(result) {
+          if (result.data.results && result.data.results.length > 0) {
+            dispatch({
+              type: FETCHING_ALL_ACTUAL_CLASSES_SUCCESSFUL,
+              payload: {
+                allActualClasses: result.data.results
+              }
+            });
+          } else if (result.data.results && result.data.results.length === 0) {
+            dispatch({
+              type: FETCHING_ALL_ACTUAL_CLASSES_EMPTY_RESULT_SET
+            });
+          }
+        },
+        function(err) {
+          dispatch({
+            type: ERROR_OCCURED_WHILE_FETCHING_ALL_ACTUAL_CLASSES
+          });
+          console.log(err);
+        }
+    );
+  };
+}
+
+
+
+export function setupActualClassesForm() {
+  return async dispatch => {
+    dispatch({
+      type: SETUP_ACTUAL_CLASSES_FORM,
+      payload: {
+        isAdminModalDisplayed: true,
+        dialogHeight: "380",
+        dialogWidth: "500",
+        isAcademicClassLevelFormDisplayed: false,
+        isClassStreamFormDisplayed: false,
+        modalTitle: "Class Configuration",
+        isTermIterationsFormDisplayed: false,
+        isWeekIterationsFormDisplayed: false,
+        isActualTermsFormDisplayed: false,
+        isActualWeeksFormDisplayed: false,
+        isLotDescriptionsFormDisplayed: false,
+        isActualLotsFormDisplayed: false,
+        isActualClassesFormDisplayed: true
+      }
+    });
   };
 }

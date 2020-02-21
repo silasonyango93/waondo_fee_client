@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import {  withRouter } from "react-router-dom";
 import { FaCogs, FaSearch } from "react-icons/fa";
 import {
-    REGISTER_ACADEMIC_CLASS_LEVELS, REGISTER_ACTUAL_LOTS,
+    REGISTER_ACADEMIC_CLASS_LEVELS, REGISTER_ACTUAL_CLASSES, REGISTER_ACTUAL_LOTS,
     REGISTER_ACTUAL_TERMS,
     REGISTER_ACTUAL_WEEKS,
     REGISTER_CLASS_STREAMS,
@@ -126,6 +126,18 @@ class AdminSideBar extends Component {
                           }}
                       >
                           Actual Lots
+                      </a>
+                  </li>
+
+                  <li className="second-level">
+                      <a
+                          href=""
+                          onClick={e => {
+                              e.preventDefault();
+                              this.props.handleSideBarClicked(REGISTER_ACTUAL_CLASSES);
+                          }}
+                      >
+                          Actual Classes
                       </a>
                   </li>
 

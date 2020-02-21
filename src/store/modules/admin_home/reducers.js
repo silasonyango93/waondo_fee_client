@@ -1,37 +1,37 @@
 import {
-  ACTUAL_LOT_CREATED_SUCCESSFULLY,
-  ACTUAL_TERM_CREATED_SUCCESSFULLY,
-  ACTUAL_WEEK_CREATED_SUCCESSFULLY,
-  CLASS_LEVEL_CREATED_SUCCESSFULLY,
-  CLASS_STREAM_CREATED_SUCCESSFULLY,
-  FETCHING_ACTUAL_TERMS_SUCCESSFUL,
-  FETCHING_ALL_ACTUAL_LOTS_SUCCESSFUL,
-  FETCHING_ALL_LOT_DESCRIPTIONS_SUCCESSFUL,
-  FETCHING_CLASS_LEVELS_SUCCESSFUL,
-  FETCHING_CLASS_STREAMS_SUCCESSFUL,
-  FETCHING_TERM_ITERATIONS_SUCCESSFUL,
-  FETCHING_WEEK_ITERATIONS_SUCCESSFUL,
-  FETCHING_YEARS_WEEKS_SUCCESSFUL,
-  LOT_DESCRIPTION_CREATED_SUCCESSFULLY,
-  RESET_CURRENT_ACADEMIC_CLASS_LEVEL_CREATED,
-  RESET_CURRENT_ACTUAL_LOT_CREATED,
-  RESET_CURRENT_ACTUAL_TERM_CREATED,
-  RESET_CURRENT_ACTUAL_WEEK_CREATED,
-  RESET_CURRENT_CLASS_STREAM_CREATED,
-  RESET_CURRENT_LOT_DESCRIPTION_CREATED,
-  RESET_CURRENT_TERM_ITERATION_CREATED,
-  RESET_CURRENT_WEEK_ITERATION_CREATED,
-  SETUP_ACTUAL_LOTS_FORM,
-  SETUP_ACTUAL_TERMS_FORM,
-  SETUP_ACTUAL_WEEKS_FORM,
-  SETUP_CLASS_LEVEL_FORM,
-  SETUP_CLASS_STREAM_FORM,
-  SETUP_LOT_DESCRIPTIONS_FORM,
-  SETUP_TERM_ITERATIONS_FORM,
-  SETUP_WEEK_ITERATIONS_FORM,
-  TERM_ITERATION_CREATED_SUCCESSFULLY,
-  TOGGLE_MODAL_DISPLAY,
-  WEEK_ITERATION_CREATED_SUCCESSFULLY
+    ACTUAL_LOT_CREATED_SUCCESSFULLY,
+    ACTUAL_TERM_CREATED_SUCCESSFULLY,
+    ACTUAL_WEEK_CREATED_SUCCESSFULLY,
+    CLASS_LEVEL_CREATED_SUCCESSFULLY,
+    CLASS_STREAM_CREATED_SUCCESSFULLY,
+    FETCHING_ACTUAL_TERMS_SUCCESSFUL, FETCHING_ALL_ACTUAL_CLASSES_SUCCESSFUL,
+    FETCHING_ALL_ACTUAL_LOTS_SUCCESSFUL,
+    FETCHING_ALL_LOT_DESCRIPTIONS_SUCCESSFUL,
+    FETCHING_CLASS_LEVELS_SUCCESSFUL,
+    FETCHING_CLASS_STREAMS_SUCCESSFUL,
+    FETCHING_TERM_ITERATIONS_SUCCESSFUL,
+    FETCHING_WEEK_ITERATIONS_SUCCESSFUL,
+    FETCHING_YEARS_WEEKS_SUCCESSFUL,
+    LOT_DESCRIPTION_CREATED_SUCCESSFULLY,
+    RESET_CURRENT_ACADEMIC_CLASS_LEVEL_CREATED,
+    RESET_CURRENT_ACTUAL_LOT_CREATED,
+    RESET_CURRENT_ACTUAL_TERM_CREATED,
+    RESET_CURRENT_ACTUAL_WEEK_CREATED,
+    RESET_CURRENT_CLASS_STREAM_CREATED,
+    RESET_CURRENT_LOT_DESCRIPTION_CREATED,
+    RESET_CURRENT_TERM_ITERATION_CREATED,
+    RESET_CURRENT_WEEK_ITERATION_CREATED, SETUP_ACTUAL_CLASSES_FORM,
+    SETUP_ACTUAL_LOTS_FORM,
+    SETUP_ACTUAL_TERMS_FORM,
+    SETUP_ACTUAL_WEEKS_FORM,
+    SETUP_CLASS_LEVEL_FORM,
+    SETUP_CLASS_STREAM_FORM,
+    SETUP_LOT_DESCRIPTIONS_FORM,
+    SETUP_TERM_ITERATIONS_FORM,
+    SETUP_WEEK_ITERATIONS_FORM,
+    TERM_ITERATION_CREATED_SUCCESSFULLY,
+    TOGGLE_MODAL_DISPLAY,
+    WEEK_ITERATION_CREATED_SUCCESSFULLY
 } from "./actionTypes";
 
 export const ACTION_HANDLERS = {
@@ -73,7 +73,10 @@ export const ACTION_HANDLERS = {
       },
       actualLots: {
         isActualLotsFormDisplayed: action.payload.isActualLotsFormDisplayed
-      }
+      },
+        actualClasses: {
+            isActualClassesFormDisplayed: action.payload.isActualClassesFormDisplayed
+        }
     }),
   [FETCHING_CLASS_LEVELS_SUCCESSFUL]: (state, action) =>
     Object.assign({}, state, {
@@ -123,7 +126,10 @@ export const ACTION_HANDLERS = {
       },
       actualLots: {
         isActualLotsFormDisplayed: action.payload.isActualLotsFormDisplayed
-      }
+      },
+        actualClasses: {
+            isActualClassesFormDisplayed: action.payload.isActualClassesFormDisplayed
+        }
     }),
 
   [CLASS_STREAM_CREATED_SUCCESSFULLY]: (state, action) =>
@@ -176,7 +182,10 @@ export const ACTION_HANDLERS = {
       },
       actualLots: {
         isActualLotsFormDisplayed: action.payload.isActualLotsFormDisplayed
-      }
+      },
+        actualClasses: {
+            isActualClassesFormDisplayed: action.payload.isActualClassesFormDisplayed
+        }
     }),
   [RESET_CURRENT_TERM_ITERATION_CREATED]: (state, action) =>
     Object.assign({}, state, {
@@ -230,7 +239,10 @@ export const ACTION_HANDLERS = {
       },
       actualLots: {
         isActualLotsFormDisplayed: action.payload.isActualLotsFormDisplayed
-      }
+      },
+        actualClasses: {
+            isActualClassesFormDisplayed: action.payload.isActualClassesFormDisplayed
+        }
     }),
   [WEEK_ITERATION_CREATED_SUCCESSFULLY]: (state, action) =>
     Object.assign({}, state, {
@@ -276,7 +288,10 @@ export const ACTION_HANDLERS = {
       },
       actualLots: {
         isActualLotsFormDisplayed: action.payload.isActualLotsFormDisplayed
-      }
+      },
+        actualClasses: {
+            isActualClassesFormDisplayed: action.payload.isActualClassesFormDisplayed
+        }
     }),
   [RESET_CURRENT_ACTUAL_TERM_CREATED]: (state, action) =>
     Object.assign({}, state, {
@@ -327,7 +342,10 @@ export const ACTION_HANDLERS = {
       },
       actualLots: {
         isActualLotsFormDisplayed: action.payload.isActualLotsFormDisplayed
-      }
+      },
+        actualClasses: {
+            isActualClassesFormDisplayed: action.payload.isActualClassesFormDisplayed
+        }
     }),
   [RESET_CURRENT_ACTUAL_WEEK_CREATED]: (state, action) =>
     Object.assign({}, state, {
@@ -378,7 +396,10 @@ export const ACTION_HANDLERS = {
       },
       actualLots: {
         isActualLotsFormDisplayed: action.payload.isActualLotsFormDisplayed
-      }
+      },
+        actualClasses: {
+            isActualClassesFormDisplayed: action.payload.isActualClassesFormDisplayed
+        }
     }),
   [RESET_CURRENT_LOT_DESCRIPTION_CREATED]: (state, action) =>
     Object.assign({}, state, {
@@ -429,7 +450,10 @@ export const ACTION_HANDLERS = {
       },
       actualLots: {
         isActualLotsFormDisplayed: action.payload.isActualLotsFormDisplayed
-      }
+      },
+        actualClasses: {
+            isActualClassesFormDisplayed: action.payload.isActualClassesFormDisplayed
+        }
     }),
   [RESET_CURRENT_ACTUAL_LOT_CREATED]: (state, action) =>
     Object.assign({}, state, {
@@ -438,5 +462,51 @@ export const ACTION_HANDLERS = {
   [ACTUAL_LOT_CREATED_SUCCESSFULLY]: (state, action) =>
     Object.assign({}, state, {
       actualLots: { isCurrentActualLotCreated: true }
-    })
+    }),
+
+    /* END - ACTUAL LOTS ***************************************************************************************/
+
+    /* START - ACTUAL CLASSES ***************************************************************************************/
+
+    [FETCHING_ALL_ACTUAL_CLASSES_SUCCESSFUL]: (state, action) =>
+        Object.assign({}, state, {
+            actualClasses: { allActualClasses: action.payload.allActualClasses }
+        }),
+
+    [SETUP_ACTUAL_CLASSES_FORM]: (state, action) =>
+        Object.assign({}, state, {
+            isAdminModalDisplayed: action.payload.isAdminModalDisplayed,
+            dialogHeight: action.payload.dialogHeight,
+            dialogWidth: action.payload.dialogWidth,
+            modalTitle: action.payload.modalTitle,
+            isAcademicClassLevelFormDisplayed:
+            action.payload.isAcademicClassLevelFormDisplayed,
+            classStreams: {
+                isClassStreamFormDisplayed: action.payload.isClassStreamFormDisplayed
+            },
+            termIterations: {
+                isTermIterationsFormDisplayed:
+                action.payload.isTermIterationsFormDisplayed
+            },
+            weekIterations: {
+                isWeekIterationsFormDisplayed:
+                action.payload.isWeekIterationsFormDisplayed
+            },
+            actualTerms: {
+                isActualTermsFormDisplayed: action.payload.isActualTermsFormDisplayed
+            },
+            actualWeeks: {
+                isActualWeeksFormDisplayed: action.payload.isActualWeeksFormDisplayed
+            },
+            lotDescriptions: {
+                isLotDescriptionsFormDisplayed:
+                action.payload.isLotDescriptionsFormDisplayed
+            },
+            actualLots: {
+                isActualLotsFormDisplayed: action.payload.isActualLotsFormDisplayed
+            },
+            actualClasses: {
+                isActualClassesFormDisplayed: action.payload.isActualClassesFormDisplayed
+            }
+        }),
 };
