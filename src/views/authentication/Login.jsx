@@ -53,7 +53,8 @@ class Login extends Component {
     event.preventDefault();
     const payload = {
       AttemptedEmail: this.state.attemptedEmail,
-      AttemptedPassword: this.state.attemptedPassword
+      AttemptedPassword: this.state.attemptedPassword,
+      AttemptedRoleCode: this.state.isAdmin ? '1' : '2'
     };
 
     if (this.state.isAdmin) {
