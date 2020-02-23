@@ -15,8 +15,18 @@ class Login extends Component {
     isAdmin: false,
     isStaff: true,
     loginHasError: false,
-    loginErrorMessage: ""
+    loginErrorMessage: "",
+    emailReadOnly: false,
+    passwordReadOnly: false
   };
+
+
+  componentDidMount() {
+    this.setState({emailReadOnly: false, passwordReadOnly: false});
+  }
+
+
+
 
   componentDidUpdate(prevProps) {
     /* ---------------------------------------------------------------------------------------------------------------------- */
@@ -42,7 +52,29 @@ class Login extends Component {
         });
       }
     }
+
+
+    if (
+        this.props.accessDenied !== prevProps.accessDenied
+    ) {
+      if (this.props.accessDenied) {
+        this.setState({
+          loginHasError: true,
+          loginErrorMessage: "Access denied for this role"
+        });
+      }
+    }
+
   }
+
+
+  handleEmailEditTextsFocus = () => {
+    this.setState({emailReadOnly: false});
+  };
+
+  handlePasswordEditTextsFocus = () => {
+    this.setState({passwordReadOnly: false});
+  };
 
   handleAnyTextFieldTouched = () => {
     this.props.resetWrongCredentials();
@@ -102,6 +134,7 @@ class Login extends Component {
                     method="POST"
                     onSubmit={this.handleSubmit}
                     encType="multipart/form-data"
+                    autoComplete="off"
                   >
                     <fieldset>
                       <div className="form-group">
@@ -119,8 +152,10 @@ class Login extends Component {
                           value={this.state.attemptedEmail}
                           type="text"
                           onChange={this.handleChange}
-                          autoFocus
                           required={true}
+                          autoComplete="off"
+                          readOnly={this.state.emailReadOnly}
+                          onFocus={this.handleEmailEditTextsFocus}
                         />
                       </div>
 
@@ -140,6 +175,9 @@ class Login extends Component {
                           type="password"
                           onChange={this.handleChange}
                           required={true}
+                          autoComplete="off"
+                          readOnly={this.state.passwordReadOnly}
+                          onFocus={this.handlePasswordEditTextsFocus}
                         />
                       </div>
 
@@ -197,12 +235,14 @@ Login.propTypes = {
   resetWrongCredentials: PropTypes.func.isRequired,
   authenticateSystemAdmin: PropTypes.func.isRequired,
   isSessionActive: PropTypes.bool.isRequired,
-  hasWrongLoginCredentials: PropTypes.bool.isRequired
+  hasWrongLoginCredentials: PropTypes.bool.isRequired,
+  accessDenied: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
   isSessionActive: state.current_session.isSessionActive,
-  hasWrongLoginCredentials: state.current_session.hasWrongLoginCredentials
+  hasWrongLoginCredentials: state.current_session.hasWrongLoginCredentials,
+  accessDenied: state.current_session.accessDenied
 });
 
 const mapDispatchToProps = dispatch => ({

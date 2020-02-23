@@ -31,7 +31,7 @@ import {
   INITIAL_GENDER_CONFIGURATION_FAILED,
   ERROR_OCCURED_DURING_GENDER_CONFIGURATION,
   MALE_GENDER_CONFIGURATION_SUCCESSFUL,
-  FEMALE_GENDER_CONFIGURATION_SUCCESSFUL, RESET_WRONG_CREDENTIALS
+  FEMALE_GENDER_CONFIGURATION_SUCCESSFUL, RESET_WRONG_CREDENTIALS, ROLE_ACCESS_DENIED
 } from "./actionTypes";
 import {
   apiGetAll,
@@ -104,7 +104,7 @@ export function authenticateSystemAdmin(payload) {
     const returnedPromise = apiPost(payload, apiRoute);
     returnedPromise.then(
       function(result) {
-        if (!result.data.error) {
+        if (!result.data.error && result.data.userOwnsRole) {
           dispatch({
             type: STORE_USER,
             payload: {
@@ -115,6 +115,10 @@ export function authenticateSystemAdmin(payload) {
           });
           dispatch({
             type: USER_LOGIN_SUCCESS
+          });
+        } else if(result.data.error && !result.data.userOwnsRole){
+          dispatch({
+            type: ROLE_ACCESS_DENIED
           });
         } else {
           dispatch({

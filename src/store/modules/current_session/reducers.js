@@ -2,7 +2,7 @@ import {
     TERMINATE_CURRENT_SESSION,
     STORE_USER,
     SYSTEM_NOT_CONFIGURED,
-    INITIAL_SYSTEM_CONFIGURATION_SUCCESSFUL, WRONG_LOGIN_CREDENTIALS, RESET_WRONG_CREDENTIALS
+    INITIAL_SYSTEM_CONFIGURATION_SUCCESSFUL, WRONG_LOGIN_CREDENTIALS, RESET_WRONG_CREDENTIALS, ROLE_ACCESS_DENIED
 } from "./actionTypes";
 
 export const ACTION_HANDLERS = {
@@ -22,9 +22,14 @@ export const ACTION_HANDLERS = {
         Object.assign({}, state, {
             hasWrongLoginCredentials: true
         }),
+    [ROLE_ACCESS_DENIED]: state =>
+        Object.assign({}, state, {
+            accessDenied: true
+        }),
     [RESET_WRONG_CREDENTIALS]: state =>
         Object.assign({}, state, {
-            hasWrongLoginCredentials: false
+            hasWrongLoginCredentials: false,
+            accessDenied: false
         }),
   [SYSTEM_NOT_CONFIGURED]: (state, action) =>
     Object.assign({}, state, {

@@ -4,4 +4,5 @@ export const initialState = {
   RoleType: "",
   isSessionActive: false,
   hasWrongLoginCredentials: false,
+  accessDenied: false
 };
