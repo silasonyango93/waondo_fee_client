@@ -11,7 +11,7 @@ import {
   REGISTER_ACTUAL_TERMS,
   REGISTER_ACTUAL_WEEKS,
   REGISTER_CLASS_STREAMS,
-  REGISTER_LOT_DESCRIPTION,
+  REGISTER_LOT_DESCRIPTION, REGISTER_SYSTEM_USER,
   REGISTER_TERM_ITERATIONS,
   REGISTER_WEEK_ITERATIONS
 } from "./AdminHomeConstants";
@@ -28,6 +28,7 @@ import LotDescription from "./academic_class_configuration/lot_description/LotDe
 import AdminDialog from "./admin_dialog/AdminDialog";
 import ActualLots from "./academic_class_configuration/actual_lots/ActualLots";
 import ActualClasses from "./academic_class_configuration/actual_classes/ActualClasses";
+import UserRegistration from "./system_user_management/system_user_registration/UserRegistration";
 
 class AdminHome extends Component {
   constructor(props) {
@@ -41,7 +42,8 @@ class AdminHome extends Component {
       displayActualWeeks: false,
       displayLotDescriptions: false,
       displayActualLots: false,
-      displayActualClasses: false
+      displayActualClasses: false,
+      displayUserRegistration: false
     };
     this.idleTimer = null;
   }
@@ -73,7 +75,8 @@ class AdminHome extends Component {
         displayActualWeeks: false,
         displayLotDescriptions: false,
         displayActualLots: false,
-        displayActualClasses: false
+        displayActualClasses: false,
+        displayUserRegistration: false
       });
     } else if (formToDisplay === REGISTER_CLASS_STREAMS) {
       this.setState({
@@ -85,7 +88,8 @@ class AdminHome extends Component {
         displayActualWeeks: false,
         displayLotDescriptions: false,
         displayActualLots: false,
-        displayActualClasses: false
+        displayActualClasses: false,
+        displayUserRegistration: false
       });
     } else if (formToDisplay === REGISTER_TERM_ITERATIONS) {
       this.setState({
@@ -97,7 +101,8 @@ class AdminHome extends Component {
         displayActualWeeks: false,
         displayLotDescriptions: false,
         displayActualLots: false,
-        displayActualClasses: false
+        displayActualClasses: false,
+        displayUserRegistration: false
       });
     } else if (formToDisplay === REGISTER_WEEK_ITERATIONS) {
       this.setState({
@@ -109,7 +114,8 @@ class AdminHome extends Component {
         displayActualWeeks: false,
         displayLotDescriptions: false,
         displayActualLots: false,
-        displayActualClasses: false
+        displayActualClasses: false,
+        displayUserRegistration: false
       });
     } else if (formToDisplay === REGISTER_ACTUAL_TERMS) {
       this.setState({
@@ -121,7 +127,8 @@ class AdminHome extends Component {
         displayActualWeeks: false,
         displayLotDescriptions: false,
         displayActualLots: false,
-        displayActualClasses: false
+        displayActualClasses: false,
+        displayUserRegistration: false
       });
     } else if (formToDisplay === REGISTER_ACTUAL_WEEKS) {
       this.setState({
@@ -133,7 +140,8 @@ class AdminHome extends Component {
         displayActualWeeks: true,
         displayLotDescriptions: false,
         displayActualLots: false,
-        displayActualClasses: false
+        displayActualClasses: false,
+        displayUserRegistration: false
       });
     } else if (formToDisplay === REGISTER_LOT_DESCRIPTION) {
       this.setState({
@@ -145,7 +153,8 @@ class AdminHome extends Component {
         displayActualWeeks: false,
         displayLotDescriptions: true,
         displayActualLots: false,
-        displayActualClasses: false
+        displayActualClasses: false,
+        displayUserRegistration: false
       });
     } else if (formToDisplay === REGISTER_ACTUAL_LOTS) {
       this.setState({
@@ -157,7 +166,8 @@ class AdminHome extends Component {
         displayActualWeeks: false,
         displayLotDescriptions: false,
         displayActualLots: true,
-        displayActualClasses: false
+        displayActualClasses: false,
+        displayUserRegistration: false
       });
     } else if (formToDisplay === REGISTER_ACTUAL_CLASSES) {
       this.setState({
@@ -169,7 +179,21 @@ class AdminHome extends Component {
         displayActualWeeks: false,
         displayLotDescriptions: false,
         displayActualLots: false,
-        displayActualClasses: true
+        displayActualClasses: true,
+        displayUserRegistration: false
+      });
+    } else if (formToDisplay === REGISTER_SYSTEM_USER) {
+      this.setState({
+        displayAcademicClassLevels: false,
+        displayClassStreams: false,
+        displayTermIterations: false,
+        displayWeekIterations: false,
+        displayActualTerms: false,
+        displayActualWeeks: false,
+        displayLotDescriptions: false,
+        displayActualLots: false,
+        displayActualClasses: false,
+        displayUserRegistration: true
       });
     }
   };
@@ -239,6 +263,10 @@ class AdminHome extends Component {
 
             <div className={this.state.displayActualClasses ? "show" : "hide"}>
               <ActualClasses />
+            </div>
+
+            <div className={this.state.displayUserRegistration ? "show" : "hide"}>
+              <UserRegistration />
             </div>
           </Container>
         </Columns>

@@ -8,7 +8,7 @@ import {
     REGISTER_ACTUAL_TERMS,
     REGISTER_ACTUAL_WEEKS,
     REGISTER_CLASS_STREAMS,
-    REGISTER_LOT_DESCRIPTION,
+    REGISTER_LOT_DESCRIPTION, REGISTER_SYSTEM_USER,
     REGISTER_TERM_ITERATIONS,
     REGISTER_WEEK_ITERATIONS
 } from "../../views/admin_home/AdminHomeConstants";
@@ -23,7 +23,8 @@ class AdminSideBar extends Component {
       thirdLevelDropdownCollapsed: true,
       brandDropdownCollapsed: true,
       samplePagesCollapsed: true,
-      calenderMultiLevelDropdownCollapsed: true
+      calenderMultiLevelDropdownCollapsed: true,
+        userManagementMultiLevelDropdownCollapsed: true
     };
   }
 
@@ -320,6 +321,48 @@ class AdminSideBar extends Component {
                 </li>
               </ul>
             </li>
+
+              <li
+                  className={classNames({
+                      active: !this.state.userManagementMultiLevelDropdownCollapsed
+                  })}
+              >
+                  <a
+                      href=""
+                      onClick={e => {
+                          e.preventDefault();
+                          this.setState({
+                              userManagementMultiLevelDropdownCollapsed: !this.state
+                                  .userManagementMultiLevelDropdownCollapsed
+                          });
+                          return false;
+                      }}
+                  >
+                      <FaCogs />
+                      &nbsp;User Management
+                      <span className="fa arrow" />
+                  </a>
+                  <ul
+                      className={classNames({
+                          "nav nav-second-level": true,
+                          collapse: this.state.userManagementMultiLevelDropdownCollapsed
+                      })}
+                  >
+                      <li className="second-level">
+                          <a
+                              href=""
+                              onClick={e => {
+                                  e.preventDefault();
+                                  this.props.handleSideBarClicked(REGISTER_SYSTEM_USER);
+                              }}
+                          >
+                              Register System User
+                          </a>
+                      </li>
+
+                  </ul>
+              </li>
+
           </ul>
         </div>
       </div>

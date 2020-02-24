@@ -1,0 +1,63 @@
+.accordion {
+  &__head-section {
+    width: 702px;
+    height: 84px;
+    border-radius: 4px;
+    background-color: #fcfcfc;
+    padding-top: 22px;
+    padding-left: 19px;
+    padding-right: 24px;
+    cursor: pointer;
+  }
+
+
+  &__header-title {
+    font-family: Lato;
+    font-size: 18px;
+    font-weight: 900;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.11;
+    letter-spacing: normal;
+    color: #3d3d3d;
+    margin-bottom: 6px;
+  }
+
+
+  &__header-description {
+    font-family: Lato;
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #9c9c9c;
+  }
+
+  &__text-div {
+    float: left;
+  }
+
+  &__icon-div {
+    float: right;
+    font-size: 26px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__plus-tick {
+    width: 24px;
+    height: 24px;
+  }
+
+  &__content-container {
+    padding-bottom: 19px;
+  }
+
+  &__bottom-header-stroke {
+    height: 1px;
+    border: solid 0.8px #cfcfcf;
+  }
+}
