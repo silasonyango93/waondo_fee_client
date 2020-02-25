@@ -246,10 +246,11 @@ export function getAllUsers() {
   return async dispatch => {
     try {
       const users = await promiselessApiGetAll("/get_all_users");
-        let userRoles = [];
-        let userAccessPrivileges = [];
 
+      let usersArray = []
       if (users.data.results && users.data.results.length) {
+
+
         for (let i = 0; i < users.data.results.length; i++) {
           //1111111111111111111111111111111111111111111111111111111111111111111111111
 
@@ -257,31 +258,71 @@ export function getAllUsers() {
             userId: users.data.results[i].UserId
           };
 
-          userRoles = await getAUsersRoles(payload);
+          const userRoles = await getAUsersRoles(payload);
+
+          // userRoles.forEach(element => {
+          //   apiUserRoles.push(element);
+          // });
 
           //11111111111111111111111111111111111111111111111111111111111111111111111111
 
           //2222222222222222222222222222222222222222222222222222222222222222222222222
-
+          let rolesArray = []
           if (userRoles.data.results && userRoles.data.results.length) {
+
             for (let i = 0; i < userRoles.data.results.length; i++) {
+              // apiUserRoles.push(userRoles.data.results[i]);
               let payload = {
                 userRoleId: userRoles.data.results[i].UserRoleId
               };
 
-              console.log(payload);
 
-              userAccessPrivileges = await getARolesAccessPrivileges(
+              const userAccessPrivileges = await getARolesAccessPrivileges(
                 payload
               );
 
-              console.log(userAccessPrivileges);
+              if(userAccessPrivileges.data.results && userAccessPrivileges.data.results.length) {
+                const roleObject = {
+                  userRoleId: userRoles.data.results[i].UserRoleId,
+                  roleDescription: userRoles.data.results[i].RoleDescription,
+                  roleCode: userRoles.data.results[i].RoleCode,
+                  userAccessPrivileges: userAccessPrivileges.data.results
+                };
+
+                rolesArray.push(roleObject);
+              }
+
+
             }
+
+
           }
 
+
+          if(rolesArray && rolesArray.length) {
+          const userObject = {
+            userId: userRoles.data.results[i].UserId,
+            name: users.data.results[i].Name,
+            email: users.data.results[i].Email,
+            registeredDate: users.data.results[i].RegisteredDate,
+            rolesArray
+          }
+
+            usersArray.push(userObject);
+          }
           //2222222222222222222222222222222222222222222222222222222222222222222222222
         }
+
+        dispatch({
+          type: SUCCESSFULLY_FETCHED_ALL_USERS,
+          payload: {
+            allUsers: usersArray
+          }
+        });
+
       }
+
+      console.log(usersArray)
     } catch (e) {
       console.log(e);
       dispatch({
