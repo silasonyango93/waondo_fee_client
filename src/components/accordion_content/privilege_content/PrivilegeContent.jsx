@@ -1,21 +1,19 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 
-import './PrivilegeContent.scss';
-import CheckBox from "../../check_box/CheckBox";
+import "./PrivilegeContent.scss";
 import CheckBoxGroup from "../../check_box_group/CheckBoxGroup";
 
 class PrivilegeContent extends Component {
-    render() {
-        return (
-            <div className="privilege__main-body">
-                <CheckBoxGroup />
+  render() {
+    return (
+      <div className="privilege__main-body">
+        <CheckBoxGroup title="User Roles" />
 
-                <CheckBoxGroup />
-                <CheckBoxGroup />
-
-            </div>
-        );
-    }
+        <CheckBoxGroup />
+        <CheckBoxGroup />
+      </div>
+    );
+  }
 }
 
 export default PrivilegeContent;

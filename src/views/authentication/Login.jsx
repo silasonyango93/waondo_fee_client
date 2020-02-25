@@ -5,7 +5,9 @@ import { connect } from "react-redux";
 import "./Login.scss";
 import {
   authenticateSystemAdmin,
-  authenticateSystemUser, resetWrongCredentials
+  authenticateSystemUser,
+  getAllUsers,
+  resetWrongCredentials
 } from "../../store/modules/current_session/actions";
 import { FormGroup, Label, Input } from "reactstrap";
 class Login extends Component {
@@ -20,13 +22,10 @@ class Login extends Component {
     passwordReadOnly: false
   };
 
-
   componentDidMount() {
-    this.setState({emailReadOnly: false, passwordReadOnly: false});
+    this.props.getAllUsers();
+    this.setState({ emailReadOnly: false, passwordReadOnly: false });
   }
-
-
-
 
   componentDidUpdate(prevProps) {
     /* ---------------------------------------------------------------------------------------------------------------------- */
@@ -53,10 +52,7 @@ class Login extends Component {
       }
     }
 
-
-    if (
-        this.props.accessDenied !== prevProps.accessDenied
-    ) {
+    if (this.props.accessDenied !== prevProps.accessDenied) {
       if (this.props.accessDenied) {
         this.setState({
           loginHasError: true,
@@ -64,16 +60,14 @@ class Login extends Component {
         });
       }
     }
-
   }
 
-
   handleEmailEditTextsFocus = () => {
-    this.setState({emailReadOnly: false});
+    this.setState({ emailReadOnly: false });
   };
 
   handlePasswordEditTextsFocus = () => {
-    this.setState({passwordReadOnly: false});
+    this.setState({ passwordReadOnly: false });
   };
 
   handleAnyTextFieldTouched = () => {
@@ -86,7 +80,7 @@ class Login extends Component {
     const payload = {
       AttemptedEmail: this.state.attemptedEmail,
       AttemptedPassword: this.state.attemptedPassword,
-      AttemptedRoleCode: this.state.isAdmin ? '1' : '2'
+      AttemptedRoleCode: this.state.isAdmin ? "1" : "2"
     };
 
     if (this.state.isAdmin) {
@@ -236,7 +230,8 @@ Login.propTypes = {
   authenticateSystemAdmin: PropTypes.func.isRequired,
   isSessionActive: PropTypes.bool.isRequired,
   hasWrongLoginCredentials: PropTypes.bool.isRequired,
-  accessDenied: PropTypes.bool.isRequired
+  accessDenied: PropTypes.bool.isRequired,
+  getAllUsers: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -247,8 +242,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   authenticateSystemUser: payload => dispatch(authenticateSystemUser(payload)),
-  authenticateSystemAdmin: payload => dispatch(authenticateSystemAdmin(payload)),
-  resetWrongCredentials: () => dispatch(resetWrongCredentials())
+  authenticateSystemAdmin: payload =>
+    dispatch(authenticateSystemAdmin(payload)),
+  resetWrongCredentials: () => dispatch(resetWrongCredentials()),
+  getAllUsers: () => dispatch(getAllUsers())
 });
 
 export default connect(
