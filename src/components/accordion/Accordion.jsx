@@ -16,12 +16,18 @@ class Accordion extends Component {
         const {
             isAccordionContentDisplayed
         } = this.state;
+
+        const {
+            title,
+            subtitle
+        } = this.props;
+console.log(subtitle);
         return (
             <div>
             <div className="accordion__head-section" onClick={this.handleAccordionHeadClicked}>
                 <div className="accordion__text-div">
-                <div className="accordion__header-title">Silas Onyango</div>
-                <div className="accordion__header-description">Admin/Staff</div>
+                <div className="accordion__header-title">{title}</div>
+                <div className="accordion__header-description">{subtitle}</div>
                 </div>
 
                 <div className="accordion__icon-div">
@@ -41,7 +47,12 @@ class Accordion extends Component {
 
 
 Accordion.propTypes = {
+    title: PropTypes.string.isRequired,
+    subtitle: PropTypes.string,
+};
 
+Accordion.defaultProps = {
+    subtitle: '',
 };
 
 export default Accordion;

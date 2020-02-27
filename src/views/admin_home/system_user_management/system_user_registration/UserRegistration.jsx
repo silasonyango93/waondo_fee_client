@@ -10,15 +10,33 @@ import './UserRegistration.scss';
 
 class UserRegistration extends Component {
     state = {
-        tableData: [],
-        tableHeaders: {
-            columnZero: "#",
-            columnOne: "Name"
-        }
+        userArray: []
     };
 
     componentDidMount() {
-        this.props.fetchAllWeekIterations();
+
+        const {
+            allUsers
+        } = this.props;
+
+        let userArray = allUsers;
+
+        for(let i = 0;i < allUsers.length; i++) {
+            let accordionRoleTitle = '';
+
+            if(allUsers && allUsers.length && allUsers[i] && allUsers[i].rolesArray && allUsers[i].rolesArray.length && allUsers[i].rolesArray.length === 1) {
+                accordionRoleTitle = allUsers[i].rolesArray[0].roleDescription;
+
+            } else if(allUsers && allUsers.length && allUsers[i] && allUsers[i].rolesArray && allUsers[i].rolesArray.length && allUsers[i].rolesArray.length > 1) {
+                accordionRoleTitle = allUsers[i].rolesArray[0].roleDescription + "/" +allUsers[i].rolesArray[1].roleDescription;
+            }
+
+            userArray[i].accordionSubtitle = accordionRoleTitle;
+
+        }
+
+        this.setState({userArray});
+
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -39,9 +57,10 @@ class UserRegistration extends Component {
     }
 
     render() {
+        console.log();
         return (
             <div className="registration__main-body">
-                <AccordionTable />
+                <AccordionTable accordionTableArray={this.state.userArray}/>
             </div>
         );
     }
@@ -50,11 +69,13 @@ class UserRegistration extends Component {
 UserRegistration.propTypes = {
     setupWeekIterationsForm: PropTypes.func.isRequired,
     fetchAllWeekIterations: PropTypes.func.isRequired,
-    allWeekIterations: PropTypes.arrayOf(PropTypes.object).isRequired
+    allWeekIterations: PropTypes.arrayOf(PropTypes.object).isRequired,
+    allUsers: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 const mapStateToProps = state => ({
-    allWeekIterations: state.admin_home.weekIterations.allWeekIterations
+    allWeekIterations: state.admin_home.weekIterations.allWeekIterations,
+    allUsers: state.current_session.allUsers
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -322,7 +322,6 @@ export function getAllUsers() {
 
       }
 
-      console.log(usersArray)
     } catch (e) {
       console.log(e);
       dispatch({
