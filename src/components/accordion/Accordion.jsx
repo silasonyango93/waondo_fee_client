@@ -21,7 +21,6 @@ class Accordion extends Component {
             title,
             subtitle
         } = this.props;
-console.log(subtitle);
         return (
             <div>
             <div className="accordion__head-section" onClick={this.handleAccordionHeadClicked}>

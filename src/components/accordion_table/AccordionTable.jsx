@@ -27,11 +27,12 @@ class AccordionTable extends Component {
         const {
             accordionData
         } = this.state;
+
         return (
             <div className="table__main-body">
                 {accordionData.map(i => (
                     <Accordion title={i.name} subtitle={i.accordionSubtitle}>
-                        <PrivilegeContent />
+                        <PrivilegeContent userRoles={i.rolesArray}/>
                     </Accordion>
                 ))}
             </div>

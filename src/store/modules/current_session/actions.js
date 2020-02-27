@@ -286,6 +286,7 @@ export function getAllUsers() {
                   userRoleId: userRoles.data.results[i].UserRoleId,
                   roleDescription: userRoles.data.results[i].RoleDescription,
                   roleCode: userRoles.data.results[i].RoleCode,
+                  confirmationStatus: userRoles.data.results[i].ConfirmationStatus,
                   userAccessPrivileges: userAccessPrivileges.data.results
                 };
 
