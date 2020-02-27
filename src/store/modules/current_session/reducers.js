@@ -2,7 +2,11 @@ import {
     TERMINATE_CURRENT_SESSION,
     STORE_USER,
     SYSTEM_NOT_CONFIGURED,
-    INITIAL_SYSTEM_CONFIGURATION_SUCCESSFUL, WRONG_LOGIN_CREDENTIALS, RESET_WRONG_CREDENTIALS, ROLE_ACCESS_DENIED
+    INITIAL_SYSTEM_CONFIGURATION_SUCCESSFUL,
+    WRONG_LOGIN_CREDENTIALS,
+    RESET_WRONG_CREDENTIALS,
+    ROLE_ACCESS_DENIED,
+    SUCCESSFULLY_FETCHED_ALL_USERS
 } from "./actionTypes";
 
 export const ACTION_HANDLERS = {
@@ -44,9 +48,12 @@ export const ACTION_HANDLERS = {
       }
     }),
 
-
     [INITIAL_SYSTEM_CONFIGURATION_SUCCESSFUL]: state =>
         Object.assign({}, state, {
             isCompanyAlreadyConfigured: true
+        }),
+    [SUCCESSFULLY_FETCHED_ALL_USERS]: (state, action) =>
+        Object.assign({}, state, {
+            allUsers: action.payload.allUsers
         })
 };
