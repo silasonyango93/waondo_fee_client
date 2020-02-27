@@ -267,7 +267,7 @@ export function getAllUsers() {
           //11111111111111111111111111111111111111111111111111111111111111111111111111
 
           //2222222222222222222222222222222222222222222222222222222222222222222222222
-          let rolesArray = []
+          let rolesArray = [];
           if (userRoles.data.results && userRoles.data.results.length) {
 
             for (let i = 0; i < userRoles.data.results.length; i++) {
