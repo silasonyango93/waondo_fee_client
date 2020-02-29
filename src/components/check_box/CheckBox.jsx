@@ -5,7 +5,8 @@ import "./CheckBox.scss";
 
 class CheckBox extends Component {
   state = {
-    isChecked: false
+    isChecked: false,
+    isCheckBoxClicked: false
   };
 
   componentDidMount() {
@@ -19,12 +20,12 @@ class CheckBox extends Component {
       checkBoxObject
     } = this.props;
 
-    const { isChecked } = this.state;
+    const { isChecked, isCheckBoxClicked } = this.state;
 
     if (isChecked !== prevState.isChecked) {
-      if (isChecked) {
+      if (isChecked && isCheckBoxClicked) {
         handleCheckBoxIsChecked(checkBoxObject);
-      } else {
+      } else if (!isChecked && isCheckBoxClicked) {
         handleCheckBoxIsUnchecked(checkBoxObject);
       }
     }
@@ -35,7 +36,10 @@ class CheckBox extends Component {
   }
 
   handleCheckBoxClicked = () => {
-    this.setState({ isChecked: !this.state.isChecked });
+    this.setState({
+      isChecked: !this.state.isChecked,
+      isCheckBoxClicked: true
+    });
   };
 
   render() {

@@ -36,7 +36,13 @@ import {
   ROLE_ACCESS_DENIED,
   SUCCESSFULLY_FETCHED_ALL_USERS,
   FETCHING_ALL_USERS_EMPTY_RESULT_SET,
-  ERROR_OCCURED_WHILE_FETCHING_ALL_USERS
+  ERROR_OCCURED_WHILE_FETCHING_ALL_USERS,
+  USER_ROLE_UPDATED_SUCCESSFULLY,
+  USER_ROLE_UPDATE_FAILED,
+  ERROR_OCCURRED_WHILE_UPDATING_USER_ROLE,
+  USER_ACCESS_PRIVILEGE_UPDATED_SUCCESSFULLY,
+  USER_ACCESS_PRIVILEGE_UPDATE_FAILED,
+  ERROR_OCCURRED_WHILE_UPDATING_USER_ACCESS_PRIVILEGE
 } from "./actionTypes";
 import {
   apiGetAll,
@@ -50,7 +56,11 @@ import {
   SYSTEM_ADMIN
 } from "../../../config/constants/Constants";
 import {
+  ACTUAL_LOT_CREATED_SUCCESSFULLY,
+  ACTUAL_LOT_CREATION_FAILED,
+  BEGIN_ACTUAL_LOT_CREATION,
   ERROR_OCCURED_WHILE_FETCHING_ALL_ACTUAL_CLASSES,
+  ERROR_OCCURRED_ON_CREATING_ACTUAL_LOT,
   FETCHING_ALL_ACTUAL_CLASSES_EMPTY_RESULT_SET,
   FETCHING_ALL_ACTUAL_CLASSES_SUCCESSFUL,
   START_FETCHING_ALL_ACTUAL_CLASSES
@@ -247,10 +257,8 @@ export function getAllUsers() {
     try {
       const users = await promiselessApiGetAll("/get_all_users");
 
-      let usersArray = []
+      let usersArray = [];
       if (users.data.results && users.data.results.length) {
-
-
         for (let i = 0; i < users.data.results.length; i++) {
           //1111111111111111111111111111111111111111111111111111111111111111111111111
 
@@ -269,45 +277,42 @@ export function getAllUsers() {
           //2222222222222222222222222222222222222222222222222222222222222222222222222
           let rolesArray = [];
           if (userRoles.data.results && userRoles.data.results.length) {
-
             for (let i = 0; i < userRoles.data.results.length; i++) {
               // apiUserRoles.push(userRoles.data.results[i]);
               let payload = {
                 userRoleId: userRoles.data.results[i].UserRoleId
               };
 
-
               const userAccessPrivileges = await getARolesAccessPrivileges(
                 payload
               );
 
-              if(userAccessPrivileges.data.results && userAccessPrivileges.data.results.length) {
+              if (
+                userAccessPrivileges.data.results &&
+                userAccessPrivileges.data.results.length
+              ) {
                 const roleObject = {
                   userRoleId: userRoles.data.results[i].UserRoleId,
                   roleDescription: userRoles.data.results[i].RoleDescription,
                   roleCode: userRoles.data.results[i].RoleCode,
-                  confirmationStatus: userRoles.data.results[i].ConfirmationStatus,
+                  confirmationStatus:
+                    userRoles.data.results[i].ConfirmationStatus,
                   userAccessPrivileges: userAccessPrivileges.data.results
                 };
 
                 rolesArray.push(roleObject);
               }
-
-
             }
-
-
           }
 
-
-          if(rolesArray && rolesArray.length) {
-          const userObject = {
-            userId: userRoles.data.results[i].UserId,
-            name: users.data.results[i].Name,
-            email: users.data.results[i].Email,
-            registeredDate: users.data.results[i].RegisteredDate,
-            rolesArray
-          }
+          if (rolesArray && rolesArray.length) {
+            const userObject = {
+              userId: userRoles.data.results[i].UserId,
+              name: users.data.results[i].Name,
+              email: users.data.results[i].Email,
+              registeredDate: users.data.results[i].RegisteredDate,
+              rolesArray
+            };
 
             usersArray.push(userObject);
           }
@@ -320,9 +325,7 @@ export function getAllUsers() {
             allUsers: usersArray
           }
         });
-
       }
-
     } catch (e) {
       console.log(e);
       dispatch({
@@ -337,3 +340,55 @@ export const getAUsersRoles = payload =>
 
 export const getARolesAccessPrivileges = payload =>
   promiselessApiPost(payload, "/get_a_user_access_privileges");
+
+export function updateAUserRole(payload) {
+  return async dispatch => {
+    const apiRoute = "/update_individual_user_roles";
+    const returnedPromise = apiPost(payload, apiRoute);
+    returnedPromise.then(
+      function(result) {
+        if (result.data.results.success) {
+          dispatch({
+            type: USER_ROLE_UPDATED_SUCCESSFULLY
+          });
+        } else {
+          dispatch({
+            type: USER_ROLE_UPDATE_FAILED
+          });
+        }
+      },
+      function(err) {
+        dispatch({
+          type: ERROR_OCCURRED_WHILE_UPDATING_USER_ROLE
+        });
+        console.log(err);
+      }
+    );
+  };
+}
+
+export function updateAUserAccessPrivileges(payload) {
+  return async dispatch => {
+    const apiRoute = "/update_individual_user_access_privileges";
+    const returnedPromise = apiPost(payload, apiRoute);
+    returnedPromise.then(
+      function(result) {
+        if (result.data.results.success) {
+          dispatch({
+            type: USER_ACCESS_PRIVILEGE_UPDATED_SUCCESSFULLY
+          });
+        } else {
+          dispatch({
+            type: USER_ACCESS_PRIVILEGE_UPDATE_FAILED
+          });
+        }
+      },
+      function(err) {
+        dispatch({
+          type: ERROR_OCCURRED_WHILE_UPDATING_USER_ACCESS_PRIVILEGE
+        });
+        console.log(err);
+      }
+    );
+  };
+}
