@@ -74,7 +74,6 @@ class UserRegistration extends Component {
   }
 
   render() {
-    console.log();
     return (
       <div className="registration__main-body">
         <AccordionTable accordionTableArray={this.state.userArray} />
