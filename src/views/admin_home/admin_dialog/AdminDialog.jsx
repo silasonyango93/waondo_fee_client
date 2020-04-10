@@ -14,6 +14,7 @@ import ActualWeeksForm from "../calendar/actual_weeks/ActualWeeksForm";
 import LotDescriptionForm from "../academic_class_configuration/lot_description/LotDescriptionForm";
 import ActualLotsForm from "../academic_class_configuration/actual_lots/ActualLotsForm";
 import ActualClassesForm from "../academic_class_configuration/actual_classes/ActualClassesForm";
+import UserRegistrationForm from "../system_user_management/system_user_registration/UserRegistrationForm";
 
 class AdminDialog extends Component {
   state = {
@@ -48,9 +49,9 @@ class AdminDialog extends Component {
     return (
       <div>
         <Modal
-          visible={this.state.isAdminModalDisplayed}
-          width={this.state.dialogWidth}
-          height={this.state.dialogHeight}
+          visible={this.props.isAdminModalDisplayed}
+          width={this.props.dialogWidth}
+          height={this.props.dialogHeight}
           effect="fadeInUp"
           onClickAway={() => {
             this.props.toggleAdminModalDisplay(false);
@@ -121,6 +122,12 @@ class AdminDialog extends Component {
           >
             <ActualClassesForm />
           </div>
+
+          <div
+              className={this.props.isUserRegistrationFormDisplayed ? "show" : "hide"}
+          >
+            <UserRegistrationForm />
+          </div>
         </Modal>
       </div>
     );
@@ -141,7 +148,8 @@ AdminDialog.propTypes = {
   isActualWeeksFormDisplayed: PropTypes.bool.isRequired,
   isLotDescriptionsFormDisplayed: PropTypes.bool.isRequired,
   isActualLotsFormDisplayed: PropTypes.bool.isRequired,
-  isActualClassesFormDisplayed: PropTypes.bool.isRequired
+  isActualClassesFormDisplayed: PropTypes.bool.isRequired,
+  isUserRegistrationFormDisplayed: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -166,7 +174,9 @@ const mapStateToProps = state => ({
   isActualLotsFormDisplayed:
     state.admin_home.actualLots.isActualLotsFormDisplayed,
   isActualClassesFormDisplayed:
-  state.admin_home.actualClasses.isActualClassesFormDisplayed
+  state.admin_home.actualClasses.isActualClassesFormDisplayed,
+  isUserRegistrationFormDisplayed:
+  state.admin_home.userManagement.isUserRegistrationFormDisplayed
 });
 
 const mapDispatchToProps = dispatch => ({

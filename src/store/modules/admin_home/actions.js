@@ -149,7 +149,8 @@ export function setupClassLevelForm() {
         isActualWeeksFormDisplayed: false,
         isLotDescriptionsFormDisplayed: false,
         isActualLotsFormDisplayed: false,
-        isActualClassesFormDisplayed: false
+        isActualClassesFormDisplayed: false,
+        isUserRegistrationFormDisplayed: false
       }
     });
   };
@@ -284,7 +285,8 @@ export function setupClassStreamForm() {
         isActualWeeksFormDisplayed: false,
         isLotDescriptionsFormDisplayed: false,
         isActualLotsFormDisplayed: false,
-        isActualClassesFormDisplayed: false
+        isActualClassesFormDisplayed: false,
+        isUserRegistrationFormDisplayed: false
       }
     });
   };
@@ -342,7 +344,8 @@ export function setupTermIterationsForm() {
         isActualWeeksFormDisplayed: false,
         isLotDescriptionsFormDisplayed: false,
         isActualLotsFormDisplayed: false,
-        isActualClassesFormDisplayed: false
+        isActualClassesFormDisplayed: false,
+        isUserRegistrationFormDisplayed: false
       }
     });
   };
@@ -438,7 +441,8 @@ export function setupWeekIterationsForm() {
         isActualWeeksFormDisplayed: false,
         isLotDescriptionsFormDisplayed: false,
         isActualLotsFormDisplayed: false,
-        isActualClassesFormDisplayed: false
+        isActualClassesFormDisplayed: false,
+        isUserRegistrationFormDisplayed: false
       }
     });
   };
@@ -534,7 +538,8 @@ export function setupActualTermsForm() {
         isActualWeeksFormDisplayed: false,
         isLotDescriptionsFormDisplayed: false,
         isActualLotsFormDisplayed: false,
-        isActualClassesFormDisplayed: false
+        isActualClassesFormDisplayed: false,
+        isUserRegistrationFormDisplayed: false
       }
     });
   };
@@ -630,7 +635,8 @@ export function setupActualWeeksForm() {
         isActualWeeksFormDisplayed: true,
         isLotDescriptionsFormDisplayed: false,
         isActualLotsFormDisplayed: false,
-        isActualClassesFormDisplayed: false
+        isActualClassesFormDisplayed: false,
+        isUserRegistrationFormDisplayed: false
       }
     });
   };
@@ -726,7 +732,8 @@ export function setupLotDescriptionsForm() {
         isActualWeeksFormDisplayed: false,
         isLotDescriptionsFormDisplayed: true,
         isActualLotsFormDisplayed: false,
-        isActualClassesFormDisplayed: false
+        isActualClassesFormDisplayed: false,
+        isUserRegistrationFormDisplayed: false
       }
     });
   };
@@ -822,7 +829,8 @@ export function setupActualLotsForm() {
         isActualWeeksFormDisplayed: false,
         isLotDescriptionsFormDisplayed: false,
         isActualLotsFormDisplayed: true,
-        isActualClassesFormDisplayed: false
+        isActualClassesFormDisplayed: false,
+        isUserRegistrationFormDisplayed: false
       }
     });
   };
@@ -920,7 +928,8 @@ export function setupActualClassesForm() {
         isActualWeeksFormDisplayed: false,
         isLotDescriptionsFormDisplayed: false,
         isActualLotsFormDisplayed: false,
-        isActualClassesFormDisplayed: true
+        isActualClassesFormDisplayed: true,
+        isUserRegistrationFormDisplayed: false
       }
     });
   };
@@ -962,5 +971,36 @@ export function createActualClass(payload) {
           console.log(err);
         }
     );
+  };
+}
+
+
+
+/* END - ACTUAL CLASSES *****************************************************************************************/
+
+/* START - SYSTEM_USER_REGISTRATION *****************************************************************************************/
+
+
+export function setupSystemUserRegistrationForm() {
+  return async dispatch => {
+    dispatch({
+      type: SETUP_ACTUAL_CLASSES_FORM,
+      payload: {
+        isAdminModalDisplayed: true,
+        dialogHeight: "450",
+        dialogWidth: "500",
+        isAcademicClassLevelFormDisplayed: false,
+        isClassStreamFormDisplayed: false,
+        modalTitle: "System User Registration",
+        isTermIterationsFormDisplayed: false,
+        isWeekIterationsFormDisplayed: false,
+        isActualTermsFormDisplayed: false,
+        isActualWeeksFormDisplayed: false,
+        isLotDescriptionsFormDisplayed: false,
+        isActualLotsFormDisplayed: false,
+        isActualClassesFormDisplayed: false,
+        isUserRegistrationFormDisplayed: true
+      }
+    });
   };
 }

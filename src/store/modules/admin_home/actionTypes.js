@@ -194,7 +194,7 @@ export const ERROR_OCCURRED_ON_CREATING_ACTUAL_LOT =
 
 /* END - ACTUAL LOTS ***************************************************************************************/
 
-/* START - ACTUAL LOTS ***************************************************************************************/
+/* START - ACTUAL CLASSES ***************************************************************************************/
 
 export const START_FETCHING_ALL_ACTUAL_CLASSES = "START_FETCHING_ALL_ACTUAL_CLASSES";
 export const FETCHING_ALL_ACTUAL_CLASSES_SUCCESSFUL =
@@ -215,3 +215,11 @@ export const ACTUAL_CLASS_CREATED_SUCCESSFULLY =
 export const ACTUAL_CLASS_CREATION_FAILED = "ACTUAL_CLASS_CREATION_FAILED";
 export const ERROR_OCCURRED_ON_CREATING_ACTUAL_CLASS =
     "ERROR_OCCURRED_ON_CREATING_ACTUAL_CLASS";
+
+
+
+/* END - ACTUAL CLASSES ***************************************************************************************/
+
+/* START - SYSTEM USER REGISTRATION ***************************************************************************************/
+
+export const SETUP_SYSTEM_USER_REGISTRATION_FORM = "SETUP_SYSTEM_USER_REGISTRATION_FORM";

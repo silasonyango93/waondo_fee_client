@@ -30,6 +30,7 @@ class AccordionTable extends Component {
 
         return (
             <div className="table__main-body">
+                <i className="fa fa-edit fa-fw table__action-icon" onClick={()=>{this.props.callToActionFunction()}}/>
                 {accordionData.map(i => (
                     <Accordion title={i.name} subtitle={i.accordionSubtitle}>
                         <PrivilegeContent userRoles={i.rolesArray}/>
@@ -42,7 +43,8 @@ class AccordionTable extends Component {
 
 
 AccordionTable.propTypes = {
-    accordionTableArray: PropTypes.arrayOf(PropTypes.object).isRequired
+    accordionTableArray: PropTypes.arrayOf(PropTypes.object).isRequired,
+    callToActionFunction: PropTypes.func.isRequired
 };
 
 

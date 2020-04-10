@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import {
-  fetchAllWeekIterations,
-  setupWeekIterationsForm
+   setupSystemUserRegistrationForm
 } from "../../../../store/modules/admin_home/actions";
 import AccordionTable from "../../../../components/accordion_table/AccordionTable";
 import "./UserRegistration.scss";
@@ -57,46 +56,31 @@ class UserRegistration extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.allWeekIterations !== prevProps.allWeekIterations) {
-      if (this.props.allWeekIterations && this.props.allWeekIterations.length) {
-        let allWeekIterations = this.props.allWeekIterations.map(
-          (item, index) => {
-            return {
-              id: index + 1,
-              WeekIterationDescription: item.WeekIterationDescription
-            };
-          }
-        );
 
-        this.setState({ tableData: allWeekIterations });
-      }
-    }
   }
+
+
 
   render() {
     return (
       <div className="registration__main-body">
-        <AccordionTable accordionTableArray={this.state.userArray} />
+        <AccordionTable accordionTableArray={this.state.userArray} callToActionFunction={this.props.setupSystemUserRegistrationForm}/>
       </div>
     );
   }
 }
 
 UserRegistration.propTypes = {
-  setupWeekIterationsForm: PropTypes.func.isRequired,
-  fetchAllWeekIterations: PropTypes.func.isRequired,
-  allWeekIterations: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setupSystemUserRegistrationForm: PropTypes.func.isRequired,
   allUsers: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 const mapStateToProps = state => ({
-  allWeekIterations: state.admin_home.weekIterations.allWeekIterations,
   allUsers: state.current_session.allUsers
 });
 
 const mapDispatchToProps = dispatch => ({
-  setupWeekIterationsForm: () => dispatch(setupWeekIterationsForm()),
-  fetchAllWeekIterations: () => dispatch(fetchAllWeekIterations())
+  setupSystemUserRegistrationForm: () => dispatch(setupSystemUserRegistrationForm())
 });
 
 export default connect(

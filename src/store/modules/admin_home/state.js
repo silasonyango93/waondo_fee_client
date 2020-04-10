@@ -53,5 +53,9 @@ export const initialState = {
     allActualClasses: [],
     isActualClassesFormDisplayed: false,
     isCurrentActualClassCreated: false
+  },
+
+  userManagement: {
+    isUserRegistrationFormDisplayed: false
   }
 };

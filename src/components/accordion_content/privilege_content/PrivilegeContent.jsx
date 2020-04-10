@@ -5,7 +5,6 @@ import "./PrivilegeContent.scss";
 import CheckBoxGroup from "../../check_box_group/CheckBoxGroup";
 import { connect } from "react-redux";
 import { updateAUserRole } from "../../../store/modules/current_session/actions";
-import CheckBox from "../../check_box/CheckBox";
 
 class PrivilegeContent extends Component {
   state = {

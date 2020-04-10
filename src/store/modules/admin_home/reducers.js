@@ -27,7 +27,7 @@ import {
     SETUP_ACTUAL_WEEKS_FORM,
     SETUP_CLASS_LEVEL_FORM,
     SETUP_CLASS_STREAM_FORM,
-    SETUP_LOT_DESCRIPTIONS_FORM,
+    SETUP_LOT_DESCRIPTIONS_FORM, SETUP_SYSTEM_USER_REGISTRATION_FORM,
     SETUP_TERM_ITERATIONS_FORM,
     SETUP_WEEK_ITERATIONS_FORM,
     TERM_ITERATION_CREATED_SUCCESSFULLY,
@@ -77,6 +77,9 @@ export const ACTION_HANDLERS = {
       },
         actualClasses: {
             isActualClassesFormDisplayed: action.payload.isActualClassesFormDisplayed
+        },
+        userManagement: {
+            isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
         }
     }),
   [FETCHING_CLASS_LEVELS_SUCCESSFUL]: (state, action) =>
@@ -130,6 +133,9 @@ export const ACTION_HANDLERS = {
       },
         actualClasses: {
             isActualClassesFormDisplayed: action.payload.isActualClassesFormDisplayed
+        },
+        userManagement: {
+            isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
         }
     }),
 
@@ -186,6 +192,9 @@ export const ACTION_HANDLERS = {
       },
         actualClasses: {
             isActualClassesFormDisplayed: action.payload.isActualClassesFormDisplayed
+        },
+        userManagement: {
+            isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
         }
     }),
   [RESET_CURRENT_TERM_ITERATION_CREATED]: (state, action) =>
@@ -243,6 +252,9 @@ export const ACTION_HANDLERS = {
       },
         actualClasses: {
             isActualClassesFormDisplayed: action.payload.isActualClassesFormDisplayed
+        },
+        userManagement: {
+            isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
         }
     }),
   [WEEK_ITERATION_CREATED_SUCCESSFULLY]: (state, action) =>
@@ -292,6 +304,9 @@ export const ACTION_HANDLERS = {
       },
         actualClasses: {
             isActualClassesFormDisplayed: action.payload.isActualClassesFormDisplayed
+        },
+        userManagement: {
+            isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
         }
     }),
   [RESET_CURRENT_ACTUAL_TERM_CREATED]: (state, action) =>
@@ -346,6 +361,9 @@ export const ACTION_HANDLERS = {
       },
         actualClasses: {
             isActualClassesFormDisplayed: action.payload.isActualClassesFormDisplayed
+        },
+        userManagement: {
+            isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
         }
     }),
   [RESET_CURRENT_ACTUAL_WEEK_CREATED]: (state, action) =>
@@ -400,6 +418,9 @@ export const ACTION_HANDLERS = {
       },
         actualClasses: {
             isActualClassesFormDisplayed: action.payload.isActualClassesFormDisplayed
+        },
+        userManagement: {
+            isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
         }
     }),
   [RESET_CURRENT_LOT_DESCRIPTION_CREATED]: (state, action) =>
@@ -454,6 +475,9 @@ export const ACTION_HANDLERS = {
       },
         actualClasses: {
             isActualClassesFormDisplayed: action.payload.isActualClassesFormDisplayed
+        },
+        userManagement: {
+            isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
         }
     }),
   [RESET_CURRENT_ACTUAL_LOT_CREATED]: (state, action) =>
@@ -508,6 +532,9 @@ export const ACTION_HANDLERS = {
             },
             actualClasses: {
                 isActualClassesFormDisplayed: action.payload.isActualClassesFormDisplayed
+            },
+            userManagement: {
+                isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
             }
         }),
     [RESET_CURRENT_ACTUAL_CLASS_CREATED]: (state) =>
@@ -518,4 +545,53 @@ export const ACTION_HANDLERS = {
         Object.assign({}, state, {
             actualClasses: { isCurrentActualClassCreated: true }
         }),
+
+
+
+    /* END - ACTUAL CLASSES ***************************************************************************************/
+
+    /* START - SYSTEM USER REGISTRATION ***************************************************************************************/
+
+
+    [SETUP_SYSTEM_USER_REGISTRATION_FORM]: (state, action) =>
+        Object.assign({}, state, {
+            isAdminModalDisplayed: action.payload.isAdminModalDisplayed,
+            dialogHeight: action.payload.dialogHeight,
+            dialogWidth: action.payload.dialogWidth,
+            modalTitle: action.payload.modalTitle,
+            isAcademicClassLevelFormDisplayed:
+            action.payload.isAcademicClassLevelFormDisplayed,
+            classStreams: {
+                isClassStreamFormDisplayed: action.payload.isClassStreamFormDisplayed
+            },
+            termIterations: {
+                isTermIterationsFormDisplayed:
+                action.payload.isTermIterationsFormDisplayed
+            },
+            weekIterations: {
+                isWeekIterationsFormDisplayed:
+                action.payload.isWeekIterationsFormDisplayed
+            },
+            actualTerms: {
+                isActualTermsFormDisplayed: action.payload.isActualTermsFormDisplayed
+            },
+            actualWeeks: {
+                isActualWeeksFormDisplayed: action.payload.isActualWeeksFormDisplayed
+            },
+            lotDescriptions: {
+                isLotDescriptionsFormDisplayed:
+                action.payload.isLotDescriptionsFormDisplayed
+            },
+            actualLots: {
+                isActualLotsFormDisplayed: action.payload.isActualLotsFormDisplayed
+            },
+            actualClasses: {
+                isActualClassesFormDisplayed: action.payload.isActualClassesFormDisplayed
+            },
+            userManagement: {
+                isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
+            }
+        }),
+
+
 };
