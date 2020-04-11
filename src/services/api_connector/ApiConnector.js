@@ -1,6 +1,6 @@
 import axios from "axios";
 import querystring from "querystring";
-import ip from "../../config/EndPoint";
+import {ip} from "../../config/EndPoint";
 
 export function apiPost(payload, apiRoute) {
   return new Promise(function(resolve, reject) {

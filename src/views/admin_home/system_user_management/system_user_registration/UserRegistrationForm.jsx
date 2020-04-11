@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import ReactDatetime from "react-datetime";
-import YearPicker from "react-year-picker";
 import Select from "react-select";
 import '../../../../config/common/ReactDatePicker.css';
 import PropTypes from "prop-types";
@@ -9,9 +7,8 @@ import { connect } from "react-redux";
 
 import './UserRegistration.scss';
 import {
-    createActualTerm,
-     fetchAllActualTerms, fetchAllTermIterations,
-     resetCurrentActualTermCreated,
+    assignAUserRoles,
+    registerAUser,
     toggleAdminModalDisplay
 } from "../../../../store/modules/admin_home/actions";
 import {containsANumber} from "../../../../config/common/Utils";
@@ -41,31 +38,13 @@ class UserRegistrationForm extends Component {
 
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (
-            this.props.isCurrentActualTermCreated !==
-            prevProps.isCurrentActualTermCreated
-        ) {
-            if (this.props.isCurrentActualTermCreated) {
+        if(this.props.currentRegisteredUserId !== prevProps.currentRegisteredUserId) {
+            if(this.props.currentRegisteredUserId) {
                 const payload = {
-                    TableOne: "term_iterations",
-                    JoiningKey: "TermIterationId",
-                    SearchColumn: "Year",
-                    SearchValue: new Date().getFullYear()
+                    userId: this.props.currentRegisteredUserId
                 };
-                this.props.fetchAllActualTerms(payload);
-                this.props.resetCurrentActualTermCreated();
-            }
-        }
 
-        if(this.props.allTermIterations !== prevProps.allTermIterations) {
-            if(this.props.allTermIterations) {
-                let termIterations = this.props.allTermIterations.map((item, index) => {
-                    return {
-                        label: item.TermIterationDescription,
-                        value: item.TermIterationId
-                    };
-                });
-                this.setState({termIterations: termIterations});
+                this.props.assignAUserRoles(payload);
             }
         }
     }
@@ -96,7 +75,14 @@ class UserRegistrationForm extends Component {
         } else if(this.state.confirmPassword !== this.state.password) {
             this.setState({confirmPasswordHasError: true, confirmPasswordErrorMessage: 'Confirmation password not the same as actual password'});
         } else {
+            const payload = {
+                Name:this.state.name,
+                Email:this.state.email,
+                GenderId:this.state.selectedGenderOption.value,
+                Password:this.state.password,
+            };
 
+            this.props.registerAUser(payload);
         }
 
     };
@@ -291,32 +277,22 @@ class UserRegistrationForm extends Component {
 }
 
 UserRegistrationForm.propTypes = {
-    createActualTerm: PropTypes.func.isRequired,
+    registerAUser: PropTypes.func.isRequired,
     toggleAdminModalDisplay: PropTypes.func.isRequired,
-    fetchAllActualTerms: PropTypes.func.isRequired,
-    isCurrentActualTermCreated: PropTypes.bool.isRequired,
-    resetCurrentActualTermCreated: PropTypes.func.isRequired,
-    allTermIterations: PropTypes.arrayOf(PropTypes.object)
-        .isRequired,
-    fetchAllTermIterations: PropTypes.func.isRequired,
+    currentRegisteredUserId: PropTypes.string.isRequired,
+    assignAUserRoles: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-    isCurrentActualTermCreated:
-    state.admin_home.actualTerms.isCurrentActualTermCreated,
-    allTermIterations:
-    state.admin_home.termIterations.allTermIterations
+    currentRegisteredUserId:
+    state.admin_home.userManagement.currentRegisteredUserId
 });
 
 const mapDispatchToProps = dispatch => ({
-    createActualTerm: payload => dispatch(createActualTerm(payload)),
+    registerAUser: payload => dispatch(registerAUser(payload)),
+    assignAUserRoles: payload => dispatch(assignAUserRoles(payload)),
     toggleAdminModalDisplay: isAdminModalDisplayed =>
-        dispatch(toggleAdminModalDisplay(isAdminModalDisplayed)),
-    fetchAllActualTerms: payload => dispatch(fetchAllActualTerms(payload)),
-    resetCurrentActualTermCreated: () =>
-        dispatch(resetCurrentActualTermCreated()),
-    fetchAllTermIterations: () =>
-        dispatch(fetchAllTermIterations())
+        dispatch(toggleAdminModalDisplay(isAdminModalDisplayed))
 });
 
 export default connect(

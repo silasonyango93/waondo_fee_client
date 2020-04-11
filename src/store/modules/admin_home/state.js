@@ -56,6 +56,7 @@ export const initialState = {
   },
 
   userManagement: {
-    isUserRegistrationFormDisplayed: false
+    isUserRegistrationFormDisplayed: false,
+    currentRegisteredUserId: ''
   }
 };

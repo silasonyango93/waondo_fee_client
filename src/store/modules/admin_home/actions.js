@@ -4,13 +4,15 @@ import {
 } from "../../../services/api_connector/ApiConnector";
 
 import {
-  ACTUAL_CLASS_CREATED_SUCCESSFULLY, ACTUAL_CLASS_CREATION_FAILED,
+  ACTUAL_CLASS_CREATED_SUCCESSFULLY,
+  ACTUAL_CLASS_CREATION_FAILED,
   ACTUAL_LOT_CREATED_SUCCESSFULLY,
   ACTUAL_LOT_CREATION_FAILED,
   ACTUAL_TERM_CREATED_SUCCESSFULLY,
   ACTUAL_TERM_CREATION_FAILED,
   ACTUAL_WEEK_CREATED_SUCCESSFULLY,
-  ACTUAL_WEEK_CREATION_FAILED, BEGIN_ACTUAL_CLASS_CREATION,
+  ACTUAL_WEEK_CREATION_FAILED,
+  BEGIN_ACTUAL_CLASS_CREATION,
   BEGIN_ACTUAL_LOT_CREATION,
   BEGIN_ACTUAL_TERM_CREATION,
   BEGIN_ACTUAL_WEEK_CREATION,
@@ -22,15 +24,18 @@ import {
   CLASS_LEVEL_CREATED_SUCCESSFULLY,
   CLASS_LEVEL_CREATION_FAILED,
   CLASS_STREAM_CREATED_SUCCESSFULLY,
-  CLASS_STREAM_CREATION_FAILED,
-  ERROR_OCCURED_WHILE_FETCHING_ACTUAL_TERMS, ERROR_OCCURED_WHILE_FETCHING_ALL_ACTUAL_CLASSES,
+  CLASS_STREAM_CREATION_FAILED, ERROR_OCCURED_WHILE_ASSIGNING_USER_ROLES,
+  ERROR_OCCURED_WHILE_FETCHING_ACTUAL_TERMS,
+  ERROR_OCCURED_WHILE_FETCHING_ALL_ACTUAL_CLASSES,
   ERROR_OCCURED_WHILE_FETCHING_ALL_ACTUAL_LOTS,
   ERROR_OCCURED_WHILE_FETCHING_ALL_LOT_DESCRIPTIONS,
   ERROR_OCCURED_WHILE_FETCHING_CLASS_LEVELS,
   ERROR_OCCURED_WHILE_FETCHING_CLASS_STREAMS,
   ERROR_OCCURED_WHILE_FETCHING_TERM_ITERATIONS,
   ERROR_OCCURED_WHILE_FETCHING_WEEK_ITERATIONS,
-  ERROR_OCCURED_WHILE_FETCHING_YEARS_WEEKS, ERROR_OCCURRED_ON_CREATING_ACTUAL_CLASS,
+  ERROR_OCCURED_WHILE_FETCHING_YEARS_WEEKS,
+  ERROR_OCCURED_WHILE_REGISTERING_USER,
+  ERROR_OCCURRED_ON_CREATING_ACTUAL_CLASS,
   ERROR_OCCURRED_ON_CREATING_ACTUAL_LOT,
   ERROR_OCCURRED_ON_CREATING_ACTUAL_TERM,
   ERROR_OCCURRED_ON_CREATING_ACTUAL_WEEK,
@@ -59,14 +64,16 @@ import {
   FETCHING_YEARS_WEEKS_SUCCESSFUL,
   LOT_DESCRIPTION_CREATED_SUCCESSFULLY,
   LOT_DESCRIPTION_CREATION_FAILED,
-  RESET_CURRENT_ACADEMIC_CLASS_LEVEL_CREATED, RESET_CURRENT_ACTUAL_CLASS_CREATED,
+  RESET_CURRENT_ACADEMIC_CLASS_LEVEL_CREATED,
+  RESET_CURRENT_ACTUAL_CLASS_CREATED,
   RESET_CURRENT_ACTUAL_LOT_CREATED,
   RESET_CURRENT_ACTUAL_TERM_CREATED,
   RESET_CURRENT_ACTUAL_WEEK_CREATED,
   RESET_CURRENT_CLASS_STREAM_CREATED,
   RESET_CURRENT_LOT_DESCRIPTION_CREATED,
   RESET_CURRENT_TERM_ITERATION_CREATED,
-  RESET_CURRENT_WEEK_ITERATION_CREATED, SETUP_ACTUAL_CLASSES_FORM,
+  RESET_CURRENT_WEEK_ITERATION_CREATED,
+  SETUP_ACTUAL_CLASSES_FORM,
   SETUP_ACTUAL_LOTS_FORM,
   SETUP_ACTUAL_TERMS_FORM,
   SETUP_ACTUAL_WEEKS_FORM,
@@ -86,9 +93,12 @@ import {
   TERM_ITERATION_CREATED_SUCCESSFULLY,
   TERM_ITERATION_CREATION_FAILED,
   TOGGLE_MODAL_DISPLAY,
+  USER_REGISTRATION_FAILED, USER_ROLE_ASSIGNMENT_FAILED, USER_SUCCESSFULLY_ASSIGNED_ROLES,
+  USER_SUCCESSFULLY_REGISTERED,
   WEEK_ITERATION_CREATED_SUCCESSFULLY,
   WEEK_ITERATION_CREATION_FAILED
 } from "./actionTypes";
+import {transactionsServicePost} from "../../../services/transactions_service_connector/TransactionsServiceConnector";
 
 export function toggleAdminModalDisplay(isAdminModalDisplayed) {
   return async dispatch => {
@@ -1002,5 +1012,69 @@ export function setupSystemUserRegistrationForm() {
         isUserRegistrationFormDisplayed: true
       }
     });
+  };
+}
+
+
+export function registerAUser(payload) {
+  return async dispatch => {
+    const apiRoute = "/user_registration";
+    const returnedPromise = apiPost(payload, apiRoute);
+    returnedPromise.then(
+        function(result) {
+          if (result.data.results.success) {
+            dispatch({
+              type: USER_SUCCESSFULLY_REGISTERED,
+              payload: {
+                userId: result.data.results.recordId
+              }
+            });
+            console.log(result.data.results);
+          } else {
+            dispatch({
+              type: USER_REGISTRATION_FAILED
+            });
+          }
+        },
+        function(err) {
+          dispatch({
+            type: ERROR_OCCURED_WHILE_REGISTERING_USER
+          });
+          console.log(err);
+        }
+    );
+  };
+}
+
+
+
+export function assignAUserRoles(payload) {
+  return async dispatch => {
+    const apiRoute = "/user_roles/assign_a_user_roles";
+    const returnedPromise = transactionsServicePost(payload, apiRoute);
+    returnedPromise.then(
+        function(result) {
+          // if (result.data.results.success) {
+          //   dispatch({
+          //     type: USER_SUCCESSFULLY_ASSIGNED_ROLES,
+          //     payload: {
+          //       userId: result.data.results.recordId
+          //     }
+          //   });
+          //   console.log(result.data.results);
+          // } else {
+          //   dispatch({
+          //     type: USER_ROLE_ASSIGNMENT_FAILED
+          //   });
+          // }
+          console.log(result);
+        },
+        function(err) {
+          dispatch({
+            type: ERROR_OCCURED_WHILE_ASSIGNING_USER_ROLES
+          });
+          console.log(err);
+        }
+    );
   };
 }

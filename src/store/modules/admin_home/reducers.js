@@ -31,7 +31,7 @@ import {
     SETUP_TERM_ITERATIONS_FORM,
     SETUP_WEEK_ITERATIONS_FORM,
     TERM_ITERATION_CREATED_SUCCESSFULLY,
-    TOGGLE_MODAL_DISPLAY,
+    TOGGLE_MODAL_DISPLAY, USER_SUCCESSFULLY_REGISTERED,
     WEEK_ITERATION_CREATED_SUCCESSFULLY
 } from "./actionTypes";
 
@@ -592,6 +592,12 @@ export const ACTION_HANDLERS = {
                 isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
             }
         }),
+
+
+    [USER_SUCCESSFULLY_REGISTERED]: (state, action) =>
+        Object.assign({}, state, {
+            userManagement: { currentRegisteredUserId: action.payload.userId }
+}),
 
 
 };
