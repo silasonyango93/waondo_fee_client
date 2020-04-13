@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import "./PrivilegeContent.scss";
 import CheckBoxGroup from "../../check_box_group/CheckBoxGroup";
 import { connect } from "react-redux";
-import { updateAUserRole } from "../../../store/modules/current_session/actions";
+import {updateAUserAccessPrivileges, updateAUserRole} from "../../../store/modules/current_session/actions";
 
 class PrivilegeContent extends Component {
   state = {
@@ -35,14 +35,14 @@ class PrivilegeContent extends Component {
       if (adminAccessPrivileges.length) {
         adminAccessPrivileges.forEach(element => {
           element.label = element.accessPrivilegeDescription;
-          element.isCheckBoxChecked = element.permissionStatus === 1;
+          element.isCheckBoxChecked = element.permisionStatus === 1;
         });
       }
 
       if (userAccessPrivileges.length) {
         userAccessPrivileges.forEach(element => {
           element.label = element.accessPrivilegeDescription;
-          element.isCheckBoxChecked = element.permissionStatus === 1;
+          element.isCheckBoxChecked = element.permisionStatus === 1;
         });
       }
 
@@ -74,6 +74,27 @@ class PrivilegeContent extends Component {
     this.props.updateAUserRole(payload);
   };
 
+  handleAnyAccessPrivilegesCheckBoxIsChecked = (checkBoxObject) =>{
+    console.log(checkBoxObject);
+    const payload = {
+      ColumnName: "UserAccessPrivilegeId",
+      ColumnValue: checkBoxObject.userAccessPrivilegeId,
+      PermisionStatus: "1"
+    };
+
+    this.props.updateAUserAccessPrivileges(payload);
+  };
+
+  handleAnyAccessPrivilegesCheckBoxIsUnChecked = (checkBoxObject) =>{
+    const payload = {
+      ColumnName: "UserAccessPrivilegeId",
+      ColumnValue: checkBoxObject.userAccessPrivilegeId,
+      PermisionStatus: "0"
+    };
+
+    this.props.updateAUserAccessPrivileges(payload);
+  };
+
   render() {
     const {
       roleData,
@@ -92,10 +113,14 @@ class PrivilegeContent extends Component {
         <CheckBoxGroup
           title="Admin Privileges"
           checkBoxObjectsArray={adminAccessPrivileges}
+          handleCheckBoxIsChecked={this.handleAnyAccessPrivilegesCheckBoxIsChecked}
+          handleCheckBoxIsUnchecked={this.handleAnyAccessPrivilegesCheckBoxIsUnChecked}
         />
         <CheckBoxGroup
           title="Staff Privileges"
           checkBoxObjectsArray={userAccessPrivileges}
+          handleCheckBoxIsChecked={this.handleAnyAccessPrivilegesCheckBoxIsChecked}
+          handleCheckBoxIsUnchecked={this.handleAnyAccessPrivilegesCheckBoxIsUnChecked}
         />
       </div>
     );
@@ -104,7 +129,8 @@ class PrivilegeContent extends Component {
 
 PrivilegeContent.propTypes = {
   userRoles: PropTypes.arrayOf(PropTypes.object).isRequired,
-  updateAUserRole: PropTypes.func
+  updateAUserRole: PropTypes.func,
+  updateAUserAccessPrivileges: PropTypes.func
 };
 
 PrivilegeContent.defaultProps = {
@@ -112,7 +138,8 @@ PrivilegeContent.defaultProps = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  updateAUserRole: payload => dispatch(updateAUserRole(payload))
+  updateAUserRole: payload => dispatch(updateAUserRole(payload)),
+  updateAUserAccessPrivileges: payload => dispatch(updateAUserAccessPrivileges(payload))
 });
 
 export default connect(
