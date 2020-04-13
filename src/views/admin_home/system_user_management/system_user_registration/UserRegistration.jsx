@@ -24,28 +24,28 @@ class UserRegistration extends Component {
         allUsers &&
         allUsers.length &&
         allUsers[i] &&
-        allUsers[i].rolesArray &&
-        allUsers[i].rolesArray.length
+        allUsers[i].userRolesDtoList &&
+        allUsers[i].userRolesDtoList.length
       ) {
         if (
-          (allUsers[i].rolesArray[0].roleDescription === "Admin" &&
-            allUsers[i].rolesArray[0].confirmationStatus === 1 &&
-            allUsers[i].rolesArray[1].confirmationStatus === 0) ||
-          (allUsers[i].rolesArray[1].roleDescription === "Admin" &&
-            allUsers[i].rolesArray[1].confirmationStatus === 1 &&
-            allUsers[i].rolesArray[0].confirmationStatus === 0)
+          (allUsers[i].userRolesDtoList[0].roleDescription === "Admin" &&
+            allUsers[i].userRolesDtoList[0].confirmationStatus === 1 &&
+            allUsers[i].userRolesDtoList[1].confirmationStatus === 0) ||
+          (allUsers[i].userRolesDtoList[1].roleDescription === "Admin" &&
+            allUsers[i].userRolesDtoList[1].confirmationStatus === 1 &&
+            allUsers[i].userRolesDtoList[0].confirmationStatus === 0)
         ) {
-          accordionRoleTitle = allUsers[i].rolesArray[0].roleDescription;
+          accordionRoleTitle = allUsers[i].userRolesDtoList[0].roleDescription;
         } else if (
-          allUsers[i].rolesArray[0].confirmationStatus === 0 &&
-          allUsers[i].rolesArray[1].confirmationStatus === 0
+          allUsers[i].userRolesDtoList[0].confirmationStatus === 0 &&
+          allUsers[i].userRolesDtoList[1].confirmationStatus === 0
         ) {
           accordionRoleTitle = "Not assigned any role";
         } else {
           accordionRoleTitle =
-            allUsers[i].rolesArray[0].roleDescription +
+            allUsers[i].userRolesDtoList[0].roleDescription +
             "/" +
-            allUsers[i].rolesArray[1].roleDescription;
+            allUsers[i].userRolesDtoList[1].roleDescription;
         }
       }
 
@@ -57,6 +57,50 @@ class UserRegistration extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
 
+    const { allUsers } = this.props;
+
+    if(allUsers !== prevProps.allUsers) {
+      if(allUsers && allUsers.length) {
+        let userArray = allUsers;
+
+        for (let i = 0; i < allUsers.length; i++) {
+          let accordionRoleTitle = "";
+
+          if (
+              allUsers &&
+              allUsers.length &&
+              allUsers[i] &&
+              allUsers[i].userRolesDtoList &&
+              allUsers[i].userRolesDtoList.length
+          ) {
+            if (
+                (allUsers[i].userRolesDtoList[0].roleDescription === "Admin" &&
+                    allUsers[i].userRolesDtoList[0].confirmationStatus === 1 &&
+                    allUsers[i].userRolesDtoList[1].confirmationStatus === 0) ||
+                (allUsers[i].userRolesDtoList[1].roleDescription === "Admin" &&
+                    allUsers[i].userRolesDtoList[1].confirmationStatus === 1 &&
+                    allUsers[i].userRolesDtoList[0].confirmationStatus === 0)
+            ) {
+              accordionRoleTitle = allUsers[i].userRolesDtoList[0].roleDescription;
+            } else if (
+                allUsers[i].userRolesDtoList[0].confirmationStatus === 0 &&
+                allUsers[i].userRolesDtoList[1].confirmationStatus === 0
+            ) {
+              accordionRoleTitle = "Not assigned any role";
+            } else {
+              accordionRoleTitle =
+                  allUsers[i].userRolesDtoList[0].roleDescription +
+                  "/" +
+                  allUsers[i].userRolesDtoList[1].roleDescription;
+            }
+          }
+
+          userArray[i].accordionSubtitle = accordionRoleTitle;
+        }
+
+        this.setState({ userArray });
+      }
+    }
   }
 
 

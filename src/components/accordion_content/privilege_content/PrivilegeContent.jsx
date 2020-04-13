@@ -26,23 +26,23 @@ class PrivilegeContent extends Component {
 
       checkBoxRoles.forEach(element => {
         if (element.roleDescription === "Admin") {
-          adminAccessPrivileges = element.userAccessPrivileges;
+          adminAccessPrivileges = element.userAccessPrivilegesDtoList;
         } else {
-          userAccessPrivileges = element.userAccessPrivileges;
+          userAccessPrivileges = element.userAccessPrivilegesDtoList;
         }
       });
 
       if (adminAccessPrivileges.length) {
         adminAccessPrivileges.forEach(element => {
-          element.label = element.AccessPrivilegeDescription;
-          element.isCheckBoxChecked = element.PermisionStatus === 1;
+          element.label = element.accessPrivilegeDescription;
+          element.isCheckBoxChecked = element.permissionStatus === 1;
         });
       }
 
       if (userAccessPrivileges.length) {
         userAccessPrivileges.forEach(element => {
-          element.label = element.AccessPrivilegeDescription;
-          element.isCheckBoxChecked = element.PermisionStatus === 1;
+          element.label = element.accessPrivilegeDescription;
+          element.isCheckBoxChecked = element.permissionStatus === 1;
         });
       }
 

@@ -67,6 +67,7 @@ import {
 } from "../admin_home/actionTypes";
 import axios from "axios";
 import ip from "../../../config/EndPoint";
+import {promiselessTransactionsServiceGetAll} from "../../../services/transactions_service_connector/TransactionsServiceConnector";
 
 export function terminateCurrentSession() {
   return async dispatch => {
@@ -252,88 +253,112 @@ export function getAllUsers__() {
   };
 }
 
+
 export function getAllUsers() {
   return async dispatch => {
+
     try {
-      const users = await promiselessApiGetAll("/get_all_users");
-
-      let usersArray = [];
-      if (users.data.results && users.data.results.length) {
-        for (let i = 0; i < users.data.results.length; i++) {
-          //1111111111111111111111111111111111111111111111111111111111111111111111111
-
-          let payload = {
-            userId: users.data.results[i].UserId
-          };
-
-          const userRoles = await getAUsersRoles(payload);
-
-          // userRoles.forEach(element => {
-          //   apiUserRoles.push(element);
-          // });
-
-          //11111111111111111111111111111111111111111111111111111111111111111111111111
-
-          //2222222222222222222222222222222222222222222222222222222222222222222222222
-          let rolesArray = [];
-          if (userRoles.data.results && userRoles.data.results.length) {
-            for (let i = 0; i < userRoles.data.results.length; i++) {
-              // apiUserRoles.push(userRoles.data.results[i]);
-              let payload = {
-                userRoleId: userRoles.data.results[i].UserRoleId
-              };
-
-              const userAccessPrivileges = await getARolesAccessPrivileges(
-                payload
-              );
-
-              if (
-                userAccessPrivileges.data.results &&
-                userAccessPrivileges.data.results.length
-              ) {
-                const roleObject = {
-                  userRoleId: userRoles.data.results[i].UserRoleId,
-                  roleDescription: userRoles.data.results[i].RoleDescription,
-                  roleCode: userRoles.data.results[i].RoleCode,
-                  confirmationStatus:
-                    userRoles.data.results[i].ConfirmationStatus,
-                  userAccessPrivileges: userAccessPrivileges.data.results
-                };
-
-                rolesArray.push(roleObject);
-              }
-            }
-          }
-
-          if (rolesArray && rolesArray.length) {
-            const userObject = {
-              userId: userRoles.data.results[i].UserId,
-              name: users.data.results[i].Name,
-              email: users.data.results[i].Email,
-              registeredDate: users.data.results[i].RegisteredDate,
-              rolesArray
-            };
-
-            usersArray.push(userObject);
-          }
-          //2222222222222222222222222222222222222222222222222222222222222222222222222
+      const users = await promiselessTransactionsServiceGetAll("/users/get_users_roles_and_access_privileges");
+      dispatch({
+        type: SUCCESSFULLY_FETCHED_ALL_USERS,
+        payload: {
+          allUsers: users.data
         }
-
-        dispatch({
-          type: SUCCESSFULLY_FETCHED_ALL_USERS,
-          payload: {
-            allUsers: usersArray
-          }
-        });
-      }
+      });
     } catch (e) {
       console.log(e);
       dispatch({
         type: ERROR_OCCURED_WHILE_FETCHING_ALL_USERS
       });
     }
+
   };
+
 }
+
+
+// export function getAllUsers() {
+//   return async dispatch => {
+//     try {
+//       const users = await promiselessApiGetAll("/get_all_users");
+//
+//       let usersArray = [];
+//       if (users.data.results && users.data.results.length) {
+//         for (let i = 0; i < users.data.results.length; i++) {
+//           //1111111111111111111111111111111111111111111111111111111111111111111111111
+//
+//           let payload = {
+//             userId: users.data.results[i].UserId
+//           };
+//
+//           const userRoles = await getAUsersRoles(payload);
+//
+//           // userRoles.forEach(element => {
+//           //   apiUserRoles.push(element);
+//           // });
+//
+//           //11111111111111111111111111111111111111111111111111111111111111111111111111
+//
+//           //2222222222222222222222222222222222222222222222222222222222222222222222222
+//           let rolesArray = [];
+//           if (userRoles.data.results && userRoles.data.results.length) {
+//             for (let i = 0; i < userRoles.data.results.length; i++) {
+//               // apiUserRoles.push(userRoles.data.results[i]);
+//               let payload = {
+//                 userRoleId: userRoles.data.results[i].UserRoleId
+//               };
+//
+//               const userAccessPrivileges = await getARolesAccessPrivileges(
+//                 payload
+//               );
+//
+//               if (
+//                 userAccessPrivileges.data.results &&
+//                 userAccessPrivileges.data.results.length
+//               ) {
+//                 const roleObject = {
+//                   userRoleId: userRoles.data.results[i].UserRoleId,
+//                   roleDescription: userRoles.data.results[i].RoleDescription,
+//                   roleCode: userRoles.data.results[i].RoleCode,
+//                   confirmationStatus:
+//                     userRoles.data.results[i].ConfirmationStatus,
+//                   userAccessPrivileges: userAccessPrivileges.data.results
+//                 };
+//
+//                 rolesArray.push(roleObject);
+//               }
+//             }
+//           }
+//
+//           if (rolesArray && rolesArray.length) {
+//             const userObject = {
+//               userId: userRoles.data.results[i].UserId,
+//               name: users.data.results[i].Name,
+//               email: users.data.results[i].Email,
+//               registeredDate: users.data.results[i].RegisteredDate,
+//               rolesArray
+//             };
+//
+//             usersArray.push(userObject);
+//           }
+//           //2222222222222222222222222222222222222222222222222222222222222222222222222
+//         }
+//
+//         dispatch({
+//           type: SUCCESSFULLY_FETCHED_ALL_USERS,
+//           payload: {
+//             allUsers: usersArray
+//           }
+//         });
+//       }
+//     } catch (e) {
+//       console.log(e);
+//       dispatch({
+//         type: ERROR_OCCURED_WHILE_FETCHING_ALL_USERS
+//       });
+//     }
+//   };
+// }
 
 export const getAUsersRoles = payload =>
   promiselessApiPost(payload, "/get_a_user_roles");

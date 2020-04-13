@@ -33,7 +33,7 @@ class AccordionTable extends Component {
                 <i className="fa fa-edit fa-fw table__action-icon" onClick={()=>{this.props.callToActionFunction()}}/>
                 {accordionData.map(i => (
                     <Accordion title={i.name} subtitle={i.accordionSubtitle}>
-                        <PrivilegeContent userRoles={i.rolesArray}/>
+                        <PrivilegeContent userRoles={i.userRolesDtoList}/>
                     </Accordion>
                 ))}
             </div>
