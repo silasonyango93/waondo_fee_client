@@ -45,6 +45,7 @@ class UserRegistrationForm extends Component {
                 };
 
                 this.props.assignAUserRoles(payload);
+                this.props.toggleAdminModalDisplay(false);
             }
         }
     }

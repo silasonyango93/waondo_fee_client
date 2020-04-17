@@ -227,31 +227,7 @@ export function runInitialSystemConfiguration(payload) {
   };
 }
 
-export function getAllUsers__() {
-  return async dispatch => {
-    const apiRoute = "/get_all_users";
-    const returnedPromise = apiGetAll(apiRoute);
-    returnedPromise.then(
-      function(result) {
-        if (result.data.results && result.data.results.length > 0) {
-          dispatch({
-            type: SUCCESSFULLY_FETCHED_ALL_USERS
-          });
-        } else if (result.data.results && result.data.results.length === 0) {
-          dispatch({
-            type: FETCHING_ALL_USERS_EMPTY_RESULT_SET
-          });
-        }
-      },
-      function(err) {
-        dispatch({
-          type: ERROR_OCCURED_WHILE_FETCHING_ALL_USERS
-        });
-        console.log(err);
-      }
-    );
-  };
-}
+
 
 
 export function getAllUsers() {
