@@ -6,8 +6,7 @@ import "./Login.scss";
 import {
   authenticateSystemAdmin,
   authenticateSystemUser,
-  getAllUsers,
-  resetWrongCredentials
+  getAllUsers, resetFailedLogin
 } from "../../store/modules/current_session/actions";
 import { FormGroup, Label, Input } from "reactstrap";
 class Login extends Component {
@@ -35,31 +34,22 @@ class Login extends Component {
       if (this.props.isSessionActive && this.state.isAdmin) {
         this.props.history.push("/admin_home");
       } else if (this.props.isSessionActive && this.state.isStaff) {
-        this.props.history.push("/user_home");
+        this.props.history.push("/staff_home");
       }
     }
 
     /* ---------------------------------------------------------------------------------------------------------------------- */
 
-    if (
-      this.props.hasWrongLoginCredentials !== prevProps.hasWrongLoginCredentials
-    ) {
-      if (this.props.hasWrongLoginCredentials) {
-        this.setState({
-          loginHasError: true,
-          loginErrorMessage: "Wrong username or password"
-        });
-      }
-    }
 
-    if (this.props.accessDenied !== prevProps.accessDenied) {
-      if (this.props.accessDenied) {
-        this.setState({
-          loginHasError: true,
-          loginErrorMessage: "Access denied for this role"
-        });
-      }
-    }
+
+    // if (this.props.isLoginSuccessful !== prevProps.isLoginSuccessful) {
+    //   if (this.props.isLoginSuccessful) {
+    //     this.setState({
+    //       loginHasError: true,
+    //       loginErrorMessage: "Access denied for this role"
+    //     });
+    //   }
+    // }
   }
 
   handleEmailEditTextsFocus = () => {
@@ -71,16 +61,15 @@ class Login extends Component {
   };
 
   handleAnyTextFieldTouched = () => {
-    this.props.resetWrongCredentials();
-    this.setState({ loginHasError: false, loginErrorMessage: "" });
+    this.props.resetFailedLogin();
   };
 
   handleSubmit = event => {
     event.preventDefault();
     const payload = {
-      AttemptedEmail: this.state.attemptedEmail,
-      AttemptedPassword: this.state.attemptedPassword,
-      AttemptedRoleCode: this.state.isAdmin ? "1" : "2"
+      attemptedEmail: this.state.attemptedEmail,
+      attemptedPassword: this.state.attemptedPassword,
+      attemtedRoleCode: this.state.isAdmin ? "1" : "2"
     };
 
     if (this.state.isAdmin) {
@@ -113,6 +102,12 @@ class Login extends Component {
   };
 
   render() {
+
+    const {
+      isLoginSuccessful,
+      authenticationEventMessage
+    } = this.props;
+
     return (
       <div>
         <div className="container user-login-card">
@@ -138,7 +133,7 @@ class Login extends Component {
                           }}
                           name="attemptedEmail"
                           className={
-                            this.state.loginHasError
+                            !isLoginSuccessful && authenticationEventMessage
                               ? "form-control login__text-area-error"
                               : "form-control"
                           }
@@ -160,7 +155,7 @@ class Login extends Component {
                           }}
                           name="attemptedPassword"
                           className={
-                            this.state.loginHasError
+                            !isLoginSuccessful && authenticationEventMessage
                               ? "form-control login__text-area-error"
                               : "form-control"
                           }
@@ -183,12 +178,12 @@ class Login extends Component {
                       </button>
                       <p
                         className={
-                          this.state.loginHasError
+                          !isLoginSuccessful && authenticationEventMessage
                             ? "login__error-text"
                             : "login__hide"
                         }
                       >
-                        {this.state.loginErrorMessage}
+                        {authenticationEventMessage}
                       </p>
                     </fieldset>
                   </form>
@@ -226,25 +221,25 @@ class Login extends Component {
 
 Login.propTypes = {
   authenticateSystemUser: PropTypes.func.isRequired,
-  resetWrongCredentials: PropTypes.func.isRequired,
+  resetFailedLogin: PropTypes.func.isRequired,
   authenticateSystemAdmin: PropTypes.func.isRequired,
   isSessionActive: PropTypes.bool.isRequired,
-  hasWrongLoginCredentials: PropTypes.bool.isRequired,
-  accessDenied: PropTypes.bool.isRequired,
+  isLoginSuccessful: PropTypes.bool.isRequired,
+  authenticationEventMessage: PropTypes.string.isRequired,
   getAllUsers: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   isSessionActive: state.current_session.isSessionActive,
-  hasWrongLoginCredentials: state.current_session.hasWrongLoginCredentials,
-  accessDenied: state.current_session.accessDenied
+  isLoginSuccessful: state.current_session.isLoginSuccessful,
+  authenticationEventMessage: state.current_session.authenticationEventMessage
 });
 
 const mapDispatchToProps = dispatch => ({
   authenticateSystemUser: payload => dispatch(authenticateSystemUser(payload)),
   authenticateSystemAdmin: payload =>
     dispatch(authenticateSystemAdmin(payload)),
-  resetWrongCredentials: () => dispatch(resetWrongCredentials()),
+  resetFailedLogin: () => dispatch(resetFailedLogin()),
   getAllUsers: () => dispatch(getAllUsers())
 });
 

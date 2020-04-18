@@ -32,7 +32,6 @@ import {
   ERROR_OCCURED_DURING_GENDER_CONFIGURATION,
   MALE_GENDER_CONFIGURATION_SUCCESSFUL,
   FEMALE_GENDER_CONFIGURATION_SUCCESSFUL,
-  RESET_WRONG_CREDENTIALS,
   ROLE_ACCESS_DENIED,
   SUCCESSFULLY_FETCHED_ALL_USERS,
   FETCHING_ALL_USERS_EMPTY_RESULT_SET,
@@ -42,7 +41,7 @@ import {
   ERROR_OCCURRED_WHILE_UPDATING_USER_ROLE,
   USER_ACCESS_PRIVILEGE_UPDATED_SUCCESSFULLY,
   USER_ACCESS_PRIVILEGE_UPDATE_FAILED,
-  ERROR_OCCURRED_WHILE_UPDATING_USER_ACCESS_PRIVILEGE
+  ERROR_OCCURRED_WHILE_UPDATING_USER_ACCESS_PRIVILEGE, USER_LOGIN_FAILED, RESET_FAILED_LOGIN
 } from "./actionTypes";
 import {
   apiGetAll,
@@ -67,7 +66,10 @@ import {
 } from "../admin_home/actionTypes";
 import axios from "axios";
 import ip from "../../../config/EndPoint";
-import {promiselessTransactionsServiceGetAll} from "../../../services/transactions_service_connector/TransactionsServiceConnector";
+import {
+  promiselessTransactionsServiceGetAll,
+  transactionsServicePost
+} from "../../../services/transactions_service_connector/TransactionsServiceConnector";
 
 export function terminateCurrentSession() {
   return async dispatch => {
@@ -77,10 +79,10 @@ export function terminateCurrentSession() {
   };
 }
 
-export function resetWrongCredentials() {
+export function resetFailedLogin() {
   return async dispatch => {
     dispatch({
-      type: RESET_WRONG_CREDENTIALS
+      type: RESET_FAILED_LOGIN
     });
   };
 }
@@ -90,7 +92,7 @@ export function authenticateSystemUser(payload) {
     dispatch({
       type: BEGIN_USER_AUTHENTIFICATION
     });
-    const apiRoute = "/System_user_login";
+    const apiRoute = "/user_login";
     const returnedPromise = apiPost(payload, apiRoute);
     returnedPromise.then(
       function(result) {
@@ -127,29 +129,26 @@ export function authenticateSystemAdmin(payload) {
     dispatch({
       type: BEGIN_USER_AUTHENTIFICATION
     });
-    const apiRoute = "/user_login";
-    const returnedPromise = apiPost(payload, apiRoute);
+    const apiRoute = "/users/authenticate";
+    const returnedPromise = transactionsServicePost(payload, apiRoute);
     returnedPromise.then(
       function(result) {
-        if (!result.data.error && result.data.userOwnsRole) {
+        if (result.data.loginSuccessful) {
           dispatch({
-            type: STORE_USER,
+            type: USER_LOGIN_SUCCESS,
             payload: {
-              session_details: result.data,
+              userDetails: result.data,
               RoleType: SYSTEM_ADMIN,
               isSessionActive: true
             }
           });
+        } else if (!result.data.loginSuccessful) {
           dispatch({
-            type: USER_LOGIN_SUCCESS
-          });
-        } else if (result.data.error && !result.data.userOwnsRole) {
-          dispatch({
-            type: ROLE_ACCESS_DENIED
-          });
-        } else {
-          dispatch({
-            type: WRONG_LOGIN_CREDENTIALS
+            type: USER_LOGIN_FAILED,
+            payload: {
+              authenticationEventMessage: result.data.authenticationEventMessage,
+              isLoginSuccessful: false
+            }
           });
         }
       },

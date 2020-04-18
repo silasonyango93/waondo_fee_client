@@ -1,9 +1,10 @@
 export const initialState = {
-  session_details: {},
+  sessionDetails: {},
   isLoginSuccessful: false,
   RoleType: "",
   isSessionActive: false,
   hasWrongLoginCredentials: false,
   accessDenied: false,
-  allUsers: []
+  allUsers: [],
+  authenticationEventMessage: ''
 };

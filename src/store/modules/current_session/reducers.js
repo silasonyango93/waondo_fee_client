@@ -6,16 +6,21 @@ import {
     WRONG_LOGIN_CREDENTIALS,
     RESET_WRONG_CREDENTIALS,
     ROLE_ACCESS_DENIED,
-    SUCCESSFULLY_FETCHED_ALL_USERS
+    SUCCESSFULLY_FETCHED_ALL_USERS, USER_LOGIN_FAILED, USER_LOGIN_SUCCESS, RESET_FAILED_LOGIN
 } from "./actionTypes";
 
 export const ACTION_HANDLERS = {
-  [STORE_USER]: (state, action) =>
+  [USER_LOGIN_SUCCESS]: (state, action) =>
     Object.assign({}, state, {
       isLoginSuccessful: true,
-      session_details: action.payload.session_details,
+        sessionDetails: action.payload.userDetails,
       RoleType: action.payload.RoleType,
       isSessionActive: action.payload.isSessionActive
+    }),
+
+    [USER_LOGIN_FAILED]: (state, action) =>
+        Object.assign({}, state, {
+            authenticationEventMessage: action.payload.authenticationEventMessage
     }),
   [TERMINATE_CURRENT_SESSION]: state =>
     Object.assign({}, state, {
@@ -30,10 +35,9 @@ export const ACTION_HANDLERS = {
         Object.assign({}, state, {
             accessDenied: true
         }),
-    [RESET_WRONG_CREDENTIALS]: state =>
+    [RESET_FAILED_LOGIN]: state =>
         Object.assign({}, state, {
-            hasWrongLoginCredentials: false,
-            accessDenied: false
+            authenticationEventMessage: ""
         }),
   [SYSTEM_NOT_CONFIGURED]: (state, action) =>
     Object.assign({}, state, {
