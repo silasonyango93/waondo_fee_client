@@ -1,1 +1,6 @@
-export const initialState = {};
+export const initialState = {
+    studentRegistration: {
+        studentRegistrationEventMessage: '',
+        isStudentSuccessfullyRegistered: false
+    }
+};

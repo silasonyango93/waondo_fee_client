@@ -21,4 +21,16 @@
   &__hide {
     display: none;
   }
+
+  &__error-text {
+    font-family: Lato;
+    font-size: 16px !important;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.6;
+    letter-spacing: normal;
+    color: #e24c4b !important;
+    margin-top: 0.5rem;
+  }
 }

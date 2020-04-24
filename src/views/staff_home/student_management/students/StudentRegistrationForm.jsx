@@ -10,6 +10,7 @@ import "../../../../config/common/ReactDatePicker.css";
 import {ip} from "../../../../config/EndPoint";
 import {fetchAllActualClasses} from "../../../../store/modules/admin_home/actions";
 import {format} from "../../../../config/common/Utils";
+import {registerAStudent} from "../../../../store/modules/staff_home/actions";
 
 class StudentRegistrationForm extends Component {
     state = {
@@ -69,7 +70,7 @@ class StudentRegistrationForm extends Component {
                     ClassId: this.state.selectedClassOption.value,
                 };
 
-                //this.props.submitClientDetails(payload);
+                this.props.registerAStudent(payload);
 
             }
         }
@@ -147,16 +148,16 @@ class StudentRegistrationForm extends Component {
             this.state.dateOfBirth._d.getDate();
 
         const payload = {
-            StudentName: this.state.name,
-            AdmissionNo: this.state.admissionNumber,
-            ProfPicName: this.state.SelectedGenderId.value === "1"? "male_student.png" : "female_student.png",
-            GenderId: this.state.SelectedGenderId.value,
-            StudentDOB: dateOfBirth,
-            StudentTypeId: this.state.SelectedStudentType.value,
-            ClassId: this.state.selectedClassOption.value,
+            studentName: this.state.name,
+            admissionNo: this.state.admissionNumber,
+            profPicName: this.state.SelectedGenderId.value === "1"? "male_student.png" : "female_student.png",
+            genderId: this.state.SelectedGenderId.value,
+            studentDob: dateOfBirth,
+            studentTypeId: this.state.SelectedStudentType.value,
+            classId: this.state.selectedClassOption.value,
         };
 
-
+        this.props.registerAStudent(payload);
     };
 
     handleImageSubmit = e => {
@@ -171,7 +172,8 @@ class StudentRegistrationForm extends Component {
                 }
             })
             .then(res => {
-                this.setState({ profilePicDbName: res.data });
+                //this.setState({ profilePicDbName: res.data });
+                this.submitAfterImageUpload(res.data)
             })
             .catch(err => console.log(err));
     };
@@ -205,6 +207,28 @@ class StudentRegistrationForm extends Component {
                 this.submitClientDetailsWithoutImageUpload(event);
             }
         }
+    };
+
+
+    submitAfterImageUpload = dbImageName =>{
+        let dateOfBirth =
+            this.state.dateOfBirth._d.getFullYear() +
+            "-" +
+            (this.state.dateOfBirth._d.getMonth() + 1) +
+            "-" +
+            this.state.dateOfBirth._d.getDate();
+
+        const payload = {
+            studentName: this.state.name,
+            admissionNo: this.state.admissionNumber,
+            profPicName: dbImageName,
+            genderId: this.state.SelectedGenderId.value,
+            studentDob: dateOfBirth,
+            studentTypeId: this.state.SelectedStudentType.value,
+            classId: this.state.selectedClassOption.value,
+        };
+
+        this.props.registerAStudent(payload);
     };
 
     render() {
@@ -432,6 +456,15 @@ class StudentRegistrationForm extends Component {
                                 >
                                     Submit
                                 </button>
+                                <p
+                                    className={
+                                        !this.props.isStudentSuccessfullyRegistered
+                                            ? "personal__error-text"
+                                            : "personal__hide"
+                                    }
+                                >
+                                    {this.props.studentRegistrationEventMessage}
+                                </p>
                             </fieldset>
                         </form>
                     </div>
@@ -443,15 +476,21 @@ class StudentRegistrationForm extends Component {
 
 StudentRegistrationForm.propTypes = {
     fetchAllActualClasses: PropTypes.func.isRequired,
-    allActualClasses: PropTypes.arrayOf(PropTypes.object).isRequired
+    allActualClasses: PropTypes.arrayOf(PropTypes.object).isRequired,
+    registerAStudent: PropTypes.func.isRequired,
+    studentRegistrationEventMessage: PropTypes.string.isRequired,
+    isStudentSuccessfullyRegistered: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-    allActualClasses: state.admin_home.actualClasses.allActualClasses
+    allActualClasses: state.admin_home.actualClasses.allActualClasses,
+    studentRegistrationEventMessage: state.staff_home.studentRegistration.studentRegistrationEventMessage,
+    isStudentSuccessfullyRegistered: state.staff_home.studentRegistration.isStudentSuccessfullyRegistered
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchAllActualClasses: () => dispatch(fetchAllActualClasses())
+    fetchAllActualClasses: () => dispatch(fetchAllActualClasses()),
+    registerAStudent: payload => dispatch(registerAStudent(payload))
 });
 
 export default connect(

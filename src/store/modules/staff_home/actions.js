@@ -6,20 +6,23 @@ import {
 } from "./actionTypes";
 
 
-export function registerAUser(payload) {
+export function registerAStudent(payload) {
     return async dispatch => {
-        const apiRoute = "/users/create_student";
+        const apiRoute = "/students/create_student";
         const returnedPromise = transactionsServicePost(payload, apiRoute);
         returnedPromise.then(
             function(result) {
-                if (result.data.userSuccessfullyCreated) {
+                if (result.data.successStatus) {
                     dispatch({
                         type: STUDENT_REGISTRATION_SUCCESSFUL
                     });
 
                 } else {
                     dispatch({
-                        type: STUDENT_REGISTRATION_FAILED
+                        type: STUDENT_REGISTRATION_FAILED,
+                        payload: {
+                            studentRegistrationEventMessage: result.data.responseMessage
+                        }
                     });
                 }
             },
