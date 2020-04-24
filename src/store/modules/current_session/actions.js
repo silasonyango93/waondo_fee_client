@@ -50,6 +50,7 @@ import {
   promiselessApiPost
 } from "../../../services/api_connector/ApiConnector";
 import {
+  BURSAR,
   COMPANY_OWNER,
   REGULAR_SYSTEM_USER,
   SYSTEM_ADMIN
@@ -92,34 +93,35 @@ export function authenticateSystemUser(payload) {
     dispatch({
       type: BEGIN_USER_AUTHENTIFICATION
     });
-    const apiRoute = "/user_login";
-    const returnedPromise = apiPost(payload, apiRoute);
+    const apiRoute = "/users/authenticate";
+    const returnedPromise = transactionsServicePost(payload, apiRoute);
     returnedPromise.then(
-      function(result) {
-        if (!result.data.error) {
+        function(result) {
+          if (result.data.loginSuccessful) {
+            dispatch({
+              type: USER_LOGIN_SUCCESS,
+              payload: {
+                userDetails: result.data,
+                RoleType: BURSAR,
+                isSessionActive: true
+              }
+            });
+          } else if (!result.data.loginSuccessful) {
+            dispatch({
+              type: USER_LOGIN_FAILED,
+              payload: {
+                authenticationEventMessage: result.data.authenticationEventMessage,
+                isLoginSuccessful: false
+              }
+            });
+          }
+        },
+        function(err) {
           dispatch({
-            type: STORE_USER,
-            payload: {
-              session_details: result.data,
-              RoleType: REGULAR_SYSTEM_USER,
-              isSessionActive: true
-            }
+            type: AN_ERROR_OCCURED_DURING_LOGIN
           });
-          dispatch({
-            type: USER_LOGIN_SUCCESS
-          });
-        } else {
-          dispatch({
-            type: WRONG_LOGIN_CREDENTIALS
-          });
+          console.log(err);
         }
-      },
-      function(err) {
-        dispatch({
-          type: AN_ERROR_OCCURED_DURING_LOGIN
-        });
-        console.log(err);
-      }
     );
   };
 }

@@ -43,7 +43,7 @@ class ActualClassesForm extends Component {
             ) {
                 let allActualLots = this.props.allActualLots.map(item => {
                     return {
-                        label: item.LotDescription,
+                        label: item.LotDescription + "(" + item.AcademicClassLevelName + ")",
                         value: item.LotId
                     };
                 });

@@ -22,7 +22,6 @@ class Login extends Component {
   };
 
   componentDidMount() {
-    this.props.getAllUsers();
     this.setState({ emailReadOnly: false, passwordReadOnly: false });
   }
 
@@ -32,6 +31,7 @@ class Login extends Component {
     /*PAGE NAVIGATION LOGIC*/
     if (this.props.isSessionActive !== prevProps.isSessionActive) {
       if (this.props.isSessionActive && this.state.isAdmin) {
+        this.props.getAllUsers();
         this.props.history.push("/admin_home");
       } else if (this.props.isSessionActive && this.state.isStaff) {
         this.props.history.push("/staff_home");
@@ -41,15 +41,6 @@ class Login extends Component {
     /* ---------------------------------------------------------------------------------------------------------------------- */
 
 
-
-    // if (this.props.isLoginSuccessful !== prevProps.isLoginSuccessful) {
-    //   if (this.props.isLoginSuccessful) {
-    //     this.setState({
-    //       loginHasError: true,
-    //       loginErrorMessage: "Access denied for this role"
-    //     });
-    //   }
-    // }
   }
 
   handleEmailEditTextsFocus = () => {

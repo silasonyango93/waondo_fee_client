@@ -37,18 +37,6 @@ class UserRegistrationForm extends Component {
     };
 
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if(this.props.currentRegisteredUserId !== prevProps.currentRegisteredUserId) {
-            if(this.props.currentRegisteredUserId) {
-                const payload = {
-                    userId: this.props.currentRegisteredUserId
-                };
-
-                this.props.assignAUserRoles(payload);
-                this.props.toggleAdminModalDisplay(false);
-            }
-        }
-    }
 
     handleChange = event => {
         let newState = this.state;
@@ -77,13 +65,14 @@ class UserRegistrationForm extends Component {
             this.setState({confirmPasswordHasError: true, confirmPasswordErrorMessage: 'Confirmation password not the same as actual password'});
         } else {
             const payload = {
-                Name:this.state.name,
-                Email:this.state.email,
-                GenderId:this.state.selectedGenderOption.value,
-                Password:this.state.password,
+                name:this.state.name,
+                email:this.state.email,
+                genderId:this.state.selectedGenderOption.value,
+                encryptedPassword:this.state.password,
             };
 
             this.props.registerAUser(payload);
+            this.props.toggleAdminModalDisplay(false);
         }
 
     };
@@ -280,13 +269,11 @@ class UserRegistrationForm extends Component {
 UserRegistrationForm.propTypes = {
     registerAUser: PropTypes.func.isRequired,
     toggleAdminModalDisplay: PropTypes.func.isRequired,
-    currentRegisteredUserId: PropTypes.string.isRequired,
     assignAUserRoles: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-    currentRegisteredUserId:
-    state.admin_home.userManagement.currentRegisteredUserId
+
 });
 
 const mapDispatchToProps = dispatch => ({

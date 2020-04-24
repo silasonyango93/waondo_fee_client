@@ -1018,18 +1018,15 @@ export function setupSystemUserRegistrationForm() {
 
 export function registerAUser(payload) {
   return async dispatch => {
-    const apiRoute = "/user_registration";
-    const returnedPromise = apiPost(payload, apiRoute);
+    const apiRoute = "/users/create_user";
+    const returnedPromise = transactionsServicePost(payload, apiRoute);
     returnedPromise.then(
         function(result) {
-          if (result.data.results.success) {
+          if (result.data.userSuccessfullyCreated) {
             dispatch({
-              type: USER_SUCCESSFULLY_REGISTERED,
-              payload: {
-                userId: result.data.results.recordId
-              }
+              type: USER_SUCCESSFULLY_REGISTERED
             });
-            console.log(result.data.results);
+
           } else {
             dispatch({
               type: USER_REGISTRATION_FAILED

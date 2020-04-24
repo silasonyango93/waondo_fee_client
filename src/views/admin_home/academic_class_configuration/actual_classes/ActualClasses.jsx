@@ -29,7 +29,7 @@ class ActualClasses extends Component {
                 let allActualClasses = this.props.allActualClasses.map((item, index) => {
                     return {
                         id: index + 1,
-                        LotDescription: item.LotDescription,
+                        LotDescription: item.LotDescription + " (" + item.AcademicClassLevelName + ")",
                         ClassStreamName: item.ClassStreamName,
                         RegisteredDate: item.RegisteredDate
                     };
@@ -48,7 +48,7 @@ class ActualClasses extends Component {
                         addIconClicked={() => {
                             this.props.setupActualClassesForm();
                         }}
-                        tableTitle="Actual Lots"
+                        tableTitle="Classes"
                         tableHeaderObject={this.state.tableHeaders}
                         tableData={this.state.tableData}
                     />

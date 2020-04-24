@@ -591,13 +591,6 @@ export const ACTION_HANDLERS = {
             userManagement: {
                 isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
             }
-        }),
-
-
-    [USER_SUCCESSFULLY_REGISTERED]: (state, action) =>
-        Object.assign({}, state, {
-            userManagement: { currentRegisteredUserId: action.payload.userId }
-}),
-
+        })
 
 };

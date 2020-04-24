@@ -11,12 +11,15 @@ import TopBar from "../../components/topbar/TopBar";
 import {REGISTER_A_STUDENT_PAGE} from "./StaffHomeConstants";
 import StudentsPage from "./student_management/students/StudentsPage";
 import StaffSideBar from "../../components/sidebar/StaffSideBar";
+import Modal from "react-awesome-modal";
+import StudentRegistrationForm from "./student_management/students/StudentRegistrationForm";
 
 class StaffHome extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            displayStudents: true
+            displayStudents: true,
+            displayStudentRegistrationModal: false
         };
         this.idleTimer = null;
     }
@@ -40,7 +43,7 @@ class StaffHome extends Component {
     handleSideBarClicked = formToDisplay => {
         if (formToDisplay === REGISTER_A_STUDENT_PAGE) {
             this.setState({
-                displayStudents: true
+                displayStudentRegistrationModal: true
             });
         }
     };
@@ -75,6 +78,18 @@ class StaffHome extends Component {
 
                     </Container>
                 </Columns>
+                <Modal
+                    visible={this.state.displayStudentRegistrationModal}
+                    width="500"
+                    height="450"
+                    effect="fadeInUp"
+                    onClickAway={() => {
+                        this.props.toggleAdminModalDisplay(false);
+                    }}
+                >
+
+                    <StudentRegistrationForm />
+                </Modal>
             </div>
         );
     }
