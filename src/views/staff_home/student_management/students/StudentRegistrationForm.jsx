@@ -51,31 +51,6 @@ class StudentRegistrationForm extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.state.profilePicDbName !== prevState.profilePicDbName) {
-            if(this.state.profilePicDbName) {
-                let dateOfBirth =
-                    this.state.dateOfBirth._d.getFullYear() +
-                    "-" +
-                    (this.state.dateOfBirth._d.getMonth() + 1) +
-                    "-" +
-                    this.state.dateOfBirth._d.getDate();
-
-                const payload = {
-                    StudentName: this.state.name,
-                    AdmissionNo: this.state.admissionNumber,
-                    ProfPicName: this.state.profilePicDbName,
-                    GenderId: this.state.SelectedGenderId.value,
-                    StudentDOB: dateOfBirth,
-                    StudentTypeId: this.state.SelectedStudentType.value,
-                    ClassId: this.state.selectedClassOption.value,
-                };
-
-                this.props.registerAStudent(payload);
-
-            }
-        }
-
-
 
         if (this.props.allActualClasses !== prevProps.allActualClasses) {
             if (this.props.allActualClasses && this.props.allActualClasses.length) {
@@ -172,7 +147,6 @@ class StudentRegistrationForm extends Component {
                 }
             })
             .then(res => {
-                //this.setState({ profilePicDbName: res.data });
                 this.submitAfterImageUpload(res.data)
             })
             .catch(err => console.log(err));
