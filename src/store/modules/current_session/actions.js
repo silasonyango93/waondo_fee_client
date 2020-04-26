@@ -72,11 +72,12 @@ import {
   transactionsServicePost
 } from "../../../services/transactions_service_connector/TransactionsServiceConnector";
 
-export function terminateCurrentSession() {
+export function terminateCurrentSession(payload) {
   return async dispatch => {
     dispatch({
       type: TERMINATE_CURRENT_SESSION
     });
+    closeASessionLog(payload)
   };
 }
 
@@ -393,4 +394,9 @@ export function updateAUserAccessPrivileges(payload) {
       }
     );
   };
+}
+
+export function closeASessionLog(payload) {
+  const apiRoute = "/update_individual_session_logs";
+  apiPost(payload, apiRoute);
 }

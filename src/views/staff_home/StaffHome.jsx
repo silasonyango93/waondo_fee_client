@@ -26,7 +26,9 @@ class StaffHome extends Component {
 
     componentDidMount() {
         if (!this.props.isSessionActive) {
-            this.props.history.push("/");
+            window.location.assign("/");
+        } else {
+            window.addEventListener("beforeunload", this.handleTabClosed);
         }
     }
 
@@ -36,9 +38,22 @@ class StaffHome extends Component {
         }
     }
 
-    componentWillUnmount() {
-        this.props.terminateCurrentSession();
-    }
+    // componentWillUnmount() {
+    //     const payload = {
+    //         ColumnName: "SessionLogId",
+    //         ColumnValue: this.props.sessionLogId
+    //     };
+    //     this.props.terminateCurrentSession(payload);
+    // }
+
+    handleTabClosed = (e) => {
+        e.preventDefault();
+        const payload = {
+            ColumnName: "SessionLogId",
+            ColumnValue: this.props.sessionLogId
+        };
+        this.props.terminateCurrentSession(payload);
+    };
 
     handleSideBarClicked = formToDisplay => {
         if (formToDisplay === REGISTER_A_STUDENT_PAGE) {
@@ -49,7 +64,11 @@ class StaffHome extends Component {
     };
 
     onIdle = e => {
-        this.props.terminateCurrentSession();
+        const payload = {
+            ColumnName: "SessionLogId",
+            ColumnValue: this.props.sessionLogId
+        };
+        this.props.terminateCurrentSession(payload);
         this.props.history.push("/");
     };
 
@@ -97,15 +116,17 @@ class StaffHome extends Component {
 
 StaffHome.propTypes = {
     isSessionActive: PropTypes.bool.isRequired,
-    terminateCurrentSession: PropTypes.func.isRequired
+    terminateCurrentSession: PropTypes.func.isRequired,
+    sessionLogId: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
-    isSessionActive: state.current_session.isSessionActive
+    isSessionActive: state.current_session.isSessionActive,
+    sessionLogId: state.current_session.sessionDetails.sessionLogsEntity.sessionLogId
 });
 
 const mapDispatchToProps = dispatch => ({
-    terminateCurrentSession: () => dispatch(terminateCurrentSession())
+    terminateCurrentSession: payload => dispatch(terminateCurrentSession(payload))
 });
 
 export default connect(
