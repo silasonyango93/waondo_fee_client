@@ -9,7 +9,7 @@ import {
     FETCHING_ALL_ACTUAL_LOTS_SUCCESSFUL,
     FETCHING_ALL_LOT_DESCRIPTIONS_SUCCESSFUL,
     FETCHING_CLASS_LEVELS_SUCCESSFUL,
-    FETCHING_CLASS_STREAMS_SUCCESSFUL,
+    FETCHING_CLASS_STREAMS_SUCCESSFUL, FETCHING_FEE_COMPONENTS_SUCCESSFUL,
     FETCHING_TERM_ITERATIONS_SUCCESSFUL,
     FETCHING_WEEK_ITERATIONS_SUCCESSFUL,
     FETCHING_YEARS_WEEKS_SUCCESSFUL,
@@ -18,7 +18,7 @@ import {
     RESET_CURRENT_ACTUAL_LOT_CREATED,
     RESET_CURRENT_ACTUAL_TERM_CREATED,
     RESET_CURRENT_ACTUAL_WEEK_CREATED,
-    RESET_CURRENT_CLASS_STREAM_CREATED,
+    RESET_CURRENT_CLASS_STREAM_CREATED, RESET_CURRENT_FEE_COMPONENT_CREATED,
     RESET_CURRENT_LOT_DESCRIPTION_CREATED,
     RESET_CURRENT_TERM_ITERATION_CREATED,
     RESET_CURRENT_WEEK_ITERATION_CREATED, SETUP_ACTUAL_CLASSES_FORM,
@@ -26,7 +26,7 @@ import {
     SETUP_ACTUAL_TERMS_FORM,
     SETUP_ACTUAL_WEEKS_FORM,
     SETUP_CLASS_LEVEL_FORM,
-    SETUP_CLASS_STREAM_FORM,
+    SETUP_CLASS_STREAM_FORM, SETUP_FEE_COMPONENT_REGISTRATION_FORM,
     SETUP_LOT_DESCRIPTIONS_FORM, SETUP_SYSTEM_USER_REGISTRATION_FORM,
     SETUP_TERM_ITERATIONS_FORM,
     SETUP_WEEK_ITERATIONS_FORM,
@@ -80,6 +80,9 @@ export const ACTION_HANDLERS = {
         },
         userManagement: {
             isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
+        },
+        feeComponents: {
+            isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
         }
     }),
   [FETCHING_CLASS_LEVELS_SUCCESSFUL]: (state, action) =>
@@ -136,6 +139,9 @@ export const ACTION_HANDLERS = {
         },
         userManagement: {
             isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
+        },
+        feeComponents: {
+            isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
         }
     }),
 
@@ -195,6 +201,9 @@ export const ACTION_HANDLERS = {
         },
         userManagement: {
             isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
+        },
+        feeComponents: {
+            isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
         }
     }),
   [RESET_CURRENT_TERM_ITERATION_CREATED]: (state, action) =>
@@ -255,6 +264,9 @@ export const ACTION_HANDLERS = {
         },
         userManagement: {
             isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
+        },
+        feeComponents: {
+            isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
         }
     }),
   [WEEK_ITERATION_CREATED_SUCCESSFULLY]: (state, action) =>
@@ -307,6 +319,9 @@ export const ACTION_HANDLERS = {
         },
         userManagement: {
             isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
+        },
+        feeComponents: {
+            isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
         }
     }),
   [RESET_CURRENT_ACTUAL_TERM_CREATED]: (state, action) =>
@@ -364,6 +379,9 @@ export const ACTION_HANDLERS = {
         },
         userManagement: {
             isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
+        },
+        feeComponents: {
+            isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
         }
     }),
   [RESET_CURRENT_ACTUAL_WEEK_CREATED]: (state, action) =>
@@ -421,6 +439,9 @@ export const ACTION_HANDLERS = {
         },
         userManagement: {
             isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
+        },
+        feeComponents: {
+            isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
         }
     }),
   [RESET_CURRENT_LOT_DESCRIPTION_CREATED]: (state, action) =>
@@ -478,6 +499,9 @@ export const ACTION_HANDLERS = {
         },
         userManagement: {
             isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
+        },
+        feeComponents: {
+            isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
         }
     }),
   [RESET_CURRENT_ACTUAL_LOT_CREATED]: (state, action) =>
@@ -535,6 +559,9 @@ export const ACTION_HANDLERS = {
             },
             userManagement: {
                 isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
+            },
+            feeComponents: {
+                isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
             }
         }),
     [RESET_CURRENT_ACTUAL_CLASS_CREATED]: (state) =>
@@ -590,7 +617,66 @@ export const ACTION_HANDLERS = {
             },
             userManagement: {
                 isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
+            },
+            feeComponents: {
+                isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
             }
-        })
+        }),
 
+
+    /* END - ACTUAL CLASSES ***************************************************************************************/
+
+    /* START - SYSTEM USER REGISTRATION ***************************************************************************************/
+
+    [FETCHING_FEE_COMPONENTS_SUCCESSFUL]: (state, action) =>
+        Object.assign({}, state, {
+            feeComponents: { allFeeComponents: action.payload.allFeeComponents }
+        }),
+
+    [SETUP_FEE_COMPONENT_REGISTRATION_FORM]: (state, action) =>
+        Object.assign({}, state, {
+            isAdminModalDisplayed: action.payload.isAdminModalDisplayed,
+            dialogHeight: action.payload.dialogHeight,
+            dialogWidth: action.payload.dialogWidth,
+            modalTitle: action.payload.modalTitle,
+            isAcademicClassLevelFormDisplayed:
+            action.payload.isAcademicClassLevelFormDisplayed,
+            classStreams: {
+                isClassStreamFormDisplayed: action.payload.isClassStreamFormDisplayed
+            },
+            termIterations: {
+                isTermIterationsFormDisplayed:
+                action.payload.isTermIterationsFormDisplayed
+            },
+            weekIterations: {
+                isWeekIterationsFormDisplayed:
+                action.payload.isWeekIterationsFormDisplayed
+            },
+            actualTerms: {
+                isActualTermsFormDisplayed: action.payload.isActualTermsFormDisplayed
+            },
+            actualWeeks: {
+                isActualWeeksFormDisplayed: action.payload.isActualWeeksFormDisplayed
+            },
+            lotDescriptions: {
+                isLotDescriptionsFormDisplayed:
+                action.payload.isLotDescriptionsFormDisplayed
+            },
+            actualLots: {
+                isActualLotsFormDisplayed: action.payload.isActualLotsFormDisplayed
+            },
+            actualClasses: {
+                isActualClassesFormDisplayed: action.payload.isActualClassesFormDisplayed
+            },
+            userManagement: {
+                isUserRegistrationFormDisplayed: action.payload.isUserRegistrationFormDisplayed
+            },
+            feeComponents: {
+                isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
+            }
+        }),
+    [RESET_CURRENT_FEE_COMPONENT_CREATED]: (state) =>
+        Object.assign({}, state, {
+            feeComponents: { isCurrentFeeComponentCreated: false }
+        })
 };

@@ -66,7 +66,7 @@ class StaffSideBar extends Component {
                                 }}
                             >
                                 <FaCogs />
-                                &nbsp;User Management
+                                &nbsp;Student Management
                                 <span className="fa arrow" />
                             </a>
                             <ul

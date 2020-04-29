@@ -30,7 +30,7 @@ import {
   ERROR_OCCURED_WHILE_FETCHING_ALL_ACTUAL_LOTS,
   ERROR_OCCURED_WHILE_FETCHING_ALL_LOT_DESCRIPTIONS,
   ERROR_OCCURED_WHILE_FETCHING_CLASS_LEVELS,
-  ERROR_OCCURED_WHILE_FETCHING_CLASS_STREAMS,
+  ERROR_OCCURED_WHILE_FETCHING_CLASS_STREAMS, ERROR_OCCURED_WHILE_FETCHING_FEE_COMPONENTS,
   ERROR_OCCURED_WHILE_FETCHING_TERM_ITERATIONS,
   ERROR_OCCURED_WHILE_FETCHING_WEEK_ITERATIONS,
   ERROR_OCCURED_WHILE_FETCHING_YEARS_WEEKS,
@@ -55,7 +55,7 @@ import {
   FETCHING_CLASS_LEVELS_EMPTY_RESULT_SET,
   FETCHING_CLASS_LEVELS_SUCCESSFUL,
   FETCHING_CLASS_STREAMS_EMPTY_RESULT_SET,
-  FETCHING_CLASS_STREAMS_SUCCESSFUL,
+  FETCHING_CLASS_STREAMS_SUCCESSFUL, FETCHING_FEE_COMPONENTS_EMPTY_RESULT_SET, FETCHING_FEE_COMPONENTS_SUCCESSFUL,
   FETCHING_TERM_ITERATIONS_EMPTY_RESULT_SET,
   FETCHING_TERM_ITERATIONS_SUCCESSFUL,
   FETCHING_WEEK_ITERATIONS_EMPTY_RESULT_SET,
@@ -69,7 +69,7 @@ import {
   RESET_CURRENT_ACTUAL_LOT_CREATED,
   RESET_CURRENT_ACTUAL_TERM_CREATED,
   RESET_CURRENT_ACTUAL_WEEK_CREATED,
-  RESET_CURRENT_CLASS_STREAM_CREATED,
+  RESET_CURRENT_CLASS_STREAM_CREATED, RESET_CURRENT_FEE_COMPONENT_CREATED,
   RESET_CURRENT_LOT_DESCRIPTION_CREATED,
   RESET_CURRENT_TERM_ITERATION_CREATED,
   RESET_CURRENT_WEEK_ITERATION_CREATED,
@@ -78,7 +78,7 @@ import {
   SETUP_ACTUAL_TERMS_FORM,
   SETUP_ACTUAL_WEEKS_FORM,
   SETUP_CLASS_LEVEL_FORM,
-  SETUP_CLASS_STREAM_FORM,
+  SETUP_CLASS_STREAM_FORM, SETUP_FEE_COMPONENT_REGISTRATION_FORM,
   SETUP_LOT_DESCRIPTIONS_FORM,
   SETUP_TERM_ITERATIONS_FORM,
   START_FETCHING_ACTUAL_TERMS,
@@ -160,7 +160,8 @@ export function setupClassLevelForm() {
         isLotDescriptionsFormDisplayed: false,
         isActualLotsFormDisplayed: false,
         isActualClassesFormDisplayed: false,
-        isUserRegistrationFormDisplayed: false
+        isUserRegistrationFormDisplayed: false,
+        isFeeComponentFormDisplayed: false
       }
     });
   };
@@ -296,7 +297,8 @@ export function setupClassStreamForm() {
         isLotDescriptionsFormDisplayed: false,
         isActualLotsFormDisplayed: false,
         isActualClassesFormDisplayed: false,
-        isUserRegistrationFormDisplayed: false
+        isUserRegistrationFormDisplayed: false,
+        isFeeComponentFormDisplayed: false
       }
     });
   };
@@ -355,7 +357,8 @@ export function setupTermIterationsForm() {
         isLotDescriptionsFormDisplayed: false,
         isActualLotsFormDisplayed: false,
         isActualClassesFormDisplayed: false,
-        isUserRegistrationFormDisplayed: false
+        isUserRegistrationFormDisplayed: false,
+        isFeeComponentFormDisplayed: false
       }
     });
   };
@@ -452,7 +455,8 @@ export function setupWeekIterationsForm() {
         isLotDescriptionsFormDisplayed: false,
         isActualLotsFormDisplayed: false,
         isActualClassesFormDisplayed: false,
-        isUserRegistrationFormDisplayed: false
+        isUserRegistrationFormDisplayed: false,
+        isFeeComponentFormDisplayed: false
       }
     });
   };
@@ -549,7 +553,8 @@ export function setupActualTermsForm() {
         isLotDescriptionsFormDisplayed: false,
         isActualLotsFormDisplayed: false,
         isActualClassesFormDisplayed: false,
-        isUserRegistrationFormDisplayed: false
+        isUserRegistrationFormDisplayed: false,
+        isFeeComponentFormDisplayed: false
       }
     });
   };
@@ -646,7 +651,8 @@ export function setupActualWeeksForm() {
         isLotDescriptionsFormDisplayed: false,
         isActualLotsFormDisplayed: false,
         isActualClassesFormDisplayed: false,
-        isUserRegistrationFormDisplayed: false
+        isUserRegistrationFormDisplayed: false,
+        isFeeComponentFormDisplayed: false
       }
     });
   };
@@ -743,7 +749,8 @@ export function setupLotDescriptionsForm() {
         isLotDescriptionsFormDisplayed: true,
         isActualLotsFormDisplayed: false,
         isActualClassesFormDisplayed: false,
-        isUserRegistrationFormDisplayed: false
+        isUserRegistrationFormDisplayed: false,
+        isFeeComponentFormDisplayed: false
       }
     });
   };
@@ -840,7 +847,8 @@ export function setupActualLotsForm() {
         isLotDescriptionsFormDisplayed: false,
         isActualLotsFormDisplayed: true,
         isActualClassesFormDisplayed: false,
-        isUserRegistrationFormDisplayed: false
+        isUserRegistrationFormDisplayed: false,
+        isFeeComponentFormDisplayed: false
       }
     });
   };
@@ -939,7 +947,8 @@ export function setupActualClassesForm() {
         isLotDescriptionsFormDisplayed: false,
         isActualLotsFormDisplayed: false,
         isActualClassesFormDisplayed: true,
-        isUserRegistrationFormDisplayed: false
+        isUserRegistrationFormDisplayed: false,
+        isFeeComponentFormDisplayed: false
       }
     });
   };
@@ -1009,7 +1018,8 @@ export function setupSystemUserRegistrationForm() {
         isLotDescriptionsFormDisplayed: false,
         isActualLotsFormDisplayed: false,
         isActualClassesFormDisplayed: false,
-        isUserRegistrationFormDisplayed: true
+        isUserRegistrationFormDisplayed: true,
+        isFeeComponentFormDisplayed: false
       }
     });
   };
@@ -1073,5 +1083,72 @@ export function assignAUserRoles(payload) {
           console.log(err);
         }
     );
+  };
+}
+
+
+/* END - SYSTEM_USER_REGISTRATION *****************************************************************************************/
+
+/* START - FEE_COMPONENTS_REGISTRATION *****************************************************************************************/
+
+export function fetchAllFeeComponents() {
+  return async dispatch => {
+    const apiRoute = "/get_all_fee_components";
+    const returnedPromise = apiGetAll(apiRoute);
+    returnedPromise.then(
+        function(result) {
+          if (result.data.results && result.data.results.length > 0) {
+            dispatch({
+              type: FETCHING_FEE_COMPONENTS_SUCCESSFUL,
+              payload: {
+                allFeeComponents: result.data.results
+              }
+            });
+          } else if (result.data.results && result.data.results.length === 0) {
+            dispatch({
+              type: FETCHING_FEE_COMPONENTS_EMPTY_RESULT_SET
+            });
+          }
+        },
+        function(err) {
+          dispatch({
+            type: ERROR_OCCURED_WHILE_FETCHING_FEE_COMPONENTS
+          });
+          console.log(err);
+        }
+    );
+  };
+}
+
+export function setupFeeComponentRegistrationForm() {
+  return async dispatch => {
+    dispatch({
+      type: SETUP_FEE_COMPONENT_REGISTRATION_FORM,
+      payload: {
+        isAdminModalDisplayed: true,
+        dialogHeight: "450",
+        dialogWidth: "500",
+        isAcademicClassLevelFormDisplayed: false,
+        isClassStreamFormDisplayed: false,
+        modalTitle: "Fee Components Registration",
+        isTermIterationsFormDisplayed: false,
+        isWeekIterationsFormDisplayed: false,
+        isActualTermsFormDisplayed: false,
+        isActualWeeksFormDisplayed: false,
+        isLotDescriptionsFormDisplayed: false,
+        isActualLotsFormDisplayed: false,
+        isActualClassesFormDisplayed: false,
+        isUserRegistrationFormDisplayed: false,
+        isFeeComponentFormDisplayed: true
+      }
+    });
+  };
+}
+
+export function resetCurrentFeeComponentCreated() {
+  return async dispatch => {
+    dispatch({
+      type: RESET_CURRENT_FEE_COMPONENT_CREATED
+    });
   };
 }

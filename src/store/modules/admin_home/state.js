@@ -57,5 +57,11 @@ export const initialState = {
 
   userManagement: {
     isUserRegistrationFormDisplayed: false
+  },
+
+  feeComponents: {
+    allFeeComponents: [],
+    isFeeComponentFormDisplayed: false,
+    isCurrentFeeComponentCreated: false
   }
 };
