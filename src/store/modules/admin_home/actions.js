@@ -24,13 +24,15 @@ import {
   CLASS_LEVEL_CREATED_SUCCESSFULLY,
   CLASS_LEVEL_CREATION_FAILED,
   CLASS_STREAM_CREATED_SUCCESSFULLY,
-  CLASS_STREAM_CREATION_FAILED, ERROR_OCCURED_WHILE_ASSIGNING_USER_ROLES,
+  CLASS_STREAM_CREATION_FAILED,
+  ERROR_OCCURED_WHILE_ASSIGNING_USER_ROLES,
   ERROR_OCCURED_WHILE_FETCHING_ACTUAL_TERMS,
   ERROR_OCCURED_WHILE_FETCHING_ALL_ACTUAL_CLASSES,
   ERROR_OCCURED_WHILE_FETCHING_ALL_ACTUAL_LOTS,
   ERROR_OCCURED_WHILE_FETCHING_ALL_LOT_DESCRIPTIONS,
   ERROR_OCCURED_WHILE_FETCHING_CLASS_LEVELS,
-  ERROR_OCCURED_WHILE_FETCHING_CLASS_STREAMS, ERROR_OCCURED_WHILE_FETCHING_FEE_COMPONENTS,
+  ERROR_OCCURED_WHILE_FETCHING_CLASS_STREAMS,
+  ERROR_OCCURED_WHILE_FETCHING_FEE_COMPONENTS,
   ERROR_OCCURED_WHILE_FETCHING_TERM_ITERATIONS,
   ERROR_OCCURED_WHILE_FETCHING_WEEK_ITERATIONS,
   ERROR_OCCURED_WHILE_FETCHING_YEARS_WEEKS,
@@ -41,9 +43,12 @@ import {
   ERROR_OCCURRED_ON_CREATING_ACTUAL_WEEK,
   ERROR_OCCURRED_ON_CREATING_CLASS_LEVEL,
   ERROR_OCCURRED_ON_CREATING_CLASS_STREAM,
+  ERROR_OCCURRED_ON_CREATING_FEE_COMPONENT,
   ERROR_OCCURRED_ON_CREATING_LOT_DESCRIPTION,
   ERROR_OCCURRED_ON_CREATING_TERM_ITERATION,
   ERROR_OCCURRED_ON_CREATING_WEEK_ITERATION,
+  FEE_COMPONENT_CREATED_SUCCESSFULLY,
+  FEE_COMPONENT_CREATION_FAILED,
   FETCHING_ACTUAL_TERMS_EMPTY_RESULT_SET,
   FETCHING_ACTUAL_TERMS_SUCCESSFUL,
   FETCHING_ALL_ACTUAL_CLASSES_EMPTY_RESULT_SET,
@@ -55,7 +60,9 @@ import {
   FETCHING_CLASS_LEVELS_EMPTY_RESULT_SET,
   FETCHING_CLASS_LEVELS_SUCCESSFUL,
   FETCHING_CLASS_STREAMS_EMPTY_RESULT_SET,
-  FETCHING_CLASS_STREAMS_SUCCESSFUL, FETCHING_FEE_COMPONENTS_EMPTY_RESULT_SET, FETCHING_FEE_COMPONENTS_SUCCESSFUL,
+  FETCHING_CLASS_STREAMS_SUCCESSFUL,
+  FETCHING_FEE_COMPONENTS_EMPTY_RESULT_SET,
+  FETCHING_FEE_COMPONENTS_SUCCESSFUL,
   FETCHING_TERM_ITERATIONS_EMPTY_RESULT_SET,
   FETCHING_TERM_ITERATIONS_SUCCESSFUL,
   FETCHING_WEEK_ITERATIONS_EMPTY_RESULT_SET,
@@ -69,7 +76,8 @@ import {
   RESET_CURRENT_ACTUAL_LOT_CREATED,
   RESET_CURRENT_ACTUAL_TERM_CREATED,
   RESET_CURRENT_ACTUAL_WEEK_CREATED,
-  RESET_CURRENT_CLASS_STREAM_CREATED, RESET_CURRENT_FEE_COMPONENT_CREATED,
+  RESET_CURRENT_CLASS_STREAM_CREATED,
+  RESET_CURRENT_FEE_COMPONENT_CREATED,
   RESET_CURRENT_LOT_DESCRIPTION_CREATED,
   RESET_CURRENT_TERM_ITERATION_CREATED,
   RESET_CURRENT_WEEK_ITERATION_CREATED,
@@ -78,7 +86,8 @@ import {
   SETUP_ACTUAL_TERMS_FORM,
   SETUP_ACTUAL_WEEKS_FORM,
   SETUP_CLASS_LEVEL_FORM,
-  SETUP_CLASS_STREAM_FORM, SETUP_FEE_COMPONENT_REGISTRATION_FORM,
+  SETUP_CLASS_STREAM_FORM,
+  SETUP_FEE_COMPONENT_REGISTRATION_FORM,
   SETUP_LOT_DESCRIPTIONS_FORM,
   SETUP_TERM_ITERATIONS_FORM,
   START_FETCHING_ACTUAL_TERMS,
@@ -93,12 +102,14 @@ import {
   TERM_ITERATION_CREATED_SUCCESSFULLY,
   TERM_ITERATION_CREATION_FAILED,
   TOGGLE_MODAL_DISPLAY,
-  USER_REGISTRATION_FAILED, USER_ROLE_ASSIGNMENT_FAILED, USER_SUCCESSFULLY_ASSIGNED_ROLES,
+  USER_REGISTRATION_FAILED,
+  USER_ROLE_ASSIGNMENT_FAILED,
+  USER_SUCCESSFULLY_ASSIGNED_ROLES,
   USER_SUCCESSFULLY_REGISTERED,
   WEEK_ITERATION_CREATED_SUCCESSFULLY,
   WEEK_ITERATION_CREATION_FAILED
 } from "./actionTypes";
-import {transactionsServicePost} from "../../../services/transactions_service_connector/TransactionsServiceConnector";
+import { transactionsServicePost } from "../../../services/transactions_service_connector/TransactionsServiceConnector";
 
 export function toggleAdminModalDisplay(isAdminModalDisplayed) {
   return async dispatch => {
@@ -903,31 +914,29 @@ export function fetchAllActualClasses() {
     const apiRoute = "/get_all_actual_classes_by_full_description";
     const returnedPromise = apiGetAll(apiRoute);
     returnedPromise.then(
-        function(result) {
-          if (result.data.results && result.data.results.length > 0) {
-            dispatch({
-              type: FETCHING_ALL_ACTUAL_CLASSES_SUCCESSFUL,
-              payload: {
-                allActualClasses: result.data.results
-              }
-            });
-          } else if (result.data.results && result.data.results.length === 0) {
-            dispatch({
-              type: FETCHING_ALL_ACTUAL_CLASSES_EMPTY_RESULT_SET
-            });
-          }
-        },
-        function(err) {
+      function(result) {
+        if (result.data.results && result.data.results.length > 0) {
           dispatch({
-            type: ERROR_OCCURED_WHILE_FETCHING_ALL_ACTUAL_CLASSES
+            type: FETCHING_ALL_ACTUAL_CLASSES_SUCCESSFUL,
+            payload: {
+              allActualClasses: result.data.results
+            }
           });
-          console.log(err);
+        } else if (result.data.results && result.data.results.length === 0) {
+          dispatch({
+            type: FETCHING_ALL_ACTUAL_CLASSES_EMPTY_RESULT_SET
+          });
         }
+      },
+      function(err) {
+        dispatch({
+          type: ERROR_OCCURED_WHILE_FETCHING_ALL_ACTUAL_CLASSES
+        });
+        console.log(err);
+      }
     );
   };
 }
-
-
 
 export function setupActualClassesForm() {
   return async dispatch => {
@@ -954,7 +963,6 @@ export function setupActualClassesForm() {
   };
 }
 
-
 export function resetCurrentActualClassCreated() {
   return async dispatch => {
     dispatch({
@@ -962,7 +970,6 @@ export function resetCurrentActualClassCreated() {
     });
   };
 }
-
 
 export function createActualClass(payload) {
   return async dispatch => {
@@ -972,33 +979,30 @@ export function createActualClass(payload) {
     const apiRoute = "/add_class";
     const returnedPromise = apiPost(payload, apiRoute);
     returnedPromise.then(
-        function(result) {
-          if (result.data.results.success) {
-            dispatch({
-              type: ACTUAL_CLASS_CREATED_SUCCESSFULLY
-            });
-          } else {
-            dispatch({
-              type: ACTUAL_CLASS_CREATION_FAILED
-            });
-          }
-        },
-        function(err) {
+      function(result) {
+        if (result.data.results.success) {
           dispatch({
-            type: ERROR_OCCURRED_ON_CREATING_ACTUAL_CLASS
+            type: ACTUAL_CLASS_CREATED_SUCCESSFULLY
           });
-          console.log(err);
+        } else {
+          dispatch({
+            type: ACTUAL_CLASS_CREATION_FAILED
+          });
         }
+      },
+      function(err) {
+        dispatch({
+          type: ERROR_OCCURRED_ON_CREATING_ACTUAL_CLASS
+        });
+        console.log(err);
+      }
     );
   };
 }
 
-
-
 /* END - ACTUAL CLASSES *****************************************************************************************/
 
 /* START - SYSTEM_USER_REGISTRATION *****************************************************************************************/
-
 
 export function setupSystemUserRegistrationForm() {
   return async dispatch => {
@@ -1025,67 +1029,62 @@ export function setupSystemUserRegistrationForm() {
   };
 }
 
-
 export function registerAUser(payload) {
   return async dispatch => {
     const apiRoute = "/users/create_user";
     const returnedPromise = transactionsServicePost(payload, apiRoute);
     returnedPromise.then(
-        function(result) {
-          if (result.data.userSuccessfullyCreated) {
-            dispatch({
-              type: USER_SUCCESSFULLY_REGISTERED
-            });
-
-          } else {
-            dispatch({
-              type: USER_REGISTRATION_FAILED
-            });
-          }
-        },
-        function(err) {
+      function(result) {
+        if (result.data.userSuccessfullyCreated) {
           dispatch({
-            type: ERROR_OCCURED_WHILE_REGISTERING_USER
+            type: USER_SUCCESSFULLY_REGISTERED
           });
-          console.log(err);
+        } else {
+          dispatch({
+            type: USER_REGISTRATION_FAILED
+          });
         }
+      },
+      function(err) {
+        dispatch({
+          type: ERROR_OCCURED_WHILE_REGISTERING_USER
+        });
+        console.log(err);
+      }
     );
   };
 }
-
-
 
 export function assignAUserRoles(payload) {
   return async dispatch => {
     const apiRoute = "/user_roles/assign_a_user_roles";
     const returnedPromise = transactionsServicePost(payload, apiRoute);
     returnedPromise.then(
-        function(result) {
-          // if (result.data.results.success) {
-          //   dispatch({
-          //     type: USER_SUCCESSFULLY_ASSIGNED_ROLES,
-          //     payload: {
-          //       userId: result.data.results.recordId
-          //     }
-          //   });
-          //   console.log(result.data.results);
-          // } else {
-          //   dispatch({
-          //     type: USER_ROLE_ASSIGNMENT_FAILED
-          //   });
-          // }
-          console.log(result);
-        },
-        function(err) {
-          dispatch({
-            type: ERROR_OCCURED_WHILE_ASSIGNING_USER_ROLES
-          });
-          console.log(err);
-        }
+      function(result) {
+        // if (result.data.results.success) {
+        //   dispatch({
+        //     type: USER_SUCCESSFULLY_ASSIGNED_ROLES,
+        //     payload: {
+        //       userId: result.data.results.recordId
+        //     }
+        //   });
+        //   console.log(result.data.results);
+        // } else {
+        //   dispatch({
+        //     type: USER_ROLE_ASSIGNMENT_FAILED
+        //   });
+        // }
+        console.log(result);
+      },
+      function(err) {
+        dispatch({
+          type: ERROR_OCCURED_WHILE_ASSIGNING_USER_ROLES
+        });
+        console.log(err);
+      }
     );
   };
 }
-
 
 /* END - SYSTEM_USER_REGISTRATION *****************************************************************************************/
 
@@ -1096,26 +1095,26 @@ export function fetchAllFeeComponents() {
     const apiRoute = "/get_all_fee_components";
     const returnedPromise = apiGetAll(apiRoute);
     returnedPromise.then(
-        function(result) {
-          if (result.data.results && result.data.results.length > 0) {
-            dispatch({
-              type: FETCHING_FEE_COMPONENTS_SUCCESSFUL,
-              payload: {
-                allFeeComponents: result.data.results
-              }
-            });
-          } else if (result.data.results && result.data.results.length === 0) {
-            dispatch({
-              type: FETCHING_FEE_COMPONENTS_EMPTY_RESULT_SET
-            });
-          }
-        },
-        function(err) {
+      function(result) {
+        if (result.data.results && result.data.results.length > 0) {
           dispatch({
-            type: ERROR_OCCURED_WHILE_FETCHING_FEE_COMPONENTS
+            type: FETCHING_FEE_COMPONENTS_SUCCESSFUL,
+            payload: {
+              allFeeComponents: result.data.results
+            }
           });
-          console.log(err);
+        } else if (result.data.results && result.data.results.length === 0) {
+          dispatch({
+            type: FETCHING_FEE_COMPONENTS_EMPTY_RESULT_SET
+          });
         }
+      },
+      function(err) {
+        dispatch({
+          type: ERROR_OCCURED_WHILE_FETCHING_FEE_COMPONENTS
+        });
+        console.log(err);
+      }
     );
   };
 }
@@ -1150,5 +1149,31 @@ export function resetCurrentFeeComponentCreated() {
     dispatch({
       type: RESET_CURRENT_FEE_COMPONENT_CREATED
     });
+  };
+}
+
+export function createFeeComponent(payload) {
+  return async dispatch => {
+    const apiRoute = "/add_fee_components";
+    const returnedPromise = apiPost(payload, apiRoute);
+    returnedPromise.then(
+      function(result) {
+        if (result.data.results.success) {
+          dispatch({
+            type: FEE_COMPONENT_CREATED_SUCCESSFULLY
+          });
+        } else {
+          dispatch({
+            type: FEE_COMPONENT_CREATION_FAILED
+          });
+        }
+      },
+      function(err) {
+        dispatch({
+          type: ERROR_OCCURRED_ON_CREATING_FEE_COMPONENT
+        });
+        console.log(err);
+      }
+    );
   };
 }

@@ -1,0 +1,23 @@
+.personal {
+  &__submision-error {
+    font-family: Lato;
+    font-size: 13px !important;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.6;
+    letter-spacing: normal;
+    color: #e24c4b !important;
+  }
+
+  &__text-area-error {
+    background: #fff6f6;
+    box-shadow: none;
+    color: #e24c4b !important;
+    border: 1px solid #e24c4b !important;
+  }
+
+  &__hide {
+    display: none;
+  }
+}
