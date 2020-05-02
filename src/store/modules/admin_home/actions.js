@@ -1061,20 +1061,7 @@ export function assignAUserRoles(payload) {
     const returnedPromise = transactionsServicePost(payload, apiRoute);
     returnedPromise.then(
       function(result) {
-        // if (result.data.results.success) {
-        //   dispatch({
-        //     type: USER_SUCCESSFULLY_ASSIGNED_ROLES,
-        //     payload: {
-        //       userId: result.data.results.recordId
-        //     }
-        //   });
-        //   console.log(result.data.results);
-        // } else {
-        //   dispatch({
-        //     type: USER_ROLE_ASSIGNMENT_FAILED
-        //   });
-        // }
-        console.log(result);
+
       },
       function(err) {
         dispatch({
