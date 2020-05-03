@@ -7,7 +7,7 @@ import {
     REGISTER_ACADEMIC_CLASS_LEVELS, REGISTER_ACTUAL_CLASSES, REGISTER_ACTUAL_LOTS,
     REGISTER_ACTUAL_TERMS,
     REGISTER_ACTUAL_WEEKS,
-    REGISTER_CLASS_STREAMS, REGISTER_FEE_COMPONENTS,
+    REGISTER_CLASS_STREAMS, REGISTER_FEE_COMPONENTS, REGISTER_FEE_STRUCTURES,
     REGISTER_LOT_DESCRIPTION, REGISTER_SYSTEM_USER,
     REGISTER_TERM_ITERATIONS,
     REGISTER_WEEK_ITERATIONS
@@ -366,7 +366,7 @@ class AdminSideBar extends Component {
                               href=""
                               onClick={e => {
                                   e.preventDefault();
-                                  this.props.handleSideBarClicked(REGISTER_SYSTEM_USER);
+                                  this.props.handleSideBarClicked(REGISTER_FEE_STRUCTURES);
                               }}
                           >
                               Register a fee structure

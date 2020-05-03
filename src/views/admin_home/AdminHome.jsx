@@ -11,7 +11,7 @@ import {
   REGISTER_ACTUAL_LOTS,
   REGISTER_ACTUAL_TERMS,
   REGISTER_ACTUAL_WEEKS,
-  REGISTER_CLASS_STREAMS, REGISTER_FEE_COMPONENTS,
+  REGISTER_CLASS_STREAMS, REGISTER_FEE_COMPONENTS, REGISTER_FEE_STRUCTURES,
   REGISTER_LOT_DESCRIPTION,
   REGISTER_SYSTEM_USER,
   REGISTER_TERM_ITERATIONS,
@@ -32,6 +32,7 @@ import ActualLots from "./academic_class_configuration/actual_lots/ActualLots";
 import ActualClasses from "./academic_class_configuration/actual_classes/ActualClasses";
 import UserRegistration from "./system_user_management/system_user_registration/UserRegistration";
 import FeeComponentsHome from "./fee_management/fee_components/FeeComponentsHome";
+import FeeStructureHome from "./fee_management/fee_structure/FeeStructureHome";
 
 class AdminHome extends Component {
   constructor(props) {
@@ -47,7 +48,8 @@ class AdminHome extends Component {
       displayActualLots: false,
       displayActualClasses: false,
       displayUserRegistration: false,
-      displayFeeComponents: false
+      displayFeeComponents: false,
+      displayFeeStructures: false
     };
     this.idleTimer = null;
   }
@@ -89,7 +91,8 @@ class AdminHome extends Component {
         displayActualLots: false,
         displayActualClasses: false,
         displayUserRegistration: false,
-        displayFeeComponents: false
+        displayFeeComponents: false,
+        displayFeeStructures: false
       });
     } else if (formToDisplay === REGISTER_CLASS_STREAMS) {
       this.setState({
@@ -103,7 +106,8 @@ class AdminHome extends Component {
         displayActualLots: false,
         displayActualClasses: false,
         displayUserRegistration: false,
-        displayFeeComponents: false
+        displayFeeComponents: false,
+        displayFeeStructures: false
       });
     } else if (formToDisplay === REGISTER_TERM_ITERATIONS) {
       this.setState({
@@ -117,7 +121,8 @@ class AdminHome extends Component {
         displayActualLots: false,
         displayActualClasses: false,
         displayUserRegistration: false,
-        displayFeeComponents: false
+        displayFeeComponents: false,
+        displayFeeStructures: false
       });
     } else if (formToDisplay === REGISTER_WEEK_ITERATIONS) {
       this.setState({
@@ -131,7 +136,8 @@ class AdminHome extends Component {
         displayActualLots: false,
         displayActualClasses: false,
         displayUserRegistration: false,
-        displayFeeComponents: false
+        displayFeeComponents: false,
+        displayFeeStructures: false
       });
     } else if (formToDisplay === REGISTER_ACTUAL_TERMS) {
       this.setState({
@@ -145,7 +151,8 @@ class AdminHome extends Component {
         displayActualLots: false,
         displayActualClasses: false,
         displayUserRegistration: false,
-        displayFeeComponents: false
+        displayFeeComponents: false,
+        displayFeeStructures: false
       });
     } else if (formToDisplay === REGISTER_ACTUAL_WEEKS) {
       this.setState({
@@ -159,7 +166,8 @@ class AdminHome extends Component {
         displayActualLots: false,
         displayActualClasses: false,
         displayUserRegistration: false,
-        displayFeeComponents: false
+        displayFeeComponents: false,
+        displayFeeStructures: false
       });
     } else if (formToDisplay === REGISTER_LOT_DESCRIPTION) {
       this.setState({
@@ -173,7 +181,8 @@ class AdminHome extends Component {
         displayActualLots: false,
         displayActualClasses: false,
         displayUserRegistration: false,
-        displayFeeComponents: false
+        displayFeeComponents: false,
+        displayFeeStructures: false
       });
     } else if (formToDisplay === REGISTER_ACTUAL_LOTS) {
       this.setState({
@@ -187,7 +196,8 @@ class AdminHome extends Component {
         displayActualLots: true,
         displayActualClasses: false,
         displayUserRegistration: false,
-        displayFeeComponents: false
+        displayFeeComponents: false,
+        displayFeeStructures: false
       });
     } else if (formToDisplay === REGISTER_ACTUAL_CLASSES) {
       this.setState({
@@ -201,7 +211,8 @@ class AdminHome extends Component {
         displayActualLots: false,
         displayActualClasses: true,
         displayUserRegistration: false,
-        displayFeeComponents: false
+        displayFeeComponents: false,
+        displayFeeStructures: false
       });
     } else if (formToDisplay === REGISTER_SYSTEM_USER) {
       this.setState({
@@ -215,7 +226,8 @@ class AdminHome extends Component {
         displayActualLots: false,
         displayActualClasses: false,
         displayUserRegistration: true,
-        displayFeeComponents: false
+        displayFeeComponents: false,
+        displayFeeStructures: false
       });
     } else if (formToDisplay === REGISTER_FEE_COMPONENTS) {
       this.setState({
@@ -229,7 +241,23 @@ class AdminHome extends Component {
         displayActualLots: false,
         displayActualClasses: false,
         displayUserRegistration: false,
-        displayFeeComponents: true
+        displayFeeComponents: true,
+        displayFeeStructures: false
+      });
+    } else if (formToDisplay === REGISTER_FEE_STRUCTURES) {
+      this.setState({
+        displayAcademicClassLevels: false,
+        displayClassStreams: false,
+        displayTermIterations: false,
+        displayWeekIterations: false,
+        displayActualTerms: false,
+        displayActualWeeks: false,
+        displayLotDescriptions: false,
+        displayActualLots: false,
+        displayActualClasses: false,
+        displayUserRegistration: false,
+        displayFeeComponents: false,
+        displayFeeStructures: true
       });
     }
   };
@@ -317,6 +345,12 @@ class AdminHome extends Component {
                 className={this.state.displayFeeComponents ? "show" : "hide"}
             >
               <FeeComponentsHome />
+            </div>
+
+            <div
+                className={this.state.displayFeeStructures ? "show" : "hide"}
+            >
+              <FeeStructureHome />
             </div>
           </Container>
         </Columns>

@@ -63,5 +63,9 @@ export const initialState = {
     allFeeComponents: [],
     isFeeComponentFormDisplayed: false,
     isCurrentFeeComponentCreated: false
+  },
+
+  feeStructure: {
+    allFeeStructures: []
   }
 };

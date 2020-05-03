@@ -32,7 +32,7 @@ import {
   ERROR_OCCURED_WHILE_FETCHING_ALL_LOT_DESCRIPTIONS,
   ERROR_OCCURED_WHILE_FETCHING_CLASS_LEVELS,
   ERROR_OCCURED_WHILE_FETCHING_CLASS_STREAMS,
-  ERROR_OCCURED_WHILE_FETCHING_FEE_COMPONENTS,
+  ERROR_OCCURED_WHILE_FETCHING_FEE_COMPONENTS, ERROR_OCCURED_WHILE_FETCHING_FEE_STRUCTURES,
   ERROR_OCCURED_WHILE_FETCHING_TERM_ITERATIONS,
   ERROR_OCCURED_WHILE_FETCHING_WEEK_ITERATIONS,
   ERROR_OCCURED_WHILE_FETCHING_YEARS_WEEKS,
@@ -62,7 +62,7 @@ import {
   FETCHING_CLASS_STREAMS_EMPTY_RESULT_SET,
   FETCHING_CLASS_STREAMS_SUCCESSFUL,
   FETCHING_FEE_COMPONENTS_EMPTY_RESULT_SET,
-  FETCHING_FEE_COMPONENTS_SUCCESSFUL,
+  FETCHING_FEE_COMPONENTS_SUCCESSFUL, FETCHING_FEE_STRUCTURES_EMPTY_RESULT_SET, FETCHING_FEE_STRUCTURES_SUCCESSFUL,
   FETCHING_TERM_ITERATIONS_EMPTY_RESULT_SET,
   FETCHING_TERM_ITERATIONS_SUCCESSFUL,
   FETCHING_WEEK_ITERATIONS_EMPTY_RESULT_SET,
@@ -1161,6 +1161,41 @@ export function createFeeComponent(payload) {
         });
         console.log(err);
       }
+    );
+  };
+}
+
+
+/* END - FEE_COMPONENTS_REGISTRATION *****************************************************************************************/
+
+/* START - FEE STRUCTURES *****************************************************************************************/
+
+
+export function fetchAllFeeStructures() {
+  return async dispatch => {
+    const apiRoute = "/get_all_fee_structures";
+    const returnedPromise = apiGetAll(apiRoute);
+    returnedPromise.then(
+        function(result) {
+          if (result.data.results && result.data.results.length > 0) {
+            dispatch({
+              type: FETCHING_FEE_STRUCTURES_SUCCESSFUL,
+              payload: {
+                allFeeComponents: result.data.results
+              }
+            });
+          } else if (result.data.results && result.data.results.length === 0) {
+            dispatch({
+              type: FETCHING_FEE_STRUCTURES_EMPTY_RESULT_SET
+            });
+          }
+        },
+        function(err) {
+          dispatch({
+            type: ERROR_OCCURED_WHILE_FETCHING_FEE_STRUCTURES
+          });
+          console.log(err);
+        }
     );
   };
 }
