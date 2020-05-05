@@ -66,6 +66,8 @@ export const initialState = {
   },
 
   feeStructure: {
-    allFeeStructures: []
+    allFeeStructures: [],
+    isFeeStructureFormDisplayed: false,
+    isCurrentFeeStructureCreated: false
   }
 };

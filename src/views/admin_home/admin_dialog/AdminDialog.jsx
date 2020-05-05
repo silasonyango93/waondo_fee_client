@@ -16,6 +16,7 @@ import ActualLotsForm from "../academic_class_configuration/actual_lots/ActualLo
 import ActualClassesForm from "../academic_class_configuration/actual_classes/ActualClassesForm";
 import UserRegistrationForm from "../system_user_management/system_user_registration/UserRegistrationForm";
 import FeeComponentsForm from "../fee_management/fee_components/FeeComponentsForm";
+import FeeStructureForm from "../fee_management/fee_structure/FeeStructureForm";
 
 class AdminDialog extends Component {
   state = {
@@ -135,6 +136,12 @@ class AdminDialog extends Component {
           >
             <FeeComponentsForm />
           </div>
+
+          <div
+              className={this.props.isFeeStructureFormDisplayed ? "show" : "hide"}
+          >
+            <FeeStructureForm />
+          </div>
         </Modal>
       </div>
     );
@@ -157,7 +164,8 @@ AdminDialog.propTypes = {
   isActualLotsFormDisplayed: PropTypes.bool.isRequired,
   isActualClassesFormDisplayed: PropTypes.bool.isRequired,
   isUserRegistrationFormDisplayed: PropTypes.bool.isRequired,
-  isFeeComponentFormDisplayed: PropTypes.bool.isRequired
+  isFeeComponentFormDisplayed: PropTypes.bool.isRequired,
+  isFeeStructureFormDisplayed: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -186,7 +194,9 @@ const mapStateToProps = state => ({
   isUserRegistrationFormDisplayed:
   state.admin_home.userManagement.isUserRegistrationFormDisplayed,
   isFeeComponentFormDisplayed:
-  state.admin_home.feeComponents.isFeeComponentFormDisplayed
+  state.admin_home.feeComponents.isFeeComponentFormDisplayed,
+  isFeeStructureFormDisplayed:
+  state.admin_home.feeStructure.isFeeStructureFormDisplayed
 });
 
 const mapDispatchToProps = dispatch => ({

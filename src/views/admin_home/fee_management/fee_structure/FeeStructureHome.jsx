@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import Table from "../../../../components/table/table_body/Table";
 import {
     fetchAllFeeStructures,
-    setupFeeComponentRegistrationForm
+     setupFeeStructuresForm
 } from "../../../../store/modules/admin_home/actions";
 
 
@@ -35,8 +35,8 @@ class FeeStructureHome extends Component {
                             id: index + 1,
                             FeeStructureDescription: item.FeeStructureDescription,
                             DateCreated: item.DateCreated,
-                            IsCurrentFeeStructure: item.IsCurrentFeeStructure,
-                            IsProspect: item.IsProspect
+                            IsCurrentFeeStructure: item.IsCurrentFeeStructure > 0 ? "Yes" : "No",
+                            IsProspect: item.IsProspect > 0 ? "Yes" : "No"
                         };
                     }
                 );
@@ -52,7 +52,7 @@ class FeeStructureHome extends Component {
                 <div className="level__table-div">
                     <Table
                         addIconClicked={() => {
-                            this.props.setupFeeComponentRegistrationForm();
+                            this.props.setupFeeStructuresForm();
                         }}
                         tableTitle="Fee Structures"
                         tableHeaderObject={this.state.tableHeaders}
@@ -66,7 +66,7 @@ class FeeStructureHome extends Component {
 
 
 FeeStructureHome.propTypes = {
-    setupFeeComponentRegistrationForm: PropTypes.func.isRequired,
+    setupFeeStructuresForm: PropTypes.func.isRequired,
     fetchAllFeeStructures: PropTypes.func.isRequired,
     allFeeStructures: PropTypes.arrayOf(PropTypes.object).isRequired
 };
@@ -76,7 +76,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    setupFeeComponentRegistrationForm: () => dispatch(setupFeeComponentRegistrationForm()),
+    setupFeeStructuresForm: () => dispatch(setupFeeStructuresForm()),
     fetchAllFeeStructures: () => dispatch(fetchAllFeeStructures())
 });
 

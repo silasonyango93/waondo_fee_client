@@ -43,12 +43,12 @@ import {
   ERROR_OCCURRED_ON_CREATING_ACTUAL_WEEK,
   ERROR_OCCURRED_ON_CREATING_CLASS_LEVEL,
   ERROR_OCCURRED_ON_CREATING_CLASS_STREAM,
-  ERROR_OCCURRED_ON_CREATING_FEE_COMPONENT,
+  ERROR_OCCURRED_ON_CREATING_FEE_COMPONENT, ERROR_OCCURRED_ON_CREATING_FEE_STRUCTURE,
   ERROR_OCCURRED_ON_CREATING_LOT_DESCRIPTION,
   ERROR_OCCURRED_ON_CREATING_TERM_ITERATION,
   ERROR_OCCURRED_ON_CREATING_WEEK_ITERATION,
   FEE_COMPONENT_CREATED_SUCCESSFULLY,
-  FEE_COMPONENT_CREATION_FAILED,
+  FEE_COMPONENT_CREATION_FAILED, FEE_STRUCTURE_CREATED_SUCCESSFULLY, FEE_STRUCTURE_CREATION_FAILED,
   FETCHING_ACTUAL_TERMS_EMPTY_RESULT_SET,
   FETCHING_ACTUAL_TERMS_SUCCESSFUL,
   FETCHING_ALL_ACTUAL_CLASSES_EMPTY_RESULT_SET,
@@ -77,7 +77,7 @@ import {
   RESET_CURRENT_ACTUAL_TERM_CREATED,
   RESET_CURRENT_ACTUAL_WEEK_CREATED,
   RESET_CURRENT_CLASS_STREAM_CREATED,
-  RESET_CURRENT_FEE_COMPONENT_CREATED,
+  RESET_CURRENT_FEE_COMPONENT_CREATED, RESET_CURRENT_FEE_STRUCTURE_CREATED,
   RESET_CURRENT_LOT_DESCRIPTION_CREATED,
   RESET_CURRENT_TERM_ITERATION_CREATED,
   RESET_CURRENT_WEEK_ITERATION_CREATED,
@@ -172,7 +172,8 @@ export function setupClassLevelForm() {
         isActualLotsFormDisplayed: false,
         isActualClassesFormDisplayed: false,
         isUserRegistrationFormDisplayed: false,
-        isFeeComponentFormDisplayed: false
+        isFeeComponentFormDisplayed: false,
+        isFeeStructureFormDisplayed: false
       }
     });
   };
@@ -309,7 +310,8 @@ export function setupClassStreamForm() {
         isActualLotsFormDisplayed: false,
         isActualClassesFormDisplayed: false,
         isUserRegistrationFormDisplayed: false,
-        isFeeComponentFormDisplayed: false
+        isFeeComponentFormDisplayed: false,
+        isFeeStructureFormDisplayed: false
       }
     });
   };
@@ -369,7 +371,8 @@ export function setupTermIterationsForm() {
         isActualLotsFormDisplayed: false,
         isActualClassesFormDisplayed: false,
         isUserRegistrationFormDisplayed: false,
-        isFeeComponentFormDisplayed: false
+        isFeeComponentFormDisplayed: false,
+        isFeeStructureFormDisplayed: false
       }
     });
   };
@@ -467,7 +470,8 @@ export function setupWeekIterationsForm() {
         isActualLotsFormDisplayed: false,
         isActualClassesFormDisplayed: false,
         isUserRegistrationFormDisplayed: false,
-        isFeeComponentFormDisplayed: false
+        isFeeComponentFormDisplayed: false,
+        isFeeStructureFormDisplayed: false
       }
     });
   };
@@ -565,7 +569,8 @@ export function setupActualTermsForm() {
         isActualLotsFormDisplayed: false,
         isActualClassesFormDisplayed: false,
         isUserRegistrationFormDisplayed: false,
-        isFeeComponentFormDisplayed: false
+        isFeeComponentFormDisplayed: false,
+        isFeeStructureFormDisplayed: false
       }
     });
   };
@@ -663,7 +668,8 @@ export function setupActualWeeksForm() {
         isActualLotsFormDisplayed: false,
         isActualClassesFormDisplayed: false,
         isUserRegistrationFormDisplayed: false,
-        isFeeComponentFormDisplayed: false
+        isFeeComponentFormDisplayed: false,
+        isFeeStructureFormDisplayed: false
       }
     });
   };
@@ -761,7 +767,8 @@ export function setupLotDescriptionsForm() {
         isActualLotsFormDisplayed: false,
         isActualClassesFormDisplayed: false,
         isUserRegistrationFormDisplayed: false,
-        isFeeComponentFormDisplayed: false
+        isFeeComponentFormDisplayed: false,
+        isFeeStructureFormDisplayed: false
       }
     });
   };
@@ -859,7 +866,8 @@ export function setupActualLotsForm() {
         isActualLotsFormDisplayed: true,
         isActualClassesFormDisplayed: false,
         isUserRegistrationFormDisplayed: false,
-        isFeeComponentFormDisplayed: false
+        isFeeComponentFormDisplayed: false,
+        isFeeStructureFormDisplayed: false
       }
     });
   };
@@ -957,7 +965,8 @@ export function setupActualClassesForm() {
         isActualLotsFormDisplayed: false,
         isActualClassesFormDisplayed: true,
         isUserRegistrationFormDisplayed: false,
-        isFeeComponentFormDisplayed: false
+        isFeeComponentFormDisplayed: false,
+        isFeeStructureFormDisplayed: false
       }
     });
   };
@@ -1023,7 +1032,8 @@ export function setupSystemUserRegistrationForm() {
         isActualLotsFormDisplayed: false,
         isActualClassesFormDisplayed: false,
         isUserRegistrationFormDisplayed: true,
-        isFeeComponentFormDisplayed: false
+        isFeeComponentFormDisplayed: false,
+        isFeeStructureFormDisplayed: false
       }
     });
   };
@@ -1125,7 +1135,8 @@ export function setupFeeComponentRegistrationForm() {
         isActualLotsFormDisplayed: false,
         isActualClassesFormDisplayed: false,
         isUserRegistrationFormDisplayed: false,
-        isFeeComponentFormDisplayed: true
+        isFeeComponentFormDisplayed: true,
+        isFeeStructureFormDisplayed: false
       }
     });
   };
@@ -1181,7 +1192,7 @@ export function fetchAllFeeStructures() {
             dispatch({
               type: FETCHING_FEE_STRUCTURES_SUCCESSFUL,
               payload: {
-                allFeeComponents: result.data.results
+                allFeeStructures: result.data.results
               }
             });
           } else if (result.data.results && result.data.results.length === 0) {
@@ -1197,5 +1208,66 @@ export function fetchAllFeeStructures() {
           console.log(err);
         }
     );
+  };
+}
+
+export function setupFeeStructuresForm() {
+  return async dispatch => {
+    dispatch({
+      type: SETUP_FEE_COMPONENT_REGISTRATION_FORM,
+      payload: {
+        isAdminModalDisplayed: true,
+        dialogHeight: "450",
+        dialogWidth: "500",
+        isAcademicClassLevelFormDisplayed: false,
+        isClassStreamFormDisplayed: false,
+        modalTitle: "Fee Structure",
+        isTermIterationsFormDisplayed: false,
+        isWeekIterationsFormDisplayed: false,
+        isActualTermsFormDisplayed: false,
+        isActualWeeksFormDisplayed: false,
+        isLotDescriptionsFormDisplayed: false,
+        isActualLotsFormDisplayed: false,
+        isActualClassesFormDisplayed: false,
+        isUserRegistrationFormDisplayed: false,
+        isFeeComponentFormDisplayed: false,
+        isFeeStructureFormDisplayed: true
+      }
+    });
+  };
+}
+
+
+export function createFeeStructure(payload) {
+  return async dispatch => {
+    const apiRoute = "/add_fee_structures";
+    const returnedPromise = apiPost(payload, apiRoute);
+    returnedPromise.then(
+        function(result) {
+          if (result.data.results.success) {
+            dispatch({
+              type: FEE_STRUCTURE_CREATED_SUCCESSFULLY
+            });
+          } else {
+            dispatch({
+              type: FEE_STRUCTURE_CREATION_FAILED
+            });
+          }
+        },
+        function(err) {
+          dispatch({
+            type: ERROR_OCCURRED_ON_CREATING_FEE_STRUCTURE
+          });
+          console.log(err);
+        }
+    );
+  };
+}
+
+export function resetCurrentFeeStructureCreated() {
+  return async dispatch => {
+    dispatch({
+      type: RESET_CURRENT_FEE_STRUCTURE_CREATED
+    });
   };
 }
