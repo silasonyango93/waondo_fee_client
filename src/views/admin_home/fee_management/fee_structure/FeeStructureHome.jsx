@@ -15,8 +15,8 @@ class FeeStructureHome extends Component {
             columnZero: "#",
             columnOne: "Description",
             columnTwo: "Date created",
-            columnThree: "Is Current Fee Structure",
-            columnFour: "Is ProspectFeeStructure"
+            columnThree: "Is the Current Fee Structure",
+            columnFour: "Is the Prospect FeeStructure"
         }
     };
 
