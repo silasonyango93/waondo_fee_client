@@ -1179,7 +1179,7 @@ export function createFeeComponent(payload) {
 
 /* END - FEE_COMPONENTS_REGISTRATION *****************************************************************************************/
 
-/* START - FEE STRUCTURES *****************************************************************************************/
+/* START - FEE STRUCTURES *****************************************************************************************************/
 
 
 export function fetchAllFeeStructures() {
