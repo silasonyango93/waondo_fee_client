@@ -279,3 +279,10 @@ export const ERROR_OCCURRED_ON_CREATING_FEE_STRUCTURE =
 
 export const RESET_CURRENT_FEE_STRUCTURE_CREATED =
     "RESET_CURRENT_FEE_STRUCTURE_CREATED";
+
+/* END - FEE STRUCTURES ***************************************************************************************/
+
+/* START - CLASS FEE STRUCTURES ***************************************************************************************/
+
+export const SETUP_CLASS_FEE_STRUCTURE_FORM =
+    "SETUP_CLASS_FEE_STRUCTURE_FORM";

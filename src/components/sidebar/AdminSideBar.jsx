@@ -6,7 +6,7 @@ import { FaCogs, FaSearch } from "react-icons/fa";
 import {
     REGISTER_ACADEMIC_CLASS_LEVELS, REGISTER_ACTUAL_CLASSES, REGISTER_ACTUAL_LOTS,
     REGISTER_ACTUAL_TERMS,
-    REGISTER_ACTUAL_WEEKS,
+    REGISTER_ACTUAL_WEEKS, REGISTER_CLASS_FEE_STRUCTURES,
     REGISTER_CLASS_STREAMS, REGISTER_FEE_COMPONENTS, REGISTER_FEE_STRUCTURES,
     REGISTER_LOT_DESCRIPTION, REGISTER_SYSTEM_USER,
     REGISTER_TERM_ITERATIONS,
@@ -370,6 +370,18 @@ class AdminSideBar extends Component {
                               }}
                           >
                               Register a fee structure
+                          </a>
+                      </li>
+
+                      <li className="second-level">
+                          <a
+                              href=""
+                              onClick={e => {
+                                  e.preventDefault();
+                                  this.props.handleSideBarClicked(REGISTER_CLASS_FEE_STRUCTURES);
+                              }}
+                          >
+                              Register a Class fee structure
                           </a>
                       </li>
 
