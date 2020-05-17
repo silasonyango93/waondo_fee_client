@@ -6,29 +6,24 @@ import { Columns } from "react-bulma-components/dist";
 import { connect } from "react-redux";
 
 import {
-  createClassFeeComponent,
-  fetchAllClassFeeStructures,
+  createClassFeeBreakDown,
   toggleAdminModalDisplay
 } from "../../../../store/modules/admin_home/actions";
 
-class ClassFeeStructureComponentsForm extends Component {
+class ClassFeeStructureBreakdownForm extends Component {
   state = {
     selectedClassFeeStructureObject: "",
     classFeeStructureOptions: [],
     selectedClassFeeStructureHasError: false,
     selectedClassFeeStructureErrorMessage: "",
-    feeComponentsOptions: [],
-    selectedFeeComponentObject: "",
-    selectedFeeComponentHasError: false,
-    selectedFeeComponentErrorMessage: "",
-    feeComponentRatio: "",
-    feeComponentRatioHasError: false,
-    feeComponentRatioErrorMessage: ""
+    termIterationOptions: [],
+    selectedTermIterationObject: "",
+    selectedTermIterationHasError: false,
+    selectedTermIterationErrorMessage: "",
+    feeAmount: "",
+    feeAmountHasError: false,
+    feeAmountErrorMessage: ""
   };
-
-  componentDidMount() {
-    this.props.fetchAllClassFeeStructures();
-  }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.allClassFeeStructures !== prevProps.allClassFeeStructures) {
@@ -45,15 +40,15 @@ class ClassFeeStructureComponentsForm extends Component {
       }
     }
 
-    if (this.props.allFeeComponents !== prevProps.allFeeComponents) {
-      if (this.props.allFeeComponents) {
-        let allFeeComponents = this.props.allFeeComponents.map(item => {
+    if (this.props.allTermIterations !== prevProps.allTermIterations) {
+      if (this.props.allTermIterations) {
+        let termIterations = this.props.allTermIterations.map((item, index) => {
           return {
-            label: item.FeeComponentDescription,
-            value: item.FeeComponentId
+            label: item.TermIterationDescription,
+            value: item.TermIterationId
           };
         });
-        this.setState({ feeComponentsOptions: allFeeComponents });
+        this.setState({ termIterationOptions: termIterations });
       }
     }
   }
@@ -74,19 +69,19 @@ class ClassFeeStructureComponentsForm extends Component {
         selectedClassFeeStructureHasError: true,
         selectedClassFeeStructureErrorMessage: "This field is required"
       });
-    } else if (!this.state.selectedFeeComponentObject) {
+    } else if (!this.state.selectedTermIterationObject) {
       this.setState({
-        selectedFeeComponentHasError: true,
-        selectedFeeComponentErrorMessage: "This field is required"
+        selectedTermIterationHasError: true,
+        selectedTermIterationErrorMessage: "This field is required"
       });
     } else {
       const payload = {
         ClassFeeStructureId: this.state.selectedClassFeeStructureObject.value,
-        FeeComponentId: this.state.selectedFeeComponentObject.value,
-        FeeComponentRatio: this.state.feeComponentRatio
+        TermIterationId: this.state.selectedTermIterationObject.value,
+        FeeAmount: this.state.feeAmount
       };
 
-      this.props.createClassFeeComponent(payload);
+      this.props.createClassFeeBreakDown(payload);
       this.props.toggleAdminModalDisplay();
     }
   };
@@ -96,7 +91,7 @@ class ClassFeeStructureComponentsForm extends Component {
       <div>
         <div className="login-panel panel panel-default dialog__main-body">
           <div className="panel-heading">
-            <h3 className="panel-title">Class Fee Components</h3>
+            <h3 className="panel-title">Class Fee Breakdown</h3>
           </div>
           <div className="panel-body">
             <form
@@ -149,17 +144,17 @@ class ClassFeeStructureComponentsForm extends Component {
                             : "react-select"
                         }
                         classNamePrefix="react-select"
-                        placeholder="Fee Component"
-                        name="selectedFeeComponentObject"
+                        placeholder="Term"
+                        name="selectedTermIterationObject"
                         closeMenuOnSelect={true}
-                        value={this.state.selectedFeeComponentObject}
+                        value={this.state.selectedTermIterationObject}
                         onChange={value =>
                           this.setState({
                             ...this.state,
-                            selectedFeeComponentObject: value
+                            selectedTermIterationObject: value
                           })
                         }
-                        options={this.state.feeComponentsOptions}
+                        options={this.state.termIterationOptions}
                       />
                       <p
                         className={
@@ -168,7 +163,7 @@ class ClassFeeStructureComponentsForm extends Component {
                             : "personal__hide"
                         }
                       >
-                        {this.state.selectedFeeComponentErrorMessage}
+                        {this.state.selectedTermIterationErrorMessage}
                       </p>
                     </div>
                   </Columns.Column>
@@ -178,14 +173,14 @@ class ClassFeeStructureComponentsForm extends Component {
                   <Columns.Column size="one-half">
                     <div className="form-group">
                       <input
-                        name="feeComponentRatio"
+                        name="feeAmount"
                         className={
-                          this.state.feeComponentRatioHasError
+                          this.state.feeAmountHasError
                             ? "form-control personal__text-area-error"
                             : "form-control"
                         }
-                        placeholder="Fee Percentage"
-                        value={this.state.feeComponentRatio}
+                        placeholder="Fee Amount"
+                        value={this.state.feeAmount}
                         type="number"
                         onChange={this.handleChange}
                         autoFocus
@@ -193,12 +188,12 @@ class ClassFeeStructureComponentsForm extends Component {
                       />
                       <p
                         className={
-                          this.state.feeComponentRatioHasError
+                          this.state.feeAmountHasError
                             ? "personal__submision-error"
                             : "personal__hide"
                         }
                       >
-                        {this.state.feeComponentRatioErrorMessage}
+                        {this.state.feeAmountErrorMessage}
                       </p>
                     </div>
                   </Columns.Column>
@@ -220,12 +215,11 @@ class ClassFeeStructureComponentsForm extends Component {
   }
 }
 
-ClassFeeStructureComponentsForm.propTypes = {
-  createClassFeeComponent: PropTypes.func.isRequired,
+ClassFeeStructureBreakdownForm.propTypes = {
+  createClassFeeBreakDown: PropTypes.func.isRequired,
   toggleAdminModalDisplay: PropTypes.func.isRequired,
   allClassFeeStructures: PropTypes.arrayOf(PropTypes.object).isRequired,
-  fetchAllClassFeeStructures: PropTypes.func.isRequired,
-  allFeeComponents: PropTypes.arrayOf(PropTypes.object).isRequired
+  allTermIterations: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 const mapStateToProps = state => ({
@@ -233,19 +227,17 @@ const mapStateToProps = state => ({
     state.admin_home.actualTerms.isCurrentActualTermCreated,
   allTermIterations: state.admin_home.termIterations.allTermIterations,
   allClassFeeStructures:
-    state.admin_home.classFeeStructure.allClassFeeStructures,
-  allFeeComponents: state.admin_home.feeComponents.allFeeComponents
+    state.admin_home.classFeeStructure.allClassFeeStructures
 });
 
 const mapDispatchToProps = dispatch => ({
-  createClassFeeComponent: payload =>
-    dispatch(createClassFeeComponent(payload)),
+  createClassFeeBreakDown: payload =>
+    dispatch(createClassFeeBreakDown(payload)),
   toggleAdminModalDisplay: isAdminModalDisplayed =>
-    dispatch(toggleAdminModalDisplay(isAdminModalDisplayed)),
-  fetchAllClassFeeStructures: () => dispatch(fetchAllClassFeeStructures())
+    dispatch(toggleAdminModalDisplay(isAdminModalDisplayed))
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ClassFeeStructureComponentsForm);
+)(ClassFeeStructureBreakdownForm);

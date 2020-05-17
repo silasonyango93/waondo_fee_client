@@ -19,6 +19,7 @@ import FeeComponentsForm from "../fee_management/fee_components/FeeComponentsFor
 import FeeStructureForm from "../fee_management/fee_structure/FeeStructureForm";
 import ClassFeeStructureForm from "../fee_management/class_fee_structure/ClassFeeStructureForm";
 import ClassFeeStructureComponentsForm from "../fee_management/class_fee_components/ClassFeeStructureComponentsForm";
+import ClassFeeStructureBreakdownForm from "../fee_management/class_fee_breakdown/ClassFeeStructureBreakdownForm";
 
 class AdminDialog extends Component {
   state = {
@@ -166,6 +167,16 @@ class AdminDialog extends Component {
           >
             <ClassFeeStructureComponentsForm />
           </div>
+
+          <div
+            className={
+              this.props.isClassFeeStructureBreakdownFormDisplayed
+                ? "show"
+                : "hide"
+            }
+          >
+            <ClassFeeStructureBreakdownForm />
+          </div>
         </Modal>
       </div>
     );
@@ -191,7 +202,8 @@ AdminDialog.propTypes = {
   isFeeComponentFormDisplayed: PropTypes.bool.isRequired,
   isFeeStructureFormDisplayed: PropTypes.bool.isRequired,
   isClassFeeStructureFormDisplayed: PropTypes.bool.isRequired,
-  isClassFeeStructureComponentsFormDisplayed: PropTypes.bool.isRequired
+  isClassFeeStructureComponentsFormDisplayed: PropTypes.bool.isRequired,
+  isClassFeeStructureBreakdownFormDisplayed: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -227,7 +239,10 @@ const mapStateToProps = state => ({
     state.admin_home.classFeeStructure.isClassFeeStructureFormDisplayed,
   isClassFeeStructureComponentsFormDisplayed:
     state.admin_home.classFeeStructureComponents
-      .isClassFeeStructureComponentsFormDisplayed
+      .isClassFeeStructureComponentsFormDisplayed,
+  isClassFeeStructureBreakdownFormDisplayed:
+    state.admin_home.classFeeStructureBreakdown
+      .isClassFeeStructureBreakdownFormDisplayed
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -78,5 +78,9 @@ export const initialState = {
 
   classFeeStructureComponents: {
     isClassFeeStructureComponentsFormDisplayed: false
+  },
+
+  classFeeStructureBreakdown: {
+    isClassFeeStructureBreakdownFormDisplayed: false
   }
 };

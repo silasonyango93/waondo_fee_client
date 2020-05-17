@@ -11,6 +11,7 @@ import {
   REGISTER_ACTUAL_LOTS,
   REGISTER_ACTUAL_TERMS,
   REGISTER_ACTUAL_WEEKS,
+  REGISTER_CLASS_FEE_BREAKDOWN,
   REGISTER_CLASS_FEE_COMPONENTS,
   REGISTER_CLASS_FEE_STRUCTURES,
   REGISTER_CLASS_STREAMS,
@@ -38,6 +39,7 @@ import UserRegistration from "./system_user_management/system_user_registration/
 import FeeComponentsHome from "./fee_management/fee_components/FeeComponentsHome";
 import FeeStructureHome from "./fee_management/fee_structure/FeeStructureHome";
 import {
+  setupClassFeeStructuresBreakdownForm,
   setupClassFeeStructuresComponentsForm,
   setupClassFeeStructuresForm
 } from "../../store/modules/admin_home/actions";
@@ -271,6 +273,8 @@ class AdminHome extends Component {
       this.props.setupClassFeeStructuresForm();
     } else if (formToDisplay === REGISTER_CLASS_FEE_COMPONENTS) {
       this.props.setupClassFeeStructuresComponentsForm();
+    } else if (formToDisplay === REGISTER_CLASS_FEE_BREAKDOWN) {
+      this.props.setupClassFeeStructuresBreakdownForm();
     }
   };
 
@@ -372,7 +376,8 @@ AdminHome.propTypes = {
   terminateCurrentSession: PropTypes.func.isRequired,
   sessionDetails: PropTypes.object.isRequired,
   setupClassFeeStructuresForm: PropTypes.func.isRequired,
-  setupClassFeeStructuresComponentsForm: PropTypes.func.isRequired
+  setupClassFeeStructuresComponentsForm: PropTypes.func.isRequired,
+  setupClassFeeStructuresBreakdownForm: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -385,7 +390,9 @@ const mapDispatchToProps = dispatch => ({
     dispatch(terminateCurrentSession(payload)),
   setupClassFeeStructuresForm: () => dispatch(setupClassFeeStructuresForm()),
   setupClassFeeStructuresComponentsForm: () =>
-    dispatch(setupClassFeeStructuresComponentsForm())
+    dispatch(setupClassFeeStructuresComponentsForm()),
+  setupClassFeeStructuresBreakdownForm: () =>
+    dispatch(setupClassFeeStructuresBreakdownForm())
 });
 
 export default connect(

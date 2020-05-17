@@ -9,6 +9,7 @@ import {
   REGISTER_ACTUAL_LOTS,
   REGISTER_ACTUAL_TERMS,
   REGISTER_ACTUAL_WEEKS,
+  REGISTER_CLASS_FEE_BREAKDOWN,
   REGISTER_CLASS_FEE_COMPONENTS,
   REGISTER_CLASS_FEE_STRUCTURES,
   REGISTER_CLASS_STREAMS,
@@ -404,6 +405,20 @@ class AdminSideBar extends Component {
                     }}
                   >
                     Register a Class fee components
+                  </a>
+                </li>
+
+                <li className="second-level">
+                  <a
+                    href=""
+                    onClick={e => {
+                      e.preventDefault();
+                      this.props.handleSideBarClicked(
+                        REGISTER_CLASS_FEE_BREAKDOWN
+                      );
+                    }}
+                  >
+                    Register a Class fee breakdown
                   </a>
                 </li>
               </ul>

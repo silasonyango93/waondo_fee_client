@@ -35,6 +35,7 @@ import {
   SETUP_ACTUAL_LOTS_FORM,
   SETUP_ACTUAL_TERMS_FORM,
   SETUP_ACTUAL_WEEKS_FORM,
+  SETUP_CLASS_FEE_STRUCTURE_BREAKDOWN_FORM,
   SETUP_CLASS_FEE_STRUCTURE_COMPONENTS_FORM,
   SETUP_CLASS_FEE_STRUCTURE_FORM,
   SETUP_CLASS_LEVEL_FORM,
@@ -112,6 +113,10 @@ export const ACTION_HANDLERS = {
       classFeeStructureComponents: {
         isClassFeeStructureComponentsFormDisplayed:
           action.payload.isClassFeeStructureComponentsFormDisplayed
+      },
+      classFeeStructureBreakdown: {
+        isClassFeeStructureBreakdownFormDisplayed:
+          action.payload.isClassFeeStructureBreakdownFormDisplayed
       }
     }),
   [FETCHING_CLASS_LEVELS_SUCCESSFUL]: (state, action) =>
@@ -184,6 +189,10 @@ export const ACTION_HANDLERS = {
       classFeeStructureComponents: {
         isClassFeeStructureComponentsFormDisplayed:
           action.payload.isClassFeeStructureComponentsFormDisplayed
+      },
+      classFeeStructureBreakdown: {
+        isClassFeeStructureBreakdownFormDisplayed:
+          action.payload.isClassFeeStructureBreakdownFormDisplayed
       }
     }),
 
@@ -259,6 +268,10 @@ export const ACTION_HANDLERS = {
       classFeeStructureComponents: {
         isClassFeeStructureComponentsFormDisplayed:
           action.payload.isClassFeeStructureComponentsFormDisplayed
+      },
+      classFeeStructureBreakdown: {
+        isClassFeeStructureBreakdownFormDisplayed:
+          action.payload.isClassFeeStructureBreakdownFormDisplayed
       }
     }),
   [RESET_CURRENT_TERM_ITERATION_CREATED]: (state, action) =>
@@ -335,6 +348,10 @@ export const ACTION_HANDLERS = {
       classFeeStructureComponents: {
         isClassFeeStructureComponentsFormDisplayed:
           action.payload.isClassFeeStructureComponentsFormDisplayed
+      },
+      classFeeStructureBreakdown: {
+        isClassFeeStructureBreakdownFormDisplayed:
+          action.payload.isClassFeeStructureBreakdownFormDisplayed
       }
     }),
   [WEEK_ITERATION_CREATED_SUCCESSFULLY]: (state, action) =>
@@ -403,6 +420,10 @@ export const ACTION_HANDLERS = {
       classFeeStructureComponents: {
         isClassFeeStructureComponentsFormDisplayed:
           action.payload.isClassFeeStructureComponentsFormDisplayed
+      },
+      classFeeStructureBreakdown: {
+        isClassFeeStructureBreakdownFormDisplayed:
+          action.payload.isClassFeeStructureBreakdownFormDisplayed
       }
     }),
   [RESET_CURRENT_ACTUAL_TERM_CREATED]: (state, action) =>
@@ -476,6 +497,10 @@ export const ACTION_HANDLERS = {
       classFeeStructureComponents: {
         isClassFeeStructureComponentsFormDisplayed:
           action.payload.isClassFeeStructureComponentsFormDisplayed
+      },
+      classFeeStructureBreakdown: {
+        isClassFeeStructureBreakdownFormDisplayed:
+          action.payload.isClassFeeStructureBreakdownFormDisplayed
       }
     }),
   [RESET_CURRENT_ACTUAL_WEEK_CREATED]: (state, action) =>
@@ -549,6 +574,10 @@ export const ACTION_HANDLERS = {
       classFeeStructureComponents: {
         isClassFeeStructureComponentsFormDisplayed:
           action.payload.isClassFeeStructureComponentsFormDisplayed
+      },
+      classFeeStructureBreakdown: {
+        isClassFeeStructureBreakdownFormDisplayed:
+          action.payload.isClassFeeStructureBreakdownFormDisplayed
       }
     }),
   [RESET_CURRENT_LOT_DESCRIPTION_CREATED]: (state, action) =>
@@ -622,6 +651,10 @@ export const ACTION_HANDLERS = {
       classFeeStructureComponents: {
         isClassFeeStructureComponentsFormDisplayed:
           action.payload.isClassFeeStructureComponentsFormDisplayed
+      },
+      classFeeStructureBreakdown: {
+        isClassFeeStructureBreakdownFormDisplayed:
+          action.payload.isClassFeeStructureBreakdownFormDisplayed
       }
     }),
   [RESET_CURRENT_ACTUAL_LOT_CREATED]: (state, action) =>
@@ -695,6 +728,10 @@ export const ACTION_HANDLERS = {
       classFeeStructureComponents: {
         isClassFeeStructureComponentsFormDisplayed:
           action.payload.isClassFeeStructureComponentsFormDisplayed
+      },
+      classFeeStructureBreakdown: {
+        isClassFeeStructureBreakdownFormDisplayed:
+          action.payload.isClassFeeStructureBreakdownFormDisplayed
       }
     }),
   [RESET_CURRENT_ACTUAL_CLASS_CREATED]: state =>
@@ -763,6 +800,10 @@ export const ACTION_HANDLERS = {
       classFeeStructureComponents: {
         isClassFeeStructureComponentsFormDisplayed:
           action.payload.isClassFeeStructureComponentsFormDisplayed
+      },
+      classFeeStructureBreakdown: {
+        isClassFeeStructureBreakdownFormDisplayed:
+          action.payload.isClassFeeStructureBreakdownFormDisplayed
       }
     }),
 
@@ -828,6 +869,10 @@ export const ACTION_HANDLERS = {
       classFeeStructureComponents: {
         isClassFeeStructureComponentsFormDisplayed:
           action.payload.isClassFeeStructureComponentsFormDisplayed
+      },
+      classFeeStructureBreakdown: {
+        isClassFeeStructureBreakdownFormDisplayed:
+          action.payload.isClassFeeStructureBreakdownFormDisplayed
       }
     }),
   [RESET_CURRENT_FEE_COMPONENT_CREATED]: state =>
@@ -902,6 +947,10 @@ export const ACTION_HANDLERS = {
       classFeeStructureComponents: {
         isClassFeeStructureComponentsFormDisplayed:
           action.payload.isClassFeeStructureComponentsFormDisplayed
+      },
+      classFeeStructureBreakdown: {
+        isClassFeeStructureBreakdownFormDisplayed:
+          action.payload.isClassFeeStructureBreakdownFormDisplayed
       }
     }),
   [FEE_STRUCTURE_CREATED_SUCCESSFULLY]: state =>
@@ -971,6 +1020,10 @@ export const ACTION_HANDLERS = {
       classFeeStructureComponents: {
         isClassFeeStructureComponentsFormDisplayed:
           action.payload.isClassFeeStructureComponentsFormDisplayed
+      },
+      classFeeStructureBreakdown: {
+        isClassFeeStructureBreakdownFormDisplayed:
+          action.payload.isClassFeeStructureBreakdownFormDisplayed
       }
     }),
 
@@ -1031,6 +1084,10 @@ export const ACTION_HANDLERS = {
       classFeeStructureComponents: {
         isClassFeeStructureComponentsFormDisplayed:
           action.payload.isClassFeeStructureComponentsFormDisplayed
+      },
+      classFeeStructureBreakdown: {
+        isClassFeeStructureBreakdownFormDisplayed:
+          action.payload.isClassFeeStructureBreakdownFormDisplayed
       }
     }),
 
@@ -1038,6 +1095,70 @@ export const ACTION_HANDLERS = {
     Object.assign({}, state, {
       classFeeStructure: {
         allClassFeeStructures: action.payload.allClassFeeStructures
+      }
+    }),
+
+  /* END - CLASS FEE STRUCTURE COMPONENTS ***************************************************************************************/
+
+  /* START - CLASS FEE STRUCTURE BREAKDOWN ***************************************************************************************/
+
+  [SETUP_CLASS_FEE_STRUCTURE_BREAKDOWN_FORM]: (state, action) =>
+    Object.assign({}, state, {
+      isAdminModalDisplayed: action.payload.isAdminModalDisplayed,
+      dialogHeight: action.payload.dialogHeight,
+      dialogWidth: action.payload.dialogWidth,
+      modalTitle: action.payload.modalTitle,
+      isAcademicClassLevelFormDisplayed:
+        action.payload.isAcademicClassLevelFormDisplayed,
+      classStreams: {
+        isClassStreamFormDisplayed: action.payload.isClassStreamFormDisplayed
+      },
+      termIterations: {
+        isTermIterationsFormDisplayed:
+          action.payload.isTermIterationsFormDisplayed
+      },
+      weekIterations: {
+        isWeekIterationsFormDisplayed:
+          action.payload.isWeekIterationsFormDisplayed
+      },
+      actualTerms: {
+        isActualTermsFormDisplayed: action.payload.isActualTermsFormDisplayed
+      },
+      actualWeeks: {
+        isActualWeeksFormDisplayed: action.payload.isActualWeeksFormDisplayed
+      },
+      lotDescriptions: {
+        isLotDescriptionsFormDisplayed:
+          action.payload.isLotDescriptionsFormDisplayed
+      },
+      actualLots: {
+        isActualLotsFormDisplayed: action.payload.isActualLotsFormDisplayed
+      },
+      actualClasses: {
+        isActualClassesFormDisplayed:
+          action.payload.isActualClassesFormDisplayed
+      },
+      userManagement: {
+        isUserRegistrationFormDisplayed:
+          action.payload.isUserRegistrationFormDisplayed
+      },
+      feeComponents: {
+        isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
+      },
+      feeStructure: {
+        isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
+      },
+      classFeeStructure: {
+        isClassFeeStructureFormDisplayed:
+          action.payload.isClassFeeStructureFormDisplayed
+      },
+      classFeeStructureComponents: {
+        isClassFeeStructureComponentsFormDisplayed:
+          action.payload.isClassFeeStructureComponentsFormDisplayed
+      },
+      classFeeStructureBreakdown: {
+        isClassFeeStructureBreakdownFormDisplayed:
+          action.payload.isClassFeeStructureBreakdownFormDisplayed
       }
     })
 };
