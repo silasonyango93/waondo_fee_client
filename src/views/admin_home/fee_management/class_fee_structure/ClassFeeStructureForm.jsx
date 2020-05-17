@@ -8,56 +8,47 @@ import { Columns } from "react-bulma-components/dist";
 import { connect } from "react-redux";
 
 import {
-    createActualTerm,
-     fetchAllActualTerms, fetchAllTermIterations,
-     resetCurrentActualTermCreated,
+    createActualTerm, createClassFeeStructure,
+    fetchAllActualTerms, fetchAllTermIterations,
+    resetCurrentActualTermCreated,
     toggleAdminModalDisplay
 } from "../../../../store/modules/admin_home/actions";
 
 class ClassFeeStructureForm extends Component {
     state = {
-        selectedTermIterationObject: "",
-        termIterations: [],
-        selectedTermIterationHasError: false,
-        selectedTermIterationErrorMessage: "",
-        termStartDate: "",
-        termStartDateHasError: false,
-        termStartDateErrorMessage: "",
-        termEndDate: "",
-        termEndDateHasError: false,
-        termEndDateErrorMessage: "",
-        year: "",
-        yearHasError: false,
-        yearErrorMessage: ""
+        selectedFeeStructureObject: "",
+        feeStructureOptions: [],
+        selectedFeeStructureHasError: false,
+        selectedFeeStructureErrorMessage: "",
+        classLevelOptions:[],
+        selectedClassLevelObject: "",
+        selectedClassLevelHasError: false,
+        selectedClassLevelErrorMessage: ""
     };
 
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (
-            this.props.isCurrentActualTermCreated !==
-            prevProps.isCurrentActualTermCreated
-        ) {
-            if (this.props.isCurrentActualTermCreated) {
-                const payload = {
-                    TableOne: "term_iterations",
-                    JoiningKey: "TermIterationId",
-                    SearchColumn: "Year",
-                    SearchValue: new Date().getFullYear()
-                };
-                this.props.fetchAllActualTerms(payload);
-                this.props.resetCurrentActualTermCreated();
+        if(this.props.allFeeStructures !== prevProps.allFeeStructures) {
+            if(this.props.allFeeStructures) {
+                let allFeeStructures = this.props.allFeeStructures.map((item, index) => {
+                    return {
+                        label: item.FeeStructureDescription,
+                        value: item.FeeStructureId
+                    };
+                });
+                this.setState({feeStructureOptions: allFeeStructures});
             }
         }
 
-        if(this.props.allTermIterations !== prevProps.allTermIterations) {
-            if(this.props.allTermIterations) {
-                let termIterations = this.props.allTermIterations.map((item, index) => {
+        if (this.props.allAcademicClassLevels !== prevProps.allAcademicClassLevels) {
+            if (this.props.allAcademicClassLevels) {
+                let allAcademicClassLevels = this.props.allAcademicClassLevels.map(item => {
                     return {
-                        label: item.TermIterationDescription,
-                        value: item.TermIterationId
+                        label: item.AcademicClassLevelName,
+                        value: item.AcademicClassLevelId
                     };
                 });
-                this.setState({termIterations: termIterations});
+                this.setState({ classLevelOptions: allAcademicClassLevels });
             }
         }
     }
@@ -70,36 +61,21 @@ class ClassFeeStructureForm extends Component {
         });
     };
 
-    handleYearChange = (year) => {
-        this.setState({year});
-    };
 
     handleSubmit = e => {
         e.preventDefault();
 
-        if(!isNaN(this.state.year)) {
-            let termStartDate =
-                this.state.termStartDate._d.getFullYear() +
-                "-" +
-                (this.state.termStartDate._d.getMonth() + 1) +
-                "-" +
-                this.state.termStartDate._d.getDate();
-
-            let termEndDate =
-                this.state.termEndDate._d.getFullYear() +
-                "-" +
-                (this.state.termEndDate._d.getMonth() + 1) +
-                "-" +
-                this.state.termEndDate._d.getDate();
+        if(!this.state.selectedFeeStructureObject) {
+            this.setState({selectedFeeStructureHasError: true, selectedFeeStructureErrorMessage: "Fee structure is required"});
+        } else if(!this.state.selectedClassLevelObject) {
+            this.setState({selectedClassLevelHasError: true, selectedClassLevelErrorMessage: "Class is required"});
+        } else {
             const payload = {
-                TermIterationId: this.state.selectedTermIterationObject.value,
-                TermStartDate: termStartDate,
-                TermEndDate: termEndDate,
-                Year: this.state.year
+                FeeStructureId: this.state.selectedFeeStructureObject.value,
+                AcademicClassLevelId: this.state.selectedClassLevelObject.value
             };
 
-            this.props.createActualTerm(payload);
-            this.props.toggleAdminModalDisplay(false);
+            this.props.createClassFeeStructure(payload);
         }
 
     };
@@ -126,100 +102,71 @@ class ClassFeeStructureForm extends Component {
                                         <div className="form-group">
                                             <Select
                                                 className={
-                                                    this.state.selectedTermIterationHasError
+                                                    this.state.selectedFeeStructureHasError
                                                         ? "react-select personal__text-area-error"
                                                         : "react-select"
                                                 }
                                                 classNamePrefix="react-select"
-                                                placeholder="Term Iteration"
-                                                name="selectedTermIterationObject"
+                                                placeholder="Fee Structure"
+                                                name="selectedFeeStructureObject"
                                                 closeMenuOnSelect={true}
-                                                value={this.state.selectedTermIterationObject}
+                                                value={this.state.selectedFeeStructureObject}
                                                 onChange={value =>
                                                     this.setState({
                                                         ...this.state,
-                                                        selectedTermIterationObject: value
+                                                        selectedFeeStructureObject: value
                                                     })
                                                 }
-                                                options={this.state.termIterations}
+                                                options={this.state.feeStructureOptions}
                                             />
                                             <p
                                                 className={
-                                                    this.state.selectedTermIterationHasError
+                                                    this.state.selectedFeeStructureHasError
                                                         ? "personal__submision-error"
                                                         : "personal__hide"
                                                 }
                                             >
-                                                {this.state.selectedTermIterationErrorMessage}
+                                                {this.state.selectedFeeStructureErrorMessage}
                                             </p>
                                         </div>
                                     </Columns.Column>
 
-                                    <Columns.Column size="one-half">
-                                        <div className="form-group">
-                                            <Select
-                                                className={
-                                                    this.state.selectedTermIterationHasError
-                                                        ? "react-select personal__text-area-error"
-                                                        : "react-select"
-                                                }
-                                                classNamePrefix="react-select"
-                                                placeholder="Term Iteration"
-                                                name="selectedTermIterationObject"
-                                                closeMenuOnSelect={true}
-                                                value={this.state.selectedTermIterationObject}
-                                                onChange={value =>
-                                                    this.setState({
-                                                        ...this.state,
-                                                        selectedTermIterationObject: value
-                                                    })
-                                                }
-                                                options={this.state.termIterations}
-                                            />
-                                            <p
-                                                className={
-                                                    this.state.selectedTermIterationHasError
-                                                        ? "personal__submision-error"
-                                                        : "personal__hide"
-                                                }
-                                            >
-                                                {this.state.selectedTermIterationErrorMessage}
-                                            </p>
-                                        </div>
-                                    </Columns.Column>
                                 </Columns>
 
                                 <Columns>
                                     <Columns.Column size="one-half">
                                         <div className="form-group">
-                                            <input
-                                                name="feeComponent"
+                                            <Select
                                                 className={
-                                                    this.state.feeComponentHassError
-                                                        ? "form-control personal__text-area-error"
-                                                        : "form-control"
+                                                    this.state.selectedClassLevelHasError
+                                                        ? "react-select personal__text-area-error"
+                                                        : "react-select"
                                                 }
-                                                placeholder="Fee Component"
-                                                value={this.state.feeComponent}
-                                                type="text"
-                                                onChange={this.handleChange}
-                                                autoFocus
-                                                required={true}
+                                                classNamePrefix="react-select"
+                                                placeholder="Class"
+                                                name="selectedClassLevelObject"
+                                                closeMenuOnSelect={true}
+                                                value={this.state.selectedClassLevelObject}
+                                                onChange={value =>
+                                                    this.setState({
+                                                        ...this.state,
+                                                        selectedClassLevelObject: value
+                                                    })
+                                                }
+                                                options={this.state.classLevelOptions}
                                             />
                                             <p
                                                 className={
-                                                    this.state.feeComponentHassError
+                                                    this.state.selectedClassLevelHasError
                                                         ? "personal__submision-error"
                                                         : "personal__hide"
                                                 }
                                             >
-                                                {this.state.feeComponentErrorMessage}
+                                                {this.state.selectedClassLevelErrorMessage}
                                             </p>
                                         </div>
                                     </Columns.Column>
 
-                                    <Columns.Column size="one-half">
-                                    </Columns.Column>
                                 </Columns>
 
 
@@ -240,7 +187,7 @@ class ClassFeeStructureForm extends Component {
 }
 
 ClassFeeStructureForm.propTypes = {
-    createActualTerm: PropTypes.func.isRequired,
+    createClassFeeStructure: PropTypes.func.isRequired,
     toggleAdminModalDisplay: PropTypes.func.isRequired,
     fetchAllActualTerms: PropTypes.func.isRequired,
     isCurrentActualTermCreated: PropTypes.bool.isRequired,
@@ -248,17 +195,23 @@ ClassFeeStructureForm.propTypes = {
     allTermIterations: PropTypes.arrayOf(PropTypes.object)
         .isRequired,
     fetchAllTermIterations: PropTypes.func.isRequired,
+    allAcademicClassLevels: PropTypes.arrayOf(PropTypes.object).isRequired,
+    allFeeStructures: PropTypes.arrayOf(PropTypes.object)
+        .isRequired,
 };
 
 const mapStateToProps = state => ({
     isCurrentActualTermCreated:
     state.admin_home.actualTerms.isCurrentActualTermCreated,
     allTermIterations:
-    state.admin_home.termIterations.allTermIterations
+    state.admin_home.termIterations.allTermIterations,
+    allFeeStructures:
+    state.admin_home.feeStructure.allFeeStructures,
+    allAcademicClassLevels: state.admin_home.allAcademicClassLevels
 });
 
 const mapDispatchToProps = dispatch => ({
-    createActualTerm: payload => dispatch(createActualTerm(payload)),
+    createClassFeeStructure: payload => dispatch(createClassFeeStructure(payload)),
     toggleAdminModalDisplay: isAdminModalDisplayed =>
         dispatch(toggleAdminModalDisplay(isAdminModalDisplayed)),
     fetchAllActualTerms: payload => dispatch(fetchAllActualTerms(payload)),

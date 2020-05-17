@@ -20,7 +20,7 @@ import {
   BEGIN_CLASS_STREAM_CREATION,
   BEGIN_LOT_DESCRIPTION_CREATION,
   BEGIN_TERM_ITERATION_CREATION,
-  BEGIN_WEEK_ITERATION_CREATION,
+  BEGIN_WEEK_ITERATION_CREATION, CLASS_FEE_STRUCTURE_CREATED_SUCCESSFULLY, CLASS_FEE_STRUCTURE_CREATION_FAILED,
   CLASS_LEVEL_CREATED_SUCCESSFULLY,
   CLASS_LEVEL_CREATION_FAILED,
   CLASS_STREAM_CREATED_SUCCESSFULLY,
@@ -40,7 +40,7 @@ import {
   ERROR_OCCURRED_ON_CREATING_ACTUAL_CLASS,
   ERROR_OCCURRED_ON_CREATING_ACTUAL_LOT,
   ERROR_OCCURRED_ON_CREATING_ACTUAL_TERM,
-  ERROR_OCCURRED_ON_CREATING_ACTUAL_WEEK,
+  ERROR_OCCURRED_ON_CREATING_ACTUAL_WEEK, ERROR_OCCURRED_ON_CREATING_CLASS_FEE_STRUCTURE,
   ERROR_OCCURRED_ON_CREATING_CLASS_LEVEL,
   ERROR_OCCURRED_ON_CREATING_CLASS_STREAM,
   ERROR_OCCURRED_ON_CREATING_FEE_COMPONENT, ERROR_OCCURRED_ON_CREATING_FEE_STRUCTURE,
@@ -1284,6 +1284,11 @@ export function resetCurrentFeeStructureCreated() {
   };
 }
 
+
+/* END - FEE STRUCTURES *****************************************************************************************/
+
+/* START - CLASS FEE STRUCTURES *****************************************************************************************************/
+
 export function setupClassFeeStructuresForm() {
   return async dispatch => {
     dispatch({
@@ -1308,5 +1313,32 @@ export function setupClassFeeStructuresForm() {
         isClassFeeStructureFormDisplayed: true
       }
     });
+  };
+}
+
+
+export function createClassFeeStructure(payload) {
+  return async dispatch => {
+    const apiRoute = "/add_class_fee_structures";
+    const returnedPromise = apiPost(payload, apiRoute);
+    returnedPromise.then(
+        function(result) {
+          if (result.data.results.success) {
+            dispatch({
+              type: CLASS_FEE_STRUCTURE_CREATED_SUCCESSFULLY
+            });
+          } else {
+            dispatch({
+              type: CLASS_FEE_STRUCTURE_CREATION_FAILED
+            });
+          }
+        },
+        function(err) {
+          dispatch({
+            type: ERROR_OCCURRED_ON_CREATING_CLASS_FEE_STRUCTURE
+          });
+          console.log(err);
+        }
+    );
   };
 }
