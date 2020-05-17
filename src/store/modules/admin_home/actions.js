@@ -20,7 +20,11 @@ import {
   BEGIN_CLASS_STREAM_CREATION,
   BEGIN_LOT_DESCRIPTION_CREATION,
   BEGIN_TERM_ITERATION_CREATION,
-  BEGIN_WEEK_ITERATION_CREATION, CLASS_FEE_STRUCTURE_CREATED_SUCCESSFULLY, CLASS_FEE_STRUCTURE_CREATION_FAILED,
+  BEGIN_WEEK_ITERATION_CREATION,
+  CLASS_FEE_COMPONENTS_CREATED_SUCCESSFULLY,
+  CLASS_FEE_COMPONENTS_CREATION_FAILED,
+  CLASS_FEE_STRUCTURE_CREATED_SUCCESSFULLY,
+  CLASS_FEE_STRUCTURE_CREATION_FAILED,
   CLASS_LEVEL_CREATED_SUCCESSFULLY,
   CLASS_LEVEL_CREATION_FAILED,
   CLASS_STREAM_CREATED_SUCCESSFULLY,
@@ -30,9 +34,11 @@ import {
   ERROR_OCCURED_WHILE_FETCHING_ALL_ACTUAL_CLASSES,
   ERROR_OCCURED_WHILE_FETCHING_ALL_ACTUAL_LOTS,
   ERROR_OCCURED_WHILE_FETCHING_ALL_LOT_DESCRIPTIONS,
+  ERROR_OCCURED_WHILE_FETCHING_CLASS_FEE_STRUCTURES,
   ERROR_OCCURED_WHILE_FETCHING_CLASS_LEVELS,
   ERROR_OCCURED_WHILE_FETCHING_CLASS_STREAMS,
-  ERROR_OCCURED_WHILE_FETCHING_FEE_COMPONENTS, ERROR_OCCURED_WHILE_FETCHING_FEE_STRUCTURES,
+  ERROR_OCCURED_WHILE_FETCHING_FEE_COMPONENTS,
+  ERROR_OCCURED_WHILE_FETCHING_FEE_STRUCTURES,
   ERROR_OCCURED_WHILE_FETCHING_TERM_ITERATIONS,
   ERROR_OCCURED_WHILE_FETCHING_WEEK_ITERATIONS,
   ERROR_OCCURED_WHILE_FETCHING_YEARS_WEEKS,
@@ -40,15 +46,20 @@ import {
   ERROR_OCCURRED_ON_CREATING_ACTUAL_CLASS,
   ERROR_OCCURRED_ON_CREATING_ACTUAL_LOT,
   ERROR_OCCURRED_ON_CREATING_ACTUAL_TERM,
-  ERROR_OCCURRED_ON_CREATING_ACTUAL_WEEK, ERROR_OCCURRED_ON_CREATING_CLASS_FEE_STRUCTURE,
+  ERROR_OCCURRED_ON_CREATING_ACTUAL_WEEK,
+  ERROR_OCCURRED_ON_CREATING_CLASS_FEE_COMPONENTS,
+  ERROR_OCCURRED_ON_CREATING_CLASS_FEE_STRUCTURE,
   ERROR_OCCURRED_ON_CREATING_CLASS_LEVEL,
   ERROR_OCCURRED_ON_CREATING_CLASS_STREAM,
-  ERROR_OCCURRED_ON_CREATING_FEE_COMPONENT, ERROR_OCCURRED_ON_CREATING_FEE_STRUCTURE,
+  ERROR_OCCURRED_ON_CREATING_FEE_COMPONENT,
+  ERROR_OCCURRED_ON_CREATING_FEE_STRUCTURE,
   ERROR_OCCURRED_ON_CREATING_LOT_DESCRIPTION,
   ERROR_OCCURRED_ON_CREATING_TERM_ITERATION,
   ERROR_OCCURRED_ON_CREATING_WEEK_ITERATION,
   FEE_COMPONENT_CREATED_SUCCESSFULLY,
-  FEE_COMPONENT_CREATION_FAILED, FEE_STRUCTURE_CREATED_SUCCESSFULLY, FEE_STRUCTURE_CREATION_FAILED,
+  FEE_COMPONENT_CREATION_FAILED,
+  FEE_STRUCTURE_CREATED_SUCCESSFULLY,
+  FEE_STRUCTURE_CREATION_FAILED,
   FETCHING_ACTUAL_TERMS_EMPTY_RESULT_SET,
   FETCHING_ACTUAL_TERMS_SUCCESSFUL,
   FETCHING_ALL_ACTUAL_CLASSES_EMPTY_RESULT_SET,
@@ -57,12 +68,16 @@ import {
   FETCHING_ALL_ACTUAL_LOTS_SUCCESSFUL,
   FETCHING_ALL_LOT_DESCRIPTIONS_EMPTY_RESULT_SET,
   FETCHING_ALL_LOT_DESCRIPTIONS_SUCCESSFUL,
+  FETCHING_CLASS_FEE_STRUCTURES_EMPTY_RESULT_SET,
+  FETCHING_CLASS_FEE_STRUCTURES_SUCCESSFUL,
   FETCHING_CLASS_LEVELS_EMPTY_RESULT_SET,
   FETCHING_CLASS_LEVELS_SUCCESSFUL,
   FETCHING_CLASS_STREAMS_EMPTY_RESULT_SET,
   FETCHING_CLASS_STREAMS_SUCCESSFUL,
   FETCHING_FEE_COMPONENTS_EMPTY_RESULT_SET,
-  FETCHING_FEE_COMPONENTS_SUCCESSFUL, FETCHING_FEE_STRUCTURES_EMPTY_RESULT_SET, FETCHING_FEE_STRUCTURES_SUCCESSFUL,
+  FETCHING_FEE_COMPONENTS_SUCCESSFUL,
+  FETCHING_FEE_STRUCTURES_EMPTY_RESULT_SET,
+  FETCHING_FEE_STRUCTURES_SUCCESSFUL,
   FETCHING_TERM_ITERATIONS_EMPTY_RESULT_SET,
   FETCHING_TERM_ITERATIONS_SUCCESSFUL,
   FETCHING_WEEK_ITERATIONS_EMPTY_RESULT_SET,
@@ -77,14 +92,17 @@ import {
   RESET_CURRENT_ACTUAL_TERM_CREATED,
   RESET_CURRENT_ACTUAL_WEEK_CREATED,
   RESET_CURRENT_CLASS_STREAM_CREATED,
-  RESET_CURRENT_FEE_COMPONENT_CREATED, RESET_CURRENT_FEE_STRUCTURE_CREATED,
+  RESET_CURRENT_FEE_COMPONENT_CREATED,
+  RESET_CURRENT_FEE_STRUCTURE_CREATED,
   RESET_CURRENT_LOT_DESCRIPTION_CREATED,
   RESET_CURRENT_TERM_ITERATION_CREATED,
   RESET_CURRENT_WEEK_ITERATION_CREATED,
   SETUP_ACTUAL_CLASSES_FORM,
   SETUP_ACTUAL_LOTS_FORM,
   SETUP_ACTUAL_TERMS_FORM,
-  SETUP_ACTUAL_WEEKS_FORM, SETUP_CLASS_FEE_STRUCTURE_FORM,
+  SETUP_ACTUAL_WEEKS_FORM,
+  SETUP_CLASS_FEE_STRUCTURE_COMPONENTS_FORM,
+  SETUP_CLASS_FEE_STRUCTURE_FORM,
   SETUP_CLASS_LEVEL_FORM,
   SETUP_CLASS_STREAM_FORM,
   SETUP_FEE_COMPONENT_REGISTRATION_FORM,
@@ -174,7 +192,8 @@ export function setupClassLevelForm() {
         isUserRegistrationFormDisplayed: false,
         isFeeComponentFormDisplayed: false,
         isFeeStructureFormDisplayed: false,
-        isClassFeeStructureFormDisplayed: false
+        isClassFeeStructureFormDisplayed: false,
+        isClassFeeStructureComponentsFormDisplayed: false
       }
     });
   };
@@ -313,7 +332,8 @@ export function setupClassStreamForm() {
         isUserRegistrationFormDisplayed: false,
         isFeeComponentFormDisplayed: false,
         isFeeStructureFormDisplayed: false,
-        isClassFeeStructureFormDisplayed: false
+        isClassFeeStructureFormDisplayed: false,
+        isClassFeeStructureComponentsFormDisplayed: false
       }
     });
   };
@@ -375,7 +395,8 @@ export function setupTermIterationsForm() {
         isUserRegistrationFormDisplayed: false,
         isFeeComponentFormDisplayed: false,
         isFeeStructureFormDisplayed: false,
-        isClassFeeStructureFormDisplayed: false
+        isClassFeeStructureFormDisplayed: false,
+        isClassFeeStructureComponentsFormDisplayed: false
       }
     });
   };
@@ -475,7 +496,8 @@ export function setupWeekIterationsForm() {
         isUserRegistrationFormDisplayed: false,
         isFeeComponentFormDisplayed: false,
         isFeeStructureFormDisplayed: false,
-        isClassFeeStructureFormDisplayed: false
+        isClassFeeStructureFormDisplayed: false,
+        isClassFeeStructureComponentsFormDisplayed: false
       }
     });
   };
@@ -575,7 +597,8 @@ export function setupActualTermsForm() {
         isUserRegistrationFormDisplayed: false,
         isFeeComponentFormDisplayed: false,
         isFeeStructureFormDisplayed: false,
-        isClassFeeStructureFormDisplayed: false
+        isClassFeeStructureFormDisplayed: false,
+        isClassFeeStructureComponentsFormDisplayed: false
       }
     });
   };
@@ -675,7 +698,8 @@ export function setupActualWeeksForm() {
         isUserRegistrationFormDisplayed: false,
         isFeeComponentFormDisplayed: false,
         isFeeStructureFormDisplayed: false,
-        isClassFeeStructureFormDisplayed: false
+        isClassFeeStructureFormDisplayed: false,
+        isClassFeeStructureComponentsFormDisplayed: false
       }
     });
   };
@@ -775,7 +799,8 @@ export function setupLotDescriptionsForm() {
         isUserRegistrationFormDisplayed: false,
         isFeeComponentFormDisplayed: false,
         isFeeStructureFormDisplayed: false,
-        isClassFeeStructureFormDisplayed: false
+        isClassFeeStructureFormDisplayed: false,
+        isClassFeeStructureComponentsFormDisplayed: false
       }
     });
   };
@@ -875,7 +900,8 @@ export function setupActualLotsForm() {
         isUserRegistrationFormDisplayed: false,
         isFeeComponentFormDisplayed: false,
         isFeeStructureFormDisplayed: false,
-        isClassFeeStructureFormDisplayed: false
+        isClassFeeStructureFormDisplayed: false,
+        isClassFeeStructureComponentsFormDisplayed: false
       }
     });
   };
@@ -975,7 +1001,8 @@ export function setupActualClassesForm() {
         isUserRegistrationFormDisplayed: false,
         isFeeComponentFormDisplayed: false,
         isFeeStructureFormDisplayed: false,
-        isClassFeeStructureFormDisplayed: false
+        isClassFeeStructureFormDisplayed: false,
+        isClassFeeStructureComponentsFormDisplayed: false
       }
     });
   };
@@ -1043,7 +1070,8 @@ export function setupSystemUserRegistrationForm() {
         isUserRegistrationFormDisplayed: true,
         isFeeComponentFormDisplayed: false,
         isFeeStructureFormDisplayed: false,
-        isClassFeeStructureFormDisplayed: false
+        isClassFeeStructureFormDisplayed: false,
+        isClassFeeStructureComponentsFormDisplayed: false
       }
     });
   };
@@ -1080,9 +1108,7 @@ export function assignAUserRoles(payload) {
     const apiRoute = "/user_roles/assign_a_user_roles";
     const returnedPromise = transactionsServicePost(payload, apiRoute);
     returnedPromise.then(
-      function(result) {
-
-      },
+      function(result) {},
       function(err) {
         dispatch({
           type: ERROR_OCCURED_WHILE_ASSIGNING_USER_ROLES
@@ -1147,7 +1173,8 @@ export function setupFeeComponentRegistrationForm() {
         isUserRegistrationFormDisplayed: false,
         isFeeComponentFormDisplayed: true,
         isFeeStructureFormDisplayed: false,
-        isClassFeeStructureFormDisplayed: false
+        isClassFeeStructureFormDisplayed: false,
+        isClassFeeStructureComponentsFormDisplayed: false
       }
     });
   };
@@ -1187,37 +1214,35 @@ export function createFeeComponent(payload) {
   };
 }
 
-
 /* END - FEE_COMPONENTS_REGISTRATION *****************************************************************************************/
 
 /* START - FEE STRUCTURES *****************************************************************************************************/
-
 
 export function fetchAllFeeStructures() {
   return async dispatch => {
     const apiRoute = "/get_all_fee_structures";
     const returnedPromise = apiGetAll(apiRoute);
     returnedPromise.then(
-        function(result) {
-          if (result.data.results && result.data.results.length > 0) {
-            dispatch({
-              type: FETCHING_FEE_STRUCTURES_SUCCESSFUL,
-              payload: {
-                allFeeStructures: result.data.results
-              }
-            });
-          } else if (result.data.results && result.data.results.length === 0) {
-            dispatch({
-              type: FETCHING_FEE_STRUCTURES_EMPTY_RESULT_SET
-            });
-          }
-        },
-        function(err) {
+      function(result) {
+        if (result.data.results && result.data.results.length > 0) {
           dispatch({
-            type: ERROR_OCCURED_WHILE_FETCHING_FEE_STRUCTURES
+            type: FETCHING_FEE_STRUCTURES_SUCCESSFUL,
+            payload: {
+              allFeeStructures: result.data.results
+            }
           });
-          console.log(err);
+        } else if (result.data.results && result.data.results.length === 0) {
+          dispatch({
+            type: FETCHING_FEE_STRUCTURES_EMPTY_RESULT_SET
+          });
         }
+      },
+      function(err) {
+        dispatch({
+          type: ERROR_OCCURED_WHILE_FETCHING_FEE_STRUCTURES
+        });
+        console.log(err);
+      }
     );
   };
 }
@@ -1243,35 +1268,35 @@ export function setupFeeStructuresForm() {
         isUserRegistrationFormDisplayed: false,
         isFeeComponentFormDisplayed: false,
         isFeeStructureFormDisplayed: true,
-        isClassFeeStructureFormDisplayed: false
+        isClassFeeStructureFormDisplayed: false,
+        isClassFeeStructureComponentsFormDisplayed: false
       }
     });
   };
 }
-
 
 export function createFeeStructure(payload) {
   return async dispatch => {
     const apiRoute = "/add_fee_structures";
     const returnedPromise = apiPost(payload, apiRoute);
     returnedPromise.then(
-        function(result) {
-          if (result.data.results.success) {
-            dispatch({
-              type: FEE_STRUCTURE_CREATED_SUCCESSFULLY
-            });
-          } else {
-            dispatch({
-              type: FEE_STRUCTURE_CREATION_FAILED
-            });
-          }
-        },
-        function(err) {
+      function(result) {
+        if (result.data.results.success) {
           dispatch({
-            type: ERROR_OCCURRED_ON_CREATING_FEE_STRUCTURE
+            type: FEE_STRUCTURE_CREATED_SUCCESSFULLY
           });
-          console.log(err);
+        } else {
+          dispatch({
+            type: FEE_STRUCTURE_CREATION_FAILED
+          });
         }
+      },
+      function(err) {
+        dispatch({
+          type: ERROR_OCCURRED_ON_CREATING_FEE_STRUCTURE
+        });
+        console.log(err);
+      }
     );
   };
 }
@@ -1283,7 +1308,6 @@ export function resetCurrentFeeStructureCreated() {
     });
   };
 }
-
 
 /* END - FEE STRUCTURES *****************************************************************************************/
 
@@ -1310,35 +1334,122 @@ export function setupClassFeeStructuresForm() {
         isUserRegistrationFormDisplayed: false,
         isFeeComponentFormDisplayed: false,
         isFeeStructureFormDisplayed: false,
-        isClassFeeStructureFormDisplayed: true
+        isClassFeeStructureFormDisplayed: true,
+        isClassFeeStructureComponentsFormDisplayed: false
       }
     });
   };
 }
-
 
 export function createClassFeeStructure(payload) {
   return async dispatch => {
     const apiRoute = "/add_class_fee_structures";
     const returnedPromise = apiPost(payload, apiRoute);
     returnedPromise.then(
-        function(result) {
-          if (result.data.results.success) {
-            dispatch({
-              type: CLASS_FEE_STRUCTURE_CREATED_SUCCESSFULLY
-            });
-          } else {
-            dispatch({
-              type: CLASS_FEE_STRUCTURE_CREATION_FAILED
-            });
-          }
-        },
-        function(err) {
+      function(result) {
+        if (result.data.results.success) {
           dispatch({
-            type: ERROR_OCCURRED_ON_CREATING_CLASS_FEE_STRUCTURE
+            type: CLASS_FEE_STRUCTURE_CREATED_SUCCESSFULLY
           });
-          console.log(err);
+        } else {
+          dispatch({
+            type: CLASS_FEE_STRUCTURE_CREATION_FAILED
+          });
         }
+      },
+      function(err) {
+        dispatch({
+          type: ERROR_OCCURRED_ON_CREATING_CLASS_FEE_STRUCTURE
+        });
+        console.log(err);
+      }
+    );
+  };
+}
+
+/* END - CLASS FEE STRUCTURES *****************************************************************************************/
+
+/* START - CLASS FEE COMPONENTS *****************************************************************************************************/
+
+export function setupClassFeeStructuresComponentsForm() {
+  return async dispatch => {
+    dispatch({
+      type: SETUP_CLASS_FEE_STRUCTURE_COMPONENTS_FORM,
+      payload: {
+        isAdminModalDisplayed: true,
+        dialogHeight: "450",
+        dialogWidth: "500",
+        isAcademicClassLevelFormDisplayed: false,
+        isClassStreamFormDisplayed: false,
+        modalTitle: "Class Fee Structure Components",
+        isTermIterationsFormDisplayed: false,
+        isWeekIterationsFormDisplayed: false,
+        isActualTermsFormDisplayed: false,
+        isActualWeeksFormDisplayed: false,
+        isLotDescriptionsFormDisplayed: false,
+        isActualLotsFormDisplayed: false,
+        isActualClassesFormDisplayed: false,
+        isUserRegistrationFormDisplayed: false,
+        isFeeComponentFormDisplayed: false,
+        isFeeStructureFormDisplayed: false,
+        isClassFeeStructureFormDisplayed: false,
+        isClassFeeStructureComponentsFormDisplayed: true
+      }
+    });
+  };
+}
+
+export function fetchAllClassFeeStructures() {
+  return async dispatch => {
+    const apiRoute = "/get_all_class_fee_structures_full_description";
+    const returnedPromise = apiGetAll(apiRoute);
+    returnedPromise.then(
+      function(result) {
+        if (result.data.results && result.data.results.length > 0) {
+          dispatch({
+            type: FETCHING_CLASS_FEE_STRUCTURES_SUCCESSFUL,
+            payload: {
+              allClassFeeStructures: result.data.results
+            }
+          });
+        } else if (result.data.results && result.data.results.length === 0) {
+          dispatch({
+            type: FETCHING_CLASS_FEE_STRUCTURES_EMPTY_RESULT_SET
+          });
+        }
+      },
+      function(err) {
+        dispatch({
+          type: ERROR_OCCURED_WHILE_FETCHING_CLASS_FEE_STRUCTURES
+        });
+        console.log(err);
+      }
+    );
+  };
+}
+
+export function createClassFeeComponent(payload) {
+  return async dispatch => {
+    const apiRoute = "/add_class_fee_structure_components";
+    const returnedPromise = apiPost(payload, apiRoute);
+    returnedPromise.then(
+      function(result) {
+        if (result.data.results.success) {
+          dispatch({
+            type: CLASS_FEE_COMPONENTS_CREATED_SUCCESSFULLY
+          });
+        } else {
+          dispatch({
+            type: CLASS_FEE_COMPONENTS_CREATION_FAILED
+          });
+        }
+      },
+      function(err) {
+        dispatch({
+          type: ERROR_OCCURRED_ON_CREATING_CLASS_FEE_COMPONENTS
+        });
+        console.log(err);
+      }
     );
   };
 }

@@ -72,6 +72,11 @@ export const initialState = {
   },
 
   classFeeStructure: {
-    isClassFeeStructureFormDisplayed: false
+    isClassFeeStructureFormDisplayed: false,
+    allClassFeeStructures: []
+  },
+
+  classFeeStructureComponents: {
+    isClassFeeStructureComponentsFormDisplayed: false
   }
 };

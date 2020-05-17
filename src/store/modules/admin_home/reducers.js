@@ -1,47 +1,54 @@
 import {
-    ACTUAL_CLASS_CREATED_SUCCESSFULLY,
-    ACTUAL_LOT_CREATED_SUCCESSFULLY,
-    ACTUAL_TERM_CREATED_SUCCESSFULLY,
-    ACTUAL_WEEK_CREATED_SUCCESSFULLY,
-    CLASS_LEVEL_CREATED_SUCCESSFULLY,
-    CLASS_STREAM_CREATED_SUCCESSFULLY,
-    FEE_COMPONENT_CREATED_SUCCESSFULLY, FEE_STRUCTURE_CREATED_SUCCESSFULLY,
-    FETCHING_ACTUAL_TERMS_SUCCESSFUL,
-    FETCHING_ALL_ACTUAL_CLASSES_SUCCESSFUL,
-    FETCHING_ALL_ACTUAL_LOTS_SUCCESSFUL,
-    FETCHING_ALL_LOT_DESCRIPTIONS_SUCCESSFUL,
-    FETCHING_CLASS_LEVELS_SUCCESSFUL,
-    FETCHING_CLASS_STREAMS_SUCCESSFUL,
-    FETCHING_FEE_COMPONENTS_SUCCESSFUL, FETCHING_FEE_STRUCTURES_SUCCESSFUL,
-    FETCHING_TERM_ITERATIONS_SUCCESSFUL,
-    FETCHING_WEEK_ITERATIONS_SUCCESSFUL,
-    FETCHING_YEARS_WEEKS_SUCCESSFUL,
-    LOT_DESCRIPTION_CREATED_SUCCESSFULLY,
-    RESET_CURRENT_ACADEMIC_CLASS_LEVEL_CREATED,
-    RESET_CURRENT_ACTUAL_CLASS_CREATED,
-    RESET_CURRENT_ACTUAL_LOT_CREATED,
-    RESET_CURRENT_ACTUAL_TERM_CREATED,
-    RESET_CURRENT_ACTUAL_WEEK_CREATED,
-    RESET_CURRENT_CLASS_STREAM_CREATED,
-    RESET_CURRENT_FEE_COMPONENT_CREATED, RESET_CURRENT_FEE_STRUCTURE_CREATED,
-    RESET_CURRENT_LOT_DESCRIPTION_CREATED,
-    RESET_CURRENT_TERM_ITERATION_CREATED,
-    RESET_CURRENT_WEEK_ITERATION_CREATED,
-    SETUP_ACTUAL_CLASSES_FORM,
-    SETUP_ACTUAL_LOTS_FORM,
-    SETUP_ACTUAL_TERMS_FORM,
-    SETUP_ACTUAL_WEEKS_FORM, SETUP_CLASS_FEE_STRUCTURE_FORM,
-    SETUP_CLASS_LEVEL_FORM,
-    SETUP_CLASS_STREAM_FORM,
-    SETUP_FEE_COMPONENT_REGISTRATION_FORM, SETUP_FEE_STRUCTURE_FORM,
-    SETUP_LOT_DESCRIPTIONS_FORM,
-    SETUP_SYSTEM_USER_REGISTRATION_FORM,
-    SETUP_TERM_ITERATIONS_FORM,
-    SETUP_WEEK_ITERATIONS_FORM,
-    TERM_ITERATION_CREATED_SUCCESSFULLY,
-    TOGGLE_MODAL_DISPLAY,
-    USER_SUCCESSFULLY_REGISTERED,
-    WEEK_ITERATION_CREATED_SUCCESSFULLY
+  ACTUAL_CLASS_CREATED_SUCCESSFULLY,
+  ACTUAL_LOT_CREATED_SUCCESSFULLY,
+  ACTUAL_TERM_CREATED_SUCCESSFULLY,
+  ACTUAL_WEEK_CREATED_SUCCESSFULLY,
+  CLASS_LEVEL_CREATED_SUCCESSFULLY,
+  CLASS_STREAM_CREATED_SUCCESSFULLY,
+  FEE_COMPONENT_CREATED_SUCCESSFULLY,
+  FEE_STRUCTURE_CREATED_SUCCESSFULLY,
+  FETCHING_ACTUAL_TERMS_SUCCESSFUL,
+  FETCHING_ALL_ACTUAL_CLASSES_SUCCESSFUL,
+  FETCHING_ALL_ACTUAL_LOTS_SUCCESSFUL,
+  FETCHING_ALL_LOT_DESCRIPTIONS_SUCCESSFUL,
+  FETCHING_CLASS_FEE_STRUCTURES_SUCCESSFUL,
+  FETCHING_CLASS_LEVELS_SUCCESSFUL,
+  FETCHING_CLASS_STREAMS_SUCCESSFUL,
+  FETCHING_FEE_COMPONENTS_SUCCESSFUL,
+  FETCHING_FEE_STRUCTURES_SUCCESSFUL,
+  FETCHING_TERM_ITERATIONS_SUCCESSFUL,
+  FETCHING_WEEK_ITERATIONS_SUCCESSFUL,
+  FETCHING_YEARS_WEEKS_SUCCESSFUL,
+  LOT_DESCRIPTION_CREATED_SUCCESSFULLY,
+  RESET_CURRENT_ACADEMIC_CLASS_LEVEL_CREATED,
+  RESET_CURRENT_ACTUAL_CLASS_CREATED,
+  RESET_CURRENT_ACTUAL_LOT_CREATED,
+  RESET_CURRENT_ACTUAL_TERM_CREATED,
+  RESET_CURRENT_ACTUAL_WEEK_CREATED,
+  RESET_CURRENT_CLASS_STREAM_CREATED,
+  RESET_CURRENT_FEE_COMPONENT_CREATED,
+  RESET_CURRENT_FEE_STRUCTURE_CREATED,
+  RESET_CURRENT_LOT_DESCRIPTION_CREATED,
+  RESET_CURRENT_TERM_ITERATION_CREATED,
+  RESET_CURRENT_WEEK_ITERATION_CREATED,
+  SETUP_ACTUAL_CLASSES_FORM,
+  SETUP_ACTUAL_LOTS_FORM,
+  SETUP_ACTUAL_TERMS_FORM,
+  SETUP_ACTUAL_WEEKS_FORM,
+  SETUP_CLASS_FEE_STRUCTURE_COMPONENTS_FORM,
+  SETUP_CLASS_FEE_STRUCTURE_FORM,
+  SETUP_CLASS_LEVEL_FORM,
+  SETUP_CLASS_STREAM_FORM,
+  SETUP_FEE_COMPONENT_REGISTRATION_FORM,
+  SETUP_FEE_STRUCTURE_FORM,
+  SETUP_LOT_DESCRIPTIONS_FORM,
+  SETUP_SYSTEM_USER_REGISTRATION_FORM,
+  SETUP_TERM_ITERATIONS_FORM,
+  SETUP_WEEK_ITERATIONS_FORM,
+  TERM_ITERATION_CREATED_SUCCESSFULLY,
+  TOGGLE_MODAL_DISPLAY,
+  USER_SUCCESSFULLY_REGISTERED,
+  WEEK_ITERATION_CREATED_SUCCESSFULLY
 } from "./actionTypes";
 
 export const ACTION_HANDLERS = {
@@ -95,12 +102,17 @@ export const ACTION_HANDLERS = {
       feeComponents: {
         isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
       },
-        feeStructure: {
-            isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
-        },
-        classFeeStructure: {
-            isClassFeeStructureFormDisplayed: action.payload.isClassFeeStructureFormDisplayed
-        }
+      feeStructure: {
+        isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
+      },
+      classFeeStructure: {
+        isClassFeeStructureFormDisplayed:
+          action.payload.isClassFeeStructureFormDisplayed
+      },
+      classFeeStructureComponents: {
+        isClassFeeStructureComponentsFormDisplayed:
+          action.payload.isClassFeeStructureComponentsFormDisplayed
+      }
     }),
   [FETCHING_CLASS_LEVELS_SUCCESSFUL]: (state, action) =>
     Object.assign({}, state, {
@@ -162,12 +174,17 @@ export const ACTION_HANDLERS = {
       feeComponents: {
         isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
       },
-        feeStructure: {
-            isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
-        },
-        classFeeStructure: {
-            isClassFeeStructureFormDisplayed: action.payload.isClassFeeStructureFormDisplayed
-        }
+      feeStructure: {
+        isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
+      },
+      classFeeStructure: {
+        isClassFeeStructureFormDisplayed:
+          action.payload.isClassFeeStructureFormDisplayed
+      },
+      classFeeStructureComponents: {
+        isClassFeeStructureComponentsFormDisplayed:
+          action.payload.isClassFeeStructureComponentsFormDisplayed
+      }
     }),
 
   [CLASS_STREAM_CREATED_SUCCESSFULLY]: (state, action) =>
@@ -232,12 +249,17 @@ export const ACTION_HANDLERS = {
       feeComponents: {
         isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
       },
-        feeStructure: {
-            isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
-        },
-        classFeeStructure: {
-            isClassFeeStructureFormDisplayed: action.payload.isClassFeeStructureFormDisplayed
-        }
+      feeStructure: {
+        isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
+      },
+      classFeeStructure: {
+        isClassFeeStructureFormDisplayed:
+          action.payload.isClassFeeStructureFormDisplayed
+      },
+      classFeeStructureComponents: {
+        isClassFeeStructureComponentsFormDisplayed:
+          action.payload.isClassFeeStructureComponentsFormDisplayed
+      }
     }),
   [RESET_CURRENT_TERM_ITERATION_CREATED]: (state, action) =>
     Object.assign({}, state, {
@@ -303,12 +325,17 @@ export const ACTION_HANDLERS = {
       feeComponents: {
         isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
       },
-        feeStructure: {
-            isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
-        },
-        classFeeStructure: {
-            isClassFeeStructureFormDisplayed: action.payload.isClassFeeStructureFormDisplayed
-        }
+      feeStructure: {
+        isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
+      },
+      classFeeStructure: {
+        isClassFeeStructureFormDisplayed:
+          action.payload.isClassFeeStructureFormDisplayed
+      },
+      classFeeStructureComponents: {
+        isClassFeeStructureComponentsFormDisplayed:
+          action.payload.isClassFeeStructureComponentsFormDisplayed
+      }
     }),
   [WEEK_ITERATION_CREATED_SUCCESSFULLY]: (state, action) =>
     Object.assign({}, state, {
@@ -366,12 +393,17 @@ export const ACTION_HANDLERS = {
       feeComponents: {
         isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
       },
-        feeStructure: {
-            isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
-        },
-        classFeeStructure: {
-            isClassFeeStructureFormDisplayed: action.payload.isClassFeeStructureFormDisplayed
-        }
+      feeStructure: {
+        isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
+      },
+      classFeeStructure: {
+        isClassFeeStructureFormDisplayed:
+          action.payload.isClassFeeStructureFormDisplayed
+      },
+      classFeeStructureComponents: {
+        isClassFeeStructureComponentsFormDisplayed:
+          action.payload.isClassFeeStructureComponentsFormDisplayed
+      }
     }),
   [RESET_CURRENT_ACTUAL_TERM_CREATED]: (state, action) =>
     Object.assign({}, state, {
@@ -434,12 +466,17 @@ export const ACTION_HANDLERS = {
       feeComponents: {
         isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
       },
-        feeStructure: {
-            isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
-        },
-        classFeeStructure: {
-            isClassFeeStructureFormDisplayed: action.payload.isClassFeeStructureFormDisplayed
-        }
+      feeStructure: {
+        isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
+      },
+      classFeeStructure: {
+        isClassFeeStructureFormDisplayed:
+          action.payload.isClassFeeStructureFormDisplayed
+      },
+      classFeeStructureComponents: {
+        isClassFeeStructureComponentsFormDisplayed:
+          action.payload.isClassFeeStructureComponentsFormDisplayed
+      }
     }),
   [RESET_CURRENT_ACTUAL_WEEK_CREATED]: (state, action) =>
     Object.assign({}, state, {
@@ -502,12 +539,17 @@ export const ACTION_HANDLERS = {
       feeComponents: {
         isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
       },
-        feeStructure: {
-            isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
-        },
-        classFeeStructure: {
-            isClassFeeStructureFormDisplayed: action.payload.isClassFeeStructureFormDisplayed
-        }
+      feeStructure: {
+        isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
+      },
+      classFeeStructure: {
+        isClassFeeStructureFormDisplayed:
+          action.payload.isClassFeeStructureFormDisplayed
+      },
+      classFeeStructureComponents: {
+        isClassFeeStructureComponentsFormDisplayed:
+          action.payload.isClassFeeStructureComponentsFormDisplayed
+      }
     }),
   [RESET_CURRENT_LOT_DESCRIPTION_CREATED]: (state, action) =>
     Object.assign({}, state, {
@@ -570,12 +612,17 @@ export const ACTION_HANDLERS = {
       feeComponents: {
         isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
       },
-        feeStructure: {
-            isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
-        },
-        classFeeStructure: {
-            isClassFeeStructureFormDisplayed: action.payload.isClassFeeStructureFormDisplayed
-        }
+      feeStructure: {
+        isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
+      },
+      classFeeStructure: {
+        isClassFeeStructureFormDisplayed:
+          action.payload.isClassFeeStructureFormDisplayed
+      },
+      classFeeStructureComponents: {
+        isClassFeeStructureComponentsFormDisplayed:
+          action.payload.isClassFeeStructureComponentsFormDisplayed
+      }
     }),
   [RESET_CURRENT_ACTUAL_LOT_CREATED]: (state, action) =>
     Object.assign({}, state, {
@@ -638,12 +685,17 @@ export const ACTION_HANDLERS = {
       feeComponents: {
         isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
       },
-        feeStructure: {
-            isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
-        },
-        classFeeStructure: {
-            isClassFeeStructureFormDisplayed: action.payload.isClassFeeStructureFormDisplayed
-        }
+      feeStructure: {
+        isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
+      },
+      classFeeStructure: {
+        isClassFeeStructureFormDisplayed:
+          action.payload.isClassFeeStructureFormDisplayed
+      },
+      classFeeStructureComponents: {
+        isClassFeeStructureComponentsFormDisplayed:
+          action.payload.isClassFeeStructureComponentsFormDisplayed
+      }
     }),
   [RESET_CURRENT_ACTUAL_CLASS_CREATED]: state =>
     Object.assign({}, state, {
@@ -701,12 +753,17 @@ export const ACTION_HANDLERS = {
       feeComponents: {
         isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
       },
-        feeStructure: {
-            isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
-        },
-        classFeeStructure: {
-            isClassFeeStructureFormDisplayed: action.payload.isClassFeeStructureFormDisplayed
-        }
+      feeStructure: {
+        isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
+      },
+      classFeeStructure: {
+        isClassFeeStructureFormDisplayed:
+          action.payload.isClassFeeStructureFormDisplayed
+      },
+      classFeeStructureComponents: {
+        isClassFeeStructureComponentsFormDisplayed:
+          action.payload.isClassFeeStructureComponentsFormDisplayed
+      }
     }),
 
   /* END - ACTUAL CLASSES ***************************************************************************************/
@@ -761,12 +818,17 @@ export const ACTION_HANDLERS = {
       feeComponents: {
         isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
       },
-        feeStructure: {
-            isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
-        },
-        classFeeStructure: {
-            isClassFeeStructureFormDisplayed: action.payload.isClassFeeStructureFormDisplayed
-        }
+      feeStructure: {
+        isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
+      },
+      classFeeStructure: {
+        isClassFeeStructureFormDisplayed:
+          action.payload.isClassFeeStructureFormDisplayed
+      },
+      classFeeStructureComponents: {
+        isClassFeeStructureComponentsFormDisplayed:
+          action.payload.isClassFeeStructureComponentsFormDisplayed
+      }
     }),
   [RESET_CURRENT_FEE_COMPONENT_CREATED]: state =>
     Object.assign({}, state, {
@@ -778,127 +840,204 @@ export const ACTION_HANDLERS = {
       feeComponents: { isCurrentFeeComponentCreated: true }
     }),
 
-    /* END - SYSTEM USER REGISTRATION ***************************************************************************************/
+  /* END - SYSTEM USER REGISTRATION ***************************************************************************************/
 
-    /* START - FEE STRUCTURES ***************************************************************************************/
+  /* START - FEE STRUCTURES ***************************************************************************************/
 
-    [FETCHING_FEE_STRUCTURES_SUCCESSFUL]: (state, action) =>
-        Object.assign({}, state, {
-            feeStructure: { allFeeStructures: action.payload.allFeeStructures }
-        }),
+  [FETCHING_FEE_STRUCTURES_SUCCESSFUL]: (state, action) =>
+    Object.assign({}, state, {
+      feeStructure: { allFeeStructures: action.payload.allFeeStructures }
+    }),
 
-    [SETUP_FEE_STRUCTURE_FORM]: (state, action) =>
-        Object.assign({}, state, {
-            isAdminModalDisplayed: action.payload.isAdminModalDisplayed,
-            dialogHeight: action.payload.dialogHeight,
-            dialogWidth: action.payload.dialogWidth,
-            modalTitle: action.payload.modalTitle,
-            isAcademicClassLevelFormDisplayed:
-            action.payload.isAcademicClassLevelFormDisplayed,
-            classStreams: {
-                isClassStreamFormDisplayed: action.payload.isClassStreamFormDisplayed
-            },
-            termIterations: {
-                isTermIterationsFormDisplayed:
-                action.payload.isTermIterationsFormDisplayed
-            },
-            weekIterations: {
-                isWeekIterationsFormDisplayed:
-                action.payload.isWeekIterationsFormDisplayed
-            },
-            actualTerms: {
-                isActualTermsFormDisplayed: action.payload.isActualTermsFormDisplayed
-            },
-            actualWeeks: {
-                isActualWeeksFormDisplayed: action.payload.isActualWeeksFormDisplayed
-            },
-            lotDescriptions: {
-                isLotDescriptionsFormDisplayed:
-                action.payload.isLotDescriptionsFormDisplayed
-            },
-            actualLots: {
-                isActualLotsFormDisplayed: action.payload.isActualLotsFormDisplayed
-            },
-            actualClasses: {
-                isActualClassesFormDisplayed:
-                action.payload.isActualClassesFormDisplayed
-            },
-            userManagement: {
-                isUserRegistrationFormDisplayed:
-                action.payload.isUserRegistrationFormDisplayed
-            },
-            feeComponents: {
-                isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
-            },
-            feeStructure: {
-                isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
-            },
-            classFeeStructure: {
-                isClassFeeStructureFormDisplayed: action.payload.isClassFeeStructureFormDisplayed
-            }
-        }),
-    [FEE_STRUCTURE_CREATED_SUCCESSFULLY]: state =>
-        Object.assign({}, state, {
-            feeStructure: { isCurrentFeeStructureCreated: true }
-        }),
+  [SETUP_FEE_STRUCTURE_FORM]: (state, action) =>
+    Object.assign({}, state, {
+      isAdminModalDisplayed: action.payload.isAdminModalDisplayed,
+      dialogHeight: action.payload.dialogHeight,
+      dialogWidth: action.payload.dialogWidth,
+      modalTitle: action.payload.modalTitle,
+      isAcademicClassLevelFormDisplayed:
+        action.payload.isAcademicClassLevelFormDisplayed,
+      classStreams: {
+        isClassStreamFormDisplayed: action.payload.isClassStreamFormDisplayed
+      },
+      termIterations: {
+        isTermIterationsFormDisplayed:
+          action.payload.isTermIterationsFormDisplayed
+      },
+      weekIterations: {
+        isWeekIterationsFormDisplayed:
+          action.payload.isWeekIterationsFormDisplayed
+      },
+      actualTerms: {
+        isActualTermsFormDisplayed: action.payload.isActualTermsFormDisplayed
+      },
+      actualWeeks: {
+        isActualWeeksFormDisplayed: action.payload.isActualWeeksFormDisplayed
+      },
+      lotDescriptions: {
+        isLotDescriptionsFormDisplayed:
+          action.payload.isLotDescriptionsFormDisplayed
+      },
+      actualLots: {
+        isActualLotsFormDisplayed: action.payload.isActualLotsFormDisplayed
+      },
+      actualClasses: {
+        isActualClassesFormDisplayed:
+          action.payload.isActualClassesFormDisplayed
+      },
+      userManagement: {
+        isUserRegistrationFormDisplayed:
+          action.payload.isUserRegistrationFormDisplayed
+      },
+      feeComponents: {
+        isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
+      },
+      feeStructure: {
+        isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
+      },
+      classFeeStructure: {
+        isClassFeeStructureFormDisplayed:
+          action.payload.isClassFeeStructureFormDisplayed
+      },
+      classFeeStructureComponents: {
+        isClassFeeStructureComponentsFormDisplayed:
+          action.payload.isClassFeeStructureComponentsFormDisplayed
+      }
+    }),
+  [FEE_STRUCTURE_CREATED_SUCCESSFULLY]: state =>
+    Object.assign({}, state, {
+      feeStructure: { isCurrentFeeStructureCreated: true }
+    }),
 
-    [RESET_CURRENT_FEE_STRUCTURE_CREATED]: state =>
-        Object.assign({}, state, {
-            feeStructure: { isCurrentFeeStructureCreated: false }
-        }),
+  [RESET_CURRENT_FEE_STRUCTURE_CREATED]: state =>
+    Object.assign({}, state, {
+      feeStructure: { isCurrentFeeStructureCreated: false }
+    }),
 
-    /* END - FEE STRUCTURES ***************************************************************************************/
+  /* END - FEE STRUCTURES ***************************************************************************************/
 
-    /* START - CLASS FEE STRUCTURES ***************************************************************************************/
+  /* START - CLASS FEE STRUCTURES ***************************************************************************************/
 
-    [SETUP_CLASS_FEE_STRUCTURE_FORM]: (state, action) =>
-        Object.assign({}, state, {
-            isAdminModalDisplayed: action.payload.isAdminModalDisplayed,
-            dialogHeight: action.payload.dialogHeight,
-            dialogWidth: action.payload.dialogWidth,
-            modalTitle: action.payload.modalTitle,
-            isAcademicClassLevelFormDisplayed:
-            action.payload.isAcademicClassLevelFormDisplayed,
-            classStreams: {
-                isClassStreamFormDisplayed: action.payload.isClassStreamFormDisplayed
-            },
-            termIterations: {
-                isTermIterationsFormDisplayed:
-                action.payload.isTermIterationsFormDisplayed
-            },
-            weekIterations: {
-                isWeekIterationsFormDisplayed:
-                action.payload.isWeekIterationsFormDisplayed
-            },
-            actualTerms: {
-                isActualTermsFormDisplayed: action.payload.isActualTermsFormDisplayed
-            },
-            actualWeeks: {
-                isActualWeeksFormDisplayed: action.payload.isActualWeeksFormDisplayed
-            },
-            lotDescriptions: {
-                isLotDescriptionsFormDisplayed:
-                action.payload.isLotDescriptionsFormDisplayed
-            },
-            actualLots: {
-                isActualLotsFormDisplayed: action.payload.isActualLotsFormDisplayed
-            },
-            actualClasses: {
-                isActualClassesFormDisplayed:
-                action.payload.isActualClassesFormDisplayed
-            },
-            userManagement: {
-                isUserRegistrationFormDisplayed:
-                action.payload.isUserRegistrationFormDisplayed
-            },
-            feeComponents: {
-                isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
-            },
-            feeStructure: {
-                isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
-            },
-            classFeeStructure: {
-                isClassFeeStructureFormDisplayed: action.payload.isClassFeeStructureFormDisplayed
-            }
-        }),
+  [SETUP_CLASS_FEE_STRUCTURE_FORM]: (state, action) =>
+    Object.assign({}, state, {
+      isAdminModalDisplayed: action.payload.isAdminModalDisplayed,
+      dialogHeight: action.payload.dialogHeight,
+      dialogWidth: action.payload.dialogWidth,
+      modalTitle: action.payload.modalTitle,
+      isAcademicClassLevelFormDisplayed:
+        action.payload.isAcademicClassLevelFormDisplayed,
+      classStreams: {
+        isClassStreamFormDisplayed: action.payload.isClassStreamFormDisplayed
+      },
+      termIterations: {
+        isTermIterationsFormDisplayed:
+          action.payload.isTermIterationsFormDisplayed
+      },
+      weekIterations: {
+        isWeekIterationsFormDisplayed:
+          action.payload.isWeekIterationsFormDisplayed
+      },
+      actualTerms: {
+        isActualTermsFormDisplayed: action.payload.isActualTermsFormDisplayed
+      },
+      actualWeeks: {
+        isActualWeeksFormDisplayed: action.payload.isActualWeeksFormDisplayed
+      },
+      lotDescriptions: {
+        isLotDescriptionsFormDisplayed:
+          action.payload.isLotDescriptionsFormDisplayed
+      },
+      actualLots: {
+        isActualLotsFormDisplayed: action.payload.isActualLotsFormDisplayed
+      },
+      actualClasses: {
+        isActualClassesFormDisplayed:
+          action.payload.isActualClassesFormDisplayed
+      },
+      userManagement: {
+        isUserRegistrationFormDisplayed:
+          action.payload.isUserRegistrationFormDisplayed
+      },
+      feeComponents: {
+        isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
+      },
+      feeStructure: {
+        isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
+      },
+      classFeeStructure: {
+        isClassFeeStructureFormDisplayed:
+          action.payload.isClassFeeStructureFormDisplayed
+      },
+      classFeeStructureComponents: {
+        isClassFeeStructureComponentsFormDisplayed:
+          action.payload.isClassFeeStructureComponentsFormDisplayed
+      }
+    }),
+
+  /* END - CLASS FEE STRUCTURES ***************************************************************************************/
+
+  /* START - CLASS FEE STRUCTURE COMPONENTS ***************************************************************************************/
+
+  [SETUP_CLASS_FEE_STRUCTURE_COMPONENTS_FORM]: (state, action) =>
+    Object.assign({}, state, {
+      isAdminModalDisplayed: action.payload.isAdminModalDisplayed,
+      dialogHeight: action.payload.dialogHeight,
+      dialogWidth: action.payload.dialogWidth,
+      modalTitle: action.payload.modalTitle,
+      isAcademicClassLevelFormDisplayed:
+        action.payload.isAcademicClassLevelFormDisplayed,
+      classStreams: {
+        isClassStreamFormDisplayed: action.payload.isClassStreamFormDisplayed
+      },
+      termIterations: {
+        isTermIterationsFormDisplayed:
+          action.payload.isTermIterationsFormDisplayed
+      },
+      weekIterations: {
+        isWeekIterationsFormDisplayed:
+          action.payload.isWeekIterationsFormDisplayed
+      },
+      actualTerms: {
+        isActualTermsFormDisplayed: action.payload.isActualTermsFormDisplayed
+      },
+      actualWeeks: {
+        isActualWeeksFormDisplayed: action.payload.isActualWeeksFormDisplayed
+      },
+      lotDescriptions: {
+        isLotDescriptionsFormDisplayed:
+          action.payload.isLotDescriptionsFormDisplayed
+      },
+      actualLots: {
+        isActualLotsFormDisplayed: action.payload.isActualLotsFormDisplayed
+      },
+      actualClasses: {
+        isActualClassesFormDisplayed:
+          action.payload.isActualClassesFormDisplayed
+      },
+      userManagement: {
+        isUserRegistrationFormDisplayed:
+          action.payload.isUserRegistrationFormDisplayed
+      },
+      feeComponents: {
+        isFeeComponentFormDisplayed: action.payload.isFeeComponentFormDisplayed
+      },
+      feeStructure: {
+        isFeeStructureFormDisplayed: action.payload.isFeeStructureFormDisplayed
+      },
+      classFeeStructure: {
+        isClassFeeStructureFormDisplayed:
+          action.payload.isClassFeeStructureFormDisplayed
+      },
+      classFeeStructureComponents: {
+        isClassFeeStructureComponentsFormDisplayed:
+          action.payload.isClassFeeStructureComponentsFormDisplayed
+      }
+    }),
+
+  [FETCHING_CLASS_FEE_STRUCTURES_SUCCESSFUL]: (state, action) =>
+    Object.assign({}, state, {
+      classFeeStructure: {
+        allClassFeeStructures: action.payload.allClassFeeStructures
+      }
+    })
 };

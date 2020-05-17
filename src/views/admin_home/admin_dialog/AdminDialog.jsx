@@ -18,6 +18,7 @@ import UserRegistrationForm from "../system_user_management/system_user_registra
 import FeeComponentsForm from "../fee_management/fee_components/FeeComponentsForm";
 import FeeStructureForm from "../fee_management/fee_structure/FeeStructureForm";
 import ClassFeeStructureForm from "../fee_management/class_fee_structure/ClassFeeStructureForm";
+import ClassFeeStructureComponentsForm from "../fee_management/class_fee_components/ClassFeeStructureComponentsForm";
 
 class AdminDialog extends Component {
   state = {
@@ -121,33 +122,49 @@ class AdminDialog extends Component {
           </div>
 
           <div
-              className={this.props.isActualClassesFormDisplayed ? "show" : "hide"}
+            className={
+              this.props.isActualClassesFormDisplayed ? "show" : "hide"
+            }
           >
             <ActualClassesForm />
           </div>
 
           <div
-              className={this.props.isUserRegistrationFormDisplayed ? "show" : "hide"}
+            className={
+              this.props.isUserRegistrationFormDisplayed ? "show" : "hide"
+            }
           >
             <UserRegistrationForm />
           </div>
 
           <div
-              className={this.props.isFeeComponentFormDisplayed ? "show" : "hide"}
+            className={this.props.isFeeComponentFormDisplayed ? "show" : "hide"}
           >
             <FeeComponentsForm />
           </div>
 
           <div
-              className={this.props.isFeeStructureFormDisplayed ? "show" : "hide"}
+            className={this.props.isFeeStructureFormDisplayed ? "show" : "hide"}
           >
             <FeeStructureForm />
           </div>
 
           <div
-              className={this.props.isClassFeeStructureFormDisplayed ? "show" : "hide"}
+            className={
+              this.props.isClassFeeStructureFormDisplayed ? "show" : "hide"
+            }
           >
             <ClassFeeStructureForm />
+          </div>
+
+          <div
+            className={
+              this.props.isClassFeeStructureComponentsFormDisplayed
+                ? "show"
+                : "hide"
+            }
+          >
+            <ClassFeeStructureComponentsForm />
           </div>
         </Modal>
       </div>
@@ -173,7 +190,8 @@ AdminDialog.propTypes = {
   isUserRegistrationFormDisplayed: PropTypes.bool.isRequired,
   isFeeComponentFormDisplayed: PropTypes.bool.isRequired,
   isFeeStructureFormDisplayed: PropTypes.bool.isRequired,
-  isClassFeeStructureFormDisplayed: PropTypes.bool.isRequired
+  isClassFeeStructureFormDisplayed: PropTypes.bool.isRequired,
+  isClassFeeStructureComponentsFormDisplayed: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -198,15 +216,18 @@ const mapStateToProps = state => ({
   isActualLotsFormDisplayed:
     state.admin_home.actualLots.isActualLotsFormDisplayed,
   isActualClassesFormDisplayed:
-  state.admin_home.actualClasses.isActualClassesFormDisplayed,
+    state.admin_home.actualClasses.isActualClassesFormDisplayed,
   isUserRegistrationFormDisplayed:
-  state.admin_home.userManagement.isUserRegistrationFormDisplayed,
+    state.admin_home.userManagement.isUserRegistrationFormDisplayed,
   isFeeComponentFormDisplayed:
-  state.admin_home.feeComponents.isFeeComponentFormDisplayed,
+    state.admin_home.feeComponents.isFeeComponentFormDisplayed,
   isFeeStructureFormDisplayed:
-  state.admin_home.feeStructure.isFeeStructureFormDisplayed,
+    state.admin_home.feeStructure.isFeeStructureFormDisplayed,
   isClassFeeStructureFormDisplayed:
-  state.admin_home.classFeeStructure.isClassFeeStructureFormDisplayed
+    state.admin_home.classFeeStructure.isClassFeeStructureFormDisplayed,
+  isClassFeeStructureComponentsFormDisplayed:
+    state.admin_home.classFeeStructureComponents
+      .isClassFeeStructureComponentsFormDisplayed
 });
 
 const mapDispatchToProps = dispatch => ({

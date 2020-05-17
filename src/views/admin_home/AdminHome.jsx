@@ -10,8 +10,12 @@ import {
   REGISTER_ACTUAL_CLASSES,
   REGISTER_ACTUAL_LOTS,
   REGISTER_ACTUAL_TERMS,
-  REGISTER_ACTUAL_WEEKS, REGISTER_CLASS_FEE_STRUCTURES,
-  REGISTER_CLASS_STREAMS, REGISTER_FEE_COMPONENTS, REGISTER_FEE_STRUCTURES,
+  REGISTER_ACTUAL_WEEKS,
+  REGISTER_CLASS_FEE_COMPONENTS,
+  REGISTER_CLASS_FEE_STRUCTURES,
+  REGISTER_CLASS_STREAMS,
+  REGISTER_FEE_COMPONENTS,
+  REGISTER_FEE_STRUCTURES,
   REGISTER_LOT_DESCRIPTION,
   REGISTER_SYSTEM_USER,
   REGISTER_TERM_ITERATIONS,
@@ -33,7 +37,10 @@ import ActualClasses from "./academic_class_configuration/actual_classes/ActualC
 import UserRegistration from "./system_user_management/system_user_registration/UserRegistration";
 import FeeComponentsHome from "./fee_management/fee_components/FeeComponentsHome";
 import FeeStructureHome from "./fee_management/fee_structure/FeeStructureHome";
-import {setupClassFeeStructuresForm} from "../../store/modules/admin_home/actions";
+import {
+  setupClassFeeStructuresComponentsForm,
+  setupClassFeeStructuresForm
+} from "../../store/modules/admin_home/actions";
 
 class AdminHome extends Component {
   constructor(props) {
@@ -262,6 +269,8 @@ class AdminHome extends Component {
       });
     } else if (formToDisplay === REGISTER_CLASS_FEE_STRUCTURES) {
       this.props.setupClassFeeStructuresForm();
+    } else if (formToDisplay === REGISTER_CLASS_FEE_COMPONENTS) {
+      this.props.setupClassFeeStructuresComponentsForm();
     }
   };
 
@@ -344,15 +353,11 @@ class AdminHome extends Component {
               <UserRegistration />
             </div>
 
-            <div
-                className={this.state.displayFeeComponents ? "show" : "hide"}
-            >
+            <div className={this.state.displayFeeComponents ? "show" : "hide"}>
               <FeeComponentsHome />
             </div>
 
-            <div
-                className={this.state.displayFeeStructures ? "show" : "hide"}
-            >
+            <div className={this.state.displayFeeStructures ? "show" : "hide"}>
               <FeeStructureHome />
             </div>
           </Container>
@@ -367,6 +372,7 @@ AdminHome.propTypes = {
   terminateCurrentSession: PropTypes.func.isRequired,
   sessionDetails: PropTypes.object.isRequired,
   setupClassFeeStructuresForm: PropTypes.func.isRequired,
+  setupClassFeeStructuresComponentsForm: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -375,8 +381,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  terminateCurrentSession: payload => dispatch(terminateCurrentSession(payload)),
-  setupClassFeeStructuresForm: () => dispatch(setupClassFeeStructuresForm())
+  terminateCurrentSession: payload =>
+    dispatch(terminateCurrentSession(payload)),
+  setupClassFeeStructuresForm: () => dispatch(setupClassFeeStructuresForm()),
+  setupClassFeeStructuresComponentsForm: () =>
+    dispatch(setupClassFeeStructuresComponentsForm())
 });
 
 export default connect(
