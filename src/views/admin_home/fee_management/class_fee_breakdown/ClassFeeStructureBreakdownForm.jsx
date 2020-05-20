@@ -22,7 +22,14 @@ class ClassFeeStructureBreakdownForm extends Component {
     selectedTermIterationErrorMessage: "",
     feeAmount: "",
     feeAmountHasError: false,
-    feeAmountErrorMessage: ""
+    feeAmountErrorMessage: "",
+    selectedStudentResidence: "",
+    studentResidenceOptions: [
+      { label: "Boarder", value: "1" },
+      { label: "Day Scholar", value: "2" }
+    ],
+    selectedStudentResidenceHasError: false,
+    selectedStudentResidenceErrorMessage: ""
   };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -74,10 +81,16 @@ class ClassFeeStructureBreakdownForm extends Component {
         selectedTermIterationHasError: true,
         selectedTermIterationErrorMessage: "This field is required"
       });
+    } else if (!this.state.selectedStudentResidence) {
+      this.setState({
+        selectedStudentResidenceHasError: true,
+        selectedStudentResidenceErrorMessage: "This field is required"
+      });
     } else {
       const payload = {
         ClassFeeStructureId: this.state.selectedClassFeeStructureObject.value,
         TermIterationId: this.state.selectedTermIterationObject.value,
+        StudentResidenceId: this.state.selectedStudentResidence.value,
         FeeAmount: this.state.feeAmount
       };
 
@@ -172,6 +185,39 @@ class ClassFeeStructureBreakdownForm extends Component {
                 <Columns>
                   <Columns.Column size="one-half">
                     <div className="form-group">
+                      <Select
+                        className={
+                          this.state.selectedStudentResidenceHasError
+                            ? "react-select personal__text-area-error"
+                            : "react-select"
+                        }
+                        classNamePrefix="react-select"
+                        placeholder="Residence"
+                        name="selectedStudentResidence"
+                        closeMenuOnSelect={true}
+                        value={this.state.selectedStudentResidence}
+                        onChange={value =>
+                          this.setState({
+                            ...this.state,
+                            selectedStudentResidence: value
+                          })
+                        }
+                        options={this.state.studentResidenceOptions}
+                      />
+                      <p
+                        className={
+                          this.state.selectedStudentResidenceHasError
+                            ? "personal__submision-error"
+                            : "personal__hide"
+                        }
+                      >
+                        {this.state.selectedStudentResidenceErrorMessage}
+                      </p>
+                    </div>
+                  </Columns.Column>
+
+                  <Columns.Column size="one-half">
+                    <div className="form-group">
                       <input
                         name="feeAmount"
                         className={
@@ -197,7 +243,6 @@ class ClassFeeStructureBreakdownForm extends Component {
                       </p>
                     </div>
                   </Columns.Column>
-                  <Columns.Column size="one-half" />
                 </Columns>
 
                 <button

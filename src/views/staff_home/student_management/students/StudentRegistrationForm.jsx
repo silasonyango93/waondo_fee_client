@@ -124,7 +124,7 @@ class StudentRegistrationForm extends Component {
       this.state.dateOfBirth._d.getDate();
 
     const payload = {
-      studentName: this.state.name,
+      studentName: this.state.studentName,
       admissionNo: this.state.admissionNumber,
       profPicName:
         this.state.SelectedGenderId.value === "1"
@@ -132,7 +132,7 @@ class StudentRegistrationForm extends Component {
           : "female_student.png",
       genderId: this.state.SelectedGenderId.value,
       studentDob: dateOfBirth,
-      studentTypeId: this.state.SelectedStudentType.value,
+      studentResidenceId: this.state.SelectedStudentType.value,
       classId: this.state.selectedClassOption.value,
       registrationSessionId:
         this.props.sessionDetails &&
@@ -204,12 +204,12 @@ class StudentRegistrationForm extends Component {
       this.state.dateOfBirth._d.getDate();
 
     const payload = {
-      studentName: this.state.name,
+      studentName: this.state.studentName,
       admissionNo: this.state.admissionNumber,
       profPicName: dbImageName,
       genderId: this.state.SelectedGenderId.value,
       studentDob: dateOfBirth,
-      studentTypeId: this.state.SelectedStudentType.value,
+      studentResidenceId: this.state.SelectedStudentType.value,
       classId: this.state.selectedClassOption.value,
       registrationSessionId:
         this.props.sessionDetails &&
