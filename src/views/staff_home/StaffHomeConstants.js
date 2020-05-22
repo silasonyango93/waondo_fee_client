@@ -1,1 +1,2 @@
 export const REGISTER_A_STUDENT_PAGE = "REGISTER_A_STUDENT_PAGE";
+export const PAY_FEE = "PAY_FEE";

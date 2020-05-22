@@ -3,7 +3,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import {  withRouter } from "react-router-dom";
 import { FaCogs, FaSearch } from "react-icons/fa";
-import {REGISTER_A_STUDENT_PAGE} from "../../views/staff_home/StaffHomeConstants";
+import {PAY_FEE, REGISTER_A_STUDENT_PAGE} from "../../views/staff_home/StaffHomeConstants";
 
 class StaffSideBar extends Component {
     constructor(props) {
@@ -15,7 +15,8 @@ class StaffSideBar extends Component {
             thirdLevelDropdownCollapsed: true,
             brandDropdownCollapsed: true,
             samplePagesCollapsed: true,
-            userManagementMultiLevelDropdownCollapsed: true
+            userManagementMultiLevelDropdownCollapsed: true,
+            feeManagementMultiLevelDropdownCollapsed: true
         };
     }
 
@@ -84,6 +85,48 @@ class StaffSideBar extends Component {
                                         }}
                                     >
                                         Student Registration
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+
+                        <li
+                            className={classNames({
+                                active: !this.state.feeManagementMultiLevelDropdownCollapsed
+                            })}
+                        >
+                            <a
+                                href=""
+                                onClick={e => {
+                                    e.preventDefault();
+                                    this.setState({
+                                        feeManagementMultiLevelDropdownCollapsed: !this.state
+                                            .feeManagementMultiLevelDropdownCollapsed
+                                    });
+                                    return false;
+                                }}
+                            >
+                                <FaCogs />
+                                &nbsp;Fee Management
+                                <span className="fa arrow" />
+                            </a>
+                            <ul
+                                className={classNames({
+                                    "nav nav-second-level": true,
+                                    collapse: this.state.feeManagementMultiLevelDropdownCollapsed
+                                })}
+                            >
+                                <li className="second-level">
+                                    <a
+                                        href=""
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            this.props.handleSideBarClicked(PAY_FEE);
+                                        }}
+                                    >
+                                        Pay Fee
                                     </a>
                                 </li>
 
