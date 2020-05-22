@@ -7,22 +7,28 @@ import { connect } from "react-redux";
 import { DEBOUNCE, IDLE_TIMEOUT } from "../../config/constants/Constants";
 import { terminateCurrentSession } from "../../store/modules/current_session/actions";
 import TopBar from "../../components/topbar/TopBar";
-import { REGISTER_A_STUDENT_PAGE } from "./StaffHomeConstants";
+import {PAY_FEE, REGISTER_A_STUDENT_PAGE} from "./StaffHomeConstants";
 import StudentsPage from "./student_management/students/StudentsPage";
 import StaffSideBar from "../../components/sidebar/StaffSideBar";
 import Modal from "react-awesome-modal";
 import StudentRegistrationForm from "./student_management/students/StudentRegistrationForm";
 import { BURSAR_ROLE } from "../../config/constants/RolesConfig";
-import { REGISTER_A_STUDENT_ACCESS_PRIVILEGE } from "../../config/constants/AccessPrivilegesConfig";
+import {
+  REGISTER_A_FEE_INSTALLMENT_ACCESS_PRIVILEGE,
+  REGISTER_A_STUDENT_ACCESS_PRIVILEGE
+} from "../../config/constants/AccessPrivilegesConfig";
 import { PERMISSION_GRANTED } from "../../config/constants/PermisionStatus";
 import ErrorPage from "../../components/error_page/ErrorPage";
+import FeePaymentForm from "./fee_management/FeePaymentForm";
 
 class StaffHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
       displayStudents: true,
-      displayStaffHomeModal: false
+      displayStaffHomeModal: false,
+      displayStudentRegistrationForm: false,
+      displayPayFeeForm: false
     };
     this.idleTimer = null;
   }
@@ -55,7 +61,15 @@ class StaffHome extends Component {
   handleSideBarClicked = formToDisplay => {
     if (formToDisplay === REGISTER_A_STUDENT_PAGE) {
       this.setState({
-        displayStaffHomeModal: true
+        displayStaffHomeModal: true,
+        displayStudentRegistrationForm: true,
+        displayPayFeeForm: false
+      });
+    } else if(formToDisplay === PAY_FEE) {
+      this.setState({
+        displayStaffHomeModal: true,
+        displayPayFeeForm: true,
+        displayStudentRegistrationForm: false
       });
     }
   };
@@ -130,15 +144,34 @@ class StaffHome extends Component {
             this.handleStaffHomeModalExteriorClicked();
           }}
         >
-          {this.isAccessGranted(REGISTER_A_STUDENT_ACCESS_PRIVILEGE) ? (
-            <StudentRegistrationForm />
-          ) : (
-            <ErrorPage
-              errorTitle="Permision to register a student not granted"
-              errorCode="Error Code: ACCESS_DENIED"
-              errorResolution="Kindly contact the admin for this access"
-            />
+          {this.state.displayStudentRegistrationForm && (
+            <div>
+              {this.isAccessGranted(REGISTER_A_STUDENT_ACCESS_PRIVILEGE) ? (
+                <StudentRegistrationForm />
+              ) : (
+                <ErrorPage
+                  errorTitle="Permision to register a student not granted"
+                  errorCode="Error Code: ACCESS_DENIED"
+                  errorResolution="Kindly contact the admin for this access"
+                />
+              )}
+            </div>
           )}
+
+          {this.state.displayPayFeeForm && (
+              <div>
+                {this.isAccessGranted(REGISTER_A_FEE_INSTALLMENT_ACCESS_PRIVILEGE) ? (
+                    <FeePaymentForm />
+                ) : (
+                    <ErrorPage
+                        errorTitle="Permision to pay fee not granted"
+                        errorCode="Error Code: ACCESS_DENIED"
+                        errorResolution="Kindly contact the admin for this access"
+                    />
+                )}
+              </div>
+          )}
+
         </Modal>
       </div>
     );
