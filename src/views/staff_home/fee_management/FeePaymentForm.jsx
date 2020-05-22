@@ -5,6 +5,7 @@ import { Columns } from "react-bulma-components/dist";
 import { connect } from "react-redux";
 import {terminateCurrentSession} from "../../../store/modules/current_session/actions";
 import {promiselessApiPost} from "../../../services/api_connector/ApiConnector";
+import {today} from "../../../config/common/Utils";
 
 
 
@@ -53,6 +54,21 @@ class FeePaymentForm extends Component {
               });
           } else {
 
+
+              const payload = {
+                  studentId: responce.data.results[0].StudentId,
+                  searchDate: today()
+              };
+              const feeResponce = await promiselessApiPost(payload,"/get_installment_paid_on_certain_date");
+
+              if(feeResponce.data.results && feeResponce.data.results.length) {
+                  this.setState({
+                      admissionNumberHasError: true,
+                      admissionNumberErrorMessage: "Cannot pay fee for the same student twice in a day"
+                  });
+              } else {
+                  // All validation passes ---> Launch confirmation modal
+              }
           }
       }
 
