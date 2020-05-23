@@ -1,0 +1,65 @@
+.payment {
+  &__personal-info-div {
+    box-shadow: 0 0 10px 0 rgba(255, 130, 0, 0.35);
+    background: linear-gradient(to left, #243f95, #00b4a9);
+    width: 100%;
+    height: 220px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__details-inner-div {
+    text-align: center;
+  }
+
+  &__pic-circular-div {
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    background: #ffffff;
+    margin: auto;
+  }
+
+  &__student-name {
+    margin-top:10px;
+    font-family: Lato;
+    font-size: 26px;
+    font-weight: 300;
+    margin: auto;
+    color: #ffffff;
+  }
+
+  &__admission-no {
+    margin-top:10px;
+    font-family: Lato;
+    font-size: 26px;
+    font-weight: 300;
+    margin: auto;
+    color: #ffffff;
+  }
+
+  &__prompt-div {
+    padding: 1rem;
+    position: relative;
+    height: 220px;
+  }
+
+  &__prompt {
+    font-family: Lato;
+    font-size: 26px;
+    font-weight: 300;
+    margin: auto;
+    color: #000000;
+    text-align: center;
+  }
+
+  &__button-div {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+  }
+
+
+
+}

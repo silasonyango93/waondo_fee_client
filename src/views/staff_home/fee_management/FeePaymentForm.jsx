@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Columns } from "react-bulma-components/dist";
 import { connect } from "react-redux";
-import {terminateCurrentSession} from "../../../store/modules/current_session/actions";
 import {promiselessApiPost} from "../../../services/api_connector/ApiConnector";
 import {today} from "../../../config/common/Utils";
 
@@ -68,6 +67,15 @@ class FeePaymentForm extends Component {
                   });
               } else {
                   // All validation passes ---> Launch confirmation modal
+                  const feePayload = {
+                      studentId: responce.data.results[0].StudentId,
+                      installmentAmount: this.state.installmentAmount,
+                      studentName: responce.data.results[0].StudentName,
+                      admissionNumber: responce.data.results[0].AdmissionNo,
+                      profPicName: responce.data.results[0].ProfPicName
+                  };
+
+                  this.props.launchFeePaymentConfirmationModal(feePayload);
               }
           }
       }
@@ -169,22 +177,19 @@ class FeePaymentForm extends Component {
 }
 
 FeePaymentForm.propTypes = {
-  createClassFeeStructure: PropTypes.func.isRequired,
-  toggleAdminModalDisplay: PropTypes.func.isRequired,
-  allAcademicClassLevels: PropTypes.arrayOf(PropTypes.object).isRequired,
-  allFeeStructures: PropTypes.arrayOf(PropTypes.object).isRequired
+  launchFeePaymentConfirmationModal: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  isCurrentActualTermCreated:
-    state.admin_home.actualTerms.isCurrentActualTermCreated,
-  allTermIterations: state.admin_home.termIterations.allTermIterations,
-  allFeeStructures: state.admin_home.feeStructure.allFeeStructures,
-  allAcademicClassLevels: state.admin_home.allAcademicClassLevels
+  // isCurrentActualTermCreated:
+  //   state.admin_home.actualTerms.isCurrentActualTermCreated,
+  // allTermIterations: state.admin_home.termIterations.allTermIterations,
+  // allFeeStructures: state.admin_home.feeStructure.allFeeStructures,
+  // allAcademicClassLevels: state.admin_home.allAcademicClassLevels
 });
 
 const mapDispatchToProps = dispatch => ({
-    terminateCurrentSession: payload => dispatch(terminateCurrentSession(payload))
+    // terminateCurrentSession: payload => dispatch(terminateCurrentSession(payload))
 });
 
 export default connect(

@@ -20,15 +20,18 @@ import {
 import { PERMISSION_GRANTED } from "../../config/constants/PermisionStatus";
 import ErrorPage from "../../components/error_page/ErrorPage";
 import FeePaymentForm from "./fee_management/FeePaymentForm";
+import FeePaymentConfirmationModal from "./fee_management/FeePaymentConfirmationModal";
 
 class StaffHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      feePayload: '',
       displayStudents: true,
       displayStaffHomeModal: false,
       displayStudentRegistrationForm: false,
-      displayPayFeeForm: false
+      displayPayFeeForm: false,
+      displayFeePaymentConfirmationModal: false
     };
     this.idleTimer = null;
   }
@@ -63,13 +66,15 @@ class StaffHome extends Component {
       this.setState({
         displayStaffHomeModal: true,
         displayStudentRegistrationForm: true,
-        displayPayFeeForm: false
+        displayPayFeeForm: false,
+        displayFeePaymentConfirmationModal: false
       });
     } else if(formToDisplay === PAY_FEE) {
       this.setState({
         displayStaffHomeModal: true,
         displayPayFeeForm: true,
-        displayStudentRegistrationForm: false
+        displayStudentRegistrationForm: false,
+        displayFeePaymentConfirmationModal: false
       });
     }
   };
@@ -103,7 +108,7 @@ class StaffHome extends Component {
           privilegeItem.accessPrivilegeId === accessPrivilege &&
           privilegeItem.permisionStatus === PERMISSION_GRANTED
       );
-      console.log(userAccessPrivilege);
+
     }
 
     return userAccessPrivilege.length > 0;
@@ -111,6 +116,16 @@ class StaffHome extends Component {
 
   handleStaffHomeModalExteriorClicked = () => {
     this.setState({ displayStaffHomeModal: false });
+  };
+
+  launchFeePaymentConfirmationModal = payload => {
+    this.setState({
+      feePayload: payload,
+      displayStaffHomeModal: true,
+      displayPayFeeForm: false,
+      displayStudentRegistrationForm: false,
+      displayFeePaymentConfirmationModal: true
+    });
   };
 
   render() {
@@ -161,7 +176,7 @@ class StaffHome extends Component {
           {this.state.displayPayFeeForm && (
               <div>
                 {this.isAccessGranted(REGISTER_A_FEE_INSTALLMENT_ACCESS_PRIVILEGE) ? (
-                    <FeePaymentForm />
+                    <FeePaymentForm launchFeePaymentConfirmationModal={this.launchFeePaymentConfirmationModal}/>
                 ) : (
                     <ErrorPage
                         errorTitle="Permision to pay fee not granted"
@@ -171,6 +186,8 @@ class StaffHome extends Component {
                 )}
               </div>
           )}
+
+          {this.state.displayFeePaymentConfirmationModal && (<FeePaymentConfirmationModal feePayload={this.state.feePayload} />)}
 
         </Modal>
       </div>
