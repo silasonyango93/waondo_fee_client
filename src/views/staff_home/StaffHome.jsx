@@ -128,6 +128,16 @@ class StaffHome extends Component {
     });
   };
 
+  closeFeePaymentConfirmationModal = () => {
+    this.setState({
+      feePayload: '',
+      displayStaffHomeModal: false,
+      displayPayFeeForm: false,
+      displayStudentRegistrationForm: false,
+      displayFeePaymentConfirmationModal: false
+    });
+  };
+
   render() {
     return (
       <div>
@@ -187,7 +197,7 @@ class StaffHome extends Component {
               </div>
           )}
 
-          {this.state.displayFeePaymentConfirmationModal && (<FeePaymentConfirmationModal feePayload={this.state.feePayload} />)}
+          {this.state.displayFeePaymentConfirmationModal && (<FeePaymentConfirmationModal feePayload={this.state.feePayload} closeFeeConfirmationModal={this.closeFeePaymentConfirmationModal}/>)}
 
         </Modal>
       </div>
