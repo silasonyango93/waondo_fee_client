@@ -40,7 +40,7 @@ export function registerAStudent(payload) {
 
 export function payFee(payload) {
     return async dispatch => {
-        const apiRoute = "/students/create_student";
+        const apiRoute = "/installments/add_installment";
         const returnedPromise = transactionsServicePost(payload, apiRoute);
         returnedPromise.then(
             function(result) {
