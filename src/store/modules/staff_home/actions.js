@@ -52,9 +52,9 @@ export function payFee(payload) {
                 } else {
                     dispatch({
                         type: FEE_PAYMENT_FAILED,
-                        // payload: {
-                        //     studentRegistrationEventMessage: result.data.responseMessage
-                        // }
+                        payload: {
+                            studentRegistrationEventMessage: result.data.responseMessage
+                        }
                     });
                 }
             },
