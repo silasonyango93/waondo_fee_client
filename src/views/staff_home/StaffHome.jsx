@@ -21,11 +21,13 @@ import { PERMISSION_GRANTED } from "../../config/constants/PermisionStatus";
 import ErrorPage from "../../components/error_page/ErrorPage";
 import FeePaymentForm from "./fee_management/FeePaymentForm";
 import FeePaymentConfirmationModal from "./fee_management/FeePaymentConfirmationModal";
+import FeeStatementView from "./fee_management/fee_statement/FeeStatementView";
 
 class StaffHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      displayFeeStatementModal: false,
       feePayload: '',
       displayStudents: true,
       displayStaffHomeModal: false,
@@ -37,6 +39,7 @@ class StaffHome extends Component {
   }
 
   componentDidMount() {
+    this.setState({displayFeeStatementModal: true});
     if (!this.props.isSessionActive) {
       window.location.assign("/");
     } else {
@@ -138,6 +141,14 @@ class StaffHome extends Component {
     });
   };
 
+  launchFeeStatementModal = () => {
+      this.setState({displayFeeStatementModal: true});
+  };
+
+  handleFeeStatementModalExteriorClicked = () => {
+    this.setState({ displayFeeStatementModal: false });
+  };
+
   render() {
     return (
       <div>
@@ -197,7 +208,21 @@ class StaffHome extends Component {
               </div>
           )}
 
-          {this.state.displayFeePaymentConfirmationModal && (<FeePaymentConfirmationModal feePayload={this.state.feePayload} closeFeeConfirmationModal={this.closeFeePaymentConfirmationModal}/>)}
+          {this.state.displayFeePaymentConfirmationModal && (<FeePaymentConfirmationModal feePayload={this.state.feePayload} closeFeeConfirmationModal={this.closeFeePaymentConfirmationModal} launchFeeStatementModal={this.launchFeeStatementModal}/>)}
+
+        </Modal>
+
+        <Modal
+            visible={this.state.displayFeeStatementModal}
+            width="900"
+            height="600"
+            effect="fadeInUp"
+            onClickAway={() => {
+              this.handleFeeStatementModalExteriorClicked();
+            }}
+        >
+
+          <FeeStatementView />
 
         </Modal>
       </div>

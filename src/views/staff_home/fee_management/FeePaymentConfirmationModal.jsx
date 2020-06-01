@@ -26,6 +26,7 @@ class FeePaymentConfirmationModal extends Component {
         };
 
         this.props.payFee(payload);
+        this.props.launchFeeStatementModal();
     };
 
   render() {
@@ -76,7 +77,8 @@ FeePaymentConfirmationModal.propTypes = {
   feePayload: PropTypes.object.isRequired,
     payFee: PropTypes.func.isRequired,
     sessionDetails: PropTypes.object.isRequired,
-    closeFeeConfirmationModal: PropTypes.func.isRequired
+    closeFeeConfirmationModal: PropTypes.func.isRequired,
+    launchFeeStatementModal: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

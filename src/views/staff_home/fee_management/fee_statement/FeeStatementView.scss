@@ -1,0 +1,50 @@
+.statement {
+  &__main-body {
+    margin: 0.5rem;
+    border: solid 1px #041333;
+    height: 98%;
+    width: 98%;
+    text-align: center;
+    border-radius: 6px;
+    overflow: scroll;
+  }
+
+  &__pic-div {
+    border: solid 1px #041333;
+    border-radius: 6px;
+    margin: 0.5rem;
+    width: 120px;
+    height: 120px;
+  }
+
+  &__student-name {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    font-family: Lato;
+    font-size: 2em;
+    font-weight: 900;
+  }
+
+  &__top-section {
+    width: 100%;
+    height: auto;
+  }
+
+  &__name-div {
+    height: 100%;
+    width: 100%;
+    position: relative;
+  }
+
+  &__statement-table {
+    margin: 0.5rem;
+  }
+
+  &__installments-div {
+    margin-left: 0.5rem !important;
+  }
+
+}
