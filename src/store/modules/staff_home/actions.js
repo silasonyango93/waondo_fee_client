@@ -44,17 +44,17 @@ export function payFee(payload) {
         const returnedPromise = transactionsServicePost(payload, apiRoute);
         returnedPromise.then(
             function(result) {
-                if (result.data.successStatus) {
+                console.log(result);
+                if (result.data.feeStatementProcessedSuccessfully) {
                     dispatch({
-                        type: FEE_PAYMENT_SUCCESSFUL
+                        type: FEE_PAYMENT_SUCCESSFUL,
+                        payload: {
+                            currentStudentFeeStatement: result.data
+                        }
                     });
-
                 } else {
                     dispatch({
-                        type: FEE_PAYMENT_FAILED,
-                        payload: {
-                            studentRegistrationEventMessage: result.data.responseMessage
-                        }
+                        type: FEE_PAYMENT_FAILED
                     });
                 }
             },
