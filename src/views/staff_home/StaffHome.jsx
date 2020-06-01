@@ -39,7 +39,6 @@ class StaffHome extends Component {
   }
 
   componentDidMount() {
-    this.setState({displayFeeStatementModal: true});
     if (!this.props.isSessionActive) {
       window.location.assign("/");
     } else {
