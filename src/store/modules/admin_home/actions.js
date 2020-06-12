@@ -1507,11 +1507,11 @@ export function setupClassFeeStructuresBreakdownForm() {
 
 export function createClassFeeBreakDown(payload) {
   return async dispatch => {
-    const apiRoute = "/add_class_fee_structure_breakdown";
-    const returnedPromise = apiPost(payload, apiRoute);
+    const apiRoute = "/class_fee_structure_breakdown/create_fee_structure_breakdown";
+    const returnedPromise = transactionsServicePost(payload, apiRoute);
     returnedPromise.then(
       function(result) {
-        if (result.data.results.success) {
+        if (result.data.successStatus) {
           dispatch({
             type: CLASS_FEE_BREAKDOWN_CREATED_SUCCESSFULLY
           });
