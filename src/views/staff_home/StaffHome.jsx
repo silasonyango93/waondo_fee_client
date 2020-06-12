@@ -103,11 +103,11 @@ class StaffHome extends Component {
       sessionDetails.userRolesDtoList.length
     ) {
       const userRole = sessionDetails.userRolesDtoList.filter(
-        roleItem => roleItem.roleId === BURSAR_ROLE
+        roleItem => roleItem.roleCode === BURSAR_ROLE
       );
       userAccessPrivilege = userRole[0].userAccessPrivilegesDtoList.filter(
         privilegeItem =>
-          privilegeItem.accessPrivilegeId === accessPrivilege &&
+          privilegeItem.accessPrivilegeCode === accessPrivilege &&
           privilegeItem.permisionStatus === PERMISSION_GRANTED
       );
 
