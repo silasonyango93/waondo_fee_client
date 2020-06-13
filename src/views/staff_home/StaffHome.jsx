@@ -170,7 +170,9 @@ class StaffHome extends Component {
           </Columns.Column>
 
           <Columns.Column>
-            <TitlePanel />
+            <div className="staff__title-panel-div">
+              <TitlePanel />
+            </div>
             <Container className="staff__main-body">
               <StudentsPage />
             </Container>
