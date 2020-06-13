@@ -23,6 +23,9 @@ import FeePaymentForm from "./fee_management/FeePaymentForm";
 import FeePaymentConfirmationModal from "./fee_management/FeePaymentConfirmationModal";
 import FeeStatementView from "./fee_management/fee_statement/FeeStatementView";
 
+import './StaffHome.scss';
+import TitlePanel from "../../components/title_panel/TitlePanel";
+
 class StaffHome extends Component {
   constructor(props) {
     super(props);
@@ -161,14 +164,18 @@ class StaffHome extends Component {
           timeout={IDLE_TIMEOUT}
         />
         <TopBar />
-        <Columns>
+        <Columns className="is-gapless">
           <Columns.Column size="one-fifth">
             <StaffSideBar handleSideBarClicked={this.handleSideBarClicked} />
           </Columns.Column>
 
-          <Container>
-            <StudentsPage />
-          </Container>
+          <Columns.Column>
+            <TitlePanel />
+            <Container className="staff__main-body">
+              <StudentsPage />
+            </Container>
+          </Columns.Column>
+
         </Columns>
         <Modal
           visible={this.state.displayStaffHomeModal}

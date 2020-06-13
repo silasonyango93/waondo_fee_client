@@ -8,6 +8,7 @@
   }
 
   &__text-div {
+    width: 100%;
     margin: 0;
     position: absolute;
     top: 50%;
@@ -24,5 +25,51 @@
     line-height: 1.39;
     letter-spacing: normal;
     color: #000000;
+  }
+
+  &__right-column {
+    height: 100%;
+  }
+
+  &__profile-div {
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+
+  &__profile-circle {
+    border-radius: 50%;
+    width: 52px;
+    height: 52px;
+    background-color: #008bff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__profile-circle-text {
+    font-family: Lato;
+    font-size: 16px;
+    font-weight: 800;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #ffffff;
+  }
+
+  &__inner-profile-div {
+    right: 0;
+    padding-right: 2rem;
+    height: 100%;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+
+  &__contact-div {
+
   }
 }
