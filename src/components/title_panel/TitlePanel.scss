@@ -32,6 +32,8 @@
     height: 100%!important;
   }
 
+
+
   &__left-column {
     height: 100%!important;
     position: relative;
@@ -75,7 +77,6 @@
   &__inner-profile-div {
     right: 0;
     padding-right: 2rem;
-    height: 100%;
     margin: 0;
     position: absolute;
     top: 50%;
@@ -84,16 +85,11 @@
   }
 
   &__contact-div {
-   height: 100%;
-    position: relative;
-  }
-
-  &__contact-inner-div {
-    height: 100%;
     margin: 0;
     position: absolute;
     top: 50%;
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
   }
+
 }

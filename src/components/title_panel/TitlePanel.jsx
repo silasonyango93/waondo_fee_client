@@ -15,21 +15,26 @@ class TitlePanel extends Component {
 
                     </div>
                     <div className="col-sm-4 panel__right-column">
-                        <div className="panel__profile-div">
-                            <div className="col-sm-6 panel__contact-div">
-                                <div className="panel__contact-inner-div">
-                                    y
-                                </div>
-                            </div>
-                            <div className="col-sm-6 panel__inner-profile-div">
-                                <div className="panel__profile-circle">
-                                    <div className="panel__profile-circle-text">
-                                        SO
+
+                            <div className="panel__profile-div">
+                                <div className="col-sm-6 panel__contact-div">
+                                    <div>
+                                        y
+                                    </div>
+                                    <div>
+                                        y
                                     </div>
                                 </div>
+                                <div className="col-sm-6 panel__inner-profile-div">
+                                    <div className="panel__profile-circle">
+                                        <div className="panel__profile-circle-text">
+                                            SO
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
 
-                        </div>
 
                     </div>
                 </div>
