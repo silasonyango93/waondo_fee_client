@@ -92,4 +92,12 @@
     transform: translateY(-50%);
   }
 
+  &__name-text {
+    text-align: right;
+  }
+
+  &__email-text {
+    text-align: right;
+  }
+
 }

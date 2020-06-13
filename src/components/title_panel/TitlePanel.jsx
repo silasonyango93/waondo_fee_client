@@ -17,15 +17,15 @@ class TitlePanel extends Component {
                     <div className="col-sm-4 panel__right-column">
 
                             <div className="panel__profile-div">
-                                <div className="col-sm-6 panel__contact-div">
-                                    <div>
-                                        y
+                                <div className="col-sm-8 panel__contact-div">
+                                    <div className="panel__name-text">
+                                        Silas Onyango
                                     </div>
-                                    <div>
-                                        y
+                                    <div className="panel__email-text">
+                                        silas.onyango93@gmail.com
                                     </div>
                                 </div>
-                                <div className="col-sm-6 panel__inner-profile-div">
+                                <div className="col-sm-4 panel__inner-profile-div">
                                     <div className="panel__profile-circle">
                                         <div className="panel__profile-circle-text">
                                             SO
