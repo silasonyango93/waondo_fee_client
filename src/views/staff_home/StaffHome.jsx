@@ -167,7 +167,7 @@ class StaffHome extends Component {
           </Columns.Column>
 
           <Container>
-            {<StudentsPage /> && this.state.displayStudents}
+            <StudentsPage />
           </Container>
         </Columns>
         <Modal
