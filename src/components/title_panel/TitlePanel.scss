@@ -9,6 +9,7 @@
 
   &__text-div {
     width: 100%;
+    height: 100%;
     margin: 0;
     position: absolute;
     top: 50%;
@@ -28,7 +29,20 @@
   }
 
   &__right-column {
-    height: 100%;
+    height: 100%!important;
+  }
+
+  &__left-column {
+    height: 100%!important;
+    position: relative;
+  }
+
+  &__inner-left-column {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
   }
 
   &__profile-div {
@@ -70,6 +84,16 @@
   }
 
   &__contact-div {
+   height: 100%;
+    position: relative;
+  }
 
+  &__contact-inner-div {
+    height: 100%;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
   }
 }
