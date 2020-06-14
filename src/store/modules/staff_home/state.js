@@ -6,5 +6,9 @@ export const initialState = {
 
     feeManagement: {
         currentStudentFeeStatement: {}
+    },
+
+    students: {
+        studentsList: []
     }
 };

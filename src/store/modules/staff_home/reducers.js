@@ -1,4 +1,9 @@
-import {ERROR_WHILE_REGISTERING_STUDENT, FEE_PAYMENT_SUCCESSFUL, STUDENT_REGISTRATION_FAILED} from "./actionTypes";
+import {
+    ERROR_WHILE_REGISTERING_STUDENT,
+    FEE_PAYMENT_SUCCESSFUL,
+    STUDENT_REGISTRATION_FAILED,
+    STUDENTS_FETCHED_SUCCESSFULLY
+} from "./actionTypes";
 
 
 export const ACTION_HANDLERS = {
@@ -17,4 +22,9 @@ export const ACTION_HANDLERS = {
         Object.assign({}, state, {
             feeManagement: { currentStudentFeeStatement: action.payload.currentStudentFeeStatement}
         }),
+
+    [STUDENTS_FETCHED_SUCCESSFULLY]: (state, action) =>
+        Object.assign({}, state, {
+            students: { studentsList: action.payload.studentsList}
+        })
 };

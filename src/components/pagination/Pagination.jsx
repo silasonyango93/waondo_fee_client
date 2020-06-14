@@ -1,8 +1,19 @@
 import React, {Component} from 'react';
+import PropTypes from "prop-types";
 
 import './Pagination.scss';
+
 class Pagination extends Component {
     render() {
+
+       const {
+           hasPageTwo,
+           hasPageThree,
+           hasPageFour,
+           hasPageFive,
+           lastPageNumber
+       } = this.props;
+
         return (
             <div className="pagination__main-body">
                 <div className="col-sm-3 pagination__previous-tile">
@@ -12,7 +23,7 @@ class Pagination extends Component {
                     1
                 </div>
                 <div className="col-sm-3 pagination__page-number-tiles">
-                    2
+                    {hasPageTwo? '2' : '...'}
                 </div>
                 <div className="col-sm-3 pagination__page-number-tiles">
                     3
@@ -36,5 +47,21 @@ class Pagination extends Component {
         );
     }
 }
+
+Pagination.propTypes = {
+    hasPageTwo: PropTypes.bool,
+    hasPageThree: PropTypes.bool,
+    hasPageFour: PropTypes.bool,
+    hasPageFive: PropTypes.bool,
+    lastPageNumber: PropTypes.string
+};
+
+Pagination.defaultProps = {
+    hasPageTwo: true,
+    hasPageThree: true,
+    hasPageFour: true,
+    hasPageFive: true,
+    lastPageNumber: "93"
+};
 
 export default Pagination;
