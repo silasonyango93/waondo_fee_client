@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Table from "../../../../components/table/table_body/Table";
-import html2canvas from 'html2canvas'
+import html2canvas from 'html2canvas';
 
 class StudentsPage extends Component {
 

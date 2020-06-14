@@ -6,6 +6,7 @@ import TableRow from "../table_row/TableRow";
 import "./table.scss";
 import TableHeader from "../table_header/TableHeader";
 import { Columns } from "react-bulma-components/dist";
+import Pagination from "../../pagination/Pagination";
 class Table extends React.Component {
   constructor(props) {
     super(props);
@@ -52,6 +53,7 @@ class Table extends React.Component {
               ))}
             </tbody>
           </table>
+          <Pagination />
         </div>
       </div>
     );
