@@ -46,7 +46,7 @@ class FeeStatementView extends Component {
     };
 
     printDiv = () =>{
-        html2canvas(document.getElementById("fee-statement"), {scale: 8}).then(canvas => {
+        html2canvas(document.getElementById("fee-statement"), {scale: 8,allowTaint: true,useCORS : true}).then(canvas => {
             var link = document.createElement('a');
             link.download = 'receipt.png';
             link.href = canvas.toDataURL()
@@ -70,7 +70,7 @@ class FeeStatementView extends Component {
         } = this.props;
 
         return (
-            <div className="statement__main-body" id="fee-statement">
+            <div className="statement__main-body" id="fee-statement" onClick={()=>{this.printDiv();}}>
                 <div className="statement__top-section">
                     <Columns className="is-gapless">
                         <Columns.Column size="one-quarter">

@@ -216,7 +216,7 @@ class StaffHome extends Component {
               </div>
           )}
 
-          {this.state.displayFeePaymentConfirmationModal && (<FeePaymentConfirmationModal feePayload={this.state.feePayload} closeFeeConfirmationModal={this.closeFeePaymentConfirmationModal} launchFeeStatementModal={this.launchFeeStatementModal}/>)}
+          {this.state.displayFeePaymentConfirmationModal && (<FeePaymentConfirmationModal history={this.props.history} feePayload={this.state.feePayload} closeFeeConfirmationModal={this.closeFeePaymentConfirmationModal} launchFeeStatementModal={this.launchFeeStatementModal}/>)}
 
         </Modal>
 

@@ -12,7 +12,7 @@ import {payFee} from "../../../store/modules/staff_home/actions";
 
 class FeePaymentConfirmationModal extends Component {
 
-    handleSubmitButtonClicked = () => {
+    handleSubmitButtonClicked = async () => {
         const { feePayload } = this.props;
         const payload = {
             studentId: feePayload.studentId,
@@ -25,8 +25,8 @@ class FeePaymentConfirmationModal extends Component {
                     : ""
         };
 
-        this.props.payFee(payload);
-        this.props.launchFeeStatementModal();
+        await this.props.payFee(payload);
+        this.props.history.push("/fee_statement");
     };
 
   render() {
@@ -78,7 +78,8 @@ FeePaymentConfirmationModal.propTypes = {
     payFee: PropTypes.func.isRequired,
     sessionDetails: PropTypes.object.isRequired,
     closeFeeConfirmationModal: PropTypes.func.isRequired,
-    launchFeeStatementModal: PropTypes.func.isRequired
+    launchFeeStatementModal: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
