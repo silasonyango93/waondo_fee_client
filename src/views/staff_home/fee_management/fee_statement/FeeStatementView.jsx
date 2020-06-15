@@ -2,13 +2,15 @@ import React, {Component} from 'react';
 import { Columns } from "react-bulma-components/dist";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import jsPDF from 'jspdf';
+import html2canvas from "html2canvas";
 
 import './FeeStatementView.scss';
 import Table from "../../../../components/table/table_body/Table";
 import html2pdf from "html2pdf.js";
 import {ip} from "../../../../config/EndPoint";
 import schoolLogo from '../../../../assets/waondo.png';
-import html2canvas from "html2canvas";
+
 
 
 class FeeStatementView extends Component {
@@ -47,10 +49,33 @@ class FeeStatementView extends Component {
 
     printDiv = () =>{
         html2canvas(document.getElementById("fee-statement"), {scale: 8,allowTaint: true,useCORS : true}).then(canvas => {
-            var link = document.createElement('a');
-            link.download = 'receipt.png';
-            link.href = canvas.toDataURL()
-            link.click();
+            // var link = document.createElement('a');
+            // link.download = 'receipt.png';
+            // link.href = canvas.toDataURL()
+            // link.click();
+
+
+            var pdf = null;
+            if(canvas.width > canvas.height){
+               pdf = new jsPDF('l', 'mm', [canvas.width, canvas.height],{
+                    orientation: 'portrait',
+                        unit: 'in',
+                        format: [4, 2]
+                });
+            }
+            else{
+              pdf = new jsPDF('p', 'mm', [canvas.height, canvas.width],{
+                  orientation: 'portrait',
+                  unit: 'in',
+                  format: [4, 2]
+              });
+            }
+
+
+
+            //var imgData = canvas.toDataURL()
+            pdf.addImage(canvas, 'JPEG', 0, 0);
+            pdf.save(this.props.currentStudentFeeStatement.studentName +" - fee statement");
         });
     };
 
