@@ -21,9 +21,14 @@ class TableRow extends React.Component {
     };
 
     render() {
+
+        const {
+            rowObject
+        } = this.props;
+
         return (
 
-            <tr>{this.state.columns}</tr>
+            <tr style={{cursor: 'pointer'}} onClick={()=>{this.props.handleRowIsClicked(rowObject);}}>{this.state.columns}</tr>
 
 
         );
@@ -31,6 +36,12 @@ class TableRow extends React.Component {
 }
 
 TableRow.propTypes = {
-    rowObject: PropTypes.object.isRequired
+    rowObject: PropTypes.object.isRequired,
+    handleRowIsClicked: PropTypes.func
 };
+
+TableRow.defaultProps = {
+    handleRowIsClicked: ()=>{}
+};
+
 export default TableRow;

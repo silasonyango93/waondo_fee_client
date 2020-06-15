@@ -11,7 +11,8 @@ import {ip} from "../../../../config/EndPoint";
 class FeeStatementView extends Component {
 
     state = {
-        tableData: []
+        tableData: [],
+        currentStudentFeeStatement: ''
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -59,7 +60,7 @@ class FeeStatementView extends Component {
         } = this.props;
 
         return (
-            <div className="statement__main-body" id="fee-statement" onClick={()=>{this.generatePdf();}}>
+            <div className="statement__main-body" id="fee-statement">
                 <div className="statement__top-section">
                     <Columns>
                         <Columns.Column size="one-quarter">

@@ -4,12 +4,20 @@ import PropTypes from "prop-types";
 
 import Table from "../../../../components/table/table_body/Table";
 import html2canvas from 'html2canvas';
-import {fetchAllStudents} from "../../../../store/modules/staff_home/actions";
+import {
+    assertCurrentFeeStatement,
+    fetchAllStudents,
+    fetchAStudentFeeStatement
+} from "../../../../store/modules/staff_home/actions";
+import {promiselessTransactionsServicePost} from "../../../../services/transactions_service_connector/TransactionsServiceConnector";
+import FeeStatementView from "../../fee_management/fee_statement/FeeStatementView";
+import Modal from "react-awesome-modal";
 
 class StudentsPage extends Component {
 
     state = {
-        tableData: []
+        tableData: [],
+        displayFeeStatementModal: false
     };
     componentDidMount() {
         this.props.fetchAllStudents();
@@ -42,6 +50,21 @@ class StudentsPage extends Component {
             link.click();
         });
     };
+
+    handleTableRowIsClicked = async (rowObject) =>{
+        const payload = {
+            admissionNumber: rowObject.admissionNumber
+        };
+
+        await this.props.fetchAStudentFeeStatement(payload);
+        this.props.launchFeeStatementModal();
+
+    };
+
+    handleFeeStatementModalExteriorClicked = () => {
+        this.setState({ displayFeeStatementModal: false });
+    };
+
     render() {
 
         const tableHeaders = {
@@ -55,7 +78,22 @@ class StudentsPage extends Component {
 
         return (
             <div id="main">
-                <Table tableTitle="Student's List" tableHeaderObject={tableHeaders} tableData={this.state.tableData}/>
+                <Table tableTitle="Student's List" tableHeaderObject={tableHeaders} tableData={this.state.tableData} handleRowIsClicked={this.handleTableRowIsClicked}/>
+
+                <Modal
+                    visible={this.state.displayFeeStatementModal}
+                    width="900"
+                    height="600"
+                    effect="fadeInUp"
+                    onClickAway={() => {
+                        this.handleFeeStatementModalExteriorClicked();
+                    }}
+                >
+
+                    <FeeStatementView />
+
+                </Modal>
+
             </div>
         );
     }
@@ -63,7 +101,9 @@ class StudentsPage extends Component {
 
 StudentsPage.propTypes = {
     fetchAllStudents: PropTypes.func.isRequired,
-    studentsList: PropTypes.arrayOf(PropTypes.object).isRequired
+    studentsList: PropTypes.arrayOf(PropTypes.object).isRequired,
+    fetchAStudentFeeStatement: PropTypes.func.isRequired,
+    launchFeeStatementModal: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -71,7 +111,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchAllStudents: () => dispatch(fetchAllStudents())
+    fetchAllStudents: () => dispatch(fetchAllStudents()),
+    fetchAStudentFeeStatement: payload => dispatch(fetchAStudentFeeStatement(payload))
 });
 
 export default connect(

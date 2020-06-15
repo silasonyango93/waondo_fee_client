@@ -174,7 +174,7 @@ class StaffHome extends Component {
               <TitlePanel title="School student's list"/>
             </div>
             <Container className="staff__main-body">
-              <StudentsPage />
+              <StudentsPage launchFeeStatementModal={this.launchFeeStatementModal}/>
             </Container>
           </Columns.Column>
 

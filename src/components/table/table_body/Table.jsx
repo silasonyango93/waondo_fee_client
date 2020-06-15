@@ -49,7 +49,7 @@ class Table extends React.Component {
             <tbody>
               <TableHeader headerObject={this.props.tableHeaderObject} />
               {this.state.tableData.map((item, i) => (
-                <TableRow key={i} rowObject={item} />
+                <TableRow key={i} rowObject={item} handleRowIsClicked={this.props.handleRowIsClicked}/>
               ))}
             </tbody>
           </table>
@@ -64,12 +64,14 @@ Table.propTypes = {
   tableTitle: PropTypes.string,
   tableHeaderObject: PropTypes.object,
   tableData: PropTypes.arrayOf(PropTypes.object),
-  addIconClicked: PropTypes.func
+  addIconClicked: PropTypes.func,
+  handleRowIsClicked: PropTypes.func
 };
 
 Table.defaultProps = {
   tableTitle: "Table Title",
   addIconClicked: () => {},
+  handleRowIsClicked: ()=>{},
   tableHeaderObject: {
     columnOne: "First Column",
     columnTwo: "Second Column",
