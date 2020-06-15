@@ -17,14 +17,10 @@
     height: 120px;
   }
 
-  &__student-name {
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-    font-family: Lato;
-    font-size: 2em;
+  &__school-name {
+    text-align: center;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 1.5em;
     font-weight: 900;
   }
 
@@ -45,6 +41,29 @@
 
   &__installments-div {
     margin-left: 0.5rem !important;
+  }
+
+  &__motto-prompt {
+    text-align: center;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 1.5em;
+    font-weight: 500;
+  }
+
+  &__school-details-div {
+    width: 100%;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+
+  &__motto {
+    text-align: center;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 1.5em;
+    font-weight: 300;
   }
 
 }

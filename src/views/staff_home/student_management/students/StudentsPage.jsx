@@ -42,14 +42,6 @@ class StudentsPage extends Component {
         }
     }
 
-    printDiv = () =>{
-        html2canvas(document.getElementById("main"), {scale: 8}).then(canvas => {
-            var link = document.createElement('a');
-            link.download = 'receipt.png';
-            link.href = canvas.toDataURL()
-            link.click();
-        });
-    };
 
     handleTableRowIsClicked = async (rowObject) =>{
         const payload = {

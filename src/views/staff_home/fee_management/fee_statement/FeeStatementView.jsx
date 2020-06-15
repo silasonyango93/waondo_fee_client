@@ -7,6 +7,9 @@ import './FeeStatementView.scss';
 import Table from "../../../../components/table/table_body/Table";
 import html2pdf from "html2pdf.js";
 import {ip} from "../../../../config/EndPoint";
+import schoolLogo from '../../../../assets/waondo.png';
+import html2canvas from "html2canvas";
+
 
 class FeeStatementView extends Component {
 
@@ -42,7 +45,14 @@ class FeeStatementView extends Component {
             .save();
     };
 
-
+    printDiv = () =>{
+        html2canvas(document.getElementById("fee-statement"), {scale: 8}).then(canvas => {
+            var link = document.createElement('a');
+            link.download = 'receipt.png';
+            link.href = canvas.toDataURL()
+            link.click();
+        });
+    };
 
     render() {
 
@@ -62,15 +72,24 @@ class FeeStatementView extends Component {
         return (
             <div className="statement__main-body" id="fee-statement">
                 <div className="statement__top-section">
-                    <Columns>
+                    <Columns className="is-gapless">
                         <Columns.Column size="one-quarter">
                             <img className="statement__pic-div" src={ip + "/web_display_image?imageID=" + currentStudentFeeStatement.profPicName}></img>
+                            <p>{currentStudentFeeStatement.studentName}</p>
                         </Columns.Column>
                         <Columns.Column>
                             <div className="statement__name-div">
-                                <h1 className="statement__student-name">{currentStudentFeeStatement.studentName}</h1>
+                                <div className="statement__school-details-div">
+                                    <h1 className="statement__school-name">WAONDO SECONDARY SCHOOL</h1>
+                                    <div className="statement__motto-prompt">MOTTO</div>
+                                    <div className="statement__motto">STRIVE FOR EXCELLENCE</div>
+                                </div>
+
                             </div>
 
+                        </Columns.Column>
+                        <Columns.Column size="one-quarter">
+                            <img className="statement__pic-div" src={schoolLogo}></img>
                         </Columns.Column>
                     </Columns>
 
