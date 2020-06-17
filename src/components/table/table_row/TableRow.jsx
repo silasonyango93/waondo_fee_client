@@ -5,19 +5,20 @@ import PropTypes from "prop-types";
 
 class TableRow extends React.Component {
 
-    state = { columns: [], rowObject: this.props.rowObject};
+    state = { columns: [], rowObject: {}};
 
-    componentDidMount() {
+    async componentDidMount() {
+        await this.setState({rowObject: this.props.rowObject});
         this.prepareRow();
     }
 
     prepareRow = ()=> {
         var columns = [];
-        for (var x in this.state.rowObject) {
-            columns.push(<td>{this.state.rowObject[x]}</td>);
+        for (var x in this.props.rowObject) {
+            columns.push(<td>{this.props.rowObject[x]}</td>);
         }
 
-        this.setState({columns});
+        return columns;
     };
 
     render() {
@@ -28,8 +29,7 @@ class TableRow extends React.Component {
 
         return (
 
-            <tr style={{cursor: 'pointer'}} onClick={()=>{this.props.handleRowIsClicked(rowObject);}}>{this.state.columns}</tr>
-
+            <tr style={{cursor: 'pointer'}} onClick={()=>{this.props.handleRowIsClicked(rowObject);}}>{this.prepareRow()}</tr>
 
         );
     }

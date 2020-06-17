@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaSearch } from "react-icons/fa";
 
 import TableRow from "../table_row/TableRow";
 import "./table.scss";
@@ -11,14 +11,64 @@ class Table extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { tableData: this.props.tableData };
+    this.state = {
+      tableData: this.props.tableData,
+      searchKey: ''
+    };
   }
+
 
   componentDidUpdate(prevProps) {
     if (this.props.tableData !== prevProps.tableData) {
       this.setState({ tableData: this.props.tableData });
     }
   }
+
+  filterTable = async (searchKey) => {
+    if(!searchKey) {
+      await this.setState({ tableData: this.props.tableData });
+    } else {
+
+      let searchArray = [];
+
+
+      for (let i = 0;i < this.props.tableData.length; i++) {
+        let rowObject = this.props.tableData[i];
+        let isKeyFound = false;
+        for (var x in rowObject) {
+              if(String(rowObject[x]).toLowerCase().includes(searchKey.toLowerCase())) {
+                isKeyFound = true;
+              }
+            }
+
+        if(isKeyFound) {
+          searchArray.push(rowObject);
+        }
+      }
+      await this.setState({tableData: searchArray});
+    }
+
+  };
+
+  renderTableData = ()=>{
+    const { tableData } = this.state;
+    return (<tbody>
+    <TableHeader headerObject={this.props.tableHeaderObject} />
+    {tableData.map((item, i) => {
+      console.log(item);
+      return (
+      <TableRow key={i} rowObject={item} handleRowIsClicked={this.props.handleRowIsClicked}/>
+      )})}
+    </tbody>)
+
+  };
+
+  handleChange = event => {
+    event.preventDefault();
+    this.filterTable(event.target.value);
+  };
+
+
 
   render() {
     return (
@@ -41,17 +91,26 @@ class Table extends React.Component {
           </Columns>
         </div>
         <div class="panel-body">
+          <div className="input-group table-search-form">
+            <input
+                type="text"
+                className="form-control"
+                placeholder="Search..."
+                onChange={this.handleChange}
+                name="searchKey"
+            />
+            <span className="input-group-btn">
+                  <button className="btn btn-default" type="button">
+                    <FaSearch />
+                  </button>
+                </span>
+          </div>
           <table
             width="100%"
             class="table table-striped table-bordered table-hover"
             id="dataTables-example"
           >
-            <tbody>
-              <TableHeader headerObject={this.props.tableHeaderObject} />
-              {this.state.tableData.map((item, i) => (
-                <TableRow key={i} rowObject={item} handleRowIsClicked={this.props.handleRowIsClicked}/>
-              ))}
-            </tbody>
+            {this.renderTableData()}
           </table>
           <Pagination />
         </div>

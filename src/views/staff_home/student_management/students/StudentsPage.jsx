@@ -2,14 +2,12 @@ import React, {Component} from 'react';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
+
 import Table from "../../../../components/table/table_body/Table";
-import html2canvas from 'html2canvas';
 import {
-    assertCurrentFeeStatement,
     fetchAllStudents,
     fetchAStudentFeeStatement
 } from "../../../../store/modules/staff_home/actions";
-import {promiselessTransactionsServicePost} from "../../../../services/transactions_service_connector/TransactionsServiceConnector";
 import FeeStatementView from "../../fee_management/fee_statement/FeeStatementView";
 import Modal from "react-awesome-modal";
 

@@ -58,14 +58,14 @@ class FeeStatementView extends Component {
             var pdf = null;
             if(canvas.width > canvas.height){
                pdf = new jsPDF('l', 'mm', [canvas.width, canvas.height],{
-                    orientation: 'portrait',
+                    orientation: 'landscape',
                         unit: 'in',
                         format: [4, 2]
                 });
             }
             else{
               pdf = new jsPDF('p', 'mm', [canvas.height, canvas.width],{
-                  orientation: 'portrait',
+                  orientation: 'landscape',
                   unit: 'in',
                   format: [4, 2]
               });

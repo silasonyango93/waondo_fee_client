@@ -43,6 +43,12 @@
   padding-left: 1rem;
 }
 
+.table-search-form {
+  width: 15rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
 .user-login-card {
   padding-top: 4rem;
 }
