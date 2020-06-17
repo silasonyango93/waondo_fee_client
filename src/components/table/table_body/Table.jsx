@@ -55,7 +55,6 @@ class Table extends React.Component {
     return (<tbody>
     <TableHeader headerObject={this.props.tableHeaderObject} />
     {tableData.map((item, i) => {
-      console.log(item);
       return (
       <TableRow key={i} rowObject={item} handleRowIsClicked={this.props.handleRowIsClicked}/>
       )})}

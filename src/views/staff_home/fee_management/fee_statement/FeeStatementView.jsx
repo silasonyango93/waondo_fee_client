@@ -35,6 +35,8 @@ class FeeStatementView extends Component {
                 });
 
                 this.setState({ tableData: installments });
+            } else if(this.props.currentStudentFeeStatement && this.props.currentStudentFeeStatement.installmentsResponseArray && !this.props.currentStudentFeeStatement.installmentsResponseArray.length) {
+                this.setState({ tableData: [] });
             }
         }
     }
