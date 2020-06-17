@@ -12,27 +12,39 @@ class Table extends React.Component {
     super(props);
 
     this.state = {
-      tableData: this.props.tableData,
-      searchKey: ''
+      tableData: [],
+      searchKey: '',
+      numberOfPages: ''
     };
   }
 
   componentDidMount() {
-    console.log("mount")
-    this.spliceTableData();
+    if(this.props.tableData && this.props.tableData.length) {
+      this.spliceTableData(this.props.tableData);
+    } else {
+      this.setState({ tableData: this.props.tableData });
+    }
+
   }
 
 
   componentDidUpdate(prevProps) {
     if (this.props.tableData !== prevProps.tableData) {
-      this.setState({ tableData: this.props.tableData });
+      if(this.props.tableData && this.props.tableData.length) {
+        this.spliceTableData(this.props.tableData);
+      } else {
+        this.setState({ tableData: this.props.tableData });
+      }
+
     }
   }
 
   filterTable = async (searchKey) => {
     if(!searchKey) {
-      await this.setState({ tableData: this.props.tableData });
+      this.spliceTableData(this.props.tableData);
     } else {
+
+      this.spliceTableData(this.props.tableData);
 
       let searchArray = [];
 
@@ -50,7 +62,7 @@ class Table extends React.Component {
           searchArray.push(rowObject);
         }
       }
-      await this.setState({tableData: searchArray});
+      this.spliceTableData(searchArray);
     }
 
   };
@@ -72,43 +84,10 @@ class Table extends React.Component {
     this.filterTable(event.target.value);
   };
 
-  spliceTableData = () =>{
-    let biDimensionalArray = [];
+  spliceTableData = (tableData) =>{
 
-    // if(tableData.length > 25) {
-    //   let standardSlice = tableData.slice(0,24);
-    //   biDimensionalArray.push()
-    // } else {
-    //
-    // }
-
-
-    const array = [{name: "silas", gender: "male"},
-      {name: "silas", gender: "male"},
-      {name: "silas", gender: "male"},
-      {name: "silas", gender: "male"},
-      {name: "silas", gender: "male"},
-      {name: "silas", gender: "male"},
-      {name: "silas", gender: "male"},
-      {name: "silas", gender: "male"},
-      {name: "silas", gender: "male"},
-      {name: "silas", gender: "male"},
-      {name: "silas", gender: "male"},
-      {name: "silas", gender: "male"},
-      {name: "silas", gender: "male"},
-      {name: "silas", gender: "male"},
-      {name: "silas", gender: "male"},
-      {name: "silas", gender: "male"},
-      {name: "silas", gender: "male"},
-      {name: "silas", gender: "male"},
-      {name: "silas", gender: "male"},
-      {name: "silas", gender: "male"},
-      {name: "silas", gender: "male"},
-      {name: "silas", gender: "male"}];
-
-    const result = this.segmentArrays(array);
-    console.log(result);
-
+    const result = this.segmentArrays(tableData);
+    this.setState({tableData: result[0],numberOfPages: result.length});
   };
 
 
