@@ -17,6 +17,11 @@ class Table extends React.Component {
     };
   }
 
+  componentDidMount() {
+    console.log("mount")
+    this.spliceTableData();
+  }
+
 
   componentDidUpdate(prevProps) {
     if (this.props.tableData !== prevProps.tableData) {
@@ -67,7 +72,58 @@ class Table extends React.Component {
     this.filterTable(event.target.value);
   };
 
+  spliceTableData = () =>{
+    let biDimensionalArray = [];
 
+    // if(tableData.length > 25) {
+    //   let standardSlice = tableData.slice(0,24);
+    //   biDimensionalArray.push()
+    // } else {
+    //
+    // }
+
+
+    const array = [{name: "silas", gender: "male"},
+      {name: "silas", gender: "male"},
+      {name: "silas", gender: "male"},
+      {name: "silas", gender: "male"},
+      {name: "silas", gender: "male"},
+      {name: "silas", gender: "male"},
+      {name: "silas", gender: "male"},
+      {name: "silas", gender: "male"},
+      {name: "silas", gender: "male"},
+      {name: "silas", gender: "male"},
+      {name: "silas", gender: "male"},
+      {name: "silas", gender: "male"},
+      {name: "silas", gender: "male"},
+      {name: "silas", gender: "male"},
+      {name: "silas", gender: "male"},
+      {name: "silas", gender: "male"},
+      {name: "silas", gender: "male"},
+      {name: "silas", gender: "male"},
+      {name: "silas", gender: "male"},
+      {name: "silas", gender: "male"},
+      {name: "silas", gender: "male"},
+      {name: "silas", gender: "male"}];
+
+    const result = this.segmentArrays(array);
+    console.log(result);
+
+  };
+
+
+  segmentArrays = (tableData) =>{
+    const biDimensionalArray = [];
+    do {
+      const splicedArray = tableData.splice(0,5);
+      biDimensionalArray.push(splicedArray);
+    }
+    while (tableData.length >= 5);
+
+    biDimensionalArray.push(tableData);
+
+    return biDimensionalArray;
+  };
 
   render() {
     return (
