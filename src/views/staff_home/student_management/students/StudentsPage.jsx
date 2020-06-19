@@ -56,7 +56,7 @@ class StudentsPage extends Component {
     };
 
     render() {
-
+        console.log("test");
         const tableHeaders = {
             columnZero: "#",
             columnOne: "Admission Number",
