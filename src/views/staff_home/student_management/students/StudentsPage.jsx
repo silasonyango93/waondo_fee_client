@@ -64,7 +64,7 @@ class StudentsPage extends Component {
             columnThree: "Gender",
             columnFour: "Class",
             columnFive: "Residence"
-        }
+        };
 
         return (
             <div id="main">

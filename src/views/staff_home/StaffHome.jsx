@@ -152,6 +152,9 @@ class StaffHome extends Component {
   };
 
   render() {
+
+    const { sessionDetails } = this.props;
+
     return (
       <div>
         <IdleTimer
@@ -171,7 +174,7 @@ class StaffHome extends Component {
 
           <Columns.Column>
             <div className="staff__title-panel-div">
-              <TitlePanel title="School student's list"/>
+              <TitlePanel title="School student's list" userName={sessionDetails && sessionDetails.name ? sessionDetails.name : "Username"} userEmail={sessionDetails && sessionDetails.email ? sessionDetails.email : "Email"} userNameInitials={sessionDetails && sessionDetails.name ? sessionDetails.name.charAt(0) : "I"}/>
             </div>
             <Container className="staff__main-body">
               <StudentsPage launchFeeStatementModal={this.launchFeeStatementModal}/>
