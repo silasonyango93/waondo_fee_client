@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { DEBOUNCE, IDLE_TIMEOUT } from "../../config/constants/Constants";
 import { terminateCurrentSession } from "../../store/modules/current_session/actions";
 import TopBar from "../../components/topbar/TopBar";
-import {PAY_FEE, REGISTER_A_STUDENT_PAGE} from "./StaffHomeConstants";
+import {PAY_FEE, REGISTER_A_STUDENT_PAGE, SEND_HOME_FROM_ENTIRE_SCHOOL} from "./StaffHomeConstants";
 import StudentsPage from "./student_management/students/StudentsPage";
 import StaffSideBar from "../../components/sidebar/StaffSideBar";
 import Modal from "react-awesome-modal";
@@ -25,18 +25,24 @@ import FeeStatementView from "./fee_management/fee_statement/FeeStatementView";
 
 import './StaffHome.scss';
 import TitlePanel from "../../components/title_panel/TitlePanel";
+import FeeBalancePage from "./fee_management/fee_balance/FeeBalancePage";
+import SchoolFeeQueryForm from "./fee_management/fee_balance/overral_school/SchoolFeeQueryForm";
 
 class StaffHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      pagePanelTitle: "School student's list",
       displayFeeStatementModal: false,
       feePayload: '',
       displayStudents: true,
       displayStaffHomeModal: false,
       displayStudentRegistrationForm: false,
       displayPayFeeForm: false,
-      displayFeePaymentConfirmationModal: false
+      displayFeePaymentConfirmationModal: false,
+      displayStudentsPage: true,
+      displayFeeBalancePage: false,
+      displayFeeBalanceModal: false
     };
     this.idleTimer = null;
   }
@@ -80,6 +86,16 @@ class StaffHome extends Component {
         displayPayFeeForm: true,
         displayStudentRegistrationForm: false,
         displayFeePaymentConfirmationModal: false
+      });
+    } else if(formToDisplay === SEND_HOME_FROM_ENTIRE_SCHOOL) {
+      this.setState({
+        displayStaffHomeModal: false,
+        displayPayFeeForm: false,
+        displayStudentRegistrationForm: false,
+        displayFeePaymentConfirmationModal: false,
+        displayStudentsPage: false,
+        displayFeeBalanceModal: true,
+        displayFeeBalancePage: true,
       });
     }
   };
@@ -151,9 +167,19 @@ class StaffHome extends Component {
     this.setState({ displayFeeStatementModal: false });
   };
 
+  toggleFeeBalanceModal = (isModalOpen) =>{
+    this.setState({displayFeeBalanceModal: isModalOpen});
+  };
+
+  closeSchoolFeeQueryModal = (minimumFeeBalance) => {
+    this.setState({displayFeeBalanceModal: false, pagePanelTitle: 'School-wide fee balances of KES '+minimumFeeBalance+' and above'});
+  };
+
+
   render() {
 
     const { sessionDetails } = this.props;
+    const { displayStudentsPage, displayFeeBalancePage, pagePanelTitle } = this.state;
 
     return (
       <div>
@@ -174,10 +200,11 @@ class StaffHome extends Component {
 
           <Columns.Column>
             <div className="staff__title-panel-div">
-              <TitlePanel title="School student's list" userName={sessionDetails && sessionDetails.name ? sessionDetails.name : "Username"} userEmail={sessionDetails && sessionDetails.email ? sessionDetails.email : "Email"} userNameInitials={sessionDetails && sessionDetails.name ? sessionDetails.name.charAt(0) : "I"}/>
+              <TitlePanel title={pagePanelTitle} userName={sessionDetails && sessionDetails.name ? sessionDetails.name : "Username"} userEmail={sessionDetails && sessionDetails.email ? sessionDetails.email : "Email"} userNameInitials={sessionDetails && sessionDetails.name ? sessionDetails.name.charAt(0) : "I"}/>
             </div>
             <Container className="staff__main-body">
-              <StudentsPage launchFeeStatementModal={this.launchFeeStatementModal}/>
+              {displayStudentsPage && (<StudentsPage launchFeeStatementModal={this.launchFeeStatementModal}/>)}
+              {displayFeeBalancePage && (<FeeBalancePage launchFeeStatementModal={this.launchFeeStatementModal} />)}
             </Container>
           </Columns.Column>
 
@@ -236,6 +263,23 @@ class StaffHome extends Component {
           <FeeStatementView />
 
         </Modal>
+
+
+        <Modal
+            visible={this.state.displayFeeBalanceModal}
+            width="500"
+            height="320"
+            effect="fadeInUp"
+            onClickAway={() => {
+              this.toggleFeeBalanceModal(false);
+            }}
+        >
+
+          <SchoolFeeQueryForm closeSchoolFeeQueryModal={this.closeSchoolFeeQueryModal} />
+
+        </Modal>
+
+
       </div>
     );
   }

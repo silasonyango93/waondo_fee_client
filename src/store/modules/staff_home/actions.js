@@ -12,7 +12,10 @@ import {
     ASSERT_CURRENT_FEE_STATEMENT,
     STUDENT_FEE_STATEMENT_FETCHED_SUCCESSFULLY,
     STUDENT_FEE_STATEMENT_FETCHED_EMPTY_RESULT_SET,
-    ERROR_OCCURRED_WHILE_FETCHING_STUDENT_FEE_STATEMENT
+    ERROR_OCCURRED_WHILE_FETCHING_STUDENT_FEE_STATEMENT,
+    SCHOOL_FETCH_MINIMUM_FEE_BALANCE_SUCCESSFUL,
+    SCHOOL_FETCH_MINIMUM_FEE_BALANCE_EMPTY_RESULT_SET,
+    ERROR_OCCURRED_WHILE_FETCHING_SCHOOL_MINIMUM_FEE_BALANCE
 } from "./actionTypes";
 
 
@@ -135,4 +138,40 @@ export function fetchAStudentFeeStatement(payload) {
             }
         );
     };
+
+
+}
+
+
+
+
+export function getAllStudentsWithAMinimumTermBalance(payload) {
+    return async dispatch => {
+        const apiRoute = "/statements/get_all_students_with_minimum_term_balance";
+        const returnedPromise = transactionsServicePost(payload, apiRoute);
+        returnedPromise.then(
+            function(result) {
+                if (result.data) {
+                    dispatch({
+                        type: SCHOOL_FETCH_MINIMUM_FEE_BALANCE_SUCCESSFUL,
+                        payload: {
+                            feeBalanceList: result.data
+                        }
+                    });
+                } else if(!result.data) {
+                    dispatch({
+                        type: SCHOOL_FETCH_MINIMUM_FEE_BALANCE_EMPTY_RESULT_SET
+                    });
+                }
+            },
+            function(err) {
+                dispatch({
+                    type: ERROR_OCCURRED_WHILE_FETCHING_SCHOOL_MINIMUM_FEE_BALANCE
+                });
+                console.log(err);
+            }
+        );
+    };
+
+
 }

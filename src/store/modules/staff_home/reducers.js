@@ -3,6 +3,7 @@ import {
     FEE_PAYMENT_SUCCESSFUL, STUDENT_FEE_STATEMENT_FETCHED_SUCCESSFULLY,
     STUDENT_REGISTRATION_FAILED,
     STUDENTS_FETCHED_SUCCESSFULLY,
+    SCHOOL_FETCH_MINIMUM_FEE_BALANCE_SUCCESSFUL
 } from "./actionTypes";
 
 
@@ -30,5 +31,9 @@ export const ACTION_HANDLERS = {
     [STUDENT_FEE_STATEMENT_FETCHED_SUCCESSFULLY]: (state, action) =>
         Object.assign({}, state, {
             feeManagement: { currentStudentFeeStatement: action.payload.currentStudentFeeStatement}
+        }),
+    [SCHOOL_FETCH_MINIMUM_FEE_BALANCE_SUCCESSFUL]: (state, action) =>
+        Object.assign({}, state, {
+            feeBalances: { feeBalanceList: action.payload.feeBalanceList}
         })
 };

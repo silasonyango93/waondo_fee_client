@@ -10,5 +10,9 @@ export const initialState = {
 
     students: {
         studentsList: []
+    },
+
+    feeBalances: {
+        feeBalanceList: []
     }
 };
