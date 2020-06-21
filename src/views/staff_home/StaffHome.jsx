@@ -7,7 +7,12 @@ import { connect } from "react-redux";
 import { DEBOUNCE, IDLE_TIMEOUT } from "../../config/constants/Constants";
 import { terminateCurrentSession } from "../../store/modules/current_session/actions";
 import TopBar from "../../components/topbar/TopBar";
-import {PAY_FEE, REGISTER_A_STUDENT_PAGE, SEND_HOME_FROM_ENTIRE_SCHOOL} from "./StaffHomeConstants";
+import {
+  PAY_FEE,
+  REGISTER_A_STUDENT_PAGE,
+  SEND_HOME_FROM_ENTIRE_SCHOOL,
+  SEND_HOME_PER_CLASS
+} from "./StaffHomeConstants";
 import StudentsPage from "./student_management/students/StudentsPage";
 import StaffSideBar from "../../components/sidebar/StaffSideBar";
 import Modal from "react-awesome-modal";
@@ -23,10 +28,11 @@ import FeePaymentForm from "./fee_management/FeePaymentForm";
 import FeePaymentConfirmationModal from "./fee_management/FeePaymentConfirmationModal";
 import FeeStatementView from "./fee_management/fee_statement/FeeStatementView";
 
-import './StaffHome.scss';
+import "./StaffHome.scss";
 import TitlePanel from "../../components/title_panel/TitlePanel";
 import FeeBalancePage from "./fee_management/fee_balance/FeeBalancePage";
 import SchoolFeeQueryForm from "./fee_management/fee_balance/overral_school/SchoolFeeQueryForm";
+import PerClassFeeQueryForm from "./fee_management/fee_balance/per_class/PerClassFeeQueryForm";
 
 class StaffHome extends Component {
   constructor(props) {
@@ -34,7 +40,7 @@ class StaffHome extends Component {
     this.state = {
       pagePanelTitle: "School student's list",
       displayFeeStatementModal: false,
-      feePayload: '',
+      feePayload: "",
       displayStudents: true,
       displayStaffHomeModal: false,
       displayStudentRegistrationForm: false,
@@ -42,7 +48,9 @@ class StaffHome extends Component {
       displayFeePaymentConfirmationModal: false,
       displayStudentsPage: true,
       displayFeeBalancePage: false,
-      displayFeeBalanceModal: false
+      displayFeeBalanceModal: false,
+      displaySchoolFeeQueryForm: false,
+      displayPerClassFeeQueryForm: false
     };
     this.idleTimer = null;
   }
@@ -80,14 +88,14 @@ class StaffHome extends Component {
         displayPayFeeForm: false,
         displayFeePaymentConfirmationModal: false
       });
-    } else if(formToDisplay === PAY_FEE) {
+    } else if (formToDisplay === PAY_FEE) {
       this.setState({
         displayStaffHomeModal: true,
         displayPayFeeForm: true,
         displayStudentRegistrationForm: false,
         displayFeePaymentConfirmationModal: false
       });
-    } else if(formToDisplay === SEND_HOME_FROM_ENTIRE_SCHOOL) {
+    } else if (formToDisplay === SEND_HOME_FROM_ENTIRE_SCHOOL) {
       this.setState({
         displayStaffHomeModal: false,
         displayPayFeeForm: false,
@@ -96,6 +104,20 @@ class StaffHome extends Component {
         displayStudentsPage: false,
         displayFeeBalanceModal: true,
         displayFeeBalancePage: true,
+        displaySchoolFeeQueryForm: true,
+        displayPerClassFeeQueryForm: false
+      });
+    } else if (formToDisplay === SEND_HOME_PER_CLASS) {
+      this.setState({
+        displayStaffHomeModal: false,
+        displayPayFeeForm: false,
+        displayStudentRegistrationForm: false,
+        displayFeePaymentConfirmationModal: false,
+        displayStudentsPage: false,
+        displayFeeBalanceModal: true,
+        displayFeeBalancePage: true,
+        displaySchoolFeeQueryForm: false,
+        displayPerClassFeeQueryForm: true
       });
     }
   };
@@ -129,7 +151,6 @@ class StaffHome extends Component {
           privilegeItem.accessPrivilegeCode === accessPrivilege &&
           privilegeItem.permisionStatus === PERMISSION_GRANTED
       );
-
     }
 
     return userAccessPrivilege.length > 0;
@@ -151,7 +172,7 @@ class StaffHome extends Component {
 
   closeFeePaymentConfirmationModal = () => {
     this.setState({
-      feePayload: '',
+      feePayload: "",
       displayStaffHomeModal: false,
       displayPayFeeForm: false,
       displayStudentRegistrationForm: false,
@@ -160,26 +181,42 @@ class StaffHome extends Component {
   };
 
   launchFeeStatementModal = () => {
-      this.setState({displayFeeStatementModal: true});
+    this.setState({ displayFeeStatementModal: true });
   };
 
   handleFeeStatementModalExteriorClicked = () => {
     this.setState({ displayFeeStatementModal: false });
   };
 
-  toggleFeeBalanceModal = (isModalOpen) =>{
-    this.setState({displayFeeBalanceModal: isModalOpen});
+  toggleFeeBalanceModal = isModalOpen => {
+    this.setState({ displayFeeBalanceModal: isModalOpen });
   };
 
-  closeSchoolFeeQueryModal = (minimumFeeBalance) => {
-    this.setState({displayFeeBalanceModal: false, pagePanelTitle: 'School-wide fee balances of KES '+minimumFeeBalance+' and above'});
+  closeSchoolFeeQueryModal = minimumFeeBalance => {
+    this.setState({
+      displayFeeBalanceModal: false,
+      pagePanelTitle:
+        "School-wide fee balances of KES " + minimumFeeBalance + " and above"
+    });
   };
 
+  closePerClassFeeQueryModal = (className, minimumFeeBalance) => {
+    this.setState({
+      displayFeeBalanceModal: false,
+      pagePanelTitle:
+        className + " fee balances of KES " + minimumFeeBalance + " and above"
+    });
+  };
 
   render() {
-
     const { sessionDetails } = this.props;
-    const { displayStudentsPage, displayFeeBalancePage, pagePanelTitle } = this.state;
+    const {
+      displayStudentsPage,
+      displayFeeBalancePage,
+      pagePanelTitle,
+      displaySchoolFeeQueryForm,
+      displayPerClassFeeQueryForm
+    } = this.state;
 
     return (
       <div>
@@ -200,14 +237,38 @@ class StaffHome extends Component {
 
           <Columns.Column>
             <div className="staff__title-panel-div">
-              <TitlePanel title={pagePanelTitle} userName={sessionDetails && sessionDetails.name ? sessionDetails.name : "Username"} userEmail={sessionDetails && sessionDetails.email ? sessionDetails.email : "Email"} userNameInitials={sessionDetails && sessionDetails.name ? sessionDetails.name.charAt(0) : "I"}/>
+              <TitlePanel
+                title={pagePanelTitle}
+                userName={
+                  sessionDetails && sessionDetails.name
+                    ? sessionDetails.name
+                    : "Username"
+                }
+                userEmail={
+                  sessionDetails && sessionDetails.email
+                    ? sessionDetails.email
+                    : "Email"
+                }
+                userNameInitials={
+                  sessionDetails && sessionDetails.name
+                    ? sessionDetails.name.charAt(0)
+                    : "I"
+                }
+              />
             </div>
             <Container className="staff__main-body">
-              {displayStudentsPage && (<StudentsPage launchFeeStatementModal={this.launchFeeStatementModal}/>)}
-              {displayFeeBalancePage && (<FeeBalancePage launchFeeStatementModal={this.launchFeeStatementModal} />)}
+              {displayStudentsPage && (
+                <StudentsPage
+                  launchFeeStatementModal={this.launchFeeStatementModal}
+                />
+              )}
+              {displayFeeBalancePage && (
+                <FeeBalancePage
+                  launchFeeStatementModal={this.launchFeeStatementModal}
+                />
+              )}
             </Container>
           </Columns.Column>
-
         </Columns>
         <Modal
           visible={this.state.displayStaffHomeModal}
@@ -233,53 +294,67 @@ class StaffHome extends Component {
           )}
 
           {this.state.displayPayFeeForm && (
-              <div>
-                {this.isAccessGranted(REGISTER_A_FEE_INSTALLMENT_ACCESS_PRIVILEGE) ? (
-                    <FeePaymentForm launchFeePaymentConfirmationModal={this.launchFeePaymentConfirmationModal}/>
-                ) : (
-                    <ErrorPage
-                        errorTitle="Permision to pay fee not granted"
-                        errorCode="Error Code: ACCESS_DENIED"
-                        errorResolution="Kindly contact the admin for this access"
-                    />
-                )}
-              </div>
+            <div>
+              {this.isAccessGranted(
+                REGISTER_A_FEE_INSTALLMENT_ACCESS_PRIVILEGE
+              ) ? (
+                <FeePaymentForm
+                  launchFeePaymentConfirmationModal={
+                    this.launchFeePaymentConfirmationModal
+                  }
+                />
+              ) : (
+                <ErrorPage
+                  errorTitle="Permision to pay fee not granted"
+                  errorCode="Error Code: ACCESS_DENIED"
+                  errorResolution="Kindly contact the admin for this access"
+                />
+              )}
+            </div>
           )}
 
-          {this.state.displayFeePaymentConfirmationModal && (<FeePaymentConfirmationModal history={this.props.history} feePayload={this.state.feePayload} closeFeeConfirmationModal={this.closeFeePaymentConfirmationModal} launchFeeStatementModal={this.launchFeeStatementModal}/>)}
-
+          {this.state.displayFeePaymentConfirmationModal && (
+            <FeePaymentConfirmationModal
+              history={this.props.history}
+              feePayload={this.state.feePayload}
+              closeFeeConfirmationModal={this.closeFeePaymentConfirmationModal}
+              launchFeeStatementModal={this.launchFeeStatementModal}
+            />
+          )}
         </Modal>
 
         <Modal
-            visible={this.state.displayFeeStatementModal}
-            width="900"
-            height="600"
-            effect="fadeInUp"
-            onClickAway={() => {
-              this.handleFeeStatementModalExteriorClicked();
-            }}
+          visible={this.state.displayFeeStatementModal}
+          width="900"
+          height="600"
+          effect="fadeInUp"
+          onClickAway={() => {
+            this.handleFeeStatementModalExteriorClicked();
+          }}
         >
-
           <FeeStatementView />
-
         </Modal>
-
 
         <Modal
-            visible={this.state.displayFeeBalanceModal}
-            width="500"
-            height="320"
-            effect="fadeInUp"
-            onClickAway={() => {
-              this.toggleFeeBalanceModal(false);
-            }}
+          visible={this.state.displayFeeBalanceModal}
+          width="500"
+          height="320"
+          effect="fadeInUp"
+          onClickAway={() => {
+            this.toggleFeeBalanceModal(false);
+          }}
         >
-
-          <SchoolFeeQueryForm closeSchoolFeeQueryModal={this.closeSchoolFeeQueryModal} />
-
+          {displaySchoolFeeQueryForm && (
+            <SchoolFeeQueryForm
+              closeSchoolFeeQueryModal={this.closeSchoolFeeQueryModal}
+            />
+          )}
+          {displayPerClassFeeQueryForm && (
+            <PerClassFeeQueryForm
+              closePerClassFeeQueryModal={this.closePerClassFeeQueryModal}
+            />
+          )}
         </Modal>
-
-
       </div>
     );
   }

@@ -308,63 +308,75 @@ class AdminHome extends Component {
             <AdminSideBar handleSideBarClicked={this.handleSideBarClicked} />
           </Columns.Column>
 
-          <Container>
-            <div
-              className={
-                this.state.displayAcademicClassLevels ? "show" : "hide"
-              }
-            >
-              <AcademicClassLevels />
-            </div>
+          <Columns.Column>
+            <Container>
+              <div
+                className={
+                  this.state.displayAcademicClassLevels ? "show" : "hide"
+                }
+              >
+                <AcademicClassLevels />
+              </div>
 
-            <div className={this.state.displayClassStreams ? "show" : "hide"}>
-              <ClassStreams />
-            </div>
+              <div className={this.state.displayClassStreams ? "show" : "hide"}>
+                <ClassStreams />
+              </div>
 
-            <div className={this.state.displayTermIterations ? "show" : "hide"}>
-              <TermIteration />
-            </div>
+              <div
+                className={this.state.displayTermIterations ? "show" : "hide"}
+              >
+                <TermIteration />
+              </div>
 
-            <div className={this.state.displayWeekIterations ? "show" : "hide"}>
-              <WeekIteration />
-            </div>
+              <div
+                className={this.state.displayWeekIterations ? "show" : "hide"}
+              >
+                <WeekIteration />
+              </div>
 
-            <div className={this.state.displayActualTerms ? "show" : "hide"}>
-              <ActualTerms />
-            </div>
+              <div className={this.state.displayActualTerms ? "show" : "hide"}>
+                <ActualTerms />
+              </div>
 
-            <div className={this.state.displayActualWeeks ? "show" : "hide"}>
-              <ActualWeeks />
-            </div>
+              <div className={this.state.displayActualWeeks ? "show" : "hide"}>
+                <ActualWeeks />
+              </div>
 
-            <div
-              className={this.state.displayLotDescriptions ? "show" : "hide"}
-            >
-              <LotDescription />
-            </div>
+              <div
+                className={this.state.displayLotDescriptions ? "show" : "hide"}
+              >
+                <LotDescription />
+              </div>
 
-            <div className={this.state.displayActualLots ? "show" : "hide"}>
-              <ActualLots />
-            </div>
+              <div className={this.state.displayActualLots ? "show" : "hide"}>
+                <ActualLots />
+              </div>
 
-            <div className={this.state.displayActualClasses ? "show" : "hide"}>
-              <ActualClasses />
-            </div>
+              <div
+                className={this.state.displayActualClasses ? "show" : "hide"}
+              >
+                <ActualClasses />
+              </div>
 
-            <div
-              className={this.state.displayUserRegistration ? "show" : "hide"}
-            >
-              <UserRegistration />
-            </div>
+              <div
+                className={this.state.displayUserRegistration ? "show" : "hide"}
+              >
+                <UserRegistration />
+              </div>
 
-            <div className={this.state.displayFeeComponents ? "show" : "hide"}>
-              <FeeComponentsHome />
-            </div>
+              <div
+                className={this.state.displayFeeComponents ? "show" : "hide"}
+              >
+                <FeeComponentsHome />
+              </div>
 
-            <div className={this.state.displayFeeStructures ? "show" : "hide"}>
-              <FeeStructureHome />
-            </div>
-          </Container>
+              <div
+                className={this.state.displayFeeStructures ? "show" : "hide"}
+              >
+                <FeeStructureHome />
+              </div>
+            </Container>
+          </Columns.Column>
         </Columns>
       </div>
     );
