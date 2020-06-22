@@ -15,7 +15,10 @@ import {
   ERROR_OCCURRED_WHILE_FETCHING_STUDENT_FEE_STATEMENT,
   SCHOOL_FETCH_MINIMUM_FEE_BALANCE_SUCCESSFUL,
   SCHOOL_FETCH_MINIMUM_FEE_BALANCE_EMPTY_RESULT_SET,
-  ERROR_OCCURRED_WHILE_FETCHING_SCHOOL_MINIMUM_FEE_BALANCE
+  ERROR_OCCURRED_WHILE_FETCHING_SCHOOL_MINIMUM_FEE_BALANCE,
+  STUDENT_BASIC_DETAILS_UPDATED_SUCCESSFULLY,
+  STUDENT_BASIC_DETAILS_UPDATE_FAILED,
+  ERROR_OCCURRED_WHILE_UPDATING_STUDENT_BASIC_DETAILS
 } from "./actionTypes";
 
 export function registerAStudent(payload) {
@@ -187,6 +190,35 @@ export function getPerClassStudentsWithAMinimumTermBalance(payload) {
       function(err) {
         dispatch({
           type: ERROR_OCCURRED_WHILE_FETCHING_SCHOOL_MINIMUM_FEE_BALANCE
+        });
+        console.log(err);
+      }
+    );
+  };
+}
+
+export function updateAStudentBasicDetails(payload) {
+  return async dispatch => {
+    const apiRoute = "/students/update_a_student_personal_details";
+    const returnedPromise = transactionsServicePost(payload, apiRoute);
+    returnedPromise.then(
+      function(result) {
+        if (result.data) {
+          dispatch({
+            type: STUDENT_BASIC_DETAILS_UPDATED_SUCCESSFULLY,
+            payload: {
+              feeBalanceList: result.data
+            }
+          });
+        } else if (!result.data) {
+          dispatch({
+            type: STUDENT_BASIC_DETAILS_UPDATE_FAILED
+          });
+        }
+      },
+      function(err) {
+        dispatch({
+          type: ERROR_OCCURRED_WHILE_UPDATING_STUDENT_BASIC_DETAILS
         });
         console.log(err);
       }
