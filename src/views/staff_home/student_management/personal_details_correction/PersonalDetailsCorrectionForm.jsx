@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { transactionsServicePost } from "../../../../services/transactions_service_connector/TransactionsServiceConnector";
-import { format } from "../../../../config/common/Utils";
+import { containsANumber } from "../../../../config/common/Utils";
 import { updateAStudentBasicDetails } from "../../../../store/modules/staff_home/actions";
 
 class PersonalDetailsCorrectionForm extends Component {
@@ -78,10 +78,7 @@ class PersonalDetailsCorrectionForm extends Component {
       studentNameHasError: false,
       admissionNumberHasError: false
     });
-    if (
-      this.state.studentName &&
-      this.containsANumber(this.state.studentName)
-    ) {
+    if (this.state.studentName && containsANumber(this.state.studentName)) {
       this.setState({
         studentNameHasError: true,
         studentNameErrorMessage: "Name must not contain a number"
@@ -94,6 +91,14 @@ class PersonalDetailsCorrectionForm extends Component {
         dateOfBirth
       } = this.state;
       if (studentName || SelectedGenderId || dateOfBirth) {
+        let formattedDateOfBirth = dateOfBirth
+          ? dateOfBirth._d.getFullYear() +
+            "-" +
+            (dateOfBirth._d.getMonth() + 1) +
+            "-" +
+            dateOfBirth._d.getDate()
+          : "";
+
         const payload = {
           studentId: dbStudentDetails.studentId,
           studentName: !studentName
@@ -102,11 +107,12 @@ class PersonalDetailsCorrectionForm extends Component {
           genderCode: !SelectedGenderId
             ? dbStudentDetails.genderCode
             : SelectedGenderId.value,
-          dateOfBirth: !dateOfBirth ? dbStudentDetails.dateOfBirth : dateOfBirth
+          studentDateOfBirth: !formattedDateOfBirth
+            ? dbStudentDetails.dateOfBirth
+            : formattedDateOfBirth
         };
 
-        console.log(payload);
-        // this.props.updateAStudentBasicDetails();
+        this.props.updateAStudentBasicDetails(payload);
       }
     }
   };
