@@ -59,15 +59,6 @@ class PersonalDetailsCorrectionForm extends Component {
       "/students/get_a_student_personal_details"
     );
 
-    // if(studentPersonalDetails.data && studentPersonalDetails.data.studentDetailsAvailable) {
-    //     const basicDetails = {
-    //         studentId: studentPersonalDetails.studentId,
-    //         admissionNumber: studentPersonalDetails.admissionNumber,
-    //         studentName: studentPersonalDetails.studentName,
-    //         genderCode: studentPersonalDetails.genderCode
-    //     };
-    // }
-
     await this.setState({
       dbStudentDetails:
         studentPersonalDetails.data &&
@@ -123,7 +114,6 @@ class PersonalDetailsCorrectionForm extends Component {
   handleGenderPlaceHolder = () => {
     const { dbStudentDetails } = this.state;
     let gender = "";
-
     if (dbStudentDetails.genderCode === "Gender") {
       gender = "Gender";
     } else if (dbStudentDetails.genderCode === 1) {
@@ -131,7 +121,6 @@ class PersonalDetailsCorrectionForm extends Component {
     } else if (dbStudentDetails.genderCode === 2) {
       gender = "Female";
     }
-
     return gender;
   };
 
