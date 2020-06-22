@@ -303,7 +303,7 @@ class AdminHome extends Component {
           timeout={IDLE_TIMEOUT}
         />
         <TopBar />
-        <Columns>
+        <Columns className="is-gapless">
           <Columns.Column size="one-fifth">
             <AdminSideBar handleSideBarClicked={this.handleSideBarClicked} />
           </Columns.Column>

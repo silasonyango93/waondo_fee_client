@@ -3,7 +3,13 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import {  withRouter } from "react-router-dom";
 import { FaCogs, FaSearch } from "react-icons/fa";
-import {PAY_FEE, REGISTER_A_STUDENT_PAGE, SEND_HOME_FROM_ENTIRE_SCHOOL , SEND_HOME_PER_CLASS} from "../../views/staff_home/StaffHomeConstants";
+import {
+    CORRECT_STUDENT_PERSONAL_DETAILS,
+    PAY_FEE,
+    REGISTER_A_STUDENT_PAGE,
+    SEND_HOME_FROM_ENTIRE_SCHOOL,
+    SEND_HOME_PER_CLASS
+} from "../../views/staff_home/StaffHomeConstants";
 
 class StaffSideBar extends Component {
     constructor(props) {
@@ -17,7 +23,8 @@ class StaffSideBar extends Component {
             samplePagesCollapsed: true,
             userManagementMultiLevelDropdownCollapsed: true,
             feeManagementMultiLevelDropdownCollapsed: true,
-            studentsHomeMultiLevelDropdownCollapsed: true
+            studentsHomeMultiLevelDropdownCollapsed: true,
+            correctionMultiLevelDropdownCollapsed: true
         };
     }
 
@@ -182,6 +189,48 @@ class StaffSideBar extends Component {
                                         }}
                                     >
                                         The whole school
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+
+                        <li
+                            className={classNames({
+                                active: !this.state.correctionMultiLevelDropdownCollapsed
+                            })}
+                        >
+                            <a
+                                href=""
+                                onClick={e => {
+                                    e.preventDefault();
+                                    this.setState({
+                                        correctionMultiLevelDropdownCollapsed: !this.state
+                                            .correctionMultiLevelDropdownCollapsed
+                                    });
+                                    return false;
+                                }}
+                            >
+                                <FaCogs />
+                                &nbsp;Corrections
+                                <span className="fa arrow" />
+                            </a>
+                            <ul
+                                className={classNames({
+                                    "nav nav-second-level": true,
+                                    collapse: this.state.correctionMultiLevelDropdownCollapsed
+                                })}
+                            >
+                                <li className="second-level">
+                                    <a
+                                        href=""
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            this.props.handleSideBarClicked(CORRECT_STUDENT_PERSONAL_DETAILS);
+                                        }}
+                                    >
+                                        Student Personal Details
                                     </a>
                                 </li>
 

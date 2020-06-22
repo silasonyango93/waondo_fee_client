@@ -8,6 +8,7 @@ import { DEBOUNCE, IDLE_TIMEOUT } from "../../config/constants/Constants";
 import { terminateCurrentSession } from "../../store/modules/current_session/actions";
 import TopBar from "../../components/topbar/TopBar";
 import {
+  CORRECT_STUDENT_PERSONAL_DETAILS,
   PAY_FEE,
   REGISTER_A_STUDENT_PAGE,
   SEND_HOME_FROM_ENTIRE_SCHOOL,
@@ -19,6 +20,7 @@ import Modal from "react-awesome-modal";
 import StudentRegistrationForm from "./student_management/students/StudentRegistrationForm";
 import { BURSAR_ROLE } from "../../config/constants/RolesConfig";
 import {
+  CORRECT_A_STUDENT_PERSONAL_DETAILS_ACCESS_PRIVILEGE,
   REGISTER_A_FEE_INSTALLMENT_ACCESS_PRIVILEGE,
   REGISTER_A_STUDENT_ACCESS_PRIVILEGE
 } from "../../config/constants/AccessPrivilegesConfig";
@@ -33,6 +35,8 @@ import TitlePanel from "../../components/title_panel/TitlePanel";
 import FeeBalancePage from "./fee_management/fee_balance/FeeBalancePage";
 import SchoolFeeQueryForm from "./fee_management/fee_balance/overral_school/SchoolFeeQueryForm";
 import PerClassFeeQueryForm from "./fee_management/fee_balance/per_class/PerClassFeeQueryForm";
+import PersonalDetailsCorrectionForm
+  from "./student_management/personal_details_correction/PersonalDetailsCorrectionForm";
 
 class StaffHome extends Component {
   constructor(props) {
@@ -50,7 +54,8 @@ class StaffHome extends Component {
       displayFeeBalancePage: false,
       displayFeeBalanceModal: false,
       displaySchoolFeeQueryForm: false,
-      displayPerClassFeeQueryForm: false
+      displayPerClassFeeQueryForm: false,
+      displayStudentPersonalDetailsCorrectionForm: false
     };
     this.idleTimer = null;
   }
@@ -86,14 +91,16 @@ class StaffHome extends Component {
         displayStaffHomeModal: true,
         displayStudentRegistrationForm: true,
         displayPayFeeForm: false,
-        displayFeePaymentConfirmationModal: false
+        displayFeePaymentConfirmationModal: false,
+        displayStudentPersonalDetailsCorrectionForm: false
       });
     } else if (formToDisplay === PAY_FEE) {
       this.setState({
         displayStaffHomeModal: true,
         displayPayFeeForm: true,
         displayStudentRegistrationForm: false,
-        displayFeePaymentConfirmationModal: false
+        displayFeePaymentConfirmationModal: false,
+        displayStudentPersonalDetailsCorrectionForm: false
       });
     } else if (formToDisplay === SEND_HOME_FROM_ENTIRE_SCHOOL) {
       this.setState({
@@ -118,6 +125,14 @@ class StaffHome extends Component {
         displayFeeBalancePage: true,
         displaySchoolFeeQueryForm: false,
         displayPerClassFeeQueryForm: true
+      });
+    } else if (formToDisplay === CORRECT_STUDENT_PERSONAL_DETAILS) {
+      this.setState({
+        displayStaffHomeModal: true,
+        displayPayFeeForm: false,
+        displayStudentRegistrationForm: false,
+        displayFeePaymentConfirmationModal: false,
+        displayStudentPersonalDetailsCorrectionForm: true
       });
     }
   };
@@ -321,6 +336,24 @@ class StaffHome extends Component {
               launchFeeStatementModal={this.launchFeeStatementModal}
             />
           )}
+
+
+          {this.state.displayStudentPersonalDetailsCorrectionForm && (
+              <div>
+                {this.isAccessGranted(
+                    CORRECT_A_STUDENT_PERSONAL_DETAILS_ACCESS_PRIVILEGE
+                ) ? (
+                    <PersonalDetailsCorrectionForm />
+                ) : (
+                    <ErrorPage
+                        errorTitle="Permision to edit details not granted"
+                        errorCode="Error Code: ACCESS_DENIED"
+                        errorResolution="Kindly contact the admin for this access"
+                    />
+                )}
+              </div>
+          )}
+
         </Modal>
 
         <Modal
