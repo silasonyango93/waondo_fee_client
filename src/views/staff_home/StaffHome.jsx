@@ -233,7 +233,7 @@ class StaffHome extends Component {
 
   handleClosePersonalDetailsCorrectionModal = (isUpdateSuccessful) => {
     this.setState({
-      displayStaffHomeModal: true,
+      displayStaffHomeModal: false,
       displayPayFeeForm: false,
       displayStudentRegistrationForm: false,
       displayFeePaymentConfirmationModal: false,
@@ -387,7 +387,7 @@ class StaffHome extends Component {
               </div>
           )}
 
-          {this.state.displaySuccessFailureModal && (<SuccessFailureModal handleModalExteriorClicked={this.handleSuccessFailureModalExteriorClicked} isASuccess={successFailureModalBoolean}/>)}
+
 
         </Modal>
 
@@ -423,6 +423,8 @@ class StaffHome extends Component {
             />
           )}
         </Modal>
+
+        {this.state.displaySuccessFailureModal && (<SuccessFailureModal handleModalExteriorClicked={this.handleSuccessFailureModalExteriorClicked} isASuccess={successFailureModalBoolean}/>)}
       </div>
     );
   }
