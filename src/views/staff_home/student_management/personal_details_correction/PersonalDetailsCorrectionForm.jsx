@@ -71,7 +71,7 @@ class PersonalDetailsCorrectionForm extends Component {
     });
   };
 
-  handleSubmit = event => {
+  handleSubmit = async event => {
     event.preventDefault();
 
     this.setState({
@@ -112,7 +112,13 @@ class PersonalDetailsCorrectionForm extends Component {
             : formattedDateOfBirth
         };
 
-        this.props.updateAStudentBasicDetails(payload);
+        const isUpdateSuccessful = await transactionsServicePost(
+            payload,
+            "/students/update_a_student_personal_details"
+        );
+
+        this.props.closePersonalDetailsCorrectionModal(isUpdateSuccessful.data);
+        // this.props.updateAStudentBasicDetails(payload);
       }
     }
   };
@@ -297,7 +303,8 @@ class PersonalDetailsCorrectionForm extends Component {
 }
 
 PersonalDetailsCorrectionForm.propTypes = {
-  updateAStudentBasicDetails: PropTypes.func.isRequired
+  updateAStudentBasicDetails: PropTypes.func.isRequired,
+  closePersonalDetailsCorrectionModal: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({

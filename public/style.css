@@ -36,6 +36,21 @@
   border-top-right-radius: 5px;
 }
 
+.failure-modal-header {
+  width: 100%;
+  height: 4rem;
+  background-color: #ee2124;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+event-message {
+  text-align: center;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 24px !important;
+  font-weight: 300;
+}
+
 .custom-search-form {
   width: 15rem;
   padding-top: 1rem;

@@ -37,11 +37,13 @@ import SchoolFeeQueryForm from "./fee_management/fee_balance/overral_school/Scho
 import PerClassFeeQueryForm from "./fee_management/fee_balance/per_class/PerClassFeeQueryForm";
 import PersonalDetailsCorrectionForm
   from "./student_management/personal_details_correction/PersonalDetailsCorrectionForm";
+import SuccessFailureModal from "../../components/modals/success_failure_modal/SuccessFailureModal";
 
 class StaffHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      successFailureModalBoolean: false,
       pagePanelTitle: "School student's list",
       displayFeeStatementModal: false,
       feePayload: "",
@@ -55,7 +57,8 @@ class StaffHome extends Component {
       displayFeeBalanceModal: false,
       displaySchoolFeeQueryForm: false,
       displayPerClassFeeQueryForm: false,
-      displayStudentPersonalDetailsCorrectionForm: false
+      displayStudentPersonalDetailsCorrectionForm: false,
+      displaySuccessFailureModal: false
     };
     this.idleTimer = null;
   }
@@ -92,7 +95,8 @@ class StaffHome extends Component {
         displayStudentRegistrationForm: true,
         displayPayFeeForm: false,
         displayFeePaymentConfirmationModal: false,
-        displayStudentPersonalDetailsCorrectionForm: false
+        displayStudentPersonalDetailsCorrectionForm: false,
+        displaySuccessFailureModal: false
       });
     } else if (formToDisplay === PAY_FEE) {
       this.setState({
@@ -100,7 +104,8 @@ class StaffHome extends Component {
         displayPayFeeForm: true,
         displayStudentRegistrationForm: false,
         displayFeePaymentConfirmationModal: false,
-        displayStudentPersonalDetailsCorrectionForm: false
+        displayStudentPersonalDetailsCorrectionForm: false,
+        displaySuccessFailureModal: false
       });
     } else if (formToDisplay === SEND_HOME_FROM_ENTIRE_SCHOOL) {
       this.setState({
@@ -112,7 +117,8 @@ class StaffHome extends Component {
         displayFeeBalanceModal: true,
         displayFeeBalancePage: true,
         displaySchoolFeeQueryForm: true,
-        displayPerClassFeeQueryForm: false
+        displayPerClassFeeQueryForm: false,
+        displaySuccessFailureModal: false
       });
     } else if (formToDisplay === SEND_HOME_PER_CLASS) {
       this.setState({
@@ -124,7 +130,8 @@ class StaffHome extends Component {
         displayFeeBalanceModal: true,
         displayFeeBalancePage: true,
         displaySchoolFeeQueryForm: false,
-        displayPerClassFeeQueryForm: true
+        displayPerClassFeeQueryForm: true,
+        displaySuccessFailureModal: false
       });
     } else if (formToDisplay === CORRECT_STUDENT_PERSONAL_DETAILS) {
       this.setState({
@@ -132,7 +139,8 @@ class StaffHome extends Component {
         displayPayFeeForm: false,
         displayStudentRegistrationForm: false,
         displayFeePaymentConfirmationModal: false,
-        displayStudentPersonalDetailsCorrectionForm: true
+        displayStudentPersonalDetailsCorrectionForm: true,
+        displaySuccessFailureModal: false
       });
     }
   };
@@ -223,6 +231,30 @@ class StaffHome extends Component {
     });
   };
 
+  handleClosePersonalDetailsCorrectionModal = (isUpdateSuccessful) => {
+    this.setState({
+      displayStaffHomeModal: true,
+      displayPayFeeForm: false,
+      displayStudentRegistrationForm: false,
+      displayFeePaymentConfirmationModal: false,
+      displayStudentPersonalDetailsCorrectionForm: false,
+      displaySuccessFailureModal: true,
+      successFailureModalBoolean: isUpdateSuccessful
+    });
+  };
+
+  handleSuccessFailureModalExteriorClicked = () =>{
+    this.setState({
+      displayStaffHomeModal: false,
+      displayPayFeeForm: false,
+      displayStudentRegistrationForm: false,
+      displayFeePaymentConfirmationModal: false,
+      displayStudentPersonalDetailsCorrectionForm: false,
+      displaySuccessFailureModal: false,
+      successFailureModalBoolean: false
+    });
+  };
+
   render() {
     const { sessionDetails } = this.props;
     const {
@@ -230,7 +262,8 @@ class StaffHome extends Component {
       displayFeeBalancePage,
       pagePanelTitle,
       displaySchoolFeeQueryForm,
-      displayPerClassFeeQueryForm
+      displayPerClassFeeQueryForm,
+      successFailureModalBoolean
     } = this.state;
 
     return (
@@ -343,7 +376,7 @@ class StaffHome extends Component {
                 {this.isAccessGranted(
                     CORRECT_A_STUDENT_PERSONAL_DETAILS_ACCESS_PRIVILEGE
                 ) ? (
-                    <PersonalDetailsCorrectionForm />
+                    <PersonalDetailsCorrectionForm closePersonalDetailsCorrectionModal={this.handleClosePersonalDetailsCorrectionModal}/>
                 ) : (
                     <ErrorPage
                         errorTitle="Permision to edit details not granted"
@@ -353,6 +386,8 @@ class StaffHome extends Component {
                 )}
               </div>
           )}
+
+          {this.state.displaySuccessFailureModal && (<SuccessFailureModal handleModalExteriorClicked={this.handleSuccessFailureModalExteriorClicked} isASuccess={successFailureModalBoolean}/>)}
 
         </Modal>
 
