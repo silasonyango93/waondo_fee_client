@@ -8,6 +8,7 @@ import { DEBOUNCE, IDLE_TIMEOUT } from "../../config/constants/Constants";
 import { terminateCurrentSession } from "../../store/modules/current_session/actions";
 import TopBar from "../../components/topbar/TopBar";
 import {
+  CHANGE_STUDENT_RESIDENCE,
   CORRECT_STUDENT_PERSONAL_DETAILS,
   PAY_FEE,
   REGISTER_A_STUDENT_PAGE,
@@ -20,6 +21,7 @@ import Modal from "react-awesome-modal";
 import StudentRegistrationForm from "./student_management/students/StudentRegistrationForm";
 import { BURSAR_ROLE } from "../../config/constants/RolesConfig";
 import {
+  CHANGE_A_STUDENT_RESIDENCE_ACCESS_PRIVILEGE,
   CORRECT_A_STUDENT_PERSONAL_DETAILS_ACCESS_PRIVILEGE,
   REGISTER_A_FEE_INSTALLMENT_ACCESS_PRIVILEGE,
   REGISTER_A_STUDENT_ACCESS_PRIVILEGE
@@ -38,6 +40,7 @@ import PerClassFeeQueryForm from "./fee_management/fee_balance/per_class/PerClas
 import PersonalDetailsCorrectionForm
   from "./student_management/personal_details_correction/PersonalDetailsCorrectionForm";
 import SuccessFailureModal from "../../components/modals/success_failure_modal/SuccessFailureModal";
+import ChangeResidencePage from "./residence_management/ChangeResidencePage";
 
 class StaffHome extends Component {
   constructor(props) {
@@ -58,7 +61,8 @@ class StaffHome extends Component {
       displaySchoolFeeQueryForm: false,
       displayPerClassFeeQueryForm: false,
       displayStudentPersonalDetailsCorrectionForm: false,
-      displaySuccessFailureModal: false
+      displaySuccessFailureModal: false,
+      displayChangeResidenceModal: false
     };
     this.idleTimer = null;
   }
@@ -96,7 +100,8 @@ class StaffHome extends Component {
         displayPayFeeForm: false,
         displayFeePaymentConfirmationModal: false,
         displayStudentPersonalDetailsCorrectionForm: false,
-        displaySuccessFailureModal: false
+        displaySuccessFailureModal: false,
+        displayChangeResidenceModal: false
       });
     } else if (formToDisplay === PAY_FEE) {
       this.setState({
@@ -105,7 +110,8 @@ class StaffHome extends Component {
         displayStudentRegistrationForm: false,
         displayFeePaymentConfirmationModal: false,
         displayStudentPersonalDetailsCorrectionForm: false,
-        displaySuccessFailureModal: false
+        displaySuccessFailureModal: false,
+        displayChangeResidenceModal: false
       });
     } else if (formToDisplay === SEND_HOME_FROM_ENTIRE_SCHOOL) {
       this.setState({
@@ -118,7 +124,8 @@ class StaffHome extends Component {
         displayFeeBalancePage: true,
         displaySchoolFeeQueryForm: true,
         displayPerClassFeeQueryForm: false,
-        displaySuccessFailureModal: false
+        displaySuccessFailureModal: false,
+        displayChangeResidenceModal: false
       });
     } else if (formToDisplay === SEND_HOME_PER_CLASS) {
       this.setState({
@@ -131,7 +138,8 @@ class StaffHome extends Component {
         displayFeeBalancePage: true,
         displaySchoolFeeQueryForm: false,
         displayPerClassFeeQueryForm: true,
-        displaySuccessFailureModal: false
+        displaySuccessFailureModal: false,
+        displayChangeResidenceModal: false
       });
     } else if (formToDisplay === CORRECT_STUDENT_PERSONAL_DETAILS) {
       this.setState({
@@ -140,7 +148,18 @@ class StaffHome extends Component {
         displayStudentRegistrationForm: false,
         displayFeePaymentConfirmationModal: false,
         displayStudentPersonalDetailsCorrectionForm: true,
-        displaySuccessFailureModal: false
+        displaySuccessFailureModal: false,
+        displayChangeResidenceModal: false
+      });
+    } else if (formToDisplay === CHANGE_STUDENT_RESIDENCE) {
+      this.setState({
+        displayStaffHomeModal: true,
+        displayPayFeeForm: false,
+        displayStudentRegistrationForm: false,
+        displayFeePaymentConfirmationModal: false,
+        displayStudentPersonalDetailsCorrectionForm: false,
+        displaySuccessFailureModal: false,
+        displayChangeResidenceModal: true
       });
     }
   };
@@ -380,6 +399,25 @@ class StaffHome extends Component {
                 ) : (
                     <ErrorPage
                         errorTitle="Permision to edit details not granted"
+                        errorCode="Error Code: ACCESS_DENIED"
+                        errorResolution="Kindly contact the admin for this access"
+                    />
+                )}
+              </div>
+          )}
+
+
+
+
+          {this.state.displayChangeResidenceModal && (
+              <div>
+                {this.isAccessGranted(
+                    CHANGE_A_STUDENT_RESIDENCE_ACCESS_PRIVILEGE
+                ) ? (
+                    <ChangeResidencePage/>
+                ) : (
+                    <ErrorPage
+                        errorTitle="Permision to change residence not granted"
                         errorCode="Error Code: ACCESS_DENIED"
                         errorResolution="Kindly contact the admin for this access"
                     />

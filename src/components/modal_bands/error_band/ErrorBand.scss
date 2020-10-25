@@ -1,0 +1,18 @@
+.error-band {
+  &__main-body {
+    box-shadow: 0 0 10px 0 rgba(255, 130, 0, 0.35);
+    background: linear-gradient(to left, #fdb040, #ee2124);
+    width: 100%;
+    font-family: Lato;
+    font-size: 24px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

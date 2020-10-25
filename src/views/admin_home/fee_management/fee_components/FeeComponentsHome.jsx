@@ -43,7 +43,7 @@ class FeeComponentsHome extends Component {
     render() {
         return (
             <div>
-                <div className="level__table-div">
+                <div>
                     <Table
                         addIconClicked={() => {
                             this.props.setupFeeComponentRegistrationForm();

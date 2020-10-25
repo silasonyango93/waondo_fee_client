@@ -46,10 +46,14 @@ class FeeStructureHome extends Component {
         }
     }
 
+    feeStructureItemIsClicked = (feeStructureObject) =>{
+
+    };
+
     render() {
         return (
             <div>
-                <div className="level__table-div">
+                <div>
                     <Table
                         addIconClicked={() => {
                             this.props.setupFeeStructuresForm();
@@ -57,6 +61,7 @@ class FeeStructureHome extends Component {
                         tableTitle="Fee Structures"
                         tableHeaderObject={this.state.tableHeaders}
                         tableData={this.state.tableData}
+                        handleRowIsClicked={this.feeStructureItemIsClicked}
                     />
                 </div>
             </div>

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import {  withRouter } from "react-router-dom";
 import { FaCogs, FaSearch } from "react-icons/fa";
 import {
+    CHANGE_STUDENT_RESIDENCE,
     CORRECT_STUDENT_PERSONAL_DETAILS,
     PAY_FEE,
     REGISTER_A_STUDENT_PAGE,
@@ -24,7 +25,8 @@ class StaffSideBar extends Component {
             userManagementMultiLevelDropdownCollapsed: true,
             feeManagementMultiLevelDropdownCollapsed: true,
             studentsHomeMultiLevelDropdownCollapsed: true,
-            correctionMultiLevelDropdownCollapsed: true
+            correctionMultiLevelDropdownCollapsed: true,
+            residenceMultiLevelDropdownCollapsed: true
         };
     }
 
@@ -231,6 +233,49 @@ class StaffSideBar extends Component {
                                         }}
                                     >
                                         Student Personal Details
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+
+
+                        <li
+                            className={classNames({
+                                active: !this.state.residenceMultiLevelDropdownCollapsed
+                            })}
+                        >
+                            <a
+                                href=""
+                                onClick={e => {
+                                    e.preventDefault();
+                                    this.setState({
+                                        residenceMultiLevelDropdownCollapsed: !this.state
+                                            .residenceMultiLevelDropdownCollapsed
+                                    });
+                                    return false;
+                                }}
+                            >
+                                <FaCogs />
+                                &nbsp;Residence Management
+                                <span className="fa arrow" />
+                            </a>
+                            <ul
+                                className={classNames({
+                                    "nav nav-second-level": true,
+                                    collapse: this.state.residenceMultiLevelDropdownCollapsed
+                                })}
+                            >
+                                <li className="second-level">
+                                    <a
+                                        href=""
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            this.props.handleSideBarClicked(CHANGE_STUDENT_RESIDENCE);
+                                        }}
+                                    >
+                                        Change Student Residence
                                     </a>
                                 </li>
 

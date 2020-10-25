@@ -43,12 +43,14 @@ import {
   setupClassFeeStructuresComponentsForm,
   setupClassFeeStructuresForm
 } from "../../store/modules/admin_home/actions";
+import TitlePanel from "../../components/title_panel/TitlePanel";
 
 class AdminHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
       displayAcademicClassLevels: true,
+      pagePanelTitle: "School student's list",
       displayClassStreams: false,
       displayTermIterations: false,
       displayWeekIterations: false,
@@ -290,6 +292,8 @@ class AdminHome extends Component {
   };
 
   render() {
+    const { sessionDetails } = this.props;
+    const { pagePanelTitle } =this.state;
     return (
       <div>
         <AdminDialog />
@@ -309,7 +313,27 @@ class AdminHome extends Component {
           </Columns.Column>
 
           <Columns.Column>
-            <Container>
+            <div className="staff__title-panel-div">
+              <TitlePanel
+                  title={pagePanelTitle}
+                  userName={
+                    sessionDetails && sessionDetails.name
+                        ? sessionDetails.name
+                        : "Username"
+                  }
+                  userEmail={
+                    sessionDetails && sessionDetails.email
+                        ? sessionDetails.email
+                        : "Email"
+                  }
+                  userNameInitials={
+                    sessionDetails && sessionDetails.name
+                        ? sessionDetails.name.charAt(0)
+                        : "I"
+                  }
+              />
+            </div>
+            <Container className="staff__main-body">
               <div
                 className={
                   this.state.displayAcademicClassLevels ? "show" : "hide"
