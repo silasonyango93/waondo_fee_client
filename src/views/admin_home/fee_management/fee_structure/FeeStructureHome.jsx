@@ -33,10 +33,10 @@ class FeeStructureHome extends Component {
                     (item, index) => {
                         return {
                             id: index + 1,
-                            FeeStructureDescription: item.FeeStructureDescription,
-                            DateCreated: item.DateCreated,
-                            IsCurrentFeeStructure: item.IsCurrentFeeStructure > 0 ? "Yes" : "No",
-                            IsProspect: item.IsProspect > 0 ? "Yes" : "No"
+                            FeeStructureDescription: item.feeStructureDescription,
+                            DateCreated: item.dateCreated,
+                            IsCurrentFeeStructure: item.isCurrentFeeStructure > 0 ? "Yes" : "No",
+                            IsProspect: item.isProspectFeeStructure > 0 ? "Yes" : "No"
                         };
                     }
                 );

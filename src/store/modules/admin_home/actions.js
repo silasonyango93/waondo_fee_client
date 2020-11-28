@@ -131,7 +131,10 @@ import {
   WEEK_ITERATION_CREATED_SUCCESSFULLY,
   WEEK_ITERATION_CREATION_FAILED
 } from "./actionTypes";
-import { transactionsServicePost } from "../../../services/transactions_service_connector/TransactionsServiceConnector";
+import {
+  transactionsServiceGetAll,
+  transactionsServicePost
+} from "../../../services/transactions_service_connector/TransactionsServiceConnector";
 
 export function toggleAdminModalDisplay(isAdminModalDisplayed) {
   return async dispatch => {
@@ -1235,18 +1238,18 @@ export function createFeeComponent(payload) {
 
 export function fetchAllFeeStructures() {
   return async dispatch => {
-    const apiRoute = "/get_all_fee_structures";
-    const returnedPromise = apiGetAll(apiRoute);
+    const apiRoute = "/fee_structure/fetch_all_fee_structures_comprehensively";
+    const returnedPromise = transactionsServiceGetAll(apiRoute);
     returnedPromise.then(
       function(result) {
-        if (result.data.results && result.data.results.length > 0) {
+        if (result.data && result.data.length > 0) {
           dispatch({
             type: FETCHING_FEE_STRUCTURES_SUCCESSFUL,
             payload: {
-              allFeeStructures: result.data.results
+              allFeeStructures: result.data
             }
           });
-        } else if (result.data.results && result.data.results.length === 0) {
+        } else if (result.data && result.data.length === 0) {
           dispatch({
             type: FETCHING_FEE_STRUCTURES_EMPTY_RESULT_SET
           });
