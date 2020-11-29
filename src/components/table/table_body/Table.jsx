@@ -45,6 +45,7 @@ class Table extends React.Component {
           searchArray.push(rowObject);
         }
       }
+
       await this.setState({tableData: searchArray});
     }
 
