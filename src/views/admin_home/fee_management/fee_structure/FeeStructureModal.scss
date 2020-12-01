@@ -1,0 +1,13 @@
+.structure-modal {
+  &__accordions_wrapper {
+    margin: auto;
+    width: 750px;
+    max-height: 600px;
+    overflow: auto;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    padding: 24px;
+    padding-top: 54px;
+    margin-top: 24px;
+  }
+}

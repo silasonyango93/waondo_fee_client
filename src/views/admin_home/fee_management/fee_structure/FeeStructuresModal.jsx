@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from "prop-types";
 
 import Accordion from "../../../../components/accordion/Accordion";
+import './FeeStructureModal.scss'
+import Table from "../../../../components/table/table_body/Table";
 
 class FeeStructuresModal extends Component {
 
@@ -15,9 +17,14 @@ class FeeStructuresModal extends Component {
 
     populateAccordions = classFeeStructureArray => {
         let accordions = [];
-        for (let i = 0;i < classFeeStructureArray.length; i++) {
+        for (let i = 0; i < classFeeStructureArray.length; i++) {
             accordions.push(<Accordion title={classFeeStructureArray[i].academicClassLevelName}
-                                       subtitle={classFeeStructureArray[i].feeStructureDescription}/>)
+                                       subtitle={classFeeStructureArray[i].feeStructureDescription}
+            >
+                <Table />
+                <br/>
+                <Table />
+            </Accordion>)
         }
         return accordions;
     }
@@ -25,7 +32,9 @@ class FeeStructuresModal extends Component {
     render() {
         return (
             <div>
-                {this.populateAccordions(this.props.classFeeStructureModelList)}
+                <div className="structure-modal__accordions_wrapper">
+                    {this.populateAccordions(this.props.classFeeStructureModelList)}
+                </div>
             </div>
         );
     }

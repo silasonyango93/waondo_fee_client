@@ -89,7 +89,7 @@ class FeeStructureHome extends Component {
                 <Modal
                     visible={this.state.isFeeStructureModalDisplayed}
                     width="900"
-                    height="600"
+                    height="750"
                     effect="fadeInUp"
                     onClickAway={() => {
                         this.handleFeeStructureModalExteriorClicked();
