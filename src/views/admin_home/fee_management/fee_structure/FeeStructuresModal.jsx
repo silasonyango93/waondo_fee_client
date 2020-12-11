@@ -22,6 +22,11 @@ class FeeStructuresModal extends Component {
             columnThree: "Residence",
             columnFour: "Fee Amount"
         };
+        let feeComponentHeaderObject = {
+            columnOne: "#",
+            columnTwo: "Fee Item",
+            columnThree: "Ratio(%)"
+        };
         let accordions = [];
         for (let i = 0; i < classFeeStructureArray.length; i++) {
             accordions.push(<Accordion title={classFeeStructureArray[i].academicClassLevelName}
@@ -30,7 +35,8 @@ class FeeStructuresModal extends Component {
                 <Table tableTitle="Fee BreakDown" tableHeaderObject={feeBreakDownHeaderObject}
                        tableData={this.mapFeeBreakDownData(classFeeStructureArray[i].classFeeStructureBreakDown)}/>
                 <br/>
-                <Table/>
+                <Table tableTitle="Fee Items" tableHeaderObject={feeComponentHeaderObject}
+                       tableData={this.mapFeeComponentData(classFeeStructureArray[i].classFeeStructureComponents)}/>
             </Accordion>)
         }
         return accordions;
@@ -49,6 +55,20 @@ class FeeStructuresModal extends Component {
             }
         );
         return mappedFeeBreakDownData;
+    };
+
+    mapFeeComponentData = feeComponentData => {
+        let mappedFeeComponentData = feeComponentData.map(
+            (item, index) => {
+                return {
+                    id: index + 1,
+                    feeComponentDescription: item.feeComponentDescription,
+                    feeComponentRatio: item.feeComponentRatio,
+                    payload: item
+                };
+            }
+        );
+        return mappedFeeComponentData;
     };
 
     render() {
