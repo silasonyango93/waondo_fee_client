@@ -1,23 +1,35 @@
 import React from 'react';
 import PropTypes from "prop-types";
-
+import {FaEdit} from "react-icons/fa";
 
 
 class TableRow extends React.Component {
 
-    state = { columns: [], rowObject: {}};
+    state = {columns: [], rowObject: {}};
 
     async componentDidMount() {
         await this.setState({rowObject: this.props.rowObject});
         this.prepareRow();
     }
 
-    prepareRow = ()=> {
+    prepareRow = () => {
         var columns = [];
         for (var x in this.props.rowObject) {
             if (x !== 'payload') {
                 columns.push(<td>{this.props.rowObject[x]}</td>);
             }
+        }
+
+        if (this.props.isRowEditingRequired) {
+            columns.push(<td>
+                <div className="edit-icon">
+                    <FaEdit
+                        onClick={() => {
+                            this.props.addIconClicked();
+                        }}
+                    />
+                </div>
+            </td>);
         }
 
         return columns;
@@ -31,7 +43,9 @@ class TableRow extends React.Component {
 
         return (
 
-            <tr style={{cursor: 'pointer'}} onClick={()=>{this.props.handleRowIsClicked(rowObject);}}>{this.prepareRow()}</tr>
+            <tr style={{cursor: 'pointer'}} onClick={() => {
+                this.props.handleRowIsClicked(rowObject);
+            }}>{this.prepareRow()}</tr>
 
         );
     }
@@ -39,11 +53,18 @@ class TableRow extends React.Component {
 
 TableRow.propTypes = {
     rowObject: PropTypes.object.isRequired,
-    handleRowIsClicked: PropTypes.func
+    handleRowIsClicked: PropTypes.func,
+    handleEditIsClicked: PropTypes.func,
+    isRowEditingRequired: PropTypes.bool
+
 };
 
 TableRow.defaultProps = {
-    handleRowIsClicked: ()=>{}
+    handleRowIsClicked: () => {
+    },
+    handleEditIsClicked: () => {
+    },
+    isRowEditingRequired: false
 };
 
 export default TableRow;
