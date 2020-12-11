@@ -16,7 +16,7 @@ class FeeStructuresModal extends Component {
     }
 
     populateAccordions = classFeeStructureArray => {
-        let tableHeaderObject = {
+        let feeBreakDownHeaderObject = {
             columnOne: "#",
             columnTwo: "Term",
             columnThree: "Residence",
@@ -27,7 +27,7 @@ class FeeStructuresModal extends Component {
             accordions.push(<Accordion title={classFeeStructureArray[i].academicClassLevelName}
                                        subtitle={classFeeStructureArray[i].feeStructureDescription}
             >
-                <Table tableTitle="Fee BreakDown" tableHeaderObject={tableHeaderObject}
+                <Table tableTitle="Fee BreakDown" tableHeaderObject={feeBreakDownHeaderObject}
                        tableData={this.mapFeeBreakDownData(classFeeStructureArray[i].classFeeStructureBreakDown)}/>
                 <br/>
                 <Table/>
