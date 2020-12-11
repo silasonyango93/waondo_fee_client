@@ -1,9 +1,9 @@
 import axios from "axios";
 import querystring from "querystring";
-import { transactionsIp } from "../../config/EndPoint";
+import {transactionsIp} from "../../config/EndPoint";
 
 export function transactionsServicePost(payload, apiRoute) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         axios
             .post(
                 transactionsIp + apiRoute,
@@ -21,7 +21,7 @@ export function transactionsServicePost(payload, apiRoute) {
 }
 
 export function transactionsServiceGetAll(apiRoute) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         axios
             .post(transactionsIp + apiRoute)
             .then(response => {
@@ -41,4 +41,18 @@ export const promiselessTransactionsServicePost = (payload, apiRoute) =>
         querystring.stringify({
             ...payload
         })
+    );
+
+const jsonAxiosInstance = axios.create({
+    headers: {
+        ContentType: 'application/json'
+    },
+});
+
+export const promiselessJsonTransactionsServiceGetAll = apiRoute => jsonAxiosInstance.post(transactionsIp + apiRoute);
+
+export const promiselessJsonTransactionsServicePost = (payload, apiRoute) =>
+    jsonAxiosInstance.post(
+        transactionsIp + apiRoute,
+        payload
     );
