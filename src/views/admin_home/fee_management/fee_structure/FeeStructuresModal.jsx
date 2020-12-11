@@ -21,13 +21,13 @@ class FeeStructuresModal extends Component {
             accordions.push(<Accordion title={classFeeStructureArray[i].academicClassLevelName}
                                        subtitle={classFeeStructureArray[i].feeStructureDescription}
             >
-                <Table />
+                <Table  tableTitle="Fee BreakDown"/>
                 <br/>
-                <Table />
+                <Table/>
             </Accordion>)
         }
         return accordions;
-    }
+    };
 
     render() {
         return (
