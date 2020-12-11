@@ -43,7 +43,8 @@ class FeeStructuresModal extends Component {
                     id: index + 1,
                     termIterationDescription: item.termIterationDescription,
                     studentResidenceDescription: item.studentResidenceDescription,
-                    feeAmount: item.feeAmount
+                    feeAmount: item.feeAmount,
+                    payload: item
                 };
             }
         );

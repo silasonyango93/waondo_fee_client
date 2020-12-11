@@ -15,7 +15,9 @@ class TableRow extends React.Component {
     prepareRow = ()=> {
         var columns = [];
         for (var x in this.props.rowObject) {
-            columns.push(<td>{this.props.rowObject[x]}</td>);
+            if (x !== 'payload') {
+                columns.push(<td>{this.props.rowObject[x]}</td>);
+            }
         }
 
         return columns;
