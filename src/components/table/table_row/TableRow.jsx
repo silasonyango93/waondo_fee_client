@@ -25,7 +25,7 @@ class TableRow extends React.Component {
                 <div className="edit-icon">
                     <FaEdit
                         onClick={() => {
-                            this.props.addIconClicked();
+                            this.props.handleRowEditIsClicked(this.props.rowObject['payload']);
                         }}
                     />
                 </div>
@@ -54,7 +54,7 @@ class TableRow extends React.Component {
 TableRow.propTypes = {
     rowObject: PropTypes.object.isRequired,
     handleRowIsClicked: PropTypes.func,
-    handleEditIsClicked: PropTypes.func,
+    handleRowEditIsClicked: PropTypes.func,
     isRowEditingRequired: PropTypes.bool
 
 };
@@ -62,7 +62,7 @@ TableRow.propTypes = {
 TableRow.defaultProps = {
     handleRowIsClicked: () => {
     },
-    handleEditIsClicked: () => {
+    handleRowEditIsClicked: () => {
     },
     isRowEditingRequired: false
 };

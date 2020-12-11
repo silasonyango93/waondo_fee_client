@@ -33,7 +33,8 @@ class FeeStructuresModal extends Component {
                                        subtitle={classFeeStructureArray[i].feeStructureDescription}
             >
                 <Table tableTitle="Fee BreakDown" tableHeaderObject={feeBreakDownHeaderObject}
-                       tableData={this.mapFeeBreakDownData(classFeeStructureArray[i].classFeeStructureBreakDown)}/>
+                       tableData={this.mapFeeBreakDownData(classFeeStructureArray[i].classFeeStructureBreakDown)}
+                       isRowEditingRequired={true} handleRowEditIsClicked={this.handleRowEditingIsClicked}/>
                 <br/>
                 <Table tableTitle="Fee Items" tableHeaderObject={feeComponentHeaderObject}
                        tableData={this.mapFeeComponentData(classFeeStructureArray[i].classFeeStructureComponents)}/>
@@ -69,6 +70,11 @@ class FeeStructuresModal extends Component {
             }
         );
         return mappedFeeComponentData;
+    };
+
+
+    handleRowEditingIsClicked = payload => {
+        console.log(payload);
     };
 
     render() {
