@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {Columns} from "react-bulma-components/dist";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
 import {transactionsServicePost} from "../../../../services/transactions_service_connector/TransactionsServiceConnector";
+import {fetchAllFeeStructures, setupFeeStructuresForm} from "../../../../store/modules/admin_home/actions";
 
 class DuplicateFeeStructureModal extends Component {
 
@@ -29,6 +31,7 @@ class DuplicateFeeStructureModal extends Component {
         const apiResponse = await transactionsServicePost(payload,"/fee_structure/duplicate_a_fee_structure");
 
         if (apiResponse.status === 200) {
+            await this.props.fetchAllFeeStructures();
             this.props.closeModal();
         }
     };
@@ -83,7 +86,15 @@ class DuplicateFeeStructureModal extends Component {
 DuplicateFeeStructureModal.propTypes = {
     feeStructureId: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
-    closeModal: PropTypes.func.isRequired
+    closeModal: PropTypes.func.isRequired,
+    fetchAllFeeStructures: PropTypes.func.isRequired,
 };
 
-export default DuplicateFeeStructureModal;
+const mapDispatchToProps = dispatch => ({
+    fetchAllFeeStructures: () => dispatch(fetchAllFeeStructures())
+});
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(DuplicateFeeStructureModal);
