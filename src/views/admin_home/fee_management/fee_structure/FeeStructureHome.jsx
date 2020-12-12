@@ -127,7 +127,7 @@ class FeeStructureHome extends Component {
                     <DuplicateFeeStructureModal feeStructureId={this.state.rowDuplicationPayload.feeStructureId}
                                                 userId={sessionDetails && sessionDetails.userId
                                                     ? sessionDetails.userId
-                                                    : "N/A"} closeModal={this.closeFeeStructureDuplicationModal}/>
+                                                    : "N/A"} closeModal={()=>{this.closeFeeStructureDuplicationModal();}}/>
                 </Modal>
             </div>
         );

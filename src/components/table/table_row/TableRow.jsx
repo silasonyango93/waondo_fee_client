@@ -49,7 +49,7 @@ class TableRow extends React.Component {
                 <div className="edit-icon">
                     <FaRegCopy
                         onClick={() => {
-                            this.props.handleRowEditIsClicked(this.props.rowObject['payload']);
+                            this.props.handleRowDuplicationIsClicked(this.props.rowObject['payload']);
                         }}
                     />
                 </div>
