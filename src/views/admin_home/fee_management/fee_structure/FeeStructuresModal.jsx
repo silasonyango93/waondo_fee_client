@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import Accordion from "../../../../components/accordion/Accordion";
 import './FeeStructureModal.scss'
 import Table from "../../../../components/table/table_body/Table";
-import FeeStatementView from "../../../staff_home/fee_management/fee_statement/FeeStatementView";
 import Modal from "react-awesome-modal";
 import EditFeeBreakDownModal from "./EditFeeBreakDownModal";
 
@@ -42,7 +41,9 @@ class FeeStructuresModal extends Component {
             >
                 <Table tableTitle="Fee BreakDown" tableHeaderObject={feeBreakDownHeaderObject}
                        tableData={this.mapFeeBreakDownData(classFeeStructureArray[i].classFeeStructureBreakDown)}
-                       isRowEditingRequired={true} handleRowEditIsClicked={this.handleRowEditingIsClicked}/>
+                       isRowEditingRequired={true} handleRowEditIsClicked={this.handleRowEditingIsClicked}
+                       isRowDuplicationRequired={true}
+                       handleRowDuplicationIsClicked={this.handleRowDuplicationIsClicked}/>
                 <br/>
                 <Table tableTitle="Fee Items" tableHeaderObject={feeComponentHeaderObject}
                        tableData={this.mapFeeComponentData(classFeeStructureArray[i].classFeeStructureComponents)}/>
@@ -86,7 +87,11 @@ class FeeStructuresModal extends Component {
         await this.setState({isRowEditModalDisplayed: true});
     };
 
-    closeFeeStructureEditModal = () =>{
+    handleRowDuplicationIsClicked = payload => {
+
+    };
+
+    closeFeeStructureEditModal = () => {
         this.setState({isRowEditModalDisplayed: false});
     };
 
@@ -107,7 +112,8 @@ class FeeStructuresModal extends Component {
                 >
                     <EditFeeBreakDownModal
                         classFeeStructureBreakDownId={this.state.currentRowPayload.classFeeStructureBreakDownId}
-                        initialFeeAmount={this.state.currentRowPayload.feeAmount} closeModal={this.closeFeeStructureEditModal}/>
+                        initialFeeAmount={this.state.currentRowPayload.feeAmount}
+                        closeModal={this.closeFeeStructureEditModal}/>
                 </Modal>
             </div>
         );

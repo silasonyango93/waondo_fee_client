@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {FaEdit} from "react-icons/fa";
+import {FaEdit,FaRegClone} from "react-icons/fa";
 
 
 class TableRow extends React.Component {
@@ -32,6 +32,18 @@ class TableRow extends React.Component {
             </td>);
         }
 
+        if (this.props.isRowDuplicationRequired) {
+            columns.push(<td>
+                <div className="edit-icon">
+                    <FaRegClone
+                        onClick={() => {
+                            this.props.handleRowEditIsClicked(this.props.rowObject['payload']);
+                        }}
+                    />
+                </div>
+            </td>);
+        }
+
         return columns;
     };
 
@@ -55,7 +67,9 @@ TableRow.propTypes = {
     rowObject: PropTypes.object.isRequired,
     handleRowIsClicked: PropTypes.func,
     handleRowEditIsClicked: PropTypes.func,
-    isRowEditingRequired: PropTypes.bool
+    handleRowDuplicationIsClicked: PropTypes.func,
+    isRowEditingRequired: PropTypes.bool,
+    isRowDuplicationRequired: PropTypes.bool
 
 };
 
@@ -64,7 +78,10 @@ TableRow.defaultProps = {
     },
     handleRowEditIsClicked: () => {
     },
-    isRowEditingRequired: false
+    handleRowDuplicationIsClicked: () => {
+    },
+    isRowEditingRequired: false,
+    isRowDuplicationRequired: false
 };
 
 export default TableRow;
