@@ -37,8 +37,7 @@ import TitlePanel from "../../components/title_panel/TitlePanel";
 import FeeBalancePage from "./fee_management/fee_balance/FeeBalancePage";
 import SchoolFeeQueryForm from "./fee_management/fee_balance/overral_school/SchoolFeeQueryForm";
 import PerClassFeeQueryForm from "./fee_management/fee_balance/per_class/PerClassFeeQueryForm";
-import PersonalDetailsCorrectionForm
-  from "./student_management/personal_details_correction/PersonalDetailsCorrectionForm";
+import PersonalDetailsCorrectionForm from "./student_management/personal_details_correction/PersonalDetailsCorrectionForm";
 import SuccessFailureModal from "../../components/modals/success_failure_modal/SuccessFailureModal";
 import ChangeResidencePage from "./residence_management/ChangeResidencePage";
 
@@ -250,7 +249,7 @@ class StaffHome extends Component {
     });
   };
 
-  handleClosePersonalDetailsCorrectionModal = (isUpdateSuccessful) => {
+  handleClosePersonalDetailsCorrectionModal = isUpdateSuccessful => {
     this.setState({
       displayStaffHomeModal: false,
       displayPayFeeForm: false,
@@ -262,7 +261,7 @@ class StaffHome extends Component {
     });
   };
 
-  handleSuccessFailureModalExteriorClicked = () =>{
+  handleSuccessFailureModalExteriorClicked = () => {
     this.setState({
       displayStaffHomeModal: false,
       displayPayFeeForm: false,
@@ -340,7 +339,7 @@ class StaffHome extends Component {
         <Modal
           visible={this.state.displayStaffHomeModal}
           width="500"
-          height="450"
+          height="470"
           effect="fadeInUp"
           onClickAway={() => {
             this.handleStaffHomeModalExteriorClicked();
@@ -389,44 +388,41 @@ class StaffHome extends Component {
             />
           )}
 
-
           {this.state.displayStudentPersonalDetailsCorrectionForm && (
-              <div>
-                {this.isAccessGranted(
-                    CORRECT_A_STUDENT_PERSONAL_DETAILS_ACCESS_PRIVILEGE
-                ) ? (
-                    <PersonalDetailsCorrectionForm closePersonalDetailsCorrectionModal={this.handleClosePersonalDetailsCorrectionModal}/>
-                ) : (
-                    <ErrorPage
-                        errorTitle="Permision to edit details not granted"
-                        errorCode="Error Code: ACCESS_DENIED"
-                        errorResolution="Kindly contact the admin for this access"
-                    />
-                )}
-              </div>
+            <div>
+              {this.isAccessGranted(
+                CORRECT_A_STUDENT_PERSONAL_DETAILS_ACCESS_PRIVILEGE
+              ) ? (
+                <PersonalDetailsCorrectionForm
+                  closePersonalDetailsCorrectionModal={
+                    this.handleClosePersonalDetailsCorrectionModal
+                  }
+                />
+              ) : (
+                <ErrorPage
+                  errorTitle="Permision to edit details not granted"
+                  errorCode="Error Code: ACCESS_DENIED"
+                  errorResolution="Kindly contact the admin for this access"
+                />
+              )}
+            </div>
           )}
-
-
-
 
           {this.state.displayChangeResidenceModal && (
-              <div>
-                {this.isAccessGranted(
-                    CHANGE_A_STUDENT_RESIDENCE_ACCESS_PRIVILEGE
-                ) ? (
-                    <ChangeResidencePage/>
-                ) : (
-                    <ErrorPage
-                        errorTitle="Permision to change residence not granted"
-                        errorCode="Error Code: ACCESS_DENIED"
-                        errorResolution="Kindly contact the admin for this access"
-                    />
-                )}
-              </div>
+            <div>
+              {this.isAccessGranted(
+                CHANGE_A_STUDENT_RESIDENCE_ACCESS_PRIVILEGE
+              ) ? (
+                <ChangeResidencePage />
+              ) : (
+                <ErrorPage
+                  errorTitle="Permision to change residence not granted"
+                  errorCode="Error Code: ACCESS_DENIED"
+                  errorResolution="Kindly contact the admin for this access"
+                />
+              )}
+            </div>
           )}
-
-
-
         </Modal>
 
         <Modal
@@ -462,7 +458,14 @@ class StaffHome extends Component {
           )}
         </Modal>
 
-        {this.state.displaySuccessFailureModal && (<SuccessFailureModal handleModalExteriorClicked={this.handleSuccessFailureModalExteriorClicked} isASuccess={successFailureModalBoolean}/>)}
+        {this.state.displaySuccessFailureModal && (
+          <SuccessFailureModal
+            handleModalExteriorClicked={
+              this.handleSuccessFailureModalExteriorClicked
+            }
+            isASuccess={successFailureModalBoolean}
+          />
+        )}
       </div>
     );
   }
