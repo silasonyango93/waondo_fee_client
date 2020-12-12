@@ -52,10 +52,8 @@ class FeeStructureForm extends Component {
             });
         } else {
             const payload = {
-                UserId: sessionDetails && sessionDetails.userId ? sessionDetails.userId : '',
-                FeeStructureDescription: this.state.feeStructure,
-                IsCurrentFeeStructure: '0',
-                IsProspect: '0'
+                userId: sessionDetails && sessionDetails.userId ? sessionDetails.userId : '',
+                feeStructureDescription: this.state.feeStructure
             };
 
             this.props.createFeeStructure(payload);

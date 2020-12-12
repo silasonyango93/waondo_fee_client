@@ -1296,11 +1296,11 @@ export function setupFeeStructuresForm() {
 
 export function createFeeStructure(payload) {
   return async dispatch => {
-    const apiRoute = "/add_fee_structures";
-    const returnedPromise = apiPost(payload, apiRoute);
+    const apiRoute = "/fee_structure/create_a_fee_structure";
+    const returnedPromise = transactionsServicePost(payload, apiRoute);
     returnedPromise.then(
       function(result) {
-        if (result.data.results.success) {
+        if (result.status === 200) {
           dispatch({
             type: FEE_STRUCTURE_CREATED_SUCCESSFULLY
           });
