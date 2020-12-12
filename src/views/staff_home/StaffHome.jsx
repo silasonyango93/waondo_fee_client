@@ -339,7 +339,7 @@ class StaffHome extends Component {
         <Modal
           visible={this.state.displayStaffHomeModal}
           width="500"
-          height="470"
+          height="510"
           effect="fadeInUp"
           onClickAway={() => {
             this.handleStaffHomeModalExteriorClicked();
@@ -413,7 +413,10 @@ class StaffHome extends Component {
               {this.isAccessGranted(
                 CHANGE_A_STUDENT_RESIDENCE_ACCESS_PRIVILEGE
               ) ? (
-                <ChangeResidencePage />
+                <ChangeResidencePage
+                  sessionLogId={sessionDetails.sessionLogsEntity.sessionLogId}
+                  closeModal={this.handleStaffHomeModalExteriorClicked}
+                />
               ) : (
                 <ErrorPage
                   errorTitle="Permision to change residence not granted"

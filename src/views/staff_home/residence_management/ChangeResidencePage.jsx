@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import { Columns } from "react-bulma-components/dist";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 import "./ChangeResidencePage.scss";
 import { promiselessApiPost } from "../../../services/api_connector/ApiConnector";
 import { promiselessTransactionsServicePost } from "../../../services/transactions_service_connector/TransactionsServiceConnector";
 import ErrorBand from "../../../components/modal_bands/error_band/ErrorBand";
+import {
+  fetchAllStudents
+} from "../../../store/modules/staff_home/actions";
 
 class ChangeResidencePage extends Component {
   state = {
@@ -159,6 +164,10 @@ class ChangeResidencePage extends Component {
               id="dataTables-example"
             >
               <tr>
+                <th>Admission Number</th>
+                <td>{confirmationData.admissionNumber}</td>
+              </tr>
+              <tr>
                 <th>Current Residence</th>
                 <td>
                   {confirmationData.currentResidenceCode === 1
@@ -202,6 +211,9 @@ class ChangeResidencePage extends Component {
             <button
               type="submit"
               className="btn btn-lg btn-success btn-block residence-page__cancel-button"
+              onClick={() => {
+                this.handleCancelButtonIsClicked();
+              }}
             >
               Cancel
             </button>
@@ -210,13 +222,52 @@ class ChangeResidencePage extends Component {
             <button
               type="submit"
               className="btn btn-lg btn-success btn-block residence-page__submit-button"
+              onClick={() => {
+                this.handleConfirmButtonIsClicked(confirmationData);
+              }}
             >
-              Submit
+              Confirm
             </button>
           </Columns.Column>
         </Columns>
       </div>
     );
+  };
+
+  handleCancelButtonIsClicked = () => {
+    this.setState({
+      displayChangeResidenceForm: true,
+      displayEligibilityRevoked: false,
+      displayResidenceSwapConfirmationModal: false
+    });
+  };
+
+  handleConfirmButtonIsClicked = async confirmationData => {
+    const payload = {
+      admissionNumber: confirmationData.admissionNumber,
+      currentResidenceCode: confirmationData.currentResidenceCode,
+      proposedResidenceCode: confirmationData.proposedResidenceCode,
+      currentTermBalance: confirmationData.currentTermBalance,
+      currentAnnualBalance: confirmationData.currentAnnualBalance,
+      expectedTermBalance: confirmationData.expectedTermBalance,
+      expectedAnnualBalance: confirmationData.expectedAnnualBalance,
+      changeExtraCharge: confirmationData.changeExtraCharge,
+      sessionLogId: this.props.sessionLogId
+    };
+
+    const apiResponse = await promiselessTransactionsServicePost(
+      payload,
+      "/change_student_residence/execute_residence_swap"
+    );
+    if (apiResponse.status === 200) {
+      this.props.fetchAllStudents();
+      this.props.closeModal();
+      this.setState({
+          displayChangeResidenceForm: true,
+          displayEligibilityRevoked: false,
+          displayResidenceSwapConfirmationModal: false,
+      })
+    }
   };
 
   render() {
@@ -236,4 +287,17 @@ class ChangeResidencePage extends Component {
   }
 }
 
-export default ChangeResidencePage;
+const mapDispatchToProps = dispatch => ({
+  fetchAllStudents: () => dispatch(fetchAllStudents())
+});
+
+ChangeResidencePage.propTypes = {
+  sessionLogId: PropTypes.string.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  fetchAllStudents: PropTypes.func.isRequired
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(ChangeResidencePage);
