@@ -62,7 +62,9 @@ class Table extends React.Component {
                           handleRowEditIsClicked={this.props.handleRowEditIsClicked}
                           isRowEditingRequired={this.props.isRowEditingRequired}
                           isRowDuplicationRequired={this.props.isRowDuplicationRequired}
-                          handleRowDuplicationIsClicked={this.props.handleRowDuplicationIsClicked}/>
+                          handleRowDuplicationIsClicked={this.props.handleRowDuplicationIsClicked}
+                          isRowMoreDetailsRequired={this.props.isRowMoreDetailsRequired}
+                          handleRowMoreDetailsIsClicked={this.props.handleRowMoreDetailsIsClicked}/>
             )
         })}
         </tbody>)
@@ -133,7 +135,9 @@ Table.propTypes = {
     handleRowEditIsClicked: PropTypes.func,
     isRowEditingRequired: PropTypes.bool,
     handleRowDuplicationIsClicked: PropTypes.func,
-    isRowDuplicationRequired: PropTypes.bool
+    handleRowMoreDetailsIsClicked: PropTypes.func,
+    isRowDuplicationRequired: PropTypes.bool,
+    isRowMoreDetailsRequired: PropTypes.bool
 };
 
 Table.defaultProps = {
@@ -156,7 +160,10 @@ Table.defaultProps = {
     isRowEditingRequired: false,
     handleRowDuplicationIsClicked: () => {
     },
-    isRowDuplicationRequired: false
+    handleRowMoreDetailsIsClicked: () => {
+    },
+    isRowDuplicationRequired: false,
+    isRowMoreDetailsRequired: false
 };
 
 export default Table;

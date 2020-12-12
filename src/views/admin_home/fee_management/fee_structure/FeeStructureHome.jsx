@@ -9,6 +9,8 @@ import {
 import Modal from "react-awesome-modal";
 import FeeStructuresModal from "./FeeStructuresModal";
 import {transactionsServicePost} from "../../../../services/transactions_service_connector/TransactionsServiceConnector";
+import EditFeeBreakDownModal from "./EditFeeBreakDownModal";
+import DuplicateFeeStructureModal from "./DuplicateFeeStructureModal";
 
 
 class FeeStructureHome extends Component {
@@ -23,7 +25,9 @@ class FeeStructureHome extends Component {
             columnFive: "Reference"
         },
         isFeeStructureModalDisplayed: false,
-        classFeeStructureModelList: []
+        classFeeStructureModelList: [],
+        rowDuplicationPayload: "",
+        isRowDuplicationModalDisplayed: false
     };
 
     componentDidMount() {
@@ -43,7 +47,8 @@ class FeeStructureHome extends Component {
                             DateCreated: item.dateCreated,
                             IsCurrentFeeStructure: item.isCurrentFeeStructure > 0 ? "Yes" : "No",
                             IsProspect: item.isProspectFeeStructure > 0 ? "Yes" : "No",
-                            reference: item.encodedFeeStructureId
+                            reference: item.encodedFeeStructureId,
+                            payload: item
                         };
                     }
                 );
@@ -54,16 +59,16 @@ class FeeStructureHome extends Component {
     }
 
     feeStructureItemIsClicked = async feeStructureObject => {
-        const { reference } = feeStructureObject;
+        const {feeStructureId} = feeStructureObject;
         const payload = {
-            encodedFeeStructureId: reference
+            feeStructureId: feeStructureId
         };
         const classFeeStructureModelList = await transactionsServicePost(
             payload,
-            "/class_fee_structure/retrieve_class_fee_structures_using_encoded_fee_structure_id"
+            "/class_fee_structure/retrieve_class_fee_structures_of_a_fee_structure"
         );
 
-        await this.setState({ classFeeStructureModelList: classFeeStructureModelList.data });
+        await this.setState({classFeeStructureModelList: classFeeStructureModelList.data});
 
         this.setState({isFeeStructureModalDisplayed: true});
     };
@@ -72,7 +77,17 @@ class FeeStructureHome extends Component {
         this.setState({isFeeStructureModalDisplayed: false});
     };
 
+    handleRowDuplicationIsClicked = async payload => {
+        await this.setState({rowDuplicationPayload: payload});
+        await this.setState({isRowDuplicationModalDisplayed: true});
+    };
+
+    closeFeeStructureDuplicationModal = () => {
+        this.setState({isRowDuplicationModalDisplayed: false});
+    };
+
     render() {
+        const {sessionDetails} = this.props;
         return (
             <div>
                 <div>
@@ -83,7 +98,10 @@ class FeeStructureHome extends Component {
                         tableTitle="Fee Structures"
                         tableHeaderObject={this.state.tableHeaders}
                         tableData={this.state.tableData}
-                        handleRowIsClicked={this.feeStructureItemIsClicked}
+                        isRowMoreDetailsRequired={true}
+                        handleRowMoreDetailsIsClicked={this.feeStructureItemIsClicked}
+                        isRowDuplicationRequired={true}
+                        handleRowDuplicationIsClicked={this.handleRowDuplicationIsClicked}
                     />
                 </div>
                 <Modal
@@ -96,6 +114,20 @@ class FeeStructureHome extends Component {
                     }}
                 >
                     <FeeStructuresModal classFeeStructureModelList={this.state.classFeeStructureModelList}/>
+                </Modal>
+                <Modal
+                    visible={this.state.isRowDuplicationModalDisplayed}
+                    width="500"
+                    height="350"
+                    effect="fadeInUp"
+                    onClickAway={() => {
+                        this.setState({isRowDuplicationModalDisplayed: false})
+                    }}
+                >
+                    <DuplicateFeeStructureModal feeStructureId={this.state.rowDuplicationPayload.feeStructureId}
+                                                userId={sessionDetails && sessionDetails.userId
+                                                    ? sessionDetails.userId
+                                                    : "N/A"} closeModal={this.closeFeeStructureDuplicationModal}/>
                 </Modal>
             </div>
         );
@@ -110,7 +142,8 @@ FeeStructureHome.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    allFeeStructures: state.admin_home.feeStructure.allFeeStructures
+    allFeeStructures: state.admin_home.feeStructure.allFeeStructures,
+    sessionDetails: state.current_session.sessionDetails
 });
 
 const mapDispatchToProps = dispatch => ({

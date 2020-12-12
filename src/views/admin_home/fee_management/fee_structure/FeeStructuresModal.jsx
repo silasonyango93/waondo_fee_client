@@ -41,9 +41,7 @@ class FeeStructuresModal extends Component {
             >
                 <Table tableTitle="Fee BreakDown" tableHeaderObject={feeBreakDownHeaderObject}
                        tableData={this.mapFeeBreakDownData(classFeeStructureArray[i].classFeeStructureBreakDown)}
-                       isRowEditingRequired={true} handleRowEditIsClicked={this.handleRowEditingIsClicked}
-                       isRowDuplicationRequired={true}
-                       handleRowDuplicationIsClicked={this.handleRowDuplicationIsClicked}/>
+                       isRowEditingRequired={true} handleRowEditIsClicked={this.handleRowEditingIsClicked}/>
                 <br/>
                 <Table tableTitle="Fee Items" tableHeaderObject={feeComponentHeaderObject}
                        tableData={this.mapFeeComponentData(classFeeStructureArray[i].classFeeStructureComponents)}/>
@@ -85,10 +83,6 @@ class FeeStructuresModal extends Component {
     handleRowEditingIsClicked = async payload => {
         await this.setState({currentRowPayload: payload});
         await this.setState({isRowEditModalDisplayed: true});
-    };
-
-    handleRowDuplicationIsClicked = payload => {
-
     };
 
     closeFeeStructureEditModal = () => {
