@@ -8,7 +8,7 @@ metadata:
 #    certmanager.k8s.io/cluster-issuer: "letsencrypt-staging"
 spec:
   rules:
-    - host: client.waondo.agweria.com
+    - host: client.waondosecondary.xyz
       http:
         paths:
           - path: /
