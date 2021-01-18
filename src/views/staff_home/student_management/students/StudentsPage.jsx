@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import Loader from 'react-loader-spinner'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+
+import './StudentPage.scss';
 
 
 import Table from "../../../../components/table/table_body/Table";
@@ -40,6 +44,17 @@ class StudentsPage extends Component {
         }
     }
 
+    displayLoader = () => {
+        return (
+            <Loader
+                type="Audio"
+                color="#ddd"
+                height={100}
+                width={100}
+            />
+        );
+    };
+
 
     handleTableRowIsClicked = async (rowObject) =>{
         const payload = {
@@ -67,9 +82,11 @@ class StudentsPage extends Component {
         };
 
         return (
-            <div id="main">
+            <div id="main" className="student__student-main">
                 <Table tableTitle="Student's List" tableHeaderObject={tableHeaders} tableData={this.state.tableData} handleRowIsClicked={this.handleTableRowIsClicked}/>
-
+                <div className="student__loader">
+                    {this.displayLoader()}
+                </div>
                 <Modal
                     visible={this.state.displayFeeStatementModal}
                     width="900"
