@@ -3,7 +3,7 @@ import {
     FEE_PAYMENT_SUCCESSFUL, STUDENT_FEE_STATEMENT_FETCHED_SUCCESSFULLY,
     STUDENT_REGISTRATION_FAILED,
     STUDENTS_FETCHED_SUCCESSFULLY,
-    SCHOOL_FETCH_MINIMUM_FEE_BALANCE_SUCCESSFUL
+    SCHOOL_FETCH_MINIMUM_FEE_BALANCE_SUCCESSFUL, STUDENT_REGISTRATION_SUCCESSFUL, RESET_STUDENT_REGISTRATION
 } from "./actionTypes";
 
 
@@ -16,6 +16,16 @@ export const ACTION_HANDLERS = {
     [STUDENT_REGISTRATION_FAILED]: (state, action) =>
         Object.assign({}, state, {
             studentRegistration: { studentRegistrationEventMessage: action.payload.studentRegistrationEventMessage,
+                isStudentSuccessfullyRegistered: false}
+        }),
+    [STUDENT_REGISTRATION_SUCCESSFUL]: (state, action) =>
+        Object.assign({}, state, {
+            studentRegistration: { studentRegistrationEventMessage: action.payload.studentRegistrationEventMessage,
+                isStudentSuccessfullyRegistered: true}
+        }),
+    [RESET_STUDENT_REGISTRATION]: (state, action) =>
+        Object.assign({}, state, {
+            studentRegistration: {
                 isStudentSuccessfullyRegistered: false}
         }),
 

@@ -18,7 +18,7 @@ import {
   ERROR_OCCURRED_WHILE_FETCHING_SCHOOL_MINIMUM_FEE_BALANCE,
   STUDENT_BASIC_DETAILS_UPDATED_SUCCESSFULLY,
   STUDENT_BASIC_DETAILS_UPDATE_FAILED,
-  ERROR_OCCURRED_WHILE_UPDATING_STUDENT_BASIC_DETAILS
+  ERROR_OCCURRED_WHILE_UPDATING_STUDENT_BASIC_DETAILS, RESET_STUDENT_REGISTRATION
 } from "./actionTypes";
 
 export function registerAStudent(payload) {
@@ -29,7 +29,10 @@ export function registerAStudent(payload) {
       function(result) {
         if (result.data.successStatus) {
           dispatch({
-            type: STUDENT_REGISTRATION_SUCCESSFUL
+            type: STUDENT_REGISTRATION_SUCCESSFUL,
+            payload: {
+              studentRegistrationEventMessage: result.data.responseMessage
+            }
           });
         } else {
           dispatch({
@@ -47,6 +50,14 @@ export function registerAStudent(payload) {
         console.log(err);
       }
     );
+  };
+}
+
+export function resetSuccessfulStudentRegistration() {
+  return async dispatch => {
+    dispatch({
+      type: RESET_STUDENT_REGISTRATION
+    });
   };
 }
 

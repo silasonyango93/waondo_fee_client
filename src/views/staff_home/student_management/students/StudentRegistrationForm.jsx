@@ -10,7 +10,8 @@ import "../../../../config/common/ReactDatePicker.css";
 import { ip } from "../../../../config/EndPoint";
 import { fetchAllActualClasses } from "../../../../store/modules/admin_home/actions";
 import { format } from "../../../../config/common/Utils";
-import { registerAStudent } from "../../../../store/modules/staff_home/actions";
+import {registerAStudent, resetSuccessfulStudentRegistration} from "../../../../store/modules/staff_home/actions";
+import SuccessFailureModal from "../../../../components/modals/success_failure_modal/SuccessFailureModal";
 
 class StudentRegistrationForm extends Component {
   state = {
@@ -128,11 +129,11 @@ class StudentRegistrationForm extends Component {
       admissionNo: this.state.admissionNumber,
       profPicName:
         this.state.SelectedGenderId.value === "1"
-          ? "male_student.png"
-          : "female_student.png",
-      genderId: this.state.SelectedGenderId.value,
+          ? "3ec8040e7d0ab98c823d9e51976ddba8"
+          : "b099684dc50f900b91273b14a1d6627f",
+      genderCode: this.state.SelectedGenderId.value,
       studentDob: dateOfBirth,
-      studentResidenceId: this.state.SelectedStudentType.value,
+      studentResidenceCode: this.state.SelectedStudentType.value,
       classId: this.state.selectedClassOption.value,
       registrationSessionId:
         this.props.sessionDetails &&
@@ -222,241 +223,263 @@ class StudentRegistrationForm extends Component {
     this.props.registerAStudent(payload);
   };
 
-  render() {
+  renderForm = () => {
     return (
-      <div>
-        <div className="login-panel panel panel-default dialog__main-body">
-          <div className="panel-heading">
-            <h3 className="panel-title">Student Details</h3>
-          </div>
-          <div className="panel-body">
-            <form
-              action=""
-              method="POST"
-              onSubmit={this.handleSubmit}
-              encType="multipart/form-data"
-            >
-              <fieldset>
-                <Columns>
-                  <Columns.Column size="one-half">
-                    <div className="form-group">
-                      <input
-                        name="studentName"
-                        className={
-                          this.state.studentNameHasError
-                            ? "form-control personal__text-area-error"
-                            : "form-control"
-                        }
-                        placeholder="Student Name"
-                        value={this.state.studentName}
-                        type="text"
-                        onChange={this.handleChange}
-                        autoFocus
-                        required={true}
-                      />
-                      <p
-                        className={
-                          this.state.studentNameHasError
-                            ? "personal__submision-error"
-                            : "personal__hide"
-                        }
-                      >
-                        {this.state.studentNameErrorMessage}
-                      </p>
-                    </div>
-                  </Columns.Column>
-
-                  <Columns.Column size="one-half">
-                    <div className="form-group">
+        <div>
+          <div className="login-panel panel panel-default dialog__main-body">
+            <div className="panel-heading">
+              <h3 className="panel-title">Student Details</h3>
+            </div>
+            <div className="panel-body">
+              <form
+                  action=""
+                  method="POST"
+                  onSubmit={this.handleSubmit}
+                  encType="multipart/form-data"
+              >
+                <fieldset>
+                  <Columns>
+                    <Columns.Column size="one-half">
                       <div className="form-group">
-                        <Select
-                          className={
-                            this.state.SelectedGenderIdHasError
-                              ? "react-select personal__text-area-error"
-                              : "react-select"
-                          }
-                          classNamePrefix="react-select"
-                          placeholder="Gender"
-                          name="SelectedGenderId"
-                          closeMenuOnSelect={true}
-                          value={this.state.SelectedGenderId}
-                          onChange={value =>
-                            this.setState({
-                              ...this.state,
-                              SelectedGenderId: value
-                            })
-                          }
-                          options={this.state.genderCategories}
+                        <input
+                            name="studentName"
+                            className={
+                              this.state.studentNameHasError
+                                  ? "form-control personal__text-area-error"
+                                  : "form-control"
+                            }
+                            placeholder="Student Name"
+                            value={this.state.studentName}
+                            type="text"
+                            onChange={this.handleChange}
+                            autoFocus
+                            required={true}
                         />
                         <p
-                          className={
-                            this.state.SelectedGenderIdHasError
-                              ? "personal__submision-error"
-                              : "personal__hide"
-                          }
+                            className={
+                              this.state.studentNameHasError
+                                  ? "personal__submision-error"
+                                  : "personal__hide"
+                            }
                         >
-                          {this.state.SelectedGenderIdErrorMessage}
+                          {this.state.studentNameErrorMessage}
                         </p>
                       </div>
-                    </div>
-                  </Columns.Column>
-                </Columns>
+                    </Columns.Column>
 
-                <Columns>
-                  <Columns.Column size="one-half">
-                    <div className="form-group">
-                      <ReactDatetime
-                        name="dateOfBirth"
-                        value={this.state.dateOfBirth}
-                        onChange={value =>
-                          this.setState({
-                            ...this.state,
-                            dateOfBirth: value
-                          })
-                        }
-                        inputProps={{
-                          className: "form-control",
-                          placeholder: "Date Of Birth"
-                        }}
-                        timeFormat={false}
-                      />
-                      <p
-                        className={
-                          this.state.dateOfBirthHasError
-                            ? "personal__submision-error"
+                    <Columns.Column size="one-half">
+                      <div className="form-group">
+                        <div className="form-group">
+                          <Select
+                              className={
+                                this.state.SelectedGenderIdHasError
+                                    ? "react-select personal__text-area-error"
+                                    : "react-select"
+                              }
+                              classNamePrefix="react-select"
+                              placeholder="Gender"
+                              name="SelectedGenderId"
+                              closeMenuOnSelect={true}
+                              value={this.state.SelectedGenderId}
+                              onChange={value =>
+                                  this.setState({
+                                    ...this.state,
+                                    SelectedGenderId: value
+                                  })
+                              }
+                              options={this.state.genderCategories}
+                          />
+                          <p
+                              className={
+                                this.state.SelectedGenderIdHasError
+                                    ? "personal__submision-error"
+                                    : "personal__hide"
+                              }
+                          >
+                            {this.state.SelectedGenderIdErrorMessage}
+                          </p>
+                        </div>
+                      </div>
+                    </Columns.Column>
+                  </Columns>
+
+                  <Columns>
+                    <Columns.Column size="one-half">
+                      <div className="form-group">
+                        <ReactDatetime
+                            name="dateOfBirth"
+                            value={this.state.dateOfBirth}
+                            onChange={value =>
+                                this.setState({
+                                  ...this.state,
+                                  dateOfBirth: value
+                                })
+                            }
+                            inputProps={{
+                              className: "form-control",
+                              placeholder: "Date Of Birth"
+                            }}
+                            timeFormat={false}
+                        />
+                        <p
+                            className={
+                              this.state.dateOfBirthHasError
+                                  ? "personal__submision-error"
+                                  : "personal__hide"
+                            }
+                        >
+                          {this.state.dateOfBirthErrorMessage}
+                        </p>
+                      </div>
+                    </Columns.Column>
+
+                    <Columns.Column size="one-half">
+                      <div className="form-group">
+                        <input
+                            name="admissionNumber"
+                            className={
+                              this.state.admissionNumberHasError
+                                  ? "form-control personal__text-area-error"
+                                  : "form-control"
+                            }
+                            placeholder="Admission Number"
+                            value={this.state.admissionNumber}
+                            type="number"
+                            onChange={this.handleChange}
+                            autoFocus
+                            required={true}
+                        />
+                        <p
+                            className={
+                              this.state.admissionNumberHasError
+                                  ? "personal__submision-error"
+                                  : "personal__hide"
+                            }
+                        >
+                          {this.state.admissionNumberErrorMessage}
+                        </p>
+                      </div>
+                    </Columns.Column>
+                  </Columns>
+
+                  <Columns>
+                    <Columns.Column size="one-half">
+                      <div className="form-group">
+                        <Select
+                            className={
+                              this.state.selectedClassOptionHasError
+                                  ? "react-select personal__text-area-error"
+                                  : "react-select"
+                            }
+                            classNamePrefix="react-select"
+                            placeholder="Class"
+                            name="selectedClassOption"
+                            closeMenuOnSelect={true}
+                            value={this.state.selectedClassOption}
+                            onChange={value =>
+                                this.setState({
+                                  ...this.state,
+                                  selectedClassOption: value
+                                })
+                            }
+                            options={this.state.classOptions}
+                        />
+                        <p
+                            className={
+                              this.state.selectedClassOptionHasError
+                                  ? "personal__submision-error"
+                                  : "personal__hide"
+                            }
+                        >
+                          {this.state.selectedClassOptionErrorMessage}
+                        </p>
+                      </div>
+                    </Columns.Column>
+
+                    <Columns.Column size="one-half">
+                      <div className="form-group">
+                        <Select
+                            className={
+                              this.state.SelectedStudentTypeHasError
+                                  ? "react-select personal__text-area-error"
+                                  : "react-select"
+                            }
+                            classNamePrefix="react-select"
+                            placeholder="Residence"
+                            name="SelectedStudentType"
+                            closeMenuOnSelect={true}
+                            value={this.state.SelectedStudentType}
+                            onChange={value =>
+                                this.setState({
+                                  ...this.state,
+                                  SelectedStudentType: value
+                                })
+                            }
+                            options={this.state.studentTypeOptions}
+                        />
+                        <p
+                            className={
+                              this.state.SelectedStudentTypeHasError
+                                  ? "personal__submision-error"
+                                  : "personal__hide"
+                            }
+                        >
+                          {this.state.SelectedStudentTypeErrorMessage}
+                        </p>
+                      </div>
+                    </Columns.Column>
+                  </Columns>
+
+                  <div className="form-group">
+                    <input
+                        type="file"
+                        id="image"
+                        accept="image/png, image/jpeg"
+                        onChange={this.handleImageChange}
+                    />
+                  </div>
+
+                  <button
+                      type="submit"
+                      className="btn btn-lg btn-success btn-block"
+                  >
+                    Submit
+                  </button>
+                  <p
+                      className={
+                        !this.props.isStudentSuccessfullyRegistered
+                            ? "personal__error-text"
                             : "personal__hide"
-                        }
-                      >
-                        {this.state.dateOfBirthErrorMessage}
-                      </p>
-                    </div>
-                  </Columns.Column>
-
-                  <Columns.Column size="one-half">
-                    <div className="form-group">
-                      <input
-                        name="admissionNumber"
-                        className={
-                          this.state.admissionNumberHasError
-                            ? "form-control personal__text-area-error"
-                            : "form-control"
-                        }
-                        placeholder="Admission Number"
-                        value={this.state.admissionNumber}
-                        type="number"
-                        onChange={this.handleChange}
-                        autoFocus
-                        required={true}
-                      />
-                      <p
-                        className={
-                          this.state.admissionNumberHasError
-                            ? "personal__submision-error"
-                            : "personal__hide"
-                        }
-                      >
-                        {this.state.admissionNumberErrorMessage}
-                      </p>
-                    </div>
-                  </Columns.Column>
-                </Columns>
-
-                <Columns>
-                  <Columns.Column size="one-half">
-                    <div className="form-group">
-                      <Select
-                        className={
-                          this.state.selectedClassOptionHasError
-                            ? "react-select personal__text-area-error"
-                            : "react-select"
-                        }
-                        classNamePrefix="react-select"
-                        placeholder="Class"
-                        name="selectedClassOption"
-                        closeMenuOnSelect={true}
-                        value={this.state.selectedClassOption}
-                        onChange={value =>
-                          this.setState({
-                            ...this.state,
-                            selectedClassOption: value
-                          })
-                        }
-                        options={this.state.classOptions}
-                      />
-                      <p
-                        className={
-                          this.state.selectedClassOptionHasError
-                            ? "personal__submision-error"
-                            : "personal__hide"
-                        }
-                      >
-                        {this.state.selectedClassOptionErrorMessage}
-                      </p>
-                    </div>
-                  </Columns.Column>
-
-                  <Columns.Column size="one-half">
-                    <div className="form-group">
-                      <Select
-                        className={
-                          this.state.SelectedStudentTypeHasError
-                            ? "react-select personal__text-area-error"
-                            : "react-select"
-                        }
-                        classNamePrefix="react-select"
-                        placeholder="Residence"
-                        name="SelectedStudentType"
-                        closeMenuOnSelect={true}
-                        value={this.state.SelectedStudentType}
-                        onChange={value =>
-                          this.setState({
-                            ...this.state,
-                            SelectedStudentType: value
-                          })
-                        }
-                        options={this.state.studentTypeOptions}
-                      />
-                      <p
-                        className={
-                          this.state.SelectedStudentTypeHasError
-                            ? "personal__submision-error"
-                            : "personal__hide"
-                        }
-                      >
-                        {this.state.SelectedStudentTypeErrorMessage}
-                      </p>
-                    </div>
-                  </Columns.Column>
-                </Columns>
-
-                <div className="form-group">
-                  <input
-                    type="file"
-                    id="image"
-                    accept="image/png, image/jpeg"
-                    onChange={this.handleImageChange}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="btn btn-lg btn-success btn-block"
-                >
-                  Submit
-                </button>
-                <p
-                  className={
-                    !this.props.isStudentSuccessfullyRegistered
-                      ? "personal__error-text"
-                      : "personal__hide"
-                  }
-                >
-                  {this.props.studentRegistrationEventMessage}
-                </p>
-              </fieldset>
-            </form>
+                      }
+                  >
+                    {this.props.studentRegistrationEventMessage}
+                  </p>
+                </fieldset>
+              </form>
+            </div>
           </div>
         </div>
+    );
+  };
+
+  renderSuccessDialog = () => {
+    return (
+        <div>
+          <SuccessFailureModal isASuccess={true} eventMessage="Student registered successfully" handleModalExteriorClicked={this.handleSuccessDialogExteriorClicked}/>
+        </div>
+    );
+  };
+
+  handleSuccessDialogExteriorClicked = () => {
+    this.props.resetSuccessfulStudentRegistration();
+  };
+
+  render() {
+    const { isStudentSuccessfullyRegistered } = this.props;
+    return (
+      <div>
+        {!isStudentSuccessfullyRegistered && this.renderForm()}
+        {isStudentSuccessfullyRegistered && this.renderSuccessDialog()}
       </div>
     );
   }
@@ -466,6 +489,7 @@ StudentRegistrationForm.propTypes = {
   fetchAllActualClasses: PropTypes.func.isRequired,
   allActualClasses: PropTypes.arrayOf(PropTypes.object).isRequired,
   registerAStudent: PropTypes.func.isRequired,
+  resetSuccessfulStudentRegistration: PropTypes.func.isRequired,
   studentRegistrationEventMessage: PropTypes.string.isRequired,
   isStudentSuccessfullyRegistered: PropTypes.bool.isRequired,
   sessionDetails: PropTypes.object.isRequired
@@ -482,7 +506,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchAllActualClasses: () => dispatch(fetchAllActualClasses()),
-  registerAStudent: payload => dispatch(registerAStudent(payload))
+  registerAStudent: payload => dispatch(registerAStudent(payload)),
+  resetSuccessfulStudentRegistration: () => dispatch(resetSuccessfulStudentRegistration())
 });
 
 export default connect(
