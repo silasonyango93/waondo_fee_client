@@ -10,6 +10,7 @@ import Table from "../../../../components/table/table_body/Table";
 import html2pdf from "html2pdf.js";
 import {ip} from "../../../../config/EndPoint";
 import schoolLogo from '../../../../assets/waondo.png';
+import {transactionsServiceGet} from "../../../../services/transactions_service_connector/TransactionsServiceConnector";
 
 
 
@@ -19,6 +20,7 @@ class FeeStatementView extends Component {
         tableData: [],
         currentStudentFeeStatement: ''
     };
+
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(this.props.currentStudentFeeStatement !== prevProps.currentStudentFeeStatement) {
@@ -41,46 +43,6 @@ class FeeStatementView extends Component {
         }
     }
 
-    generatePdf = () => {
-        const element = document.getElementById("fee-statement");
-        html2pdf()
-            .set({ html2canvas: { scale: 8 } })
-            .from(element)
-            .save();
-    };
-
-    printDiv = () =>{
-        html2canvas(document.getElementById("fee-statement"), {scale: 8,allowTaint: true,useCORS : true}).then(canvas => {
-            // var link = document.createElement('a');
-            // link.download = 'receipt.png';
-            // link.href = canvas.toDataURL()
-            // link.click();
-
-
-            var pdf = null;
-            if(canvas.width > canvas.height){
-               pdf = new jsPDF('l', 'mm', [canvas.width, canvas.height],{
-                    orientation: 'landscape',
-                        unit: 'in',
-                        format: [4, 2]
-                });
-            }
-            else{
-              pdf = new jsPDF('p', 'mm', [canvas.height, canvas.width],{
-                  orientation: 'landscape',
-                  unit: 'in',
-                  format: [4, 2]
-              });
-            }
-
-
-
-            //var imgData = canvas.toDataURL()
-            pdf.addImage(canvas, 'JPEG', 0, 0);
-            pdf.save(this.props.currentStudentFeeStatement.studentName +" - fee statement");
-        });
-    };
-
     render() {
 
         const tableHeader = {
@@ -97,7 +59,7 @@ class FeeStatementView extends Component {
         } = this.props;
 
         return (
-            <div className="statement__main-body" id="fee-statement" onClick={()=>{this.printDiv();}}>
+            <div className="statement__main-body" id="fee-statement">
                 <div className="statement__top-section">
                     <Columns className="is-gapless">
                         <Columns.Column size="one-quarter">
@@ -116,14 +78,16 @@ class FeeStatementView extends Component {
 
                         </Columns.Column>
                         <Columns.Column size="one-quarter">
+                            <a href={"http://transaction.livelihoodzone.xyz/statements/export/pdf?studentId=" + currentStudentFeeStatement.studentId}>
                             <img className="statement__pic-div" src={schoolLogo}></img>
+                            </a>
                         </Columns.Column>
                     </Columns>
 
 
                 </div>
 
-                <table width="100%" className="statement__statement-table table table-striped table-bordered table-hover" id="dataTables-example">
+                <table width="100%" className="statement__statement-table table table-striped table-bordered table-hover" id="dataTables-example" >
                     <thead>
                     <tr>
 

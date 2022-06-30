@@ -5,10 +5,10 @@ metadata:
   name: waondo-react-client
   annotations:
     kubernetes.io/ingress.class: nginx
-#    certmanager.k8s.io/cluster-issuer: "letsencrypt-staging"
+#    certmanager.k8s.io/cluster-issuer: "letsencrypt-staging"hhbvgvgfddcfrcd
 spec:
   rules:
-    - host: client.waondosecondary.xyz
+    - host: waondo.livelihoodzone.xyz
       http:
         paths:
           - path: /

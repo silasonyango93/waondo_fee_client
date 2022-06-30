@@ -56,3 +56,5 @@ export const promiselessJsonTransactionsServicePost = (payload, apiRoute) =>
         transactionsIp + apiRoute,
         payload
     );
+
+export const transactionsServiceGet = apiRoute => jsonAxiosInstance.get(transactionsIp + apiRoute);

@@ -9,6 +9,7 @@ import GhostButton from "../../../components/buttons/ghost_buttons/GhostButton";
 import { ip } from "../../../config/EndPoint";
 import { currencyDisplay } from "../../../config/common/Utils";
 import {payFee} from "../../../store/modules/staff_home/actions";
+import {transactionsServiceGet} from "../../../services/transactions_service_connector/TransactionsServiceConnector";
 
 class FeePaymentConfirmationModal extends Component {
 

@@ -1,4 +1,7 @@
-import { transactionsServicePost } from "../../../services/transactions_service_connector/TransactionsServiceConnector";
+import {
+  transactionsServiceGet,
+  transactionsServicePost
+} from "../../../services/transactions_service_connector/TransactionsServiceConnector";
 import {
   ERROR_OCCURRED_WHILE_PAYING_FEE,
   ERROR_WHILE_REGISTERING_STUDENT,
