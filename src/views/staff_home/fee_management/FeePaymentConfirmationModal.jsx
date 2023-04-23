@@ -27,7 +27,9 @@ class FeePaymentConfirmationModal extends Component {
         };
 
         await this.props.payFee(payload);
-        this.props.history.push("/fee_statement");
+        //window.open('/fee_statement', '_blank', 'noopener,noreferrer');
+        //this.props.history.push("/fee_statement");
+        this.props.launchFeeStatementModal();
     };
 
   render() {

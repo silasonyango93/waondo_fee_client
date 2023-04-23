@@ -1,32 +1,32 @@
-import React, { Component } from "react";
-import { Columns, Container } from "react-bulma-components";
+import React, {Component} from "react";
+import {Columns, Container} from "react-bulma-components";
 import IdleTimer from "react-idle-timer";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 
-import { DEBOUNCE, IDLE_TIMEOUT } from "../../config/constants/Constants";
-import { terminateCurrentSession } from "../../store/modules/current_session/actions";
+import {DEBOUNCE, IDLE_TIMEOUT} from "../../config/constants/Constants";
+import {terminateCurrentSession} from "../../store/modules/current_session/actions";
 import TopBar from "../../components/topbar/TopBar";
 import {
-  CHANGE_STUDENT_RESIDENCE,
-  CORRECT_STUDENT_PERSONAL_DETAILS,
-  PAY_FEE,
-  REGISTER_A_STUDENT_PAGE,
-  SEND_HOME_FROM_ENTIRE_SCHOOL,
-  SEND_HOME_PER_CLASS
+    CHANGE_STUDENT_RESIDENCE,
+    CORRECT_STUDENT_PERSONAL_DETAILS,
+    PAY_FEE,
+    REGISTER_A_STUDENT_PAGE,
+    SEND_HOME_FROM_ENTIRE_SCHOOL,
+    SEND_HOME_PER_CLASS
 } from "./StaffHomeConstants";
 import StudentsPage from "./student_management/students/StudentsPage";
 import StaffSideBar from "../../components/sidebar/StaffSideBar";
 import Modal from "react-awesome-modal";
 import StudentRegistrationForm from "./student_management/students/StudentRegistrationForm";
-import { BURSAR_ROLE } from "../../config/constants/RolesConfig";
+import {BURSAR_ROLE} from "../../config/constants/RolesConfig";
 import {
-  CHANGE_A_STUDENT_RESIDENCE_ACCESS_PRIVILEGE,
-  CORRECT_A_STUDENT_PERSONAL_DETAILS_ACCESS_PRIVILEGE,
-  REGISTER_A_FEE_INSTALLMENT_ACCESS_PRIVILEGE,
-  REGISTER_A_STUDENT_ACCESS_PRIVILEGE
+    CHANGE_A_STUDENT_RESIDENCE_ACCESS_PRIVILEGE,
+    CORRECT_A_STUDENT_PERSONAL_DETAILS_ACCESS_PRIVILEGE,
+    REGISTER_A_FEE_INSTALLMENT_ACCESS_PRIVILEGE,
+    REGISTER_A_STUDENT_ACCESS_PRIVILEGE
 } from "../../config/constants/AccessPrivilegesConfig";
-import { PERMISSION_GRANTED } from "../../config/constants/PermisionStatus";
+import {PERMISSION_GRANTED} from "../../config/constants/PermisionStatus";
 import ErrorPage from "../../components/error_page/ErrorPage";
 import FeePaymentForm from "./fee_management/FeePaymentForm";
 import FeePaymentConfirmationModal from "./fee_management/FeePaymentConfirmationModal";
@@ -37,459 +37,463 @@ import TitlePanel from "../../components/title_panel/TitlePanel";
 import FeeBalancePage from "./fee_management/fee_balance/FeeBalancePage";
 import SchoolFeeQueryForm from "./fee_management/fee_balance/overral_school/SchoolFeeQueryForm";
 import PerClassFeeQueryForm from "./fee_management/fee_balance/per_class/PerClassFeeQueryForm";
-import PersonalDetailsCorrectionForm from "./student_management/personal_details_correction/PersonalDetailsCorrectionForm";
+import PersonalDetailsCorrectionForm
+    from "./student_management/personal_details_correction/PersonalDetailsCorrectionForm";
 import SuccessFailureModal from "../../components/modals/success_failure_modal/SuccessFailureModal";
 import ChangeResidencePage from "./residence_management/ChangeResidencePage";
 
 class StaffHome extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      successFailureModalBoolean: false,
-      pagePanelTitle: "School student's list",
-      displayFeeStatementModal: false,
-      feePayload: "",
-      displayStudents: true,
-      displayStaffHomeModal: false,
-      displayStudentRegistrationForm: false,
-      displayPayFeeForm: false,
-      displayFeePaymentConfirmationModal: false,
-      displayStudentsPage: true,
-      displayFeeBalancePage: false,
-      displayFeeBalanceModal: false,
-      displaySchoolFeeQueryForm: false,
-      displayPerClassFeeQueryForm: false,
-      displayStudentPersonalDetailsCorrectionForm: false,
-      displaySuccessFailureModal: false,
-      displayChangeResidenceModal: false
+    constructor(props) {
+        super(props);
+        this.state = {
+            successFailureModalBoolean: false,
+            pagePanelTitle: "School student's list",
+            displayFeeStatementModal: false,
+            feePayload: "",
+            displayStudents: true,
+            displayStaffHomeModal: false,
+            displayStudentRegistrationForm: false,
+            displayPayFeeForm: false,
+            displayFeePaymentConfirmationModal: false,
+            displayStudentsPage: true,
+            displayFeeBalancePage: false,
+            displayFeeBalanceModal: false,
+            displaySchoolFeeQueryForm: false,
+            displayPerClassFeeQueryForm: false,
+            displayStudentPersonalDetailsCorrectionForm: false,
+            displaySuccessFailureModal: false,
+            displayChangeResidenceModal: false
+        };
+        this.idleTimer = null;
+    }
+
+    componentDidMount() {
+        if (!this.props.isSessionActive) {
+            window.location.assign("/");
+        } else {
+            window.addEventListener("beforeunload", this.handleTabClosed);
+        }
+    }
+
+    componentDidUpdate() {
+        if (!this.props.isSessionActive) {
+            this.props.history.push("/");
+        }
+    }
+
+    handleTabClosed = e => {
+        e.preventDefault();
+        const {sessionDetails} = this.props;
+
+        const payload = {
+            ColumnName: "SessionLogId",
+            ColumnValue: sessionDetails.sessionLogsEntity.sessionLogId
+        };
+        this.props.terminateCurrentSession(payload);
     };
-    this.idleTimer = null;
-  }
 
-  componentDidMount() {
-    if (!this.props.isSessionActive) {
-      window.location.assign("/");
-    } else {
-      window.addEventListener("beforeunload", this.handleTabClosed);
-    }
-  }
-
-  componentDidUpdate() {
-    if (!this.props.isSessionActive) {
-      this.props.history.push("/");
-    }
-  }
-
-  handleTabClosed = e => {
-    e.preventDefault();
-    const { sessionDetails } = this.props;
-
-    const payload = {
-      ColumnName: "SessionLogId",
-      ColumnValue: sessionDetails.sessionLogsEntity.sessionLogId
+    handleSideBarClicked = formToDisplay => {
+        if (formToDisplay === REGISTER_A_STUDENT_PAGE) {
+            this.setState({
+                displayStaffHomeModal: true,
+                displayStudentRegistrationForm: true,
+                displayPayFeeForm: false,
+                displayFeePaymentConfirmationModal: false,
+                displayStudentPersonalDetailsCorrectionForm: false,
+                displaySuccessFailureModal: false,
+                displayChangeResidenceModal: false
+            });
+        } else if (formToDisplay === PAY_FEE) {
+            this.setState({
+                displayStaffHomeModal: true,
+                displayPayFeeForm: true,
+                displayStudentRegistrationForm: false,
+                displayFeePaymentConfirmationModal: false,
+                displayStudentPersonalDetailsCorrectionForm: false,
+                displaySuccessFailureModal: false,
+                displayChangeResidenceModal: false
+            });
+        } else if (formToDisplay === SEND_HOME_FROM_ENTIRE_SCHOOL) {
+            this.setState({
+                displayStaffHomeModal: false,
+                displayPayFeeForm: false,
+                displayStudentRegistrationForm: false,
+                displayFeePaymentConfirmationModal: false,
+                displayStudentsPage: false,
+                displayFeeBalanceModal: true,
+                displayFeeBalancePage: true,
+                displaySchoolFeeQueryForm: true,
+                displayPerClassFeeQueryForm: false,
+                displaySuccessFailureModal: false,
+                displayChangeResidenceModal: false
+            });
+        } else if (formToDisplay === SEND_HOME_PER_CLASS) {
+            this.setState({
+                displayStaffHomeModal: false,
+                displayPayFeeForm: false,
+                displayStudentRegistrationForm: false,
+                displayFeePaymentConfirmationModal: false,
+                displayStudentsPage: false,
+                displayFeeBalanceModal: true,
+                displayFeeBalancePage: true,
+                displaySchoolFeeQueryForm: false,
+                displayPerClassFeeQueryForm: true,
+                displaySuccessFailureModal: false,
+                displayChangeResidenceModal: false
+            });
+        } else if (formToDisplay === CORRECT_STUDENT_PERSONAL_DETAILS) {
+            this.setState({
+                displayStaffHomeModal: true,
+                displayPayFeeForm: false,
+                displayStudentRegistrationForm: false,
+                displayFeePaymentConfirmationModal: false,
+                displayStudentPersonalDetailsCorrectionForm: true,
+                displaySuccessFailureModal: false,
+                displayChangeResidenceModal: false
+            });
+        } else if (formToDisplay === CHANGE_STUDENT_RESIDENCE) {
+            this.setState({
+                displayStaffHomeModal: true,
+                displayPayFeeForm: false,
+                displayStudentRegistrationForm: false,
+                displayFeePaymentConfirmationModal: false,
+                displayStudentPersonalDetailsCorrectionForm: false,
+                displaySuccessFailureModal: false,
+                displayChangeResidenceModal: true
+            });
+        }
     };
-    this.props.terminateCurrentSession(payload);
-  };
 
-  handleSideBarClicked = formToDisplay => {
-    if (formToDisplay === REGISTER_A_STUDENT_PAGE) {
-      this.setState({
-        displayStaffHomeModal: true,
-        displayStudentRegistrationForm: true,
-        displayPayFeeForm: false,
-        displayFeePaymentConfirmationModal: false,
-        displayStudentPersonalDetailsCorrectionForm: false,
-        displaySuccessFailureModal: false,
-        displayChangeResidenceModal: false
-      });
-    } else if (formToDisplay === PAY_FEE) {
-      this.setState({
-        displayStaffHomeModal: true,
-        displayPayFeeForm: true,
-        displayStudentRegistrationForm: false,
-        displayFeePaymentConfirmationModal: false,
-        displayStudentPersonalDetailsCorrectionForm: false,
-        displaySuccessFailureModal: false,
-        displayChangeResidenceModal: false
-      });
-    } else if (formToDisplay === SEND_HOME_FROM_ENTIRE_SCHOOL) {
-      this.setState({
-        displayStaffHomeModal: false,
-        displayPayFeeForm: false,
-        displayStudentRegistrationForm: false,
-        displayFeePaymentConfirmationModal: false,
-        displayStudentsPage: false,
-        displayFeeBalanceModal: true,
-        displayFeeBalancePage: true,
-        displaySchoolFeeQueryForm: true,
-        displayPerClassFeeQueryForm: false,
-        displaySuccessFailureModal: false,
-        displayChangeResidenceModal: false
-      });
-    } else if (formToDisplay === SEND_HOME_PER_CLASS) {
-      this.setState({
-        displayStaffHomeModal: false,
-        displayPayFeeForm: false,
-        displayStudentRegistrationForm: false,
-        displayFeePaymentConfirmationModal: false,
-        displayStudentsPage: false,
-        displayFeeBalanceModal: true,
-        displayFeeBalancePage: true,
-        displaySchoolFeeQueryForm: false,
-        displayPerClassFeeQueryForm: true,
-        displaySuccessFailureModal: false,
-        displayChangeResidenceModal: false
-      });
-    } else if (formToDisplay === CORRECT_STUDENT_PERSONAL_DETAILS) {
-      this.setState({
-        displayStaffHomeModal: true,
-        displayPayFeeForm: false,
-        displayStudentRegistrationForm: false,
-        displayFeePaymentConfirmationModal: false,
-        displayStudentPersonalDetailsCorrectionForm: true,
-        displaySuccessFailureModal: false,
-        displayChangeResidenceModal: false
-      });
-    } else if (formToDisplay === CHANGE_STUDENT_RESIDENCE) {
-      this.setState({
-        displayStaffHomeModal: true,
-        displayPayFeeForm: false,
-        displayStudentRegistrationForm: false,
-        displayFeePaymentConfirmationModal: false,
-        displayStudentPersonalDetailsCorrectionForm: false,
-        displaySuccessFailureModal: false,
-        displayChangeResidenceModal: true
-      });
-    }
-  };
+    onIdle = e => {
+        const {sessionDetails} = this.props;
 
-  onIdle = e => {
-    const { sessionDetails } = this.props;
-
-    const payload = {
-      ColumnName: "SessionLogId",
-      ColumnValue: sessionDetails.sessionLogsEntity.sessionLogId
+        const payload = {
+            ColumnName: "SessionLogId",
+            ColumnValue: sessionDetails.sessionLogsEntity.sessionLogId
+        };
+        this.props.terminateCurrentSession(payload);
+        this.props.history.push("/");
     };
-    this.props.terminateCurrentSession(payload);
-    this.props.history.push("/");
-  };
 
-  isAccessGranted = accessPrivilege => {
-    const { sessionDetails } = this.props;
+    isAccessGranted = accessPrivilege => {
+        const {sessionDetails} = this.props;
 
-    let userAccessPrivilege = [];
+        let userAccessPrivilege = [];
 
-    if (
-      sessionDetails &&
-      sessionDetails.userRolesDtoList &&
-      sessionDetails.userRolesDtoList.length
-    ) {
-      const userRole = sessionDetails.userRolesDtoList.filter(
-        roleItem => roleItem.roleCode === BURSAR_ROLE
-      );
-      userAccessPrivilege = userRole[0].userAccessPrivilegesDtoList.filter(
-        privilegeItem =>
-          privilegeItem.accessPrivilegeCode === accessPrivilege &&
-          privilegeItem.permisionStatus === PERMISSION_GRANTED
-      );
+        if (
+            sessionDetails &&
+            sessionDetails.userRolesDtoList &&
+            sessionDetails.userRolesDtoList.length
+        ) {
+            const userRole = sessionDetails.userRolesDtoList.filter(
+                roleItem => roleItem.roleCode === BURSAR_ROLE
+            );
+            userAccessPrivilege = userRole[0].userAccessPrivilegesDtoList.filter(
+                privilegeItem =>
+                    privilegeItem.accessPrivilegeCode === accessPrivilege &&
+                    privilegeItem.permisionStatus === PERMISSION_GRANTED
+            );
+        }
+
+        return userAccessPrivilege.length > 0;
+    };
+
+    handleStaffHomeModalExteriorClicked = () => {
+        this.setState({displayStaffHomeModal: false});
+    };
+
+    launchFeePaymentConfirmationModal = payload => {
+        this.setState({
+            feePayload: payload,
+            displayStaffHomeModal: true,
+            displayPayFeeForm: false,
+            displayStudentRegistrationForm: false,
+            displayFeePaymentConfirmationModal: true
+        });
+    };
+
+    closeFeePaymentConfirmationModal = () => {
+        this.setState({
+            feePayload: "",
+            displayStaffHomeModal: false,
+            displayPayFeeForm: false,
+            displayStudentRegistrationForm: false,
+            displayFeePaymentConfirmationModal: false
+        });
+    };
+
+    launchFeeStatementModal = () => {
+        this.setState({displayFeeStatementModal: true});
+    };
+
+    handleFeeStatementModalExteriorClicked = () => {
+        this.setState({displayFeeStatementModal: false});
+    };
+
+    toggleFeeBalanceModal = isModalOpen => {
+        this.setState({displayFeeBalanceModal: isModalOpen});
+    };
+
+    closeSchoolFeeQueryModal = minimumFeeBalance => {
+        this.setState({
+            displayFeeBalanceModal: false,
+            pagePanelTitle:
+                "School-wide fee balances of KES " + minimumFeeBalance + " and above"
+        });
+    };
+
+    closePerClassFeeQueryModal = (className, minimumFeeBalance) => {
+        this.setState({
+            displayFeeBalanceModal: false,
+            pagePanelTitle:
+                className + " fee balances of KES " + minimumFeeBalance + " and above"
+        });
+    };
+
+    handleClosePersonalDetailsCorrectionModal = isUpdateSuccessful => {
+        this.setState({
+            displayStaffHomeModal: false,
+            displayPayFeeForm: false,
+            displayStudentRegistrationForm: false,
+            displayFeePaymentConfirmationModal: false,
+            displayStudentPersonalDetailsCorrectionForm: false,
+            displaySuccessFailureModal: true,
+            successFailureModalBoolean: isUpdateSuccessful
+        });
+    };
+
+    handleSuccessFailureModalExteriorClicked = () => {
+        this.setState({
+            displayStaffHomeModal: false,
+            displayPayFeeForm: false,
+            displayStudentRegistrationForm: false,
+            displayFeePaymentConfirmationModal: false,
+            displayStudentPersonalDetailsCorrectionForm: false,
+            displaySuccessFailureModal: false,
+            successFailureModalBoolean: false
+        });
+    };
+
+    render() {
+        const {sessionDetails} = this.props;
+        const {
+            displayStudentsPage,
+            displayFeeBalancePage,
+            pagePanelTitle,
+            displaySchoolFeeQueryForm,
+            displayPerClassFeeQueryForm,
+            successFailureModalBoolean
+        } = this.state;
+
+        return (
+            <div>
+                <IdleTimer
+                    ref={ref => {
+                        this.idleTimer = ref;
+                    }}
+                    element={document}
+                    onIdle={this.onIdle}
+                    debounce={DEBOUNCE}
+                    timeout={IDLE_TIMEOUT}
+                />
+                <TopBar/>
+                <Columns className="is-gapless">
+                    <Columns.Column size="one-fifth">
+                        <StaffSideBar handleSideBarClicked={this.handleSideBarClicked}/>
+                    </Columns.Column>
+
+                    <Columns.Column>
+                        <div className="staff__title-panel-div">
+                            <TitlePanel
+                                title={pagePanelTitle}
+                                userName={
+                                    sessionDetails && sessionDetails.name
+                                        ? sessionDetails.name
+                                        : "Username"
+                                }
+                                userEmail={
+                                    sessionDetails && sessionDetails.email
+                                        ? sessionDetails.email
+                                        : "Email"
+                                }
+                                userNameInitials={
+                                    sessionDetails && sessionDetails.name
+                                        ? sessionDetails.name.charAt(0)
+                                        : "I"
+                                }
+                            />
+                        </div>
+                        <Container className="staff__main-body">
+                            {displayStudentsPage && (
+                                <StudentsPage
+                                    launchFeeStatementModal={this.launchFeeStatementModal}
+                                />
+                            )}
+                            {displayFeeBalancePage && (
+                                <FeeBalancePage
+                                    launchFeeStatementModal={this.launchFeeStatementModal}
+                                />
+                            )}
+                        </Container>
+                    </Columns.Column>
+                </Columns>
+                <Modal
+                    visible={this.state.displayStaffHomeModal}
+                    width="500"
+                    height="510"
+                    effect="fadeInUp"
+                    onClickAway={() => {
+                        this.handleStaffHomeModalExteriorClicked();
+                    }}
+                >
+                    {this.state.displayStudentRegistrationForm && (
+                        <div>
+                            {this.isAccessGranted(REGISTER_A_STUDENT_ACCESS_PRIVILEGE) ? (
+                                <StudentRegistrationForm/>
+                            ) : (
+                                <ErrorPage
+                                    errorTitle="Permision to register a student not granted"
+                                    errorCode="Error Code: ACCESS_DENIED"
+                                    errorResolution="Kindly contact the admin for this access"
+                                />
+                            )}
+                        </div>
+                    )}
+
+                    {this.state.displayPayFeeForm && (
+                        <div>
+                            {this.isAccessGranted(
+                                REGISTER_A_FEE_INSTALLMENT_ACCESS_PRIVILEGE
+                            ) ? (
+                                <FeePaymentForm
+                                    launchFeePaymentConfirmationModal={
+                                        this.launchFeePaymentConfirmationModal
+                                    }
+                                />
+                            ) : (
+                                <ErrorPage
+                                    errorTitle="Permision to pay fee not granted"
+                                    errorCode="Error Code: ACCESS_DENIED"
+                                    errorResolution="Kindly contact the admin for this access"
+                                />
+                            )}
+                        </div>
+                    )}
+
+                    {this.state.displayFeePaymentConfirmationModal && (
+                        <FeePaymentConfirmationModal
+                            history={this.props.history}
+                            feePayload={this.state.feePayload}
+                            closeFeeConfirmationModal={this.closeFeePaymentConfirmationModal}
+                            launchFeeStatementModal={this.launchFeeStatementModal}
+                        />
+                    )}
+
+                    {this.state.displayStudentPersonalDetailsCorrectionForm && (
+                        <div>
+                            {this.isAccessGranted(
+                                CORRECT_A_STUDENT_PERSONAL_DETAILS_ACCESS_PRIVILEGE
+                            ) ? (
+                                <PersonalDetailsCorrectionForm
+                                    closePersonalDetailsCorrectionModal={
+                                        this.handleClosePersonalDetailsCorrectionModal
+                                    }
+                                />
+                            ) : (
+                                <ErrorPage
+                                    errorTitle="Permision to edit details not granted"
+                                    errorCode="Error Code: ACCESS_DENIED"
+                                    errorResolution="Kindly contact the admin for this access"
+                                />
+                            )}
+                        </div>
+                    )}
+
+                    {this.state.displayChangeResidenceModal && (
+                        <div>
+                            {this.isAccessGranted(
+                                CHANGE_A_STUDENT_RESIDENCE_ACCESS_PRIVILEGE
+                            ) ? (
+                                <ChangeResidencePage
+                                    sessionLogId={sessionDetails.sessionLogsEntity.sessionLogId}
+                                    closeModal={this.handleStaffHomeModalExteriorClicked}
+                                />
+                            ) : (
+                                <ErrorPage
+                                    errorTitle="Permision to change residence not granted"
+                                    errorCode="Error Code: ACCESS_DENIED"
+                                    errorResolution="Kindly contact the admin for this access"
+                                />
+                            )}
+                        </div>
+                    )}
+                </Modal>
+
+                <Modal
+                    visible={this.state.displayFeeStatementModal}
+                    width="900"
+                    height="600"
+                    effect="fadeInUp"
+                    onClickAway={() => {
+                        this.handleFeeStatementModalExteriorClicked();
+                    }}
+                >
+                    <FeeStatementView
+                        closeFeeConfirmationModal={this.closeFeePaymentConfirmationModal}
+                        closeFeeStatementModal={this.handleFeeStatementModalExteriorClicked}
+                    />
+                </Modal>
+
+                <Modal
+                    visible={this.state.displayFeeBalanceModal}
+                    width="500"
+                    height="320"
+                    effect="fadeInUp"
+                    onClickAway={() => {
+                        this.toggleFeeBalanceModal(false);
+                    }}
+                >
+                    {displaySchoolFeeQueryForm && (
+                        <SchoolFeeQueryForm
+                            closeSchoolFeeQueryModal={this.closeSchoolFeeQueryModal}
+                        />
+                    )}
+                    {displayPerClassFeeQueryForm && (
+                        <PerClassFeeQueryForm
+                            closePerClassFeeQueryModal={this.closePerClassFeeQueryModal}
+                        />
+                    )}
+                </Modal>
+
+                {this.state.displaySuccessFailureModal && (
+                    <SuccessFailureModal
+                        handleModalExteriorClicked={
+                            this.handleSuccessFailureModalExteriorClicked
+                        }
+                        isASuccess={successFailureModalBoolean}
+                    />
+                )}
+            </div>
+        );
     }
-
-    return userAccessPrivilege.length > 0;
-  };
-
-  handleStaffHomeModalExteriorClicked = () => {
-    this.setState({ displayStaffHomeModal: false });
-  };
-
-  launchFeePaymentConfirmationModal = payload => {
-    this.setState({
-      feePayload: payload,
-      displayStaffHomeModal: true,
-      displayPayFeeForm: false,
-      displayStudentRegistrationForm: false,
-      displayFeePaymentConfirmationModal: true
-    });
-  };
-
-  closeFeePaymentConfirmationModal = () => {
-    this.setState({
-      feePayload: "",
-      displayStaffHomeModal: false,
-      displayPayFeeForm: false,
-      displayStudentRegistrationForm: false,
-      displayFeePaymentConfirmationModal: false
-    });
-  };
-
-  launchFeeStatementModal = () => {
-    this.setState({ displayFeeStatementModal: true });
-  };
-
-  handleFeeStatementModalExteriorClicked = () => {
-    this.setState({ displayFeeStatementModal: false });
-  };
-
-  toggleFeeBalanceModal = isModalOpen => {
-    this.setState({ displayFeeBalanceModal: isModalOpen });
-  };
-
-  closeSchoolFeeQueryModal = minimumFeeBalance => {
-    this.setState({
-      displayFeeBalanceModal: false,
-      pagePanelTitle:
-        "School-wide fee balances of KES " + minimumFeeBalance + " and above"
-    });
-  };
-
-  closePerClassFeeQueryModal = (className, minimumFeeBalance) => {
-    this.setState({
-      displayFeeBalanceModal: false,
-      pagePanelTitle:
-        className + " fee balances of KES " + minimumFeeBalance + " and above"
-    });
-  };
-
-  handleClosePersonalDetailsCorrectionModal = isUpdateSuccessful => {
-    this.setState({
-      displayStaffHomeModal: false,
-      displayPayFeeForm: false,
-      displayStudentRegistrationForm: false,
-      displayFeePaymentConfirmationModal: false,
-      displayStudentPersonalDetailsCorrectionForm: false,
-      displaySuccessFailureModal: true,
-      successFailureModalBoolean: isUpdateSuccessful
-    });
-  };
-
-  handleSuccessFailureModalExteriorClicked = () => {
-    this.setState({
-      displayStaffHomeModal: false,
-      displayPayFeeForm: false,
-      displayStudentRegistrationForm: false,
-      displayFeePaymentConfirmationModal: false,
-      displayStudentPersonalDetailsCorrectionForm: false,
-      displaySuccessFailureModal: false,
-      successFailureModalBoolean: false
-    });
-  };
-
-  render() {
-    const { sessionDetails } = this.props;
-    const {
-      displayStudentsPage,
-      displayFeeBalancePage,
-      pagePanelTitle,
-      displaySchoolFeeQueryForm,
-      displayPerClassFeeQueryForm,
-      successFailureModalBoolean
-    } = this.state;
-
-    return (
-      <div>
-        <IdleTimer
-          ref={ref => {
-            this.idleTimer = ref;
-          }}
-          element={document}
-          onIdle={this.onIdle}
-          debounce={DEBOUNCE}
-          timeout={IDLE_TIMEOUT}
-        />
-        <TopBar />
-        <Columns className="is-gapless">
-          <Columns.Column size="one-fifth">
-            <StaffSideBar handleSideBarClicked={this.handleSideBarClicked} />
-          </Columns.Column>
-
-          <Columns.Column>
-            <div className="staff__title-panel-div">
-              <TitlePanel
-                title={pagePanelTitle}
-                userName={
-                  sessionDetails && sessionDetails.name
-                    ? sessionDetails.name
-                    : "Username"
-                }
-                userEmail={
-                  sessionDetails && sessionDetails.email
-                    ? sessionDetails.email
-                    : "Email"
-                }
-                userNameInitials={
-                  sessionDetails && sessionDetails.name
-                    ? sessionDetails.name.charAt(0)
-                    : "I"
-                }
-              />
-            </div>
-            <Container className="staff__main-body">
-              {displayStudentsPage && (
-                <StudentsPage
-                  launchFeeStatementModal={this.launchFeeStatementModal}
-                />
-              )}
-              {displayFeeBalancePage && (
-                <FeeBalancePage
-                  launchFeeStatementModal={this.launchFeeStatementModal}
-                />
-              )}
-            </Container>
-          </Columns.Column>
-        </Columns>
-        <Modal
-          visible={this.state.displayStaffHomeModal}
-          width="500"
-          height="510"
-          effect="fadeInUp"
-          onClickAway={() => {
-            this.handleStaffHomeModalExteriorClicked();
-          }}
-        >
-          {this.state.displayStudentRegistrationForm && (
-            <div>
-              {this.isAccessGranted(REGISTER_A_STUDENT_ACCESS_PRIVILEGE) ? (
-                <StudentRegistrationForm />
-              ) : (
-                <ErrorPage
-                  errorTitle="Permision to register a student not granted"
-                  errorCode="Error Code: ACCESS_DENIED"
-                  errorResolution="Kindly contact the admin for this access"
-                />
-              )}
-            </div>
-          )}
-
-          {this.state.displayPayFeeForm && (
-            <div>
-              {this.isAccessGranted(
-                REGISTER_A_FEE_INSTALLMENT_ACCESS_PRIVILEGE
-              ) ? (
-                <FeePaymentForm
-                  launchFeePaymentConfirmationModal={
-                    this.launchFeePaymentConfirmationModal
-                  }
-                />
-              ) : (
-                <ErrorPage
-                  errorTitle="Permision to pay fee not granted"
-                  errorCode="Error Code: ACCESS_DENIED"
-                  errorResolution="Kindly contact the admin for this access"
-                />
-              )}
-            </div>
-          )}
-
-          {this.state.displayFeePaymentConfirmationModal && (
-            <FeePaymentConfirmationModal
-              history={this.props.history}
-              feePayload={this.state.feePayload}
-              closeFeeConfirmationModal={this.closeFeePaymentConfirmationModal}
-              launchFeeStatementModal={this.launchFeeStatementModal}
-            />
-          )}
-
-          {this.state.displayStudentPersonalDetailsCorrectionForm && (
-            <div>
-              {this.isAccessGranted(
-                CORRECT_A_STUDENT_PERSONAL_DETAILS_ACCESS_PRIVILEGE
-              ) ? (
-                <PersonalDetailsCorrectionForm
-                  closePersonalDetailsCorrectionModal={
-                    this.handleClosePersonalDetailsCorrectionModal
-                  }
-                />
-              ) : (
-                <ErrorPage
-                  errorTitle="Permision to edit details not granted"
-                  errorCode="Error Code: ACCESS_DENIED"
-                  errorResolution="Kindly contact the admin for this access"
-                />
-              )}
-            </div>
-          )}
-
-          {this.state.displayChangeResidenceModal && (
-            <div>
-              {this.isAccessGranted(
-                CHANGE_A_STUDENT_RESIDENCE_ACCESS_PRIVILEGE
-              ) ? (
-                <ChangeResidencePage
-                  sessionLogId={sessionDetails.sessionLogsEntity.sessionLogId}
-                  closeModal={this.handleStaffHomeModalExteriorClicked}
-                />
-              ) : (
-                <ErrorPage
-                  errorTitle="Permision to change residence not granted"
-                  errorCode="Error Code: ACCESS_DENIED"
-                  errorResolution="Kindly contact the admin for this access"
-                />
-              )}
-            </div>
-          )}
-        </Modal>
-
-        <Modal
-          visible={this.state.displayFeeStatementModal}
-          width="900"
-          height="600"
-          effect="fadeInUp"
-          onClickAway={() => {
-            this.handleFeeStatementModalExteriorClicked();
-          }}
-        >
-          <FeeStatementView />
-        </Modal>
-
-        <Modal
-          visible={this.state.displayFeeBalanceModal}
-          width="500"
-          height="320"
-          effect="fadeInUp"
-          onClickAway={() => {
-            this.toggleFeeBalanceModal(false);
-          }}
-        >
-          {displaySchoolFeeQueryForm && (
-            <SchoolFeeQueryForm
-              closeSchoolFeeQueryModal={this.closeSchoolFeeQueryModal}
-            />
-          )}
-          {displayPerClassFeeQueryForm && (
-            <PerClassFeeQueryForm
-              closePerClassFeeQueryModal={this.closePerClassFeeQueryModal}
-            />
-          )}
-        </Modal>
-
-        {this.state.displaySuccessFailureModal && (
-          <SuccessFailureModal
-            handleModalExteriorClicked={
-              this.handleSuccessFailureModalExteriorClicked
-            }
-            isASuccess={successFailureModalBoolean}
-          />
-        )}
-      </div>
-    );
-  }
 }
 
 StaffHome.propTypes = {
-  isSessionActive: PropTypes.bool.isRequired,
-  terminateCurrentSession: PropTypes.func.isRequired,
-  sessionDetails: PropTypes.object.isRequired
+    isSessionActive: PropTypes.bool.isRequired,
+    terminateCurrentSession: PropTypes.func.isRequired,
+    sessionDetails: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  isSessionActive: state.current_session.isSessionActive,
-  sessionDetails: state.current_session.sessionDetails
+    isSessionActive: state.current_session.isSessionActive,
+    sessionDetails: state.current_session.sessionDetails
 });
 
 const mapDispatchToProps = dispatch => ({
-  terminateCurrentSession: payload => dispatch(terminateCurrentSession(payload))
+    terminateCurrentSession: payload => dispatch(terminateCurrentSession(payload))
 });
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(StaffHome);

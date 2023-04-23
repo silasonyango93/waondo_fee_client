@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import { Columns } from "react-bulma-components/dist";
+import {Columns} from "react-bulma-components/dist";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import jsPDF from 'jspdf';
 import html2canvas from "html2canvas";
 
@@ -11,7 +11,7 @@ import html2pdf from "html2pdf.js";
 import {ip} from "../../../../config/EndPoint";
 import schoolLogo from '../../../../assets/waondo.png';
 import {transactionsServiceGet} from "../../../../services/transactions_service_connector/TransactionsServiceConnector";
-
+import {Link} from "react-router-dom";
 
 
 class FeeStatementView extends Component {
@@ -23,8 +23,8 @@ class FeeStatementView extends Component {
 
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(this.props.currentStudentFeeStatement !== prevProps.currentStudentFeeStatement) {
-            if(this.props.currentStudentFeeStatement && this.props.currentStudentFeeStatement.installmentsResponseArray && this.props.currentStudentFeeStatement.installmentsResponseArray.length) {
+        if (this.props.currentStudentFeeStatement !== prevProps.currentStudentFeeStatement) {
+            if (this.props.currentStudentFeeStatement && this.props.currentStudentFeeStatement.installmentsResponseArray && this.props.currentStudentFeeStatement.installmentsResponseArray.length) {
                 let installments = this.props.currentStudentFeeStatement.installmentsResponseArray.map((item, index) => {
                     return {
                         id: index + 1,
@@ -36,11 +36,22 @@ class FeeStatementView extends Component {
                     };
                 });
 
-                this.setState({ tableData: installments });
-            } else if(this.props.currentStudentFeeStatement && this.props.currentStudentFeeStatement.installmentsResponseArray && !this.props.currentStudentFeeStatement.installmentsResponseArray.length) {
-                this.setState({ tableData: [] });
+                this.setState({tableData: installments});
+            } else if (this.props.currentStudentFeeStatement && this.props.currentStudentFeeStatement.installmentsResponseArray && !this.props.currentStudentFeeStatement.installmentsResponseArray.length) {
+                this.setState({tableData: []});
             }
         }
+    }
+
+    openStatementDownloadInNewTab = () => {
+        const {
+            currentStudentFeeStatement,
+            closeFeeConfirmationModal,
+            closeFeeStatementModal
+        } = this.props;
+        closeFeeConfirmationModal();
+        closeFeeStatementModal();
+        window.open('http://transaction.livelihoodzone.xyz/statements/export/pdf?studentId=' + currentStudentFeeStatement.studentId, '_blank', 'noopener,noreferrer');
     }
 
     render() {
@@ -63,7 +74,8 @@ class FeeStatementView extends Component {
                 <div className="statement__top-section">
                     <Columns className="is-gapless">
                         <Columns.Column size="one-quarter">
-                            <img className="statement__pic-div" src={ip + "/web_display_image?imageID=" + currentStudentFeeStatement.profPicName}></img>
+                            <img className="statement__pic-div"
+                                 src={ip + "/web_display_image?imageID=" + currentStudentFeeStatement.profPicName}></img>
                             <p>{currentStudentFeeStatement.studentName}</p>
                         </Columns.Column>
                         <Columns.Column>
@@ -78,16 +90,16 @@ class FeeStatementView extends Component {
 
                         </Columns.Column>
                         <Columns.Column size="one-quarter">
-                            <a href={"http://transaction.livelihoodzone.xyz/statements/export/pdf?studentId=" + currentStudentFeeStatement.studentId}>
-                            <img className="statement__pic-div" src={schoolLogo}></img>
-                            </a>
+                            <img className="statement__pic-div" src={schoolLogo} onClick={this.openStatementDownloadInNewTab}></img>
                         </Columns.Column>
                     </Columns>
 
 
                 </div>
 
-                <table width="100%" className="statement__statement-table table table-striped table-bordered table-hover" id="dataTables-example" >
+                <table width="100%"
+                       className="statement__statement-table table table-striped table-bordered table-hover"
+                       id="dataTables-example">
                     <thead>
                     <tr>
 
@@ -114,9 +126,10 @@ class FeeStatementView extends Component {
 
                 <Columns className="statement__installments-div is-gapless">
                     <Columns.Column>
-                <Table tableTitle="Fee Installments" tableHeaderObject={tableHeader} tableData={this.state.tableData}/>
+                        <Table tableTitle="Fee Installments" tableHeaderObject={tableHeader}
+                               tableData={this.state.tableData}/>
                     </Columns.Column>
-                    <Columns.Column size="one-quarter" />
+                    <Columns.Column size="one-quarter"/>
                 </Columns>
             </div>
         );
@@ -125,7 +138,9 @@ class FeeStatementView extends Component {
 
 FeeStatementView.propTypes = {
     profPicName: PropTypes.string.isRequired,
-    currentStudentFeeStatement: PropTypes.object.isRequired
+    currentStudentFeeStatement: PropTypes.object.isRequired,
+    closeFeeConfirmationModal: PropTypes.func,
+    closeFeeStatementModal: PropTypes.func
 };
 
 const mapStateToProps = state => ({
