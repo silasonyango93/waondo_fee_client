@@ -14,7 +14,7 @@ class ActionConfirmationView extends Component {
                     {title}
                 </div>
                 <div className="payment__prompt-div">
-                    <div className="payment__prompt">
+                    <div className="confirm__prompt-text">
                         {promptText}
                     </div>
                     <div className="payment__button-div">

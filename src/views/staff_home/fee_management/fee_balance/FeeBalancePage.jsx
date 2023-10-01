@@ -13,13 +13,18 @@ import EmptySearchResponse from "../../../../components/empty_search_response/Em
 import "./FeeBalancePage.scss";
 import FeeReminderDeadlineDateForm from "../fee_payment_reminder/FeeReminderDeadlineDateForm";
 import ActionConfirmationView from "../../../../components/action_confirmation/ActionConfirmationView";
+import {currencyDisplay, formatString} from "../../../../config/common/Utils";
+import {
+    promiselessTransactionsServiceGetAll
+} from "../../../../services/transactions_service_connector/TransactionsServiceConnector";
 
 class FeeBalancePage extends Component {
     state = {
         tableData: [],
         displayFeeStatementModal: false,
         displayDeadlineDateForm: false,
-        displayFeeReminderConfirmationModal: false
+        displayFeeReminderConfirmationModal: false,
+        selectedFeePaymentDeadlineDate: ""
     };
 
     componentDidMount() {
@@ -69,8 +74,8 @@ class FeeBalancePage extends Component {
         this.setState({displayDeadlineDateForm: false});
     };
 
-    handleReminderDeadlineDateFormSubmitButtonIsClicked = (deadlineDate) => {
-        this.setState({displayDeadlineDateForm: false, displayFeeReminderConfirmationModal: true});
+    handleReminderDeadlineDateFormSubmitButtonIsClicked = async (deadlineDate) => {
+        this.setState({displayDeadlineDateForm: false, selectedFeePaymentDeadlineDate: deadlineDate, displayFeeReminderConfirmationModal: true});
     };
 
     handleSendFeeReminderConfirmButtonClicked = () => {
@@ -80,6 +85,23 @@ class FeeBalancePage extends Component {
     handleSendFeeReminderRejectButtonClicked = () => {
 
     };
+
+    processSmsFeeReminderModalPrompt = () => {
+        // const {sendStudentsHomeQueryPayload} = this.props;
+        // if (sendStudentsHomeQueryPayload.classId) {
+        //     const classDetails = await
+        //         promiselessTransactionsServiceGetAll(
+        //             "/academic-classes/class-details/fetch-class-by-its-full-name?classId="
+        //             + sendStudentsHomeQueryPayload.classId);
+        //     return formatString("You are about to send a broadcast message reminder to parents of {0} with fee balances equal " +
+        //         "to or greater than {1} to pay fees by date {2}", classDetails.data.AcademicClassLevelName + classDetails.data.ClassStreamName
+        //         , currencyDisplay(sendStudentsHomeQueryPayload.minimumFeeBalance), this.state.selectedPaymentDeadlineDate);
+        // } else return "";
+
+        return formatString("You are about to send a broadcast message reminder to parents of {0} with fee balances equal " +
+            "to or greater than {1} to pay fees by date {2}", "1Y"
+            , currencyDisplay("7000"), this.state.selectedFeePaymentDeadlineDate);
+    }
 
     render() {
         const {feeBalanceList} = this.props;
@@ -145,7 +167,7 @@ class FeeBalancePage extends Component {
                         this.handleSendFeeReminderRejectButtonClicked();
                     }}
                 >
-                    <ActionConfirmationView title="Confirm to send fee sms reminder" promptText="Prompt"
+                    <ActionConfirmationView title="Confirm to send fee sms reminder" promptText={this.processSmsFeeReminderModalPrompt()}
                                             handleConfirmButtonClicked={this.handleSendFeeReminderConfirmButtonClicked}
                                             handleRejectButtonClicked={this.handleSendFeeReminderRejectButtonClicked}/>
                 </Modal>
