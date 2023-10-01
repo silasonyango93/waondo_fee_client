@@ -12,12 +12,14 @@ import Modal from "react-awesome-modal";
 import EmptySearchResponse from "../../../../components/empty_search_response/EmptySearchResponse";
 import "./FeeBalancePage.scss";
 import FeeReminderDeadlineDateForm from "../fee_payment_reminder/FeeReminderDeadlineDateForm";
+import ActionConfirmationView from "../../../../components/action_confirmation/ActionConfirmationView";
 
 class FeeBalancePage extends Component {
     state = {
         tableData: [],
         displayFeeStatementModal: false,
-        displayDeadlineDateForm: false
+        displayDeadlineDateForm: false,
+        displayFeeReminderConfirmationModal: false
     };
 
     componentDidMount() {
@@ -68,8 +70,15 @@ class FeeBalancePage extends Component {
     };
 
     handleReminderDeadlineDateFormSubmitButtonIsClicked = (deadlineDate) => {
-        this.setState({displayDeadlineDateForm: false});
-        console.log(deadlineDate)
+        this.setState({displayDeadlineDateForm: false, displayFeeReminderConfirmationModal: true});
+    };
+
+    handleSendFeeReminderConfirmButtonClicked = () => {
+
+    };
+
+    handleSendFeeReminderRejectButtonClicked = () => {
+
     };
 
     render() {
@@ -125,6 +134,20 @@ class FeeBalancePage extends Component {
                 >
                     <FeeReminderDeadlineDateForm
                         handleSubmitButtonIsClicked={this.handleReminderDeadlineDateFormSubmitButtonIsClicked}/>
+                </Modal>
+
+                <Modal
+                    visible={this.state.displayFeeReminderConfirmationModal}
+                    width="450"
+                    height="300"
+                    effect="fadeInUp"
+                    onClickAway={() => {
+                        this.handleSendFeeReminderRejectButtonClicked();
+                    }}
+                >
+                    <ActionConfirmationView title="Confirm to send fee sms reminder" promptText="Prompt"
+                                            handleConfirmButtonClicked={this.handleSendFeeReminderConfirmButtonClicked}
+                                            handleRejectButtonClicked={this.handleSendFeeReminderRejectButtonClicked}/>
                 </Modal>
             </div>
         );

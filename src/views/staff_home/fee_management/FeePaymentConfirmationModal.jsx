@@ -1,20 +1,20 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, {Component} from "react";
+import {connect} from "react-redux";
 
-import { Columns, Container } from "react-bulma-components";
+import {Columns, Container} from "react-bulma-components";
 
 import PropTypes from "prop-types";
 import "./FeePaymentConfirmationModal.scss";
 import GhostButton from "../../../components/buttons/ghost_buttons/GhostButton";
-import { ip } from "../../../config/EndPoint";
-import { currencyDisplay } from "../../../config/common/Utils";
+import {ip} from "../../../config/EndPoint";
+import {currencyDisplay} from "../../../config/common/Utils";
 import {payFee} from "../../../store/modules/staff_home/actions";
 import {transactionsServiceGet} from "../../../services/transactions_service_connector/TransactionsServiceConnector";
 
 class FeePaymentConfirmationModal extends Component {
 
     handleSubmitButtonClicked = async () => {
-        const { feePayload } = this.props;
+        const {feePayload} = this.props;
         const payload = {
             studentId: feePayload.studentId,
             installmentAmount: feePayload.installmentAmount,
@@ -32,52 +32,52 @@ class FeePaymentConfirmationModal extends Component {
         this.props.launchFeeStatementModal();
     };
 
-  render() {
-    const { feePayload } = this.props;
+    render() {
+        const {feePayload} = this.props;
 
-    return (
-      <div>
-        <div className="payment__personal-info-div">
-          <div className="payment__details-inner-div">
-            <img
-              className="payment__pic-circular-div"
-              src={ip + "/web_display_image?imageID=" + feePayload.profPicName}
-            />
-            <div className="payment__student-name">
-              {feePayload.studentName}
-            </div>
-            <div className="payment__admission-no">
-              Admission No: {feePayload.admissionNumber}
-            </div>
-          </div>
-        </div>
-        <div className="payment__prompt-div">
-          <div className="payment__prompt">
-            Would you like to register a fee installment of KES{" "}
-            {currencyDisplay(feePayload.installmentAmount)} to the named
-            student?
-          </div>
-          <div className="payment__button-div">
-            <Columns>
-              <Columns.Column size="one-half">
-                <GhostButton text="Decline" onButtonClick={this.props.closeFeeConfirmationModal}/>
-              </Columns.Column>
-
-              <Columns.Column size="one-half">
-                <div style={{ float: "right", marginRight: "2.5rem" }}>
-                  <GhostButton text="Submit" onButtonClick={this.handleSubmitButtonClicked}/>
+        return (
+            <div>
+                <div className="payment__personal-info-div">
+                    <div className="payment__details-inner-div">
+                        <img
+                            className="payment__pic-circular-div"
+                            src={ip + "/web_display_image?imageID=" + feePayload.profPicName}
+                        />
+                        <div className="payment__student-name">
+                            {feePayload.studentName}
+                        </div>
+                        <div className="payment__admission-no">
+                            Admission No: {feePayload.admissionNumber}
+                        </div>
+                    </div>
                 </div>
-              </Columns.Column>
-            </Columns>
-          </div>
-        </div>
-      </div>
-    );
-  }
+                <div className="payment__prompt-div">
+                    <div className="payment__prompt">
+                        Would you like to register a fee installment of KES{" "}
+                        {currencyDisplay(feePayload.installmentAmount)} to the named
+                        student?
+                    </div>
+                    <div className="payment__button-div">
+                        <Columns>
+                            <Columns.Column size="one-half">
+                                <GhostButton text="Decline" onButtonClick={this.props.closeFeeConfirmationModal}/>
+                            </Columns.Column>
+
+                            <Columns.Column size="one-half">
+                                <div style={{float: "right", marginRight: "2.5rem"}}>
+                                    <GhostButton text="Submit" onButtonClick={this.handleSubmitButtonClicked}/>
+                                </div>
+                            </Columns.Column>
+                        </Columns>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 }
 
 FeePaymentConfirmationModal.propTypes = {
-  feePayload: PropTypes.object.isRequired,
+    feePayload: PropTypes.object.isRequired,
     payFee: PropTypes.func.isRequired,
     sessionDetails: PropTypes.object.isRequired,
     closeFeeConfirmationModal: PropTypes.func.isRequired,
