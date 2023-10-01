@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { FaEdit, FaSearch } from "react-icons/fa";
+import {FaDownload, FaEdit, FaSearch} from "react-icons/fa";
 
 import TableRow from "../table_row/TableRow";
 import "./table.scss";
@@ -96,13 +96,28 @@ class Table extends React.Component {
             </Columns.Column>
 
             <Columns.Column size="one-quarter">
-              <div className="edit-icon">
-                <FaEdit
-                  onClick={() => {
-                    this.props.addIconClicked();
-                  }}
-                />
-              </div>
+
+              {/*Inner columns*/}
+              <Columns>
+                <Columns.Column size="one-half">
+                  <div className="edit-icon">
+                    <FaDownload
+                        onClick={() => {
+                          this.props.addIconClicked();
+                        }}
+                    />
+                  </div>
+                </Columns.Column>
+                <Columns.Column size="one-half">
+                  <div className="edit-icon">
+                    <FaEdit
+                        onClick={() => {
+                          this.props.addIconClicked();
+                        }}
+                    />
+                  </div>
+                </Columns.Column>
+              </Columns>
             </Columns.Column>
           </Columns>
         </div>
