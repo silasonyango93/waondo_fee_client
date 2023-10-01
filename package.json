@@ -14,7 +14,7 @@
     "jquery": "^3.3.1",
     "jspdf": "^2.3.1",
     "moment": "^2.24.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^9.0.0",
     "pretty-quick": "^1.11.1",
     "query-string": "^6.8.1",
     "react": "^16.8.6",
