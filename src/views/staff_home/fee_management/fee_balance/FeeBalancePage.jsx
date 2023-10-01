@@ -15,7 +15,7 @@ import FeeReminderDeadlineDateForm from "../fee_payment_reminder/FeeReminderDead
 import ActionConfirmationView from "../../../../components/action_confirmation/ActionConfirmationView";
 import {currencyDisplay, formatString} from "../../../../config/common/Utils";
 import {
-    promiselessTransactionsServiceGetAll
+    promiselessTransactionsServiceGetAll, simpleTransactionsServiceGet
 } from "../../../../services/transactions_service_connector/TransactionsServiceConnector";
 
 class FeeBalancePage extends Component {
@@ -25,7 +25,7 @@ class FeeBalancePage extends Component {
         displayDeadlineDateForm: false,
         displayFeeReminderConfirmationModal: false,
         selectedFeePaymentDeadlineDate: "",
-        formatedFeeReminderConfirmationPrompt: ""
+        formattedFeeReminderConfirmationPrompt: ""
     };
 
     componentDidMount() {
@@ -56,13 +56,13 @@ class FeeBalancePage extends Component {
             !== prevProps.sendStudentsHomePerActualClassQueryPayload) {
             const {sendStudentsHomePerActualClassQueryPayload} = this.props;
             if (sendStudentsHomePerActualClassQueryPayload && sendStudentsHomePerActualClassQueryPayload.classId) {
-                const classDetails = await promiselessTransactionsServiceGetAll(
+                const classDetails = await simpleTransactionsServiceGet(
                     "/academic-classes/class-details/fetch-class-by-its-full-name?classId="
                     + sendStudentsHomePerActualClassQueryPayload.classId);
                 const formattedString = formatString("You are about to send a broadcast message reminder to parents of {0} with fee balances equal " +
                     "to or greater than {1} to pay fees by date {2}", classDetails.data.AcademicClassLevelName + classDetails.data.ClassStreamName
                     , currencyDisplay(sendStudentsHomePerActualClassQueryPayload.minimumFeeBalance), this.state.selectedFeePaymentDeadlineDate);
-                this.setState({formatedFeeReminderConfirmationPrompt: formattedString})
+                this.setState({formattedFeeReminderConfirmationPrompt: formattedString})
             }
         }
     }
@@ -106,7 +106,7 @@ class FeeBalancePage extends Component {
 
     render() {
         const {feeBalanceList} = this.props;
-        const {formatedFeeReminderConfirmationPrompt} = this.state;
+        const {formattedFeeReminderConfirmationPrompt} = this.state;
         const tableHeaders = {
             columnZero: "#",
             columnOne: "Admission Number",
@@ -170,7 +170,7 @@ class FeeBalancePage extends Component {
                     }}
                 >
                     <ActionConfirmationView title="Confirm to send fee sms reminder"
-                                            promptText={formatedFeeReminderConfirmationPrompt}
+                                            promptText={formattedFeeReminderConfirmationPrompt}
                                             handleConfirmButtonClicked={this.handleSendFeeReminderConfirmButtonClicked}
                                             handleRejectButtonClicked={this.handleSendFeeReminderRejectButtonClicked}/>
                 </Modal>

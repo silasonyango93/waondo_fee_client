@@ -35,6 +35,8 @@ export function transactionsServiceGetAll(apiRoute) {
 
 export const promiselessTransactionsServiceGetAll = apiRoute => axios.post(transactionsIp + apiRoute);
 
+export const simpleTransactionsServiceGet = apiRoute => axios.get(transactionsIp + apiRoute);
+
 export const promiselessTransactionsServicePost = (payload, apiRoute) =>
     axios.post(
         transactionsIp + apiRoute,
