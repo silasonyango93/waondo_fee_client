@@ -21,7 +21,9 @@ import {
   ERROR_OCCURRED_WHILE_FETCHING_SCHOOL_MINIMUM_FEE_BALANCE,
   STUDENT_BASIC_DETAILS_UPDATED_SUCCESSFULLY,
   STUDENT_BASIC_DETAILS_UPDATE_FAILED,
-  ERROR_OCCURRED_WHILE_UPDATING_STUDENT_BASIC_DETAILS, RESET_STUDENT_REGISTRATION
+  ERROR_OCCURRED_WHILE_UPDATING_STUDENT_BASIC_DETAILS,
+  RESET_STUDENT_REGISTRATION,
+  COMMIT_SEND_STUDENTS_HOME_SEARCH_CRITERIA
 } from "./actionTypes";
 
 export function registerAStudent(payload) {
@@ -192,7 +194,8 @@ export function getPerClassStudentsWithAMinimumTermBalance(payload) {
           dispatch({
             type: SCHOOL_FETCH_MINIMUM_FEE_BALANCE_SUCCESSFUL,
             payload: {
-              feeBalanceList: result.data
+              feeBalanceList: result.data,
+              sendStudentsHomePerActualClassQueryPayload: payload
             }
           });
         } else if (!result.data) {

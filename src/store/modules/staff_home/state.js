@@ -13,6 +13,7 @@ export const initialState = {
     },
 
     feeBalances: {
-        feeBalanceList: []
+        feeBalanceList: [],
+        sendStudentsHomePerActualClassQueryPayload: {}
     }
 };
