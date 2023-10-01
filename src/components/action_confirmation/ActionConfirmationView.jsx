@@ -7,7 +7,7 @@ import './ActionConfirmationView.scss';
 
 class ActionConfirmationView extends Component {
     render() {
-        const {title, promptText} = this.props;
+        const {title, promptText, handleConfirmButtonClicked, handleRejectButtonClicked} = this.props;
         return (
             <div className="confirm__main-div">
                 <div className="confirm__title-div">
@@ -20,12 +20,12 @@ class ActionConfirmationView extends Component {
                     <div className="payment__button-div">
                         <Columns>
                             <Columns.Column size="one-half">
-                                <GhostButton text="Decline" onButtonClick={this.props.handleRejectButtonClicked}/>
+                                <GhostButton text="Decline" onButtonClick={handleRejectButtonClicked}/>
                             </Columns.Column>
 
                             <Columns.Column size="one-half">
                                 <div style={{float: "right", marginRight: "2.5rem"}}>
-                                    <GhostButton text="Submit" onButtonClick={this.handleConfirmButtonClicked}/>
+                                    <GhostButton text="Submit" onButtonClick={handleConfirmButtonClicked}/>
                                 </div>
                             </Columns.Column>
                         </Columns>

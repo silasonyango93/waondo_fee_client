@@ -17,6 +17,7 @@ import {currencyDisplay, formatString} from "../../../../config/common/Utils";
 import {
     promiselessTransactionsServiceGetAll, simpleTransactionsServiceGet
 } from "../../../../services/transactions_service_connector/TransactionsServiceConnector";
+import SuccessFailureModal from "../../../../components/modals/success_failure_modal/SuccessFailureModal";
 
 class FeeBalancePage extends Component {
     state = {
@@ -25,7 +26,9 @@ class FeeBalancePage extends Component {
         displayDeadlineDateForm: false,
         displayFeeReminderConfirmationModal: false,
         selectedFeePaymentDeadlineDate: "",
-        formattedFeeReminderConfirmationPrompt: ""
+        formattedFeeReminderConfirmationPrompt: "",
+        feeReminderSmsSentSuccessfully: false,
+        displaySuccessForFeeReminderSmsBroadcast: false
     };
 
     componentDidMount() {
@@ -96,17 +99,46 @@ class FeeBalancePage extends Component {
         });
     };
 
-    handleSendFeeReminderConfirmButtonClicked = () => {
-
+    handleSendFeeReminderConfirmButtonClicked = async () => {
+        const {sendStudentsHomePerActualClassQueryPayload} = this.props;
+        const {selectedFeePaymentDeadlineDate} = this.state;
+        const classId = sendStudentsHomePerActualClassQueryPayload.classId;
+        const feeBalanceThreshold = sendStudentsHomePerActualClassQueryPayload.minimumFeeBalance;
+        try {
+            await simpleTransactionsServiceGet(
+                formatString("/statements/sms/send-fee-reminder-to-specific-class-stream-with-threshold" +
+                    "?classId={0}&feeBalanceThreshold={1}&paymentDeadlineDate={2}"
+                    , classId, feeBalanceThreshold, selectedFeePaymentDeadlineDate));
+            this.setState({
+                feeReminderSmsSentSuccessfully: true,
+                displayFeeReminderConfirmationModal: false,
+                displaySuccessForFeeReminderSmsBroadcast: true
+            });
+        } catch (e) {
+            console.log(e)
+            this.setState({
+                feeReminderSmsSentSuccessfully: true,
+                displayFeeReminderConfirmationModal: false,
+                displaySuccessForFeeReminderSmsBroadcast: false
+            });
+        }
     };
 
     handleSendFeeReminderRejectButtonClicked = () => {
+        this.setState({displayFeeReminderConfirmationModal: false});
+    };
 
+    handleFeeReminderSuccessErrorModalExteriorClicked = () => {
+        this.setState({feeReminderSmsSentSuccessfully: false});
     };
 
     render() {
         const {feeBalanceList} = this.props;
-        const {formattedFeeReminderConfirmationPrompt} = this.state;
+        const {
+            formattedFeeReminderConfirmationPrompt,
+            feeReminderSmsSentSuccessfully,
+            displaySuccessForFeeReminderSmsBroadcast
+        } = this.state;
         const tableHeaders = {
             columnZero: "#",
             columnOne: "Admission Number",
@@ -174,6 +206,12 @@ class FeeBalancePage extends Component {
                                             handleConfirmButtonClicked={this.handleSendFeeReminderConfirmButtonClicked}
                                             handleRejectButtonClicked={this.handleSendFeeReminderRejectButtonClicked}/>
                 </Modal>
+                {feeReminderSmsSentSuccessfully && (
+                    <SuccessFailureModal isASuccess={displaySuccessForFeeReminderSmsBroadcast}
+                                         eventMessage={displaySuccessForFeeReminderSmsBroadcast
+                                             ? "Sms broadcast sent successfully"
+                                             : "An error encountered while sending the broadcast message"}
+                                         handleModalExteriorClicked={this.handleFeeReminderSuccessErrorModalExteriorClicked}/>)}
             </div>
         );
     }
