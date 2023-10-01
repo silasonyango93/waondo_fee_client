@@ -67,6 +67,11 @@ class FeeBalancePage extends Component {
         this.setState({displayDeadlineDateForm: false});
     };
 
+    handleReminderDeadlineDateFormSubmitButtonIsClicked = (deadlineDate) => {
+        this.setState({displayDeadlineDateForm: false});
+        console.log(deadlineDate)
+    };
+
     render() {
         const {feeBalanceList} = this.props;
         const tableHeaders = {
@@ -118,7 +123,8 @@ class FeeBalancePage extends Component {
                         this.handleSmsReminderFormModalExteriorClicked();
                     }}
                 >
-                    <FeeReminderDeadlineDateForm/>
+                    <FeeReminderDeadlineDateForm
+                        handleSubmitButtonIsClicked={this.handleReminderDeadlineDateFormSubmitButtonIsClicked}/>
                 </Modal>
             </div>
         );

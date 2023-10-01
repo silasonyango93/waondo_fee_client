@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ReactDatetime from "react-datetime";
 
 import './FeeReminderDeadlineDateForm.scss';
+import PropTypes from "prop-types";
 
 class FeeReminderDeadlineDateForm extends Component {
     state = {
@@ -10,8 +11,15 @@ class FeeReminderDeadlineDateForm extends Component {
         deadlineDateErrorMessage: ""
     };
 
-    handleSubmit = () => {
-
+    handleSubmit = (e) => {
+        e.preventDefault();
+        let deadlineDate =
+            this.state.deadlineDate._d.getFullYear() +
+            "-" +
+            (this.state.deadlineDate._d.getMonth() + 1) +
+            "-" +
+            this.state.deadlineDate._d.getDate();
+        this.props.handleSubmitButtonIsClicked(deadlineDate);
     };
     render() {
         return (
@@ -69,6 +77,8 @@ class FeeReminderDeadlineDateForm extends Component {
     }
 }
 
-FeeReminderDeadlineDateForm.propTypes = {};
+FeeReminderDeadlineDateForm.propTypes = {
+    handleSubmitButtonIsClicked: PropTypes.func.isRequired
+};
 
 export default FeeReminderDeadlineDateForm;
