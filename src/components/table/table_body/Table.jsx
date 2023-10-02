@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {FaDownload, FaEdit, FaSearch} from "react-icons/fa";
+import {FaDownload, FaEdit, FaSearch, FaRegCommentDots} from "react-icons/fa";
 
 import TableRow from "../table_row/TableRow";
 import "./table.scss";
@@ -101,7 +101,7 @@ class Table extends React.Component {
                             <Columns>
                                 <Columns.Column size="one-half">
                                     <div className="edit-icon" id="second-utility-icon">
-                                        <FaDownload
+                                        <FaRegCommentDots
                                             onClick={() => {
                                                 this.props.handleSecondUtilityIconClicked();
                                             }}

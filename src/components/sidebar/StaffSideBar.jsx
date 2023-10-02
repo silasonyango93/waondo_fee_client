@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import {withRouter} from "react-router-dom";
-import {FaCogs, FaSearch} from "react-icons/fa";
+import {FaCogs, FaSearch, FaUserPlus, FaRegPaperPlane, FaBuilding} from "react-icons/fa";
 import {
     CHANGE_STUDENT_RESIDENCE,
     CORRECT_STUDENT_PERSONAL_DETAILS,
@@ -11,6 +11,7 @@ import {
     SEND_HOME_FROM_ENTIRE_SCHOOL,
     SEND_HOME_PER_CLASS, SEND_HOME_PER_LOT
 } from "../../views/staff_home/StaffHomeConstants";
+import {GiAutoRepair, GiTakeMyMoney} from "react-icons/all";
 
 class StaffSideBar extends Component {
     constructor(props) {
@@ -73,7 +74,7 @@ class StaffSideBar extends Component {
                                     return false;
                                 }}
                             >
-                                <FaCogs/>
+                                <FaUserPlus/>
                                 &nbsp;Student Management
                                 <span className="fa arrow"/>
                             </a>
@@ -115,7 +116,7 @@ class StaffSideBar extends Component {
                                     return false;
                                 }}
                             >
-                                <FaCogs/>
+                                <GiTakeMyMoney/>
                                 &nbsp;Fee Management
                                 <span className="fa arrow"/>
                             </a>
@@ -157,7 +158,7 @@ class StaffSideBar extends Component {
                                     return false;
                                 }}
                             >
-                                <FaCogs/>
+                                <FaRegPaperPlane/>
                                 &nbsp;Send Students Home
                                 <span className="fa arrow"/>
                             </a>
@@ -223,7 +224,7 @@ class StaffSideBar extends Component {
                                     return false;
                                 }}
                             >
-                                <FaCogs/>
+                                <GiAutoRepair/>
                                 &nbsp;Corrections
                                 <span className="fa arrow"/>
                             </a>
@@ -265,7 +266,7 @@ class StaffSideBar extends Component {
                                     return false;
                                 }}
                             >
-                                <FaCogs/>
+                                <FaBuilding/>
                                 &nbsp;Residence Management
                                 <span className="fa arrow"/>
                             </a>
