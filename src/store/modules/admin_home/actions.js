@@ -1012,7 +1012,7 @@ export function fetchAllLotsNotCompletedSchool() {
             dispatch({
               type: FETCHING_ALL_LOTS_NOT_COMPLETED_SCHOOL_SUCCESSFUL,
               payload: {
-                actualLots: result.data
+                allActualLots: result.data
               }
             });
           } else if (result.data && result.data.length === 0) {

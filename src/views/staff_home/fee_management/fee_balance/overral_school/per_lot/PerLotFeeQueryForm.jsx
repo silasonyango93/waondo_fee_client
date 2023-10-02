@@ -2,11 +2,14 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Columns} from "react-bulma-components";
 import Select from "react-select";
-import {getPerClassStudentsWithAMinimumTermBalance} from "../../../../../../store/modules/staff_home/actions";
+import {
+    getPerLotStudentsWithAMinimumTermBalance
+} from "../../../../../../store/modules/staff_home/actions";
 import {
     fetchAllLotsNotCompletedSchool
 } from "../../../../../../store/modules/admin_home/actions";
 import {connect} from "react-redux";
+import {formatString} from "../../../../../../config/common/Utils";
 
 class PerLotFeeQueryForm extends Component {
 
@@ -30,8 +33,8 @@ class PerLotFeeQueryForm extends Component {
                 let allActualLots = this.props.allActualLots.map(
                     (item, index) => {
                         return {
-                            label: item.AcademicClassLevelName + " " + item.ClassStreamName,
-                            value: item.ClassId
+                            label: formatString("Form {0}", item.AcademicClassLevelName),
+                            value: item.LotId
                         };
                     }
                 );
@@ -59,11 +62,11 @@ class PerLotFeeQueryForm extends Component {
             });
         } else {
             const payload = {
-                classId: this.state.selectedLotObject.value,
+                lotId: this.state.selectedLotObject.value,
                 minimumFeeBalance: this.state.minimumFeeBalance
             };
 
-            this.props.getPerClassStudentsWithAMinimumTermBalance(payload);
+            this.props.getPerLotStudentsWithAMinimumTermBalance(payload);
             this.props.closePerLotFeeQueryModal(
                 this.state.selectedLotObject.label,
                 this.state.minimumFeeBalance
@@ -167,7 +170,7 @@ class PerLotFeeQueryForm extends Component {
 }
 
 PerLotFeeQueryForm.propTypes = {
-    getPerClassStudentsWithAMinimumTermBalance: PropTypes.func.isRequired,
+    getPerLotStudentsWithAMinimumTermBalance: PropTypes.func.isRequired,
     closePerLotFeeQueryModal: PropTypes.func.isRequired,
     fetchAllLotsNotCompletedSchool: PropTypes.func.isRequired,
     allActualLots: PropTypes.arrayOf(PropTypes.object).isRequired
@@ -178,8 +181,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    getPerClassStudentsWithAMinimumTermBalance: payload =>
-        dispatch(getPerClassStudentsWithAMinimumTermBalance(payload)),
+    getPerLotStudentsWithAMinimumTermBalance: payload =>
+        dispatch(getPerLotStudentsWithAMinimumTermBalance(payload)),
     fetchAllLotsNotCompletedSchool: () => dispatch(fetchAllLotsNotCompletedSchool())
 });
 
