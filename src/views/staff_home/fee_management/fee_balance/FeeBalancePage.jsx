@@ -31,10 +31,6 @@ class FeeBalancePage extends Component {
         displaySuccessForFeeReminderSmsBroadcast: false
     };
 
-    componentDidMount() {
-        this.props.fetchAllStudents();
-    }
-
     componentDidUpdate = async (prevProps, prevState, snapshot) => {
         if (this.props.feeBalanceList !== prevProps.feeBalanceList) {
             if (this.props.feeBalanceList && this.props.feeBalanceList.length) {
