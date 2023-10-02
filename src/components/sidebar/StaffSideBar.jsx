@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import {  withRouter } from "react-router-dom";
-import { FaCogs, FaSearch } from "react-icons/fa";
+import {withRouter} from "react-router-dom";
+import {FaCogs, FaSearch} from "react-icons/fa";
 import {
     CHANGE_STUDENT_RESIDENCE,
     CORRECT_STUDENT_PERSONAL_DETAILS,
@@ -50,14 +50,11 @@ class StaffSideBar extends Component {
                                 />
                                 <span className="input-group-btn">
                   <button className="btn btn-default" type="button">
-                    <FaSearch />
+                    <FaSearch/>
                   </button>
                 </span>
                             </div>
                         </li>
-
-
-
 
 
                         <li
@@ -76,9 +73,9 @@ class StaffSideBar extends Component {
                                     return false;
                                 }}
                             >
-                                <FaCogs />
+                                <FaCogs/>
                                 &nbsp;Student Management
-                                <span className="fa arrow" />
+                                <span className="fa arrow"/>
                             </a>
                             <ul
                                 className={classNames({
@@ -118,9 +115,9 @@ class StaffSideBar extends Component {
                                     return false;
                                 }}
                             >
-                                <FaCogs />
+                                <FaCogs/>
                                 &nbsp;Fee Management
-                                <span className="fa arrow" />
+                                <span className="fa arrow"/>
                             </a>
                             <ul
                                 className={classNames({
@@ -160,9 +157,9 @@ class StaffSideBar extends Component {
                                     return false;
                                 }}
                             >
-                                <FaCogs />
+                                <FaCogs/>
                                 &nbsp;Send Students Home
-                                <span className="fa arrow" />
+                                <span className="fa arrow"/>
                             </a>
                             <ul
                                 className={classNames({
@@ -226,9 +223,9 @@ class StaffSideBar extends Component {
                                     return false;
                                 }}
                             >
-                                <FaCogs />
+                                <FaCogs/>
                                 &nbsp;Corrections
-                                <span className="fa arrow" />
+                                <span className="fa arrow"/>
                             </a>
                             <ul
                                 className={classNames({
@@ -252,7 +249,6 @@ class StaffSideBar extends Component {
                         </li>
 
 
-
                         <li
                             className={classNames({
                                 active: !this.state.residenceMultiLevelDropdownCollapsed
@@ -269,9 +265,9 @@ class StaffSideBar extends Component {
                                     return false;
                                 }}
                             >
-                                <FaCogs />
+                                <FaCogs/>
                                 &nbsp;Residence Management
-                                <span className="fa arrow" />
+                                <span className="fa arrow"/>
                             </a>
                             <ul
                                 className={classNames({
@@ -293,9 +289,6 @@ class StaffSideBar extends Component {
 
                             </ul>
                         </li>
-
-
-
                     </ul>
                 </div>
             </div>

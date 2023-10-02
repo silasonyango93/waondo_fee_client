@@ -63,7 +63,8 @@ class PerLotFeeQueryForm extends Component {
         } else {
             const payload = {
                 lotId: this.state.selectedLotObject.value,
-                minimumFeeBalance: this.state.minimumFeeBalance
+                minimumFeeBalance: this.state.minimumFeeBalance,
+                feeBalanceQueryScenario: "PER_LOT_FEE_QUERY"
             };
 
             this.props.getPerLotStudentsWithAMinimumTermBalance(payload);

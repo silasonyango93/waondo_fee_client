@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import {Columns} from "react-bulma-components/dist";
 import {connect} from "react-redux";
 import {
-    getAllStudentsWithAMinimumTermBalance,
     getPerClassStudentsWithAMinimumTermBalance
 } from "../../../../../store/modules/staff_home/actions";
 import {fetchAllActualClasses} from "../../../../../store/modules/admin_home/actions";
@@ -60,7 +59,8 @@ class PerClassFeeQueryForm extends Component {
         } else {
             const payload = {
                 classId: this.state.selectedClassObject.value,
-                minimumFeeBalance: this.state.minimumFeeBalance
+                minimumFeeBalance: this.state.minimumFeeBalance,
+                feeBalanceQueryScenario: "PER_CLASS_FEE_QUERY"
             };
 
             this.props.getPerClassStudentsWithAMinimumTermBalance(payload);

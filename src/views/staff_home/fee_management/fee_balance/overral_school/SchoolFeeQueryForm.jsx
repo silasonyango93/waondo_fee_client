@@ -25,7 +25,8 @@ class SchoolFeeQueryForm extends Component {
     handleSubmit = e => {
         e.preventDefault();
         const payload = {
-            minimumFeeBalance: this.state.minimumFeeBalance
+            minimumFeeBalance: this.state.minimumFeeBalance,
+            feeBalanceQueryScenario: "ENTIRE_SCHOOL_FEE_QUERY"
         };
 
         this.props.getAllStudentsWithAMinimumTermBalance(payload);

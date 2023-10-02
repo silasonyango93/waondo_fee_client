@@ -98,25 +98,70 @@ class FeeBalancePage extends Component {
     handleSendFeeReminderConfirmButtonClicked = async () => {
         const {sendStudentsHomePerActualClassQueryPayload} = this.props;
         const {selectedFeePaymentDeadlineDate} = this.state;
-        const classId = sendStudentsHomePerActualClassQueryPayload.classId;
-        const feeBalanceThreshold = sendStudentsHomePerActualClassQueryPayload.minimumFeeBalance;
-        try {
-            await simpleTransactionsServiceGet(
-                formatString("/statements/sms/send-fee-reminder-to-specific-class-stream-with-threshold" +
-                    "?classId={0}&feeBalanceThreshold={1}&paymentDeadlineDate={2}"
-                    , classId, feeBalanceThreshold, selectedFeePaymentDeadlineDate));
-            this.setState({
-                feeReminderSmsSentSuccessfully: true,
-                displayFeeReminderConfirmationModal: false,
-                displaySuccessForFeeReminderSmsBroadcast: true
-            });
-        } catch (e) {
-            console.log(e)
-            this.setState({
-                feeReminderSmsSentSuccessfully: true,
-                displayFeeReminderConfirmationModal: false,
-                displaySuccessForFeeReminderSmsBroadcast: false
-            });
+        //Reusing the sendStudentsHomePerActualClassQueryPayload even for lot fee balance queries.
+        // Differentiated by the boolean field isALotFeeBeingQueried
+        if (sendStudentsHomePerActualClassQueryPayload.feeBalanceQueryScenario === "PER_LOT_FEE_QUERY") {
+            const lotId = sendStudentsHomePerActualClassQueryPayload.lotId;
+            const feeBalanceThreshold = sendStudentsHomePerActualClassQueryPayload.minimumFeeBalance;
+            try {
+                await simpleTransactionsServiceGet(
+                    formatString("/statements/sms/send-fee-reminder-to-specific-lot-with-threshold" +
+                        "?lotId={0}&feeBalanceThreshold={1}&paymentDeadlineDate={2}"
+                        , lotId, feeBalanceThreshold, selectedFeePaymentDeadlineDate));
+                this.setState({
+                    feeReminderSmsSentSuccessfully: true,
+                    displayFeeReminderConfirmationModal: false,
+                    displaySuccessForFeeReminderSmsBroadcast: true
+                });
+            } catch (e) {
+                console.log(e)
+                this.setState({
+                    feeReminderSmsSentSuccessfully: true,
+                    displayFeeReminderConfirmationModal: false,
+                    displaySuccessForFeeReminderSmsBroadcast: false
+                });
+            }
+        } else if (sendStudentsHomePerActualClassQueryPayload.feeBalanceQueryScenario === "PER_CLASS_FEE_QUERY") {
+            const classId = sendStudentsHomePerActualClassQueryPayload.classId;
+            const feeBalanceThreshold = sendStudentsHomePerActualClassQueryPayload.minimumFeeBalance;
+            try {
+                await simpleTransactionsServiceGet(
+                    formatString("/statements/sms/send-fee-reminder-to-specific-class-stream-with-threshold" +
+                        "?classId={0}&feeBalanceThreshold={1}&paymentDeadlineDate={2}"
+                        , classId, feeBalanceThreshold, selectedFeePaymentDeadlineDate));
+                this.setState({
+                    feeReminderSmsSentSuccessfully: true,
+                    displayFeeReminderConfirmationModal: false,
+                    displaySuccessForFeeReminderSmsBroadcast: true
+                });
+            } catch (e) {
+                console.log(e)
+                this.setState({
+                    feeReminderSmsSentSuccessfully: true,
+                    displayFeeReminderConfirmationModal: false,
+                    displaySuccessForFeeReminderSmsBroadcast: false
+                });
+            }
+        } else {
+            const feeBalanceThreshold = sendStudentsHomePerActualClassQueryPayload.minimumFeeBalance;
+            try {
+                await simpleTransactionsServiceGet(
+                    formatString("/statements/sms/send-fee-reminder-to-entire-school-not-completed-school-with-threshold" +
+                        "?feeBalanceThreshold={1}&paymentDeadlineDate={2}"
+                        , feeBalanceThreshold, selectedFeePaymentDeadlineDate));
+                this.setState({
+                    feeReminderSmsSentSuccessfully: true,
+                    displayFeeReminderConfirmationModal: false,
+                    displaySuccessForFeeReminderSmsBroadcast: true
+                });
+            } catch (e) {
+                console.log(e)
+                this.setState({
+                    feeReminderSmsSentSuccessfully: true,
+                    displayFeeReminderConfirmationModal: false,
+                    displaySuccessForFeeReminderSmsBroadcast: false
+                });
+            }
         }
     };
 
