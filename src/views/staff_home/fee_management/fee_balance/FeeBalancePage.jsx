@@ -59,7 +59,7 @@ class FeeBalancePage extends Component {
                 const classDetails = await simpleTransactionsServiceGet(
                     "/academic-classes/class-details/fetch-class-by-its-full-name?classId="
                     + sendStudentsHomePerActualClassQueryPayload.classId);
-                const formattedString = formatString("You are about to send a broadcast message reminder to parents of {0} with fee balances equal " +
+                const formattedString = await formatString("You are about to send a broadcast message reminder to parents of {0} with fee balances equal " +
                     "to or greater than {1} to pay fees by date {2}", classDetails.data.AcademicClassLevelName + classDetails.data.ClassStreamName
                     , currencyDisplay(sendStudentsHomePerActualClassQueryPayload.minimumFeeBalance), this.state.selectedFeePaymentDeadlineDate);
                 this.setState({formattedFeeReminderConfirmationPrompt: formattedString})
@@ -68,14 +68,14 @@ class FeeBalancePage extends Component {
                 const lotDetails = await
                     simpleTransactionsServiceGet(formatString("/academic-classes/lot-details/fetch-lot-by-its-full-name?lotId={0}"
                         , sendStudentsHomePerActualClassQueryPayload.lotId));
-                const formattedString = formatString("You are about to send a broadcast message reminder to parents of form {0} with fee balances equal " +
+                const formattedString = await formatString("You are about to send a broadcast message reminder to parents of form {0} with fee balances equal " +
                     "to or greater than {1} to pay fees by date {2}", lotDetails.data.AcademicClassLevelName
                     , currencyDisplay(sendStudentsHomePerActualClassQueryPayload.minimumFeeBalance)
                     , this.state.selectedFeePaymentDeadlineDate);
                 this.setState({formattedFeeReminderConfirmationPrompt: formattedString})
             } else if (sendStudentsHomePerActualClassQueryPayload
                 && sendStudentsHomePerActualClassQueryPayload.feeBalanceQueryScenario === "ENTIRE_SCHOOL_FEE_QUERY") {
-                const formattedString = formatString("You are about to send a broadcast message reminder to parents of " +
+                const formattedString = await formatString("You are about to send a broadcast message reminder to parents of " +
                     "the entire school with fee balances equal " +
                     "to or greater than {0} to pay fees by date {1}"
                     , currencyDisplay(sendStudentsHomePerActualClassQueryPayload.minimumFeeBalance)
@@ -107,11 +107,11 @@ class FeeBalancePage extends Component {
     };
 
     handleReminderDeadlineDateFormSubmitButtonIsClicked = async (deadlineDate) => {
-        this.setState({
+        await this.setState({
             displayDeadlineDateForm: false,
-            selectedFeePaymentDeadlineDate: deadlineDate,
-            displayFeeReminderConfirmationModal: true
+            selectedFeePaymentDeadlineDate: deadlineDate
         });
+        await this.setState({displayFeeReminderConfirmationModal: true})
     };
 
     handleSendFeeReminderConfirmButtonClicked = async () => {
@@ -166,7 +166,7 @@ class FeeBalancePage extends Component {
             try {
                 await simpleTransactionsServiceGet(
                     formatString("/statements/sms/send-fee-reminder-to-entire-school-not-completed-school-with-threshold" +
-                        "?feeBalanceThreshold={1}&paymentDeadlineDate={2}"
+                        "?feeBalanceThreshold={0}&paymentDeadlineDate={1}"
                         , feeBalanceThreshold, selectedFeePaymentDeadlineDate));
                 this.setState({
                     feeReminderSmsSentSuccessfully: true,
