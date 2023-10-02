@@ -166,7 +166,8 @@ export function getAllStudentsWithAMinimumTermBalance(payload) {
           dispatch({
             type: SCHOOL_FETCH_MINIMUM_FEE_BALANCE_SUCCESSFUL,
             payload: {
-              feeBalanceList: result.data
+              feeBalanceList: result.data,
+              sendStudentsHomePerActualClassQueryPayload: payload
             }
           });
         } else if (!result.data) {
