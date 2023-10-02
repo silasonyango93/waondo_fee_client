@@ -9,7 +9,7 @@ import {
     PAY_FEE,
     REGISTER_A_STUDENT_PAGE,
     SEND_HOME_FROM_ENTIRE_SCHOOL,
-    SEND_HOME_PER_CLASS
+    SEND_HOME_PER_CLASS, SEND_HOME_PER_LOT
 } from "../../views/staff_home/StaffHomeConstants";
 
 class StaffSideBar extends Component {
@@ -176,6 +176,18 @@ class StaffSideBar extends Component {
                                         onClick={e => {
                                             e.preventDefault();
                                             this.props.handleSideBarClicked(SEND_HOME_PER_CLASS);
+                                        }}
+                                    >
+                                        Per stream
+                                    </a>
+                                </li>
+
+                                <li className="second-level">
+                                    <a
+                                        href=""
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            this.props.handleSideBarClicked(SEND_HOME_PER_LOT);
                                         }}
                                     >
                                         Per class

@@ -13,7 +13,7 @@ import {
     PAY_FEE,
     REGISTER_A_STUDENT_PAGE,
     SEND_HOME_FROM_ENTIRE_SCHOOL,
-    SEND_HOME_PER_CLASS
+    SEND_HOME_PER_CLASS, SEND_HOME_PER_LOT
 } from "./StaffHomeConstants";
 import StudentsPage from "./student_management/students/StudentsPage";
 import StaffSideBar from "../../components/sidebar/StaffSideBar";
@@ -60,6 +60,7 @@ class StaffHome extends Component {
             displayFeeBalanceModal: false,
             displaySchoolFeeQueryForm: false,
             displayPerClassFeeQueryForm: false,
+            displayPerLotFeeQueryForm: false,
             displayStudentPersonalDetailsCorrectionForm: false,
             displaySuccessFailureModal: false,
             displayChangeResidenceModal: false
@@ -124,6 +125,7 @@ class StaffHome extends Component {
                 displayFeeBalancePage: true,
                 displaySchoolFeeQueryForm: true,
                 displayPerClassFeeQueryForm: false,
+                displayPerLotFeeQueryForm: false,
                 displaySuccessFailureModal: false,
                 displayChangeResidenceModal: false
             });
@@ -138,6 +140,22 @@ class StaffHome extends Component {
                 displayFeeBalancePage: true,
                 displaySchoolFeeQueryForm: false,
                 displayPerClassFeeQueryForm: true,
+                displayPerLotFeeQueryForm: false,
+                displaySuccessFailureModal: false,
+                displayChangeResidenceModal: false
+            });
+        } else if (formToDisplay === SEND_HOME_PER_LOT) {
+            this.setState({
+                displayStaffHomeModal: false,
+                displayPayFeeForm: false,
+                displayStudentRegistrationForm: false,
+                displayFeePaymentConfirmationModal: false,
+                displayStudentsPage: false,
+                displayFeeBalanceModal: true,
+                displayFeeBalancePage: true,
+                displaySchoolFeeQueryForm: false,
+                displayPerClassFeeQueryForm: false,
+                displayPerLotFeeQueryForm: true,
                 displaySuccessFailureModal: false,
                 displayChangeResidenceModal: false
             });
@@ -282,7 +300,8 @@ class StaffHome extends Component {
             pagePanelTitle,
             displaySchoolFeeQueryForm,
             displayPerClassFeeQueryForm,
-            successFailureModalBoolean
+            successFailureModalBoolean,
+            displayPerLotFeeQueryForm
         } = this.state;
 
         return (

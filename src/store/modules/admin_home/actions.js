@@ -132,7 +132,7 @@ import {
   WEEK_ITERATION_CREATION_FAILED
 } from "./actionTypes";
 import {
-  transactionsServiceGetAll,
+  transactionsServiceGetAll, transactionsServiceGetWithPromise,
   transactionsServicePost
 } from "../../../services/transactions_service_connector/TransactionsServiceConnector";
 
@@ -968,18 +968,18 @@ export function fetchAllActualClasses() {
     dispatch({
       type: START_FETCHING_ALL_ACTUAL_CLASSES
     });
-    const apiRoute = "/get_all_actual_classes_by_full_description";
-    const returnedPromise = apiGetAll(apiRoute);
+    const apiRoute = "/academic-classes/actual-classes/fetch-all-actual-classes-currently-not-completed-school-full-details";
+    const returnedPromise = transactionsServiceGetWithPromise(apiRoute);
     returnedPromise.then(
       function(result) {
-        if (result.data.results && result.data.results.length > 0) {
+        if (result.data && result.data.length > 0) {
           dispatch({
             type: FETCHING_ALL_ACTUAL_CLASSES_SUCCESSFUL,
             payload: {
-              allActualClasses: result.data.results
+              allActualClasses: result.data
             }
           });
-        } else if (result.data.results && result.data.results.length === 0) {
+        } else if (result.data && result.data.length === 0) {
           dispatch({
             type: FETCHING_ALL_ACTUAL_CLASSES_EMPTY_RESULT_SET
           });
