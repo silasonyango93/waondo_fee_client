@@ -1,4 +1,5 @@
 import {
+  simpleTransactionsServiceGet,
   transactionsServiceGet,
   transactionsServicePost
 } from "../../../services/transactions_service_connector/TransactionsServiceConnector";
@@ -25,6 +26,7 @@ import {
   RESET_STUDENT_REGISTRATION,
   COMMIT_SEND_STUDENTS_HOME_SEARCH_CRITERIA
 } from "./actionTypes";
+import {formatString} from "../../../config/common/Utils";
 
 export function registerAStudent(payload) {
   return async dispatch => {
@@ -210,6 +212,39 @@ export function getPerClassStudentsWithAMinimumTermBalance(payload) {
         });
         console.log(err);
       }
+    );
+  };
+}
+
+
+export function getPerLotStudentsWithAMinimumTermBalance(payload) {
+  return async dispatch => {
+    const apiRoute =
+        formatString("/statements/fee-balance/get_all_students_in_a_lot_with_minimum_term_balance?" +
+            "lotId={0}&minimumFeeBalance={1}", payload.lotId, payload.minimumFeeBalance);
+    const returnedPromise = simpleTransactionsServiceGet(apiRoute);
+    returnedPromise.then(
+        function(result) {
+          if (result.data) {
+            dispatch({
+              type: SCHOOL_FETCH_MINIMUM_FEE_BALANCE_SUCCESSFUL,
+              payload: {
+                feeBalanceList: result.data,
+                sendStudentsHomePerActualClassQueryPayload: payload
+              }
+            });
+          } else if (!result.data) {
+            dispatch({
+              type: SCHOOL_FETCH_MINIMUM_FEE_BALANCE_EMPTY_RESULT_SET
+            });
+          }
+        },
+        function(err) {
+          dispatch({
+            type: ERROR_OCCURRED_WHILE_FETCHING_SCHOOL_MINIMUM_FEE_BALANCE
+          });
+          console.log(err);
+        }
     );
   };
 }

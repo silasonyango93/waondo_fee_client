@@ -33,6 +33,21 @@ export function transactionsServiceGetAll(apiRoute) {
     });
 }
 
+
+export function transactionsServiceGetWithPromise(apiRoute) {
+    return new Promise(function (resolve, reject) {
+        axios
+            .get(transactionsIp + apiRoute)
+            .then(response => {
+                resolve(response);
+            })
+            .catch(response => {
+                reject(response);
+            });
+    });
+}
+
+
 export const promiselessTransactionsServiceGetAll = apiRoute => axios.post(transactionsIp + apiRoute);
 
 export const simpleTransactionsServiceGet = apiRoute => axios.get(transactionsIp + apiRoute);

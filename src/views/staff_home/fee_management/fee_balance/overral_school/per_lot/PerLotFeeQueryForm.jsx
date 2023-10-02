@@ -1,42 +1,45 @@
-import React, {Component} from "react";
-import PropTypes from "prop-types";
-import {Columns} from "react-bulma-components/dist";
-import {connect} from "react-redux";
-import {
-    getAllStudentsWithAMinimumTermBalance,
-    getPerClassStudentsWithAMinimumTermBalance
-} from "../../../../../store/modules/staff_home/actions";
-import {fetchAllActualClasses} from "../../../../../store/modules/admin_home/actions";
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {Columns} from "react-bulma-components";
 import Select from "react-select";
+import {
+    getPerLotStudentsWithAMinimumTermBalance
+} from "../../../../../../store/modules/staff_home/actions";
+import {
+    fetchAllLotsNotCompletedSchool
+} from "../../../../../../store/modules/admin_home/actions";
+import {connect} from "react-redux";
+import {formatString} from "../../../../../../config/common/Utils";
 
-class PerClassFeeQueryForm extends Component {
+class PerLotFeeQueryForm extends Component {
+
     state = {
         minimumFeeBalance: "",
         minimumFeeBalanceHassError: false,
         minimumFeeBalanceErrorMessage: "",
-        selectedClassObject: "",
-        classesOptions: [],
+        selectedLotObject: "",
+        lotsOptions: [],
         selectedClassHasError: false,
-        selectedClassErrorMessage: ""
+        selectedLotErrorMessage: ""
     };
 
     componentDidMount() {
-        this.props.fetchAllActualClasses();
+        this.props.fetchAllLotsNotCompletedSchool();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.allActualClasses !== prevProps.allActualClasses) {
-            if (this.props.allActualClasses && this.props.allActualClasses.length) {
-                let allActualClasses = this.props.allActualClasses.map(
+        if (this.props.allActualLots !== prevProps.allActualLots) {
+            if (this.props.allActualLots && this.props.allActualLots.length) {
+                let allActualLots = this.props.allActualLots.map(
                     (item, index) => {
                         return {
-                            label: item.AcademicClassLevelName + " " + item.ClassStreamName,
-                            value: item.ClassId
+                            label: formatString("Form {0}", item.AcademicClassLevelName),
+                            value: item.LotId
                         };
                     }
                 );
 
-                this.setState({classesOptions: allActualClasses});
+                this.setState({lotsOptions: allActualLots});
             }
         }
     }
@@ -52,20 +55,20 @@ class PerClassFeeQueryForm extends Component {
     handleSubmit = e => {
         e.preventDefault();
 
-        if (!this.state.selectedClassObject) {
+        if (!this.state.selectedLotObject) {
             this.setState({
-                selectedClassHasError: true,
-                selectedClassErrorMessage: "This field is required"
+                selectedLotHasError: true,
+                selectedLotErrorMessage: "This field is required"
             });
         } else {
             const payload = {
-                classId: this.state.selectedClassObject.value,
+                lotId: this.state.selectedLotObject.value,
                 minimumFeeBalance: this.state.minimumFeeBalance
             };
 
-            this.props.getPerClassStudentsWithAMinimumTermBalance(payload);
-            this.props.closePerClassFeeQueryModal(
-                this.state.selectedClassObject.label,
+            this.props.getPerLotStudentsWithAMinimumTermBalance(payload);
+            this.props.closePerLotFeeQueryModal(
+                this.state.selectedLotObject.label,
                 this.state.minimumFeeBalance
             );
         }
@@ -91,33 +94,33 @@ class PerClassFeeQueryForm extends Component {
                                         <div className="form-group">
                                             <Select
                                                 className={
-                                                    this.state.selectedClassHasError
+                                                    this.state.selectedLotHasError
                                                         ? "react-select personal__text-area-error"
                                                         : "react-select"
                                                 }
                                                 classNamePrefix="react-select"
                                                 placeholder="Class"
-                                                name="selectedClassObject"
+                                                name="selectedLotObject"
                                                 closeMenuOnSelect={true}
-                                                value={this.state.selectedClassObject}
+                                                value={this.state.selectedLotObject}
                                                 onChange={value =>
                                                     this.setState({
                                                         ...this.state,
-                                                        selectedClassObject: value,
-                                                        selectedClassHasError: false,
-                                                        selectedClassErrorMessage: ""
+                                                        selectedLotObject: value,
+                                                        selectedLotHasError: false,
+                                                        selectedLotErrorMessage: ""
                                                     })
                                                 }
-                                                options={this.state.classesOptions}
+                                                options={this.state.lotsOptions}
                                             />
                                             <p
                                                 className={
-                                                    this.state.selectedClassHasError
+                                                    this.state.selectedLotHasError
                                                         ? "personal__submision-error"
                                                         : "personal__hide"
                                                 }
                                             >
-                                                {this.state.selectedClassErrorMessage}
+                                                {this.state.selectedLotErrorMessage}
                                             </p>
                                         </div>
                                     </Columns.Column>
@@ -166,24 +169,24 @@ class PerClassFeeQueryForm extends Component {
     }
 }
 
-PerClassFeeQueryForm.propTypes = {
-    getPerClassStudentsWithAMinimumTermBalance: PropTypes.func.isRequired,
-    closePerClassFeeQueryModal: PropTypes.func.isRequired,
-    fetchAllActualClasses: PropTypes.func.isRequired,
-    allActualClasses: PropTypes.arrayOf(PropTypes.object).isRequired
+PerLotFeeQueryForm.propTypes = {
+    getPerLotStudentsWithAMinimumTermBalance: PropTypes.func.isRequired,
+    closePerLotFeeQueryModal: PropTypes.func.isRequired,
+    fetchAllLotsNotCompletedSchool: PropTypes.func.isRequired,
+    allActualLots: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 const mapStateToProps = state => ({
-    allActualClasses: state.admin_home.actualClasses.allActualClasses
+    allActualLots: state.admin_home.actualLots.allActualLots
 });
 
 const mapDispatchToProps = dispatch => ({
-    getPerClassStudentsWithAMinimumTermBalance: payload =>
-        dispatch(getPerClassStudentsWithAMinimumTermBalance(payload)),
-    fetchAllActualClasses: () => dispatch(fetchAllActualClasses())
+    getPerLotStudentsWithAMinimumTermBalance: payload =>
+        dispatch(getPerLotStudentsWithAMinimumTermBalance(payload)),
+    fetchAllLotsNotCompletedSchool: () => dispatch(fetchAllLotsNotCompletedSchool())
 });
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(PerClassFeeQueryForm);
+)(PerLotFeeQueryForm);

@@ -40,7 +40,7 @@ import {
   ERROR_OCCURED_WHILE_FETCHING_CLASS_LEVELS,
   ERROR_OCCURED_WHILE_FETCHING_CLASS_STREAMS,
   ERROR_OCCURED_WHILE_FETCHING_FEE_COMPONENTS,
-  ERROR_OCCURED_WHILE_FETCHING_FEE_STRUCTURES,
+  ERROR_OCCURED_WHILE_FETCHING_FEE_STRUCTURES, ERROR_OCCURED_WHILE_FETCHING_FETCHING_ALL_LOTS_NOT_COMPLETED_SCHOOL,
   ERROR_OCCURED_WHILE_FETCHING_TERM_ITERATIONS,
   ERROR_OCCURED_WHILE_FETCHING_WEEK_ITERATIONS,
   ERROR_OCCURED_WHILE_FETCHING_YEARS_WEEKS,
@@ -71,6 +71,8 @@ import {
   FETCHING_ALL_ACTUAL_LOTS_SUCCESSFUL,
   FETCHING_ALL_LOT_DESCRIPTIONS_EMPTY_RESULT_SET,
   FETCHING_ALL_LOT_DESCRIPTIONS_SUCCESSFUL,
+  FETCHING_ALL_LOTS_NOT_COMPLETED_SCHOOL_EMPTY_RESULT_SET,
+  FETCHING_ALL_LOTS_NOT_COMPLETED_SCHOOL_SUCCESSFUL,
   FETCHING_CLASS_FEE_STRUCTURES_EMPTY_RESULT_SET,
   FETCHING_CLASS_FEE_STRUCTURES_SUCCESSFUL,
   FETCHING_CLASS_LEVELS_EMPTY_RESULT_SET,
@@ -116,6 +118,7 @@ import {
   START_FETCHING_ALL_ACTUAL_CLASSES,
   START_FETCHING_ALL_ACTUAL_LOTS,
   START_FETCHING_ALL_LOT_DESCRIPTIONS,
+  START_FETCHING_ALL_LOTS_NOT_COMPLETED_SCHOOL,
   START_FETCHING_CLASS_LEVELS,
   START_FETCHING_CLASS_STREAMS,
   START_FETCHING_TERM_ITERATIONS,
@@ -132,7 +135,7 @@ import {
   WEEK_ITERATION_CREATION_FAILED
 } from "./actionTypes";
 import {
-  transactionsServiceGetAll,
+  transactionsServiceGetAll, transactionsServiceGetWithPromise,
   transactionsServicePost
 } from "../../../services/transactions_service_connector/TransactionsServiceConnector";
 
@@ -968,18 +971,18 @@ export function fetchAllActualClasses() {
     dispatch({
       type: START_FETCHING_ALL_ACTUAL_CLASSES
     });
-    const apiRoute = "/get_all_actual_classes_by_full_description";
-    const returnedPromise = apiGetAll(apiRoute);
+    const apiRoute = "/academic-classes/actual-classes/fetch-all-actual-classes-currently-not-completed-school-full-details";
+    const returnedPromise = transactionsServiceGetWithPromise(apiRoute);
     returnedPromise.then(
       function(result) {
-        if (result.data.results && result.data.results.length > 0) {
+        if (result.data && result.data.length > 0) {
           dispatch({
             type: FETCHING_ALL_ACTUAL_CLASSES_SUCCESSFUL,
             payload: {
-              allActualClasses: result.data.results
+              allActualClasses: result.data
             }
           });
-        } else if (result.data.results && result.data.results.length === 0) {
+        } else if (result.data && result.data.length === 0) {
           dispatch({
             type: FETCHING_ALL_ACTUAL_CLASSES_EMPTY_RESULT_SET
           });
@@ -991,6 +994,39 @@ export function fetchAllActualClasses() {
         });
         console.log(err);
       }
+    );
+  };
+}
+
+
+export function fetchAllLotsNotCompletedSchool() {
+  return async dispatch => {
+    dispatch({
+      type: START_FETCHING_ALL_LOTS_NOT_COMPLETED_SCHOOL
+    });
+    const apiRoute = "/academic-classes/lots/fetch-all-lots-currently-not-completed-school-full-details";
+    const returnedPromise = transactionsServiceGetWithPromise(apiRoute);
+    returnedPromise.then(
+        function(result) {
+          if (result.data && result.data.length > 0) {
+            dispatch({
+              type: FETCHING_ALL_LOTS_NOT_COMPLETED_SCHOOL_SUCCESSFUL,
+              payload: {
+                allActualLots: result.data
+              }
+            });
+          } else if (result.data && result.data.length === 0) {
+            dispatch({
+              type: FETCHING_ALL_LOTS_NOT_COMPLETED_SCHOOL_EMPTY_RESULT_SET
+            });
+          }
+        },
+        function(err) {
+          dispatch({
+            type: ERROR_OCCURED_WHILE_FETCHING_FETCHING_ALL_LOTS_NOT_COMPLETED_SCHOOL
+          });
+          console.log(err);
+        }
     );
   };
 }

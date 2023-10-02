@@ -13,7 +13,7 @@ import {
     PAY_FEE,
     REGISTER_A_STUDENT_PAGE,
     SEND_HOME_FROM_ENTIRE_SCHOOL,
-    SEND_HOME_PER_CLASS
+    SEND_HOME_PER_CLASS, SEND_HOME_PER_LOT
 } from "./StaffHomeConstants";
 import StudentsPage from "./student_management/students/StudentsPage";
 import StaffSideBar from "../../components/sidebar/StaffSideBar";
@@ -41,6 +41,7 @@ import PersonalDetailsCorrectionForm
     from "./student_management/personal_details_correction/PersonalDetailsCorrectionForm";
 import SuccessFailureModal from "../../components/modals/success_failure_modal/SuccessFailureModal";
 import ChangeResidencePage from "./residence_management/ChangeResidencePage";
+import PerLotFeeQueryForm from "./fee_management/fee_balance/overral_school/per_lot/PerLotFeeQueryForm";
 
 class StaffHome extends Component {
     constructor(props) {
@@ -60,6 +61,7 @@ class StaffHome extends Component {
             displayFeeBalanceModal: false,
             displaySchoolFeeQueryForm: false,
             displayPerClassFeeQueryForm: false,
+            displayPerLotFeeQueryForm: false,
             displayStudentPersonalDetailsCorrectionForm: false,
             displaySuccessFailureModal: false,
             displayChangeResidenceModal: false
@@ -124,6 +126,7 @@ class StaffHome extends Component {
                 displayFeeBalancePage: true,
                 displaySchoolFeeQueryForm: true,
                 displayPerClassFeeQueryForm: false,
+                displayPerLotFeeQueryForm: false,
                 displaySuccessFailureModal: false,
                 displayChangeResidenceModal: false
             });
@@ -138,6 +141,22 @@ class StaffHome extends Component {
                 displayFeeBalancePage: true,
                 displaySchoolFeeQueryForm: false,
                 displayPerClassFeeQueryForm: true,
+                displayPerLotFeeQueryForm: false,
+                displaySuccessFailureModal: false,
+                displayChangeResidenceModal: false
+            });
+        } else if (formToDisplay === SEND_HOME_PER_LOT) {
+            this.setState({
+                displayStaffHomeModal: false,
+                displayPayFeeForm: false,
+                displayStudentRegistrationForm: false,
+                displayFeePaymentConfirmationModal: false,
+                displayStudentsPage: false,
+                displayFeeBalanceModal: true,
+                displayFeeBalancePage: true,
+                displaySchoolFeeQueryForm: false,
+                displayPerClassFeeQueryForm: false,
+                displayPerLotFeeQueryForm: true,
                 displaySuccessFailureModal: false,
                 displayChangeResidenceModal: false
             });
@@ -250,6 +269,14 @@ class StaffHome extends Component {
         });
     };
 
+    handleClosePerLotFeeQueryModal = (lotName, minimumFeeBalance) => {
+        this.setState({
+            displayFeeBalanceModal: false,
+            pagePanelTitle:
+                lotName + " fee balances of KES " + minimumFeeBalance + " and above"
+        });
+    };
+
     handleClosePersonalDetailsCorrectionModal = isUpdateSuccessful => {
         this.setState({
             displayStaffHomeModal: false,
@@ -282,7 +309,8 @@ class StaffHome extends Component {
             pagePanelTitle,
             displaySchoolFeeQueryForm,
             displayPerClassFeeQueryForm,
-            successFailureModalBoolean
+            successFailureModalBoolean,
+            displayPerLotFeeQueryForm
         } = this.state;
 
         return (
@@ -462,6 +490,9 @@ class StaffHome extends Component {
                         <PerClassFeeQueryForm
                             closePerClassFeeQueryModal={this.closePerClassFeeQueryModal}
                         />
+                    )}
+                    {displayPerLotFeeQueryForm && (
+                        <PerLotFeeQueryForm closePerLotFeeQueryModal={this.handleClosePerLotFeeQueryModal}/>
                     )}
                 </Modal>
 
