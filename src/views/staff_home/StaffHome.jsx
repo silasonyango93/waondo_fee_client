@@ -41,6 +41,7 @@ import PersonalDetailsCorrectionForm
     from "./student_management/personal_details_correction/PersonalDetailsCorrectionForm";
 import SuccessFailureModal from "../../components/modals/success_failure_modal/SuccessFailureModal";
 import ChangeResidencePage from "./residence_management/ChangeResidencePage";
+import PerLotFeeQueryForm from "./fee_management/fee_balance/overral_school/per_lot/PerLotFeeQueryForm";
 
 class StaffHome extends Component {
     constructor(props) {
@@ -268,6 +269,14 @@ class StaffHome extends Component {
         });
     };
 
+    handleClosePerLotFeeQueryModal = (lotName, minimumFeeBalance) => {
+        this.setState({
+            displayFeeBalanceModal: false,
+            pagePanelTitle:
+                lotName + " fee balances of KES " + minimumFeeBalance + " and above"
+        });
+    };
+
     handleClosePersonalDetailsCorrectionModal = isUpdateSuccessful => {
         this.setState({
             displayStaffHomeModal: false,
@@ -481,6 +490,9 @@ class StaffHome extends Component {
                         <PerClassFeeQueryForm
                             closePerClassFeeQueryModal={this.closePerClassFeeQueryModal}
                         />
+                    )}
+                    {displayPerLotFeeQueryForm && (
+                        <PerLotFeeQueryForm closePerLotFeeQueryModal={this.handleClosePerLotFeeQueryModal}/>
                     )}
                 </Modal>
 
