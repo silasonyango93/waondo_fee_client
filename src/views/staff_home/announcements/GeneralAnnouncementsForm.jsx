@@ -8,6 +8,9 @@ import {
     SPECIFIC_CLASS_ANNOUNCEMENT_TYPE,
     SPECIFIC_STREAM_ANNOUNCEMENT_TYPE
 } from "./AnnouncementTypesConstants";
+import {connect} from "react-redux";
+import {fetchAllActualClasses, fetchAllLotsNotCompletedSchool} from "../../../store/modules/admin_home/actions";
+import {formatString} from "../../../config/common/Utils";
 
 class GeneralAnnouncementsForm extends Component {
     state = {
@@ -19,6 +22,53 @@ class GeneralAnnouncementsForm extends Component {
         announcementMessageHasError: false,
         announcementMessageErrorMessage: ""
     };
+
+    componentDidMount() {
+        const {announcementType, fetchAllLotsNotCompletedSchool, fetchAllActualClasses} = this.props;
+        if (announcementType === SPECIFIC_CLASS_ANNOUNCEMENT_TYPE) {
+            fetchAllLotsNotCompletedSchool();
+        }
+        if (announcementType === SPECIFIC_STREAM_ANNOUNCEMENT_TYPE) {
+            fetchAllActualClasses();
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {announcementType} = this.props;
+        if (announcementType === SPECIFIC_CLASS_ANNOUNCEMENT_TYPE) {
+            if (this.props.allActualLots !== prevProps.allActualLots) {
+                if (this.props.allActualLots && this.props.allActualLots.length) {
+                    let allActualLots = this.props.allActualLots.map(
+                        (item, index) => {
+                            return {
+                                label: formatString("Form {0}", item.AcademicClassLevelName),
+                                value: item.LotId
+                            };
+                        }
+                    );
+
+                    this.setState({itemOptions: allActualLots});
+                }
+            }
+        }
+
+        if (announcementType === SPECIFIC_STREAM_ANNOUNCEMENT_TYPE) {
+            if (this.props.allActualClasses !== prevProps.allActualClasses) {
+                if (this.props.allActualClasses && this.props.allActualClasses.length) {
+                    let allActualClasses = this.props.allActualClasses.map(
+                        (item, index) => {
+                            return {
+                                label: item.AcademicClassLevelName + " " + item.ClassStreamName,
+                                value: item.ClassId
+                            };
+                        }
+                    );
+
+                    this.setState({itemOptions: allActualClasses});
+                }
+            }
+        }
+    }
 
     handleChange = event => {
         let newState = this.state;
@@ -132,7 +182,22 @@ class GeneralAnnouncementsForm extends Component {
 
 GeneralAnnouncementsForm.propTypes = {
     announcementType: PropTypes.string.isRequired,
-    isSelectOptionsWidgetRequired: PropTypes.bool.isRequired
+    isSelectOptionsWidgetRequired: PropTypes.bool.isRequired,
+    allActualClasses: PropTypes.arrayOf(PropTypes.object),
+    allActualLots: PropTypes.arrayOf(PropTypes.object)
 };
 
-export default GeneralAnnouncementsForm;
+const mapStateToProps = state => ({
+    allActualClasses: state.admin_home.actualClasses.allActualClasses,
+    allActualLots: state.admin_home.actualLots.allActualLots
+});
+
+const mapDispatchToProps = dispatch => ({
+    fetchAllActualClasses: () => dispatch(fetchAllActualClasses()),
+    fetchAllLotsNotCompletedSchool: () => dispatch(fetchAllLotsNotCompletedSchool())
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(GeneralAnnouncementsForm);

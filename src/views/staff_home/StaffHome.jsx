@@ -70,7 +70,9 @@ class StaffHome extends Component {
             displayStudentPersonalDetailsCorrectionForm: false,
             displaySuccessFailureModal: false,
             displayChangeResidenceModal: false,
-            displayGeneralAnnouncementForm: false,
+            displayEntireSchoolAnnouncementForm: false,
+            displayClassAnnouncementForm: false,
+            displayStreamAnnouncementForm: false,
             announcementType: ""
         };
         this.idleTimer = null;
@@ -189,17 +191,17 @@ class StaffHome extends Component {
             });
         } else if (formToDisplay === ENTIRE_SCHOOL_ANNOUNCEMENT) {
             this.setState({
-                displayGeneralAnnouncementForm: true,
+                displayEntireSchoolAnnouncementForm: true,
                 announcementType: ENTIRE_SCHOOL_ANNOUNCEMENT_TYPE
             });
         } else if (formToDisplay === SPECIFIC_CLASS_ANNOUNCEMENT) {
             this.setState({
-                displayGeneralAnnouncementForm: true,
+                displayClassAnnouncementForm: true,
                 announcementType: SPECIFIC_CLASS_ANNOUNCEMENT_TYPE
             });
         } else if (formToDisplay === SPECIFIC_STREAM_ANNOUNCEMENT) {
             this.setState({
-                displayGeneralAnnouncementForm: true,
+                displayStreamAnnouncementForm: true,
                 announcementType: SPECIFIC_STREAM_ANNOUNCEMENT_TYPE
             });
         }
@@ -324,7 +326,11 @@ class StaffHome extends Component {
     };
 
     handleGeneralAnnouncementExteriorClicked = () => {
-        this.setState({displayGeneralAnnouncementForm: false});
+        this.setState({
+            displayEntireSchoolAnnouncementForm: false
+            , displayClassAnnouncementForm: false
+            , displayStreamAnnouncementForm: false
+        });
     };
 
     render() {
@@ -337,6 +343,9 @@ class StaffHome extends Component {
             displayPerClassFeeQueryForm,
             successFailureModalBoolean,
             displayPerLotFeeQueryForm,
+            displayEntireSchoolAnnouncementForm,
+            displayClassAnnouncementForm,
+            displayStreamAnnouncementForm,
             announcementType
         } = this.state;
 
@@ -533,7 +542,9 @@ class StaffHome extends Component {
                 )}
 
                 <Modal
-                    visible={this.state.displayGeneralAnnouncementForm}
+                    visible={displayEntireSchoolAnnouncementForm
+                        || displayClassAnnouncementForm
+                        || displayStreamAnnouncementForm}
                     width="900"
                     height="450"
                     effect="fadeInUp"
@@ -541,8 +552,15 @@ class StaffHome extends Component {
                         this.handleGeneralAnnouncementExteriorClicked();
                     }}
                 >
-                    <GeneralAnnouncementsForm announcementType={announcementType}
-                                              isSelectOptionsWidgetRequired={announcementType !== ENTIRE_SCHOOL_ANNOUNCEMENT_TYPE}/>
+                    {displayEntireSchoolAnnouncementForm && (
+                        <GeneralAnnouncementsForm announcementType={ENTIRE_SCHOOL_ANNOUNCEMENT_TYPE}
+                                                  isSelectOptionsWidgetRequired={false}/>)}
+                    {displayClassAnnouncementForm && (
+                        <GeneralAnnouncementsForm announcementType={SPECIFIC_CLASS_ANNOUNCEMENT_TYPE}
+                                                  isSelectOptionsWidgetRequired={true}/>)}
+                    {displayStreamAnnouncementForm && (
+                        <GeneralAnnouncementsForm announcementType={SPECIFIC_STREAM_ANNOUNCEMENT_TYPE}
+                                                  isSelectOptionsWidgetRequired={true}/>)}
                 </Modal>
             </div>
         );
