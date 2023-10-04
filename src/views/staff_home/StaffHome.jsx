@@ -9,7 +9,7 @@ import {terminateCurrentSession} from "../../store/modules/current_session/actio
 import TopBar from "../../components/topbar/TopBar";
 import {
     CHANGE_STUDENT_RESIDENCE,
-    CORRECT_STUDENT_PERSONAL_DETAILS, ENTIRE_SCHOOL_ANNOUNCEMENT,
+    CORRECT_STUDENT_PERSONAL_DETAILS, DOWNLOADS, ENTIRE_SCHOOL_ANNOUNCEMENT,
     PAY_FEE,
     REGISTER_A_STUDENT_PAGE,
     SEND_HOME_FROM_ENTIRE_SCHOOL,
@@ -47,6 +47,9 @@ import {
     ENTIRE_SCHOOL_ANNOUNCEMENT_TYPE,
     SPECIFIC_CLASS_ANNOUNCEMENT_TYPE, SPECIFIC_STREAM_ANNOUNCEMENT_TYPE
 } from "./announcements/AnnouncementTypesConstants";
+import {downloadExcelFileFromBackend} from "../../services/transactions_service_connector/TransactionsServiceConnector";
+import {formatString, today} from "../../config/common/Utils";
+import {transactionsIp} from "../../config/EndPoint";
 
 class StaffHome extends Component {
     constructor(props) {
@@ -203,6 +206,9 @@ class StaffHome extends Component {
                 displayStreamAnnouncementForm: true,
                 announcementType: SPECIFIC_STREAM_ANNOUNCEMENT_TYPE
             });
+        } else if (formToDisplay === DOWNLOADS) {
+            const url = formatString("{0}/installments/excel/fee-installments-made-today", transactionsIp);
+            downloadExcelFileFromBackend(url, formatString("Today {0}'s fee payments", today()))
         }
     };
 

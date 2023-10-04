@@ -75,3 +75,17 @@ export const promiselessJsonTransactionsServicePost = (payload, apiRoute) =>
     );
 
 export const transactionsServiceGet = apiRoute => jsonAxiosInstance.get(transactionsIp + apiRoute);
+
+export const downloadExcelFileFromBackend = (url, fileName) => {
+    axios.get(url, {
+        method: 'GET',
+        responseType: 'blob' // important
+    }).then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `${fileName}.xlsx`);
+        document.body.appendChild(link);
+        link.click();
+    });
+};

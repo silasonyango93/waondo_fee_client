@@ -16,6 +16,7 @@ import FeeReminderDeadlineDateForm from "../fee_payment_reminder/FeeReminderDead
 import ActionConfirmationView from "../../../../components/action_confirmation/ActionConfirmationView";
 import {currencyDisplay, formatString} from "../../../../config/common/Utils";
 import {
+    downloadExcelFileFromBackend,
     promiselessTransactionsServiceGetAll, simpleTransactionsServiceGet
 } from "../../../../services/transactions_service_connector/TransactionsServiceConnector";
 import SuccessFailureModal from "../../../../components/modals/success_failure_modal/SuccessFailureModal";
@@ -204,32 +205,17 @@ class FeeBalancePage extends Component {
                 "lotId={1}&termBalanceThresholdAmount={2}"
                 , transactionsIp, sendStudentsHomePerActualClassQueryPayload.lotId
                 , sendStudentsHomePerActualClassQueryPayload.minimumFeeBalance);
-            this.downloadExcelFileFromBackend(url, formatString("Form {0} fee balances of {1} and above"
+            downloadExcelFileFromBackend(url, formatString("Form {0} fee balances of {1} and above"
                 , lotDetails.data.AcademicClassLevelName, sendStudentsHomePerActualClassQueryPayload.minimumFeeBalance));
         } else if (sendStudentsHomePerActualClassQueryPayload.feeBalanceQueryScenario === "PER_CLASS_FEE_QUERY") {
             const url = formatString("{0}/statements/excel/fee-balances-per-class-stream-with-term-threshold?" +
                 "classId={1}&termBalanceThresholdAmount={2}"
                 , transactionsIp, sendStudentsHomePerActualClassQueryPayload.classId
                 , sendStudentsHomePerActualClassQueryPayload.minimumFeeBalance);
-            this.downloadExcelFileFromBackend(url, formatString("Form {0} fee balances of {1} and above"
+            downloadExcelFileFromBackend(url, formatString("Form {0} fee balances of {1} and above"
                 , classDetails.data.AcademicClassLevelName + classDetails.data.ClassStreamName
                 , sendStudentsHomePerActualClassQueryPayload.minimumFeeBalance));
         }
-    };
-
-
-    downloadExcelFileFromBackend = (url, fileName) => {
-        axios.get(url, {
-            method: 'GET',
-            responseType: 'blob' // important
-        }).then((response) => {
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', `${fileName}.xlsx`);
-            document.body.appendChild(link);
-            link.click();
-        });
     };
 
     render() {

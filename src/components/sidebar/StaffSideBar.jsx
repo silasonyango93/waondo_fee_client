@@ -2,10 +2,10 @@ import React, {Component} from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import {withRouter} from "react-router-dom";
-import {FaCogs, FaSearch, FaUserPlus, FaRegPaperPlane, FaBuilding, FaVolumeUp} from "react-icons/fa";
+import {FaCogs, FaSearch, FaUserPlus, FaRegPaperPlane, FaBuilding, FaVolumeUp, FaDownload} from "react-icons/fa";
 import {
     CHANGE_STUDENT_RESIDENCE,
-    CORRECT_STUDENT_PERSONAL_DETAILS, ENTIRE_SCHOOL_ANNOUNCEMENT, MAKE_ANNOUNCEMENTS,
+    CORRECT_STUDENT_PERSONAL_DETAILS, DOWNLOADS, ENTIRE_SCHOOL_ANNOUNCEMENT, MAKE_ANNOUNCEMENTS,
     PAY_FEE,
     REGISTER_A_STUDENT_PAGE,
     SEND_HOME_FROM_ENTIRE_SCHOOL,
@@ -28,7 +28,8 @@ class StaffSideBar extends Component {
             studentsHomeMultiLevelDropdownCollapsed: true,
             correctionMultiLevelDropdownCollapsed: true,
             residenceMultiLevelDropdownCollapsed: true,
-            announcementMultiLevelDropdownCollapsed: true
+            announcementMultiLevelDropdownCollapsed: true,
+            downloadsMultiLevelDropdownCollapsed: true
         };
     }
 
@@ -352,6 +353,48 @@ class StaffSideBar extends Component {
                                         }}
                                     >
                                         Specific Stream
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+
+                        <li
+                            className={classNames({
+                                active: !this.state.downloadsMultiLevelDropdownCollapsed
+                            })}
+                        >
+                            <a
+                                href=""
+                                onClick={e => {
+                                    e.preventDefault();
+                                    this.setState({
+                                        downloadsMultiLevelDropdownCollapsed: !this.state
+                                            .downloadsMultiLevelDropdownCollapsed
+                                    });
+                                    return false;
+                                }}
+                            >
+                                <FaDownload/>
+                                &nbsp;Downloads
+                                <span className="fa arrow"/>
+                            </a>
+                            <ul
+                                className={classNames({
+                                    "nav nav-second-level": true,
+                                    collapse: this.state.downloadsMultiLevelDropdownCollapsed
+                                })}
+                            >
+                                <li className="second-level">
+                                    <a
+                                        href=""
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            this.props.handleSideBarClicked(DOWNLOADS);
+                                        }}
+                                    >
+                                        Today's Fee Payments
                                     </a>
                                 </li>
 
