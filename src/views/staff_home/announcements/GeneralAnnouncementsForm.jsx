@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Columns, Container} from "react-bulma-components";
+import {Container} from "react-bulma-components";
 import './GeneralAnnouncementsForm.scss'
 import Select from "react-select";
 import {
@@ -42,6 +42,7 @@ class GeneralAnnouncementsForm extends Component {
     }
 
     render() {
+        const {isSelectOptionsWidgetRequired} = this.props;
         return (
             <Container fluid className="general-announcement__container">
                 <div className="login-panel panel panel-default dialog__main-body">
@@ -56,7 +57,7 @@ class GeneralAnnouncementsForm extends Component {
                             encType="multipart/form-data"
                         >
                             <fieldset>
-                                <div className="form-group">
+                                {isSelectOptionsWidgetRequired && (<div className="form-group">
                                     <Select
                                         className={
                                             this.state.selectedItemHasError
@@ -87,30 +88,32 @@ class GeneralAnnouncementsForm extends Component {
                                     >
                                         {this.state.selectedItemErrorMessage}
                                     </p>
-                                </div>
+                                </div>)}
 
-                                <textarea
-                                    name="announcementMessage"
-                                    className={
-                                        this.state.announcementMessageHasError
-                                            ? "form-control personal__text-area-error"
-                                            : "form-control"
-                                    }
-                                    placeholder="Key in your announcement here"
-                                    value={this.state.announcementMessage}
-                                    onChange={this.handleChange}
-                                    autoFocus
-                                    required
-                                />
-                                <p
-                                    className={
-                                        this.state.announcementMessageHasError
-                                            ? "personal__submision-error"
-                                            : "personal__hide"
-                                    }
-                                >
-                                    {this.state.announcementMessageErrorMessage}
-                                </p>
+                                <div className="form-group">
+                                    <textarea
+                                        name="announcementMessage"
+                                        className={
+                                            this.state.announcementMessageHasError
+                                                ? "form-control personal__text-area-error"
+                                                : "form-control"
+                                        }
+                                        placeholder="Key in your announcement here"
+                                        value={this.state.announcementMessage}
+                                        onChange={this.handleChange}
+                                        autoFocus
+                                        required
+                                    />
+                                    <p
+                                        className={
+                                            this.state.announcementMessageHasError
+                                                ? "personal__submision-error"
+                                                : "personal__hide"
+                                        }
+                                    >
+                                        {this.state.announcementMessageErrorMessage}
+                                    </p>
+                                </div>
 
                                 <button
                                     type="submit"
@@ -129,6 +132,7 @@ class GeneralAnnouncementsForm extends Component {
 
 GeneralAnnouncementsForm.propTypes = {
     announcementType: PropTypes.string.isRequired,
+    isSelectOptionsWidgetRequired: PropTypes.bool.isRequired
 };
 
 export default GeneralAnnouncementsForm;

@@ -535,13 +535,14 @@ class StaffHome extends Component {
                 <Modal
                     visible={this.state.displayGeneralAnnouncementForm}
                     width="900"
-                    height="350"
+                    height="450"
                     effect="fadeInUp"
                     onClickAway={() => {
                         this.handleGeneralAnnouncementExteriorClicked();
                     }}
                 >
-                    <GeneralAnnouncementsForm announcementType={announcementType}/>
+                    <GeneralAnnouncementsForm announcementType={announcementType}
+                                              isSelectOptionsWidgetRequired={announcementType !== ENTIRE_SCHOOL_ANNOUNCEMENT_TYPE}/>
                 </Modal>
             </div>
         );
