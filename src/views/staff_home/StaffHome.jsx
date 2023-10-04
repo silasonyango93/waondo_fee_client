@@ -72,8 +72,7 @@ class StaffHome extends Component {
             displayChangeResidenceModal: false,
             displayEntireSchoolAnnouncementForm: false,
             displayClassAnnouncementForm: false,
-            displayStreamAnnouncementForm: false,
-            announcementType: ""
+            displayStreamAnnouncementForm: false
         };
         this.idleTimer = null;
     }
@@ -345,8 +344,7 @@ class StaffHome extends Component {
             displayPerLotFeeQueryForm,
             displayEntireSchoolAnnouncementForm,
             displayClassAnnouncementForm,
-            displayStreamAnnouncementForm,
-            announcementType
+            displayStreamAnnouncementForm
         } = this.state;
 
         return (
