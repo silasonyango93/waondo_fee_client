@@ -150,54 +150,55 @@ class GeneralAnnouncementsForm extends Component {
         const {displayPublishAnnouncementConfirmation} = this.state;
         const {isSelectOptionsWidgetRequired} = this.props;
         return (
-            <Container fluid className="general-announcement__container">
+            <div>
                 {!displayPublishAnnouncementConfirmation && (
-                    <div className="login-panel panel panel-default dialog__main-body">
-                        <div className="panel-heading">
-                            <h3 className="panel-title">{this.processFormTitle()}</h3>
-                        </div>
-                        <div className="panel-body">
-                            <form
-                                action=""
-                                method="POST"
-                                onSubmit={this.handleSubmit}
-                                encType="multipart/form-data"
-                            >
-                                <fieldset>
-                                    {isSelectOptionsWidgetRequired && (<div className="form-group">
-                                        <Select
-                                            className={
-                                                this.state.selectedItemHasError
-                                                    ? "react-select personal__text-area-error"
-                                                    : "react-select"
-                                            }
-                                            classNamePrefix="react-select"
-                                            placeholder="Class"
-                                            name="selectedClassObject"
-                                            closeMenuOnSelect={true}
-                                            value={this.state.selectedItemObject}
-                                            onChange={value =>
-                                                this.setState({
-                                                    ...this.state,
-                                                    selectedItemObject: value,
-                                                    selectedItemHasError: false,
-                                                    selectedItemErrorMessage: ""
-                                                })
-                                            }
-                                            options={this.state.itemOptions}
-                                        />
-                                        <p
-                                            className={
-                                                this.state.selectedItemHasError
-                                                    ? "personal__submision-error"
-                                                    : "personal__hide"
-                                            }
-                                        >
-                                            {this.state.selectedItemErrorMessage}
-                                        </p>
-                                    </div>)}
+                    <Container fluid className="general-announcement__container">
+                        <div className="login-panel panel panel-default dialog__main-body">
+                            <div className="panel-heading">
+                                <h3 className="panel-title">{this.processFormTitle()}</h3>
+                            </div>
+                            <div className="panel-body">
+                                <form
+                                    action=""
+                                    method="POST"
+                                    onSubmit={this.handleSubmit}
+                                    encType="multipart/form-data"
+                                >
+                                    <fieldset>
+                                        {isSelectOptionsWidgetRequired && (<div className="form-group">
+                                            <Select
+                                                className={
+                                                    this.state.selectedItemHasError
+                                                        ? "react-select personal__text-area-error"
+                                                        : "react-select"
+                                                }
+                                                classNamePrefix="react-select"
+                                                placeholder="Class"
+                                                name="selectedClassObject"
+                                                closeMenuOnSelect={true}
+                                                value={this.state.selectedItemObject}
+                                                onChange={value =>
+                                                    this.setState({
+                                                        ...this.state,
+                                                        selectedItemObject: value,
+                                                        selectedItemHasError: false,
+                                                        selectedItemErrorMessage: ""
+                                                    })
+                                                }
+                                                options={this.state.itemOptions}
+                                            />
+                                            <p
+                                                className={
+                                                    this.state.selectedItemHasError
+                                                        ? "personal__submision-error"
+                                                        : "personal__hide"
+                                                }
+                                            >
+                                                {this.state.selectedItemErrorMessage}
+                                            </p>
+                                        </div>)}
 
-                                    <div className="form-group">
+                                        <div className="form-group">
                                     <textarea
                                         name="announcementMessage"
                                         className={
@@ -211,32 +212,35 @@ class GeneralAnnouncementsForm extends Component {
                                         autoFocus
                                         required
                                     />
-                                        <p
-                                            className={
-                                                this.state.announcementMessageHasError
-                                                    ? "personal__submision-error"
-                                                    : "personal__hide"
-                                            }
-                                        >
-                                            {this.state.announcementMessageErrorMessage}
-                                        </p>
-                                    </div>
+                                            <p
+                                                className={
+                                                    this.state.announcementMessageHasError
+                                                        ? "personal__submision-error"
+                                                        : "personal__hide"
+                                                }
+                                            >
+                                                {this.state.announcementMessageErrorMessage}
+                                            </p>
+                                        </div>
 
-                                    <button
-                                        type="submit"
-                                        className="btn btn-lg btn-success btn-block general-announcement__submit-button"
-                                    >
-                                        Submit
-                                    </button>
-                                </fieldset>
-                            </form>
+                                        <button
+                                            type="submit"
+                                            className="btn btn-lg btn-success btn-block general-announcement__submit-button"
+                                        >
+                                            Submit
+                                        </button>
+                                    </fieldset>
+                                </form>
+                            </div>
                         </div>
-                    </div>)}
+                    </Container>)}
                 {displayPublishAnnouncementConfirmation && (<ActionConfirmationView title="Send Broadcast Message"
                                                                                     promptText={this.processConfirmationModalPrompt()}
                                                                                     handleConfirmButtonClicked={this.handleConfirmButtonClicked}
-                                                                                    handleRejectButtonClicked={this.handleRejectButtonClicked}/>)}
-            </Container>
+                                                                                    handleRejectButtonClicked={this.handleRejectButtonClicked}/>)
+                }
+            </div>
+
         );
     }
 }
