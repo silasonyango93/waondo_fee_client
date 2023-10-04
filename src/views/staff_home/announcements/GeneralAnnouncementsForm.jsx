@@ -12,6 +12,10 @@ import {connect} from "react-redux";
 import {fetchAllActualClasses, fetchAllLotsNotCompletedSchool} from "../../../store/modules/admin_home/actions";
 import {formatString} from "../../../config/common/Utils";
 import ActionConfirmationView from "../../../components/action_confirmation/ActionConfirmationView";
+import {
+    promiselessJsonTransactionsServicePost
+} from "../../../services/transactions_service_connector/TransactionsServiceConnector";
+import SuccessFailureModal from "../../../components/modals/success_failure_modal/SuccessFailureModal";
 
 class GeneralAnnouncementsForm extends Component {
     state = {
@@ -23,7 +27,9 @@ class GeneralAnnouncementsForm extends Component {
         announcementMessageHasError: false,
         announcementMessageErrorMessage: "",
         payload: "",
-        displayPublishAnnouncementConfirmation: false
+        displayPublishAnnouncementConfirmation: false,
+        showSuccessFailureModal: false,
+        isASuccessfulBroadcastMessageDelivery: false
     };
 
     componentDidMount() {
@@ -98,7 +104,7 @@ class GeneralAnnouncementsForm extends Component {
         e.preventDefault();
         const {announcementMessage, selectedItemObject} = this.state;
         const {announcementType} = this.props;
-        if (announcementType !== ENTIRE_SCHOOL_ANNOUNCEMENT_TYPE && !selectedItemObject.length) {
+        if (announcementType !== ENTIRE_SCHOOL_ANNOUNCEMENT_TYPE && !selectedItemObject) {
             this.setState({
                 selectedItemHasError: true
                 , selectedItemErrorMessage: "This field must not be left blank."
@@ -112,14 +118,14 @@ class GeneralAnnouncementsForm extends Component {
             }
             if (announcementType === SPECIFIC_CLASS_ANNOUNCEMENT_TYPE) {
                 const payload = {
-                    lotId: selectedItemObject.value,
+                    referenceId: selectedItemObject.value,
                     announcementMessage: announcementMessage
                 };
                 this.setState({payload: payload, displayPublishAnnouncementConfirmation: true});
             }
             if (announcementType === SPECIFIC_STREAM_ANNOUNCEMENT_TYPE) {
                 const payload = {
-                    classId: selectedItemObject.value,
+                    referenceId: selectedItemObject.value,
                     announcementMessage: announcementMessage
                 };
                 this.setState({payload: payload, displayPublishAnnouncementConfirmation: true});
@@ -141,13 +147,42 @@ class GeneralAnnouncementsForm extends Component {
         }
     };
 
-    handleConfirmButtonClicked = () => {
+    handleConfirmButtonClicked = async () => {
+        try {
+            const {payload} = this.state;
+            const {announcementType} = this.props;
+            if (announcementType === ENTIRE_SCHOOL_ANNOUNCEMENT_TYPE) {
+                await promiselessJsonTransactionsServicePost(payload, "/announcements/broadcast/send-to-all-students-not-completed-school");
+            }
+            if (announcementType === SPECIFIC_CLASS_ANNOUNCEMENT_TYPE) {
+                await promiselessJsonTransactionsServicePost(payload, "/announcements/broadcast/send-to-parents-of-particular-lot");
+            }
+            if (announcementType === SPECIFIC_STREAM_ANNOUNCEMENT_TYPE) {
+                await promiselessJsonTransactionsServicePost(payload, "/announcements/broadcast/send-to-parents-of-particular-class-stream");
+            }
+            this.setState({showSuccessFailureModal: true, isASuccessfulBroadcastMessageDelivery: true});
+        } catch (e) {
+            console.log(e);
+            this.setState({showSuccessFailureModal: true, isASuccessfulBroadcastMessageDelivery: false});
+        }
     };
     handleRejectButtonClicked = () => {
+        this.setState({displayPublishAnnouncementConfirmation: false});
+    };
+
+    handleSuccessFailureModalExteriorClicked = async () => {
+        const {handleSuccessFailureModalFinalStageExteriorClicked} = this.props;
+        await this.setState({showSuccessFailureModal: false,
+            displayPublishAnnouncementConfirmation: false});
+        handleSuccessFailureModalFinalStageExteriorClicked();
     };
 
     render() {
-        const {displayPublishAnnouncementConfirmation} = this.state;
+        const {
+            displayPublishAnnouncementConfirmation,
+            showSuccessFailureModal,
+            isASuccessfulBroadcastMessageDelivery
+        } = this.state;
         const {isSelectOptionsWidgetRequired} = this.props;
         return (
             <div>
@@ -239,6 +274,11 @@ class GeneralAnnouncementsForm extends Component {
                                                                                     handleConfirmButtonClicked={this.handleConfirmButtonClicked}
                                                                                     handleRejectButtonClicked={this.handleRejectButtonClicked}/>)
                 }
+                {showSuccessFailureModal && (<SuccessFailureModal
+                    handleModalExteriorClicked={this.handleSuccessFailureModalExteriorClicked}
+                    isASuccess={isASuccessfulBroadcastMessageDelivery}
+                    eventMessage={
+                        isASuccessfulBroadcastMessageDelivery ? "" : "An error was encountered while sending the broadcast message"}/>)}
             </div>
 
         );
@@ -249,7 +289,8 @@ GeneralAnnouncementsForm.propTypes = {
     announcementType: PropTypes.string.isRequired,
     isSelectOptionsWidgetRequired: PropTypes.bool.isRequired,
     allActualClasses: PropTypes.arrayOf(PropTypes.object),
-    allActualLots: PropTypes.arrayOf(PropTypes.object)
+    allActualLots: PropTypes.arrayOf(PropTypes.object),
+    handleSuccessFailureModalFinalStageExteriorClicked: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

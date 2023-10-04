@@ -552,13 +552,16 @@ class StaffHome extends Component {
                 >
                     {displayEntireSchoolAnnouncementForm && (
                         <GeneralAnnouncementsForm announcementType={ENTIRE_SCHOOL_ANNOUNCEMENT_TYPE}
-                                                  isSelectOptionsWidgetRequired={false}/>)}
+                                                  isSelectOptionsWidgetRequired={false}
+                                                  handleSuccessFailureModalFinalStageExteriorClicked={this.handleGeneralAnnouncementExteriorClicked}/>)}
                     {displayClassAnnouncementForm && (
                         <GeneralAnnouncementsForm announcementType={SPECIFIC_CLASS_ANNOUNCEMENT_TYPE}
-                                                  isSelectOptionsWidgetRequired={true}/>)}
+                                                  isSelectOptionsWidgetRequired={true}
+                                                  handleSuccessFailureModalFinalStageExteriorClicked={this.handleGeneralAnnouncementExteriorClicked}/>)}
                     {displayStreamAnnouncementForm && (
                         <GeneralAnnouncementsForm announcementType={SPECIFIC_STREAM_ANNOUNCEMENT_TYPE}
-                                                  isSelectOptionsWidgetRequired={true}/>)}
+                                                  isSelectOptionsWidgetRequired={true}
+                                                  handleSuccessFailureModalFinalStageExteriorClicked={this.handleGeneralAnnouncementExteriorClicked}/>)}
                 </Modal>
             </div>
         );
