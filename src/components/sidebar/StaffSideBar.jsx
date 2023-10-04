@@ -339,7 +339,7 @@ class StaffSideBar extends Component {
                                             this.props.handleSideBarClicked(SPECIFIC_CLASS_ANNOUNCEMENT);
                                         }}
                                     >
-                                        Specific Class
+                                        Specific Form
                                     </a>
                                 </li>
 

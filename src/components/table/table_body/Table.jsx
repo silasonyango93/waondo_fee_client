@@ -99,7 +99,16 @@ class Table extends React.Component {
 
                             {/*Inner columns*/}
                             <Columns>
-                                <Columns.Column size="one-half">
+                                <Columns.Column size="one-third">
+                                    <div className="edit-icon" id="third-utility-icon">
+                                        <FaDownload
+                                            onClick={() => {
+                                                this.props.handleThirdUtilityIconClicked();
+                                            }}
+                                        />
+                                    </div>
+                                </Columns.Column>
+                                <Columns.Column size="one-third">
                                     <div className="edit-icon" id="second-utility-icon">
                                         <FaRegCommentDots
                                             onClick={() => {
@@ -108,7 +117,7 @@ class Table extends React.Component {
                                         />
                                     </div>
                                 </Columns.Column>
-                                <Columns.Column size="one-half">
+                                <Columns.Column size="one-third">
                                     <div className="edit-icon" id="first-utility-icon">
                                         <FaEdit
                                             onClick={() => {
@@ -164,6 +173,7 @@ Table.propTypes = {
     isRowMoreDetailsRequired: PropTypes.bool,
     isPaginationVisible: PropTypes.bool,
     handleSecondUtilityIconClicked: PropTypes.func,
+    handleThirdUtilityIconClicked: PropTypes.func
 };
 
 Table.defaultProps = {
@@ -192,6 +202,8 @@ Table.defaultProps = {
     isRowMoreDetailsRequired: false,
     isPaginationVisible: true,
     handleSecondUtilityIconClicked: () => {
+    },
+    handleThirdUtilityIconClicked: () => {
     }
 };
 

@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
+import axios from "axios";
 
 import Table from "../../../../components/table/table_body/Table";
 import {
@@ -18,6 +19,7 @@ import {
     promiselessTransactionsServiceGetAll, simpleTransactionsServiceGet
 } from "../../../../services/transactions_service_connector/TransactionsServiceConnector";
 import SuccessFailureModal from "../../../../components/modals/success_failure_modal/SuccessFailureModal";
+import {transactionsIp} from "../../../../config/EndPoint";
 
 class FeeBalancePage extends Component {
     state = {
@@ -28,7 +30,9 @@ class FeeBalancePage extends Component {
         selectedFeePaymentDeadlineDate: "",
         formattedFeeReminderConfirmationPrompt: "",
         feeReminderSmsSentSuccessfully: false,
-        displaySuccessForFeeReminderSmsBroadcast: false
+        displaySuccessForFeeReminderSmsBroadcast: false,
+        classDetails: "",
+        lotDetails: ""
     };
 
     componentDidUpdate = async (prevProps, prevState, snapshot) => {
@@ -62,7 +66,7 @@ class FeeBalancePage extends Component {
                 const formattedString = await formatString("You are about to send a broadcast message reminder to parents of {0} with fee balances equal " +
                     "to or greater than {1} to pay fees by date {2}", classDetails.data.AcademicClassLevelName + classDetails.data.ClassStreamName
                     , currencyDisplay(sendStudentsHomePerActualClassQueryPayload.minimumFeeBalance), this.state.selectedFeePaymentDeadlineDate);
-                this.setState({formattedFeeReminderConfirmationPrompt: formattedString})
+                this.setState({formattedFeeReminderConfirmationPrompt: formattedString, classDetails: classDetails})
             } else if (sendStudentsHomePerActualClassQueryPayload
                 && sendStudentsHomePerActualClassQueryPayload.feeBalanceQueryScenario === "PER_LOT_FEE_QUERY") {
                 const lotDetails = await
@@ -72,7 +76,7 @@ class FeeBalancePage extends Component {
                     "to or greater than {1} to pay fees by date {2}", lotDetails.data.AcademicClassLevelName
                     , currencyDisplay(sendStudentsHomePerActualClassQueryPayload.minimumFeeBalance)
                     , this.state.selectedFeePaymentDeadlineDate);
-                this.setState({formattedFeeReminderConfirmationPrompt: formattedString})
+                this.setState({formattedFeeReminderConfirmationPrompt: formattedString, lotDetails: lotDetails})
             } else if (sendStudentsHomePerActualClassQueryPayload
                 && sendStudentsHomePerActualClassQueryPayload.feeBalanceQueryScenario === "ENTIRE_SCHOOL_FEE_QUERY") {
                 const formattedString = await formatString("You are about to send a broadcast message reminder to parents of " +
@@ -192,6 +196,42 @@ class FeeBalancePage extends Component {
         this.setState({feeReminderSmsSentSuccessfully: false});
     };
 
+    handleTableExcelDownloadIconClicked = () => {
+        const {sendStudentsHomePerActualClassQueryPayload} = this.props;
+        const {classDetails, lotDetails} = this.state;
+        if (sendStudentsHomePerActualClassQueryPayload.feeBalanceQueryScenario === "PER_LOT_FEE_QUERY") {
+            const url = formatString("{0}/statements/excel/fee-balances-per-lot-with-term-threshold?" +
+                "lotId={1}&termBalanceThresholdAmount={2}"
+                , transactionsIp, sendStudentsHomePerActualClassQueryPayload.lotId
+                , sendStudentsHomePerActualClassQueryPayload.minimumFeeBalance);
+            this.downloadExcelFileFromBackend(url, formatString("Form {0} fee balances of {1} and above"
+                , lotDetails.data.AcademicClassLevelName, sendStudentsHomePerActualClassQueryPayload.minimumFeeBalance));
+        } else if (sendStudentsHomePerActualClassQueryPayload.feeBalanceQueryScenario === "PER_CLASS_FEE_QUERY") {
+            const url = formatString("{0}/statements/excel/fee-balances-per-class-stream-with-term-threshold?" +
+                "classId={1}&termBalanceThresholdAmount={2}"
+                , transactionsIp, sendStudentsHomePerActualClassQueryPayload.classId
+                , sendStudentsHomePerActualClassQueryPayload.minimumFeeBalance);
+            this.downloadExcelFileFromBackend(url, formatString("Form {0} fee balances of {1} and above"
+                , classDetails.data.AcademicClassLevelName + classDetails.data.ClassStreamName
+                , sendStudentsHomePerActualClassQueryPayload.minimumFeeBalance));
+        }
+    };
+
+
+    downloadExcelFileFromBackend = (url, fileName) => {
+        axios.get(url, {
+            method: 'GET',
+            responseType: 'blob' // important
+        }).then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `${fileName}.xlsx`);
+            document.body.appendChild(link);
+            link.click();
+        });
+    };
+
     render() {
         const {feeBalanceList} = this.props;
         const {
@@ -218,11 +258,12 @@ class FeeBalancePage extends Component {
             >
                 {feeBalanceList && feeBalanceList.length ? (
                     <Table
-                        tableTitle="Student's List"
+                        tableTitle="Fee Balances"
                         tableHeaderObject={tableHeaders}
                         tableData={this.state.tableData}
                         handleRowIsClicked={this.handleTableRowIsClicked}
                         handleSecondUtilityIconClicked={this.handleSmsReminderIconClicked}
+                        handleThirdUtilityIconClicked={this.handleTableExcelDownloadIconClicked}
                     />
                 ) : null}
                 {!feeBalanceList.length ? <EmptySearchResponse/> : null}
