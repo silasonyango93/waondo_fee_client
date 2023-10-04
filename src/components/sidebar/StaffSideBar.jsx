@@ -2,14 +2,14 @@ import React, {Component} from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import {withRouter} from "react-router-dom";
-import {FaCogs, FaSearch, FaUserPlus, FaRegPaperPlane, FaBuilding} from "react-icons/fa";
+import {FaCogs, FaSearch, FaUserPlus, FaRegPaperPlane, FaBuilding, FaVolumeUp} from "react-icons/fa";
 import {
     CHANGE_STUDENT_RESIDENCE,
-    CORRECT_STUDENT_PERSONAL_DETAILS,
+    CORRECT_STUDENT_PERSONAL_DETAILS, ENTIRE_SCHOOL_ANNOUNCEMENT, MAKE_ANNOUNCEMENTS,
     PAY_FEE,
     REGISTER_A_STUDENT_PAGE,
     SEND_HOME_FROM_ENTIRE_SCHOOL,
-    SEND_HOME_PER_CLASS, SEND_HOME_PER_LOT
+    SEND_HOME_PER_CLASS, SEND_HOME_PER_LOT, SPECIFIC_CLASS_ANNOUNCEMENT, SPECIFIC_STREAM_ANNOUNCEMENT
 } from "../../views/staff_home/StaffHomeConstants";
 import {GiAutoRepair, GiTakeMyMoney} from "react-icons/all";
 
@@ -27,7 +27,8 @@ class StaffSideBar extends Component {
             feeManagementMultiLevelDropdownCollapsed: true,
             studentsHomeMultiLevelDropdownCollapsed: true,
             correctionMultiLevelDropdownCollapsed: true,
-            residenceMultiLevelDropdownCollapsed: true
+            residenceMultiLevelDropdownCollapsed: true,
+            announcementMultiLevelDropdownCollapsed: true
         };
     }
 
@@ -285,6 +286,72 @@ class StaffSideBar extends Component {
                                         }}
                                     >
                                         Change Student Residence
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+
+                        <li
+                            className={classNames({
+                                active: !this.state.announcementMultiLevelDropdownCollapsed
+                            })}
+                        >
+                            <a
+                                href=""
+                                onClick={e => {
+                                    e.preventDefault();
+                                    this.setState({
+                                        announcementMultiLevelDropdownCollapsed: !this.state
+                                            .announcementMultiLevelDropdownCollapsed
+                                    });
+                                    return false;
+                                }}
+                            >
+                                <FaVolumeUp/>
+                                &nbsp;Announcements
+                                <span className="fa arrow"/>
+                            </a>
+                            <ul
+                                className={classNames({
+                                    "nav nav-second-level": true,
+                                    collapse: this.state.announcementMultiLevelDropdownCollapsed
+                                })}
+                            >
+                                <li className="second-level">
+                                    <a
+                                        href=""
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            this.props.handleSideBarClicked(ENTIRE_SCHOOL_ANNOUNCEMENT);
+                                        }}
+                                    >
+                                        Entire School
+                                    </a>
+                                </li>
+
+                                <li className="second-level">
+                                    <a
+                                        href=""
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            this.props.handleSideBarClicked(SPECIFIC_CLASS_ANNOUNCEMENT);
+                                        }}
+                                    >
+                                        Specific Class
+                                    </a>
+                                </li>
+
+                                <li className="second-level">
+                                    <a
+                                        href=""
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            this.props.handleSideBarClicked(SPECIFIC_STREAM_ANNOUNCEMENT);
+                                        }}
+                                    >
+                                        Specific Stream
                                     </a>
                                 </li>
 
