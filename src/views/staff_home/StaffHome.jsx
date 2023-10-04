@@ -9,11 +9,11 @@ import {terminateCurrentSession} from "../../store/modules/current_session/actio
 import TopBar from "../../components/topbar/TopBar";
 import {
     CHANGE_STUDENT_RESIDENCE,
-    CORRECT_STUDENT_PERSONAL_DETAILS,
+    CORRECT_STUDENT_PERSONAL_DETAILS, ENTIRE_SCHOOL_ANNOUNCEMENT,
     PAY_FEE,
     REGISTER_A_STUDENT_PAGE,
     SEND_HOME_FROM_ENTIRE_SCHOOL,
-    SEND_HOME_PER_CLASS, SEND_HOME_PER_LOT
+    SEND_HOME_PER_CLASS, SEND_HOME_PER_LOT, SPECIFIC_CLASS_ANNOUNCEMENT, SPECIFIC_STREAM_ANNOUNCEMENT
 } from "./StaffHomeConstants";
 import StudentsPage from "./student_management/students/StudentsPage";
 import StaffSideBar from "../../components/sidebar/StaffSideBar";
@@ -42,6 +42,11 @@ import PersonalDetailsCorrectionForm
 import SuccessFailureModal from "../../components/modals/success_failure_modal/SuccessFailureModal";
 import ChangeResidencePage from "./residence_management/ChangeResidencePage";
 import PerLotFeeQueryForm from "./fee_management/fee_balance/overral_school/per_lot/PerLotFeeQueryForm";
+import GeneralAnnouncementsForm from "./announcements/GeneralAnnouncementsForm";
+import {
+    ENTIRE_SCHOOL_ANNOUNCEMENT_TYPE,
+    SPECIFIC_CLASS_ANNOUNCEMENT_TYPE, SPECIFIC_STREAM_ANNOUNCEMENT_TYPE
+} from "./announcements/AnnouncementTypesConstants";
 
 class StaffHome extends Component {
     constructor(props) {
@@ -64,7 +69,9 @@ class StaffHome extends Component {
             displayPerLotFeeQueryForm: false,
             displayStudentPersonalDetailsCorrectionForm: false,
             displaySuccessFailureModal: false,
-            displayChangeResidenceModal: false
+            displayChangeResidenceModal: false,
+            displayGeneralAnnouncementForm: false,
+            announcementType: ""
         };
         this.idleTimer = null;
     }
@@ -179,6 +186,21 @@ class StaffHome extends Component {
                 displayStudentPersonalDetailsCorrectionForm: false,
                 displaySuccessFailureModal: false,
                 displayChangeResidenceModal: true
+            });
+        } else if (formToDisplay === ENTIRE_SCHOOL_ANNOUNCEMENT) {
+            this.setState({
+                displayGeneralAnnouncementForm: true,
+                announcementType: ENTIRE_SCHOOL_ANNOUNCEMENT_TYPE
+            });
+        } else if (formToDisplay === SPECIFIC_CLASS_ANNOUNCEMENT) {
+            this.setState({
+                displayGeneralAnnouncementForm: true,
+                announcementType: SPECIFIC_CLASS_ANNOUNCEMENT_TYPE
+            });
+        } else if (formToDisplay === SPECIFIC_STREAM_ANNOUNCEMENT) {
+            this.setState({
+                displayGeneralAnnouncementForm: true,
+                announcementType: SPECIFIC_STREAM_ANNOUNCEMENT_TYPE
             });
         }
     };
@@ -301,6 +323,10 @@ class StaffHome extends Component {
         });
     };
 
+    handleGeneralAnnouncementExteriorClicked = () => {
+        this.setState({displayGeneralAnnouncementForm: false});
+    };
+
     render() {
         const {sessionDetails} = this.props;
         const {
@@ -310,7 +336,8 @@ class StaffHome extends Component {
             displaySchoolFeeQueryForm,
             displayPerClassFeeQueryForm,
             successFailureModalBoolean,
-            displayPerLotFeeQueryForm
+            displayPerLotFeeQueryForm,
+            announcementType
         } = this.state;
 
         return (
@@ -504,6 +531,18 @@ class StaffHome extends Component {
                         isASuccess={successFailureModalBoolean}
                     />
                 )}
+
+                <Modal
+                    visible={this.state.displayGeneralAnnouncementForm}
+                    width="900"
+                    height="350"
+                    effect="fadeInUp"
+                    onClickAway={() => {
+                        this.handleGeneralAnnouncementExteriorClicked();
+                    }}
+                >
+                    <GeneralAnnouncementsForm announcementType={announcementType}/>
+                </Modal>
             </div>
         );
     }
