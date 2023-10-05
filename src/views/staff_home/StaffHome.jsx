@@ -213,11 +213,15 @@ class StaffHome extends Component {
             const url = formatString("{0}/installments/excel/fee-installments-made-today", transactionsIp);
             downloadExcelFileFromBackend(url, formatString("Today {0}'s fee payments", today()))
         } else if (formToDisplay === PAYMENTS_MADE_ON_SPECIFIC_DATE) {
-            this.setState({displayInstallmentsDownloadDateSelectionForm: true
-                , installmentDownloadQueryScenario: PAYMENTS_MADE_ON_SPECIFIC_DATE});
+            this.setState({
+                displayInstallmentsDownloadDateSelectionForm: true
+                , installmentDownloadQueryScenario: PAYMENTS_MADE_ON_SPECIFIC_DATE
+            });
         } else if (formToDisplay === PAYMENTS_MADE_WITHIN_A_DATE_RANGE) {
-            this.setState({displayInstallmentsDownloadDateSelectionForm: true
-                , installmentDownloadQueryScenario: PAYMENTS_MADE_WITHIN_A_DATE_RANGE});
+            this.setState({
+                displayInstallmentsDownloadDateSelectionForm: true
+                , installmentDownloadQueryScenario: PAYMENTS_MADE_WITHIN_A_DATE_RANGE
+            });
         }
     };
 
@@ -595,9 +599,13 @@ class StaffHome extends Component {
                     }}
                 >
                     {installmentDownloadQueryScenario === PAYMENTS_MADE_ON_SPECIFIC_DATE
-                        && (<ExcelInstallmentDateSelectionForm installmentExcelDownloadQueryScenario={PAYMENTS_MADE_ON_SPECIFIC_DATE}/>)}
+                        && (<ExcelInstallmentDateSelectionForm
+                            installmentExcelDownloadQueryScenario={PAYMENTS_MADE_ON_SPECIFIC_DATE}
+                            handleFinalSubmitButtonClicked={this.handleInstallmentExcelDownloadFormModalExteriorClicked}/>)}
                     {installmentDownloadQueryScenario === PAYMENTS_MADE_WITHIN_A_DATE_RANGE
-                        && (<ExcelInstallmentDateSelectionForm installmentExcelDownloadQueryScenario={PAYMENTS_MADE_WITHIN_A_DATE_RANGE}/>)}
+                        && (<ExcelInstallmentDateSelectionForm
+                            installmentExcelDownloadQueryScenario={PAYMENTS_MADE_WITHIN_A_DATE_RANGE}
+                            handleFinalSubmitButtonClicked={this.handleInstallmentExcelDownloadFormModalExteriorClicked}/>)}
                 </Modal>
             </div>
         );

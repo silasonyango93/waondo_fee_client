@@ -2,6 +2,11 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import ReactDatetime from "react-datetime";
 import {PAYMENTS_MADE_ON_SPECIFIC_DATE, PAYMENTS_MADE_WITHIN_A_DATE_RANGE} from "../../StaffHomeConstants";
+import {formatString, today} from "../../../../config/common/Utils";
+import {transactionsIp} from "../../../../config/EndPoint";
+import {
+    downloadExcelFileFromBackend
+} from "../../../../services/transactions_service_connector/TransactionsServiceConnector";
 
 class ExcelInstallmentDateSelectionForm extends Component {
     state = {
@@ -9,19 +14,60 @@ class ExcelInstallmentDateSelectionForm extends Component {
         startDateHasError: "",
         startDateErrorMessage: "",
         endDate: "",
-        endHasError: "",
-        endErrorMessage: "",
+        endDateHasError: "",
+        endDateErrorMessage: "",
     };
 
     handleSubmit = (e) => {
         e.preventDefault();
-        let startDate =
-            this.state.startDate._d.getFullYear() +
-            "-" +
-            (this.state.startDate._d.getMonth() + 1) +
-            "-" +
-            this.state.startDate._d.getDate();
+        const {installmentExcelDownloadQueryScenario, handleFinalSubmitButtonClicked} = this.props;
+        const {startDate, endDate} = this.state;
+        if (!startDate) {
+            this.setState({startDateHasError: true, startDateErrorMessage: "This field cannot be blank"});
+        } else if (installmentExcelDownloadQueryScenario === PAYMENTS_MADE_WITHIN_A_DATE_RANGE
+            && (!endDate)) {
+            this.setState({endDateHasError: true, endDateErrorMessage: "This field cannot be blank"});
+        } else {
+            if (installmentExcelDownloadQueryScenario === PAYMENTS_MADE_ON_SPECIFIC_DATE) {
+                let installmentDate =
+                    startDate._d.getFullYear() +
+                    "-" +
+                    (this.processDateCharacters((startDate._d.getMonth() + 1).toString())) +
+                    "-" +
+                    this.processDateCharacters(startDate._d.getDate().toString());
+                const url = formatString("{0}/installments/excel/fee-installments-made-on-a-specific-date?installmentDate={1}"
+                    , transactionsIp, installmentDate);
+                downloadExcelFileFromBackend(url, formatString("{0}'s fee payments", installmentDate));
+            } else {
+                let installmentStartDate =
+                    startDate._d.getFullYear() +
+                    "-" +
+                    (this.processDateCharacters((startDate._d.getMonth() + 1).toString())) +
+                    "-" +
+                    this.processDateCharacters(startDate._d.getDate().toString());
+                let installmentEndDate =
+                    endDate._d.getFullYear() +
+                    "-" +
+                    (this.processDateCharacters((endDate._d.getMonth() + 1).toString())) +
+                    "-" +
+                    this.processDateCharacters(endDate._d.getDate().toString());
+                const url = formatString("{0}/installments/excel/fee-installments-made-between-two-dates?" +
+                    "startDate={1}&endDate={2}"
+                    , transactionsIp, installmentStartDate, installmentEndDate);
+                downloadExcelFileFromBackend(url, formatString("Fee payments made between {0} and {1}"
+                    , installmentStartDate, installmentEndDate));
+            }
+            handleFinalSubmitButtonClicked();
+        }
 
+    };
+
+    processDateCharacters = (character) => {
+        if (character.length > 1) {
+            return character;
+        } else {
+            return formatString("0{0}", character);
+        }
     };
 
     processFormTitle = () => {
@@ -94,12 +140,12 @@ class ExcelInstallmentDateSelectionForm extends Component {
                                         />
                                         <p
                                             className={
-                                                this.state.endHasError
+                                                this.state.endDateHasError
                                                     ? "personal__submision-error"
                                                     : "personal__hide"
                                             }
                                         >
-                                            {this.state.endErrorMessage}
+                                            {this.state.endDateErrorMessage}
                                         </p>
                                     </div>)}
                                 <button
@@ -118,7 +164,8 @@ class ExcelInstallmentDateSelectionForm extends Component {
 }
 
 ExcelInstallmentDateSelectionForm.propTypes = {
-    installmentExcelDownloadQueryScenario: PropTypes.string.isRequired
+    installmentExcelDownloadQueryScenario: PropTypes.string.isRequired,
+    handleFinalSubmitButtonClicked: PropTypes.func.isRequired
 };
 
 export default ExcelInstallmentDateSelectionForm;
