@@ -5,11 +5,18 @@ import {withRouter} from "react-router-dom";
 import {FaCogs, FaSearch, FaUserPlus, FaRegPaperPlane, FaBuilding, FaVolumeUp, FaDownload} from "react-icons/fa";
 import {
     CHANGE_STUDENT_RESIDENCE,
-    CORRECT_STUDENT_PERSONAL_DETAILS, DOWNLOADS, ENTIRE_SCHOOL_ANNOUNCEMENT, MAKE_ANNOUNCEMENTS,
+    CORRECT_STUDENT_PERSONAL_DETAILS,
+    ENTIRE_SCHOOL_ANNOUNCEMENT,
     PAY_FEE,
+    PAYMENTS_MADE_ON_SPECIFIC_DATE,
+    PAYMENTS_MADE_TODAY,
+    PAYMENTS_MADE_WITHIN_A_DATE_RANGE,
     REGISTER_A_STUDENT_PAGE,
     SEND_HOME_FROM_ENTIRE_SCHOOL,
-    SEND_HOME_PER_CLASS, SEND_HOME_PER_LOT, SPECIFIC_CLASS_ANNOUNCEMENT, SPECIFIC_STREAM_ANNOUNCEMENT
+    SEND_HOME_PER_CLASS,
+    SEND_HOME_PER_LOT,
+    SPECIFIC_CLASS_ANNOUNCEMENT,
+    SPECIFIC_STREAM_ANNOUNCEMENT
 } from "../../views/staff_home/StaffHomeConstants";
 import {GiAutoRepair, GiTakeMyMoney} from "react-icons/all";
 
@@ -391,10 +398,34 @@ class StaffSideBar extends Component {
                                         href=""
                                         onClick={e => {
                                             e.preventDefault();
-                                            this.props.handleSideBarClicked(DOWNLOADS);
+                                            this.props.handleSideBarClicked(PAYMENTS_MADE_TODAY);
                                         }}
                                     >
                                         Today's Fee Payments
+                                    </a>
+                                </li>
+
+                                <li className="second-level">
+                                    <a
+                                        href=""
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            this.props.handleSideBarClicked(PAYMENTS_MADE_ON_SPECIFIC_DATE);
+                                        }}
+                                    >
+                                        Payments On Specific Date
+                                    </a>
+                                </li>
+
+                                <li className="second-level">
+                                    <a
+                                        href=""
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            this.props.handleSideBarClicked(PAYMENTS_MADE_WITHIN_A_DATE_RANGE);
+                                        }}
+                                    >
+                                        Payments Within Date Range
                                     </a>
                                 </li>
 

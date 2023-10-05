@@ -9,8 +9,8 @@ import {terminateCurrentSession} from "../../store/modules/current_session/actio
 import TopBar from "../../components/topbar/TopBar";
 import {
     CHANGE_STUDENT_RESIDENCE,
-    CORRECT_STUDENT_PERSONAL_DETAILS, DOWNLOADS, ENTIRE_SCHOOL_ANNOUNCEMENT,
-    PAY_FEE,
+    CORRECT_STUDENT_PERSONAL_DETAILS, ENTIRE_SCHOOL_ANNOUNCEMENT,
+    PAY_FEE, PAYMENTS_MADE_ON_SPECIFIC_DATE, PAYMENTS_MADE_TODAY, PAYMENTS_MADE_WITHIN_A_DATE_RANGE,
     REGISTER_A_STUDENT_PAGE,
     SEND_HOME_FROM_ENTIRE_SCHOOL,
     SEND_HOME_PER_CLASS, SEND_HOME_PER_LOT, SPECIFIC_CLASS_ANNOUNCEMENT, SPECIFIC_STREAM_ANNOUNCEMENT
@@ -50,6 +50,7 @@ import {
 import {downloadExcelFileFromBackend} from "../../services/transactions_service_connector/TransactionsServiceConnector";
 import {formatString, today} from "../../config/common/Utils";
 import {transactionsIp} from "../../config/EndPoint";
+import ExcelInstallmentDateSelectionForm from "./downloads/installments/ExcelInstallmentDateSelectionForm";
 
 class StaffHome extends Component {
     constructor(props) {
@@ -75,7 +76,9 @@ class StaffHome extends Component {
             displayChangeResidenceModal: false,
             displayEntireSchoolAnnouncementForm: false,
             displayClassAnnouncementForm: false,
-            displayStreamAnnouncementForm: false
+            displayStreamAnnouncementForm: false,
+            displayInstallmentsDownloadDateSelectionForm: false,
+            installmentDownloadQueryScenario: ""
         };
         this.idleTimer = null;
     }
@@ -206,9 +209,15 @@ class StaffHome extends Component {
                 displayStreamAnnouncementForm: true,
                 announcementType: SPECIFIC_STREAM_ANNOUNCEMENT_TYPE
             });
-        } else if (formToDisplay === DOWNLOADS) {
+        } else if (formToDisplay === PAYMENTS_MADE_TODAY) {
             const url = formatString("{0}/installments/excel/fee-installments-made-today", transactionsIp);
             downloadExcelFileFromBackend(url, formatString("Today {0}'s fee payments", today()))
+        } else if (formToDisplay === PAYMENTS_MADE_ON_SPECIFIC_DATE) {
+            this.setState({displayInstallmentsDownloadDateSelectionForm: true
+                , installmentDownloadQueryScenario: PAYMENTS_MADE_ON_SPECIFIC_DATE});
+        } else if (formToDisplay === PAYMENTS_MADE_WITHIN_A_DATE_RANGE) {
+            this.setState({displayInstallmentsDownloadDateSelectionForm: true
+                , installmentDownloadQueryScenario: PAYMENTS_MADE_WITHIN_A_DATE_RANGE});
         }
     };
 
@@ -350,7 +359,9 @@ class StaffHome extends Component {
             displayPerLotFeeQueryForm,
             displayEntireSchoolAnnouncementForm,
             displayClassAnnouncementForm,
-            displayStreamAnnouncementForm
+            displayStreamAnnouncementForm,
+            displayInstallmentsDownloadDateSelectionForm,
+            installmentDownloadQueryScenario
         } = this.state;
 
         return (
@@ -568,6 +579,21 @@ class StaffHome extends Component {
                         <GeneralAnnouncementsForm announcementType={SPECIFIC_STREAM_ANNOUNCEMENT_TYPE}
                                                   isSelectOptionsWidgetRequired={true}
                                                   handleSuccessFailureModalFinalStageExteriorClicked={this.handleGeneralAnnouncementExteriorClicked}/>)}
+                </Modal>
+
+                <Modal
+                    visible={displayInstallmentsDownloadDateSelectionForm}
+                    width="450"
+                    height="300"
+                    effect="fadeInUp"
+                    onClickAway={() => {
+
+                    }}
+                >
+                    {installmentDownloadQueryScenario === PAYMENTS_MADE_ON_SPECIFIC_DATE
+                        && (<ExcelInstallmentDateSelectionForm installmentExcelDownloadQueryScenario={PAYMENTS_MADE_ON_SPECIFIC_DATE}/>)}
+                    {installmentDownloadQueryScenario === PAYMENTS_MADE_WITHIN_A_DATE_RANGE
+                        && (<ExcelInstallmentDateSelectionForm installmentExcelDownloadQueryScenario={PAYMENTS_MADE_WITHIN_A_DATE_RANGE}/>)}
                 </Modal>
             </div>
         );
