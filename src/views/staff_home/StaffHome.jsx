@@ -347,6 +347,10 @@ class StaffHome extends Component {
         });
     };
 
+    handleInstallmentExcelDownloadFormModalExteriorClicked = () => {
+        this.setState({displayInstallmentsDownloadDateSelectionForm: false});
+    };
+
     render() {
         const {sessionDetails} = this.props;
         const {
@@ -587,7 +591,7 @@ class StaffHome extends Component {
                     height="300"
                     effect="fadeInUp"
                     onClickAway={() => {
-
+                        this.handleInstallmentExcelDownloadFormModalExteriorClicked();
                     }}
                 >
                     {installmentDownloadQueryScenario === PAYMENTS_MADE_ON_SPECIFIC_DATE

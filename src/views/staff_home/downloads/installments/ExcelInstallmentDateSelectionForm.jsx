@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import ReactDatetime from "react-datetime";
-import {PAYMENTS_MADE_ON_SPECIFIC_DATE} from "../../StaffHomeConstants";
+import {PAYMENTS_MADE_ON_SPECIFIC_DATE, PAYMENTS_MADE_WITHIN_A_DATE_RANGE} from "../../StaffHomeConstants";
 
 class ExcelInstallmentDateSelectionForm extends Component {
     state = {
@@ -27,12 +27,13 @@ class ExcelInstallmentDateSelectionForm extends Component {
     processFormTitle = () => {
         const {installmentExcelDownloadQueryScenario} = this.props;
         if (installmentExcelDownloadQueryScenario === PAYMENTS_MADE_ON_SPECIFIC_DATE) {
-            return "Select payment date";
+            return "Select fee payment date";
         }
-        return "Select payment start and end dates";
+        return "Select fee payment start and end dates";
     };
 
     render() {
+        const {installmentExcelDownloadQueryScenario} = this.props;
         return (
             <div>
                 <div className="login-panel panel panel-default dialog__main-body">
@@ -74,32 +75,33 @@ class ExcelInstallmentDateSelectionForm extends Component {
                                     </p>
                                 </div>
 
-                                <div className="form-group">
-                                    <ReactDatetime
-                                        name="endDate"
-                                        value={this.state.endDate}
-                                        onChange={value =>
-                                            this.setState({
-                                                ...this.state,
-                                                endDate: value
-                                            })
-                                        }
-                                        inputProps={{
-                                            className: "form-control",
-                                            placeholder: "End Date"
-                                        }}
-                                        timeFormat={false}
-                                    />
-                                    <p
-                                        className={
-                                            this.state.endHasError
-                                                ? "personal__submision-error"
-                                                : "personal__hide"
-                                        }
-                                    >
-                                        {this.state.endErrorMessage}
-                                    </p>
-                                </div>
+                                {installmentExcelDownloadQueryScenario === PAYMENTS_MADE_WITHIN_A_DATE_RANGE && (
+                                    <div className="form-group">
+                                        <ReactDatetime
+                                            name="endDate"
+                                            value={this.state.endDate}
+                                            onChange={value =>
+                                                this.setState({
+                                                    ...this.state,
+                                                    endDate: value
+                                                })
+                                            }
+                                            inputProps={{
+                                                className: "form-control",
+                                                placeholder: "End Date"
+                                            }}
+                                            timeFormat={false}
+                                        />
+                                        <p
+                                            className={
+                                                this.state.endHasError
+                                                    ? "personal__submision-error"
+                                                    : "personal__hide"
+                                            }
+                                        >
+                                            {this.state.endErrorMessage}
+                                        </p>
+                                    </div>)}
                                 <button
                                     type="submit"
                                     className="btn btn-lg btn-success btn-block"
