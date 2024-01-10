@@ -8,7 +8,7 @@ metadata:
 #    certmanager.k8s.io/cluster-issuer: "letsencrypt-staging"hhbvgvgfddcfrcd
 spec:
   rules:
-    - host: waondo.livelihoodzone.xyz
+    - host: web.waondosecondary.xyz
       http:
         paths:
           - path: /
