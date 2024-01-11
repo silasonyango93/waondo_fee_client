@@ -51,7 +51,7 @@ class FeeStatementView extends Component {
         } = this.props;
         closeFeeConfirmationModal();
         closeFeeStatementModal();
-        window.open('http://transaction.livelihoodzone.xyz/statements/export/pdf?studentId=' + currentStudentFeeStatement.studentId, '_blank', 'noopener,noreferrer');
+        window.open('http://transaction.waondosecondary.xyz/statements/export/pdf?studentId=' + currentStudentFeeStatement.studentId, '_blank', 'noopener,noreferrer');
     }
 
     render() {
