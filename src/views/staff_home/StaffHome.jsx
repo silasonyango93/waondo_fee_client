@@ -57,7 +57,7 @@ class StaffHome extends Component {
         super(props);
         this.state = {
             successFailureModalBoolean: false,
-            pagePanelTitle: "School student's list",
+            pagePanelTitle: "Continuing Student's List",
             displayFeeStatementModal: false,
             feePayload: "",
             displayStudents: true,
@@ -84,6 +84,7 @@ class StaffHome extends Component {
     }
 
     componentDidMount() {
+        console.log(this.state.pagePanelTitle);
         if (!this.props.isSessionActive) {
             window.location.assign("/");
         } else {
@@ -355,6 +356,11 @@ class StaffHome extends Component {
         this.setState({displayInstallmentsDownloadDateSelectionForm: false});
     };
 
+    handleTitlePanelTextHasChanged = pagePanelTitle => {
+        console.log(formatString("page panel title ->", pagePanelTitle));
+        this.setState({pagePanelTitle});
+    };
+
     render() {
         const {sessionDetails} = this.props;
         const {
@@ -414,6 +420,7 @@ class StaffHome extends Component {
                             {displayStudentsPage && (
                                 <StudentsPage
                                     launchFeeStatementModal={this.launchFeeStatementModal}
+                                    handleTitlePanelTextHasChanged={this.handleTitlePanelTextHasChanged}
                                 />
                             )}
                             {displayFeeBalancePage && (
